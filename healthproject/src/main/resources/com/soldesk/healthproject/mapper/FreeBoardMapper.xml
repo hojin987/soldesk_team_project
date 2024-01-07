@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  <mapper namespace="com.soldesk.healthproject.mapper.FreeBoardMapper">
+  
+<!-- 게시물 조회 - 목록 --><!-- 
+	<select id="selectFreeBoardList" resultType="com.soldesk.healthproject.domain.FreeBoardVO">
+		SELECT fpost_number, ftitle, fcontent, fwriter, fregister_date, fview_count, freply_count, fdelete_flag
+		FROM project_health.free_board
+		WHERE fpost_number > 0
+		ORDER BY fpost_number DESC
+	</select> -->
+	
+<!-- 게시물 목록조회(READ): 페이징 고려, 기간검색 포함 -->  
+	<select id="selectFreeBoardList" resultType="com.soldesk.healthproject.domain.FreeBoardVO"
+	        parameterType="com.soldesk.healthproject.common.paging.domain.FreeBoardPagingDTO">
+		<![CDATA[
+			SELECT fpost_number, ftitle, fcontent, fwriter, fregister_date, fview_count, freply_count, fdelete_flag
+			FROM ( SELECT /*+ INDEX_DESC (a pk_freeboard) */ROWNUM rn, a.*
+			       FROM project_health.free_board a
+			       WHERE 
+		]]>
+
+		<choose>
+			<when test="(beginDate != null and beginDate != '') and (endDate != null and endDate != '')">
+			 	fregister_date BETWEEN TO_DATE(#{beginDate}, 'YYYY-MM-DD')
+			 				 AND TO_DATE(#{endDate}, 'YYYY-MM-DD') AND
+			</when>
+		</choose>
+		<trim prefix="(" suffix=") AND" prefixOverrides="OR" >
+			<foreach item='scope' collection="myScopeArr">
+				<trim prefix="OR">
+					<choose>
+						<when test="scope == 'T'.toString()">ftitle LIKE '%'||#{keyword}||'%'</when>
+						<when test="scope == 'C'.toString()">fcontent LIKE '%'||#{keyword}||'%'</when>
+						<when test="scope == 'W'.toString()">fwriter LIKE '%'||#{keyword}||'%'</when>
+					</choose>
+				</trim> 
+			</foreach>
+		</trim>	 
+
+		<![CDATA[	       
+			       ROWNUM <= (#{pageNum} * #{rowAmountPerPage})
+			       )
+			 WHERE rn >= ((#{pageNum} * #{rowAmountPerPage}) - (#{rowAmountPerPage} - 1)) 
+		]]>
+	</select> 
+
+	
+<!-- 게시물 총 개수 조회(페이징): -->	
+	<select id="selectRowTotal" resultType="long"
+	        parameterType="com.soldesk.healthproject.common.paging.domain.FreeBoardPagingDTO" >
+		SELECT COUNT(*) rowTotal FROM project_health.free_board
+		<where>
+			<trim prefix="(" suffix=")" prefixOverrides="OR">
+				<foreach item='scope' collection="myScopeArr">
+					<trim prefix="OR">
+						<choose>
+							<when test="scope == 'T'.toString()">ftitle LIKE '%'||#{keyword}||'%'</when>
+							<when test="scope == 'C'.toString()">fcontent LIKE '%'||#{keyword}||'%'</when>
+							<when test="scope == 'W'.toString()">fwriter LIKE '%'||#{keyword}||'%'</when>
+						</choose>
+					</trim> 
+				</foreach>
+			</trim>
+			<choose>
+				<when test="(beginDate != null and beginDate != '') and (endDate != null and endDate != '')">
+					AND fregister_date BETWEEN TO_DATE(#{beginDate}, 'YYYY-MM-DD')
+				 		 		     AND TO_DATE(#{endDate}, 'YYYY-MM-DD')
+				</when>
+			</choose>	 
+		</where>
+	</select> 
+			
+
+
+	
+<!-- 게시물 등록 -->
+	<insert id="insertFreeBoard">
+		INSERT INTO project_health.free_board
+		VALUES(1, #{ftitle}, #{fcontent}, #{fwriter}, DEFAULT, DEFAULT, DEFAULT, DEFAULT)
+	</insert>
+	
+<!-- 특정 게시물 조회 -->
+	<select id="selectFreeBoard">
+		SELECT fpost_number, ftitle, fcontent, fwriter, fregister_date, fview_count, freply_count, fdelete_flag
+		FROM project_health.free_board
+		WHERE fpost_number = #{fpost_number}
+	</select>
+	
+<!-- 특정 게시물 삭제 요청 -->
+	<update id="updateFdeleteFlag" parameterType="long">
+		UPDATE project_health.free_board
+		SET fdelete_flag = 1
+		WHERE fpost_number = #{fpost_number}
+	</update>
+	
+<!-- 특정 게시물 삭제 - 실제 삭제 -->
+	<delete id="deleteFreeBoard" parameterType="long">
+		DELETE FROM project_health.free_board
+		WHERE fpost_number = #{fpost_number}
+	</delete>
+
+<!-- 게시물 삭제(관리자) -->
+
+<!-- 특정 게시물 수정 -->
+	<update id="updateFreeBoard" parameterType="com.soldesk.healthproject.domain.FreeBoardVO">
+		UPDATE project_health.free_board
+		SET ftitle = #{ftitle}
+			fcontent = #{fcontent}
+		WHERE fpost_number = #{fpost_number}
+	</update>
+
+<!-- 특정 게시물 조회수 증가 -->
+	<update id = "updateFviewCount">
+		UPDATE project_health.free_board
+		SET fview_count = fview_count + 1
+		WHERE fpost_number = #{fpost_number}
+	</update>
+	
+
+</mapper>

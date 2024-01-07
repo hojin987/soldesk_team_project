@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.soldesk.healthproject.mapper.MemberMapper">
+
+	<resultMap type="com.soldesk.healthproject.domain.AuthorityVO" id="authorityMap">
+		<result property="member_id" column="member_id" />
+		<result property="authority" column="authority" />
+	</resultMap>
+	
+	<resultMap type="com.soldesk.healthproject.domain.MemberVO" id="memberMap">
+		<result property="member_id" column="member_id" />
+		<result property="member_pw" column="member_pw" />
+		<result property="member_email" column="member_email" />
+		<result property="member_name" column="member_name" />
+		<result property="member_birth" column="member_birth" />
+		<result property="member_phonenumber" column="member_phonenumber" />
+		<result property="member_register_date" column="member_register_date" />
+		<result property="member_delete_flag" column="member_delete_flag" />
+		<result property="member_enabled" column="member_enabled" />
+		<result property="member_height" column="member_height" />
+		<result property="member_weight" column="member_weight" />
+		<result property="member_muscle_percent" column="member_muscle_percent" />
+		<result property="member_fat_percent" column="member_fat_percent" />
+		<result property="member_goal" column="member_goal" />
+		<result property="ticket_number" column="ticket_number" />
+		<result property="ticket_start_date" column="ticket_start_date" />
+		<result property="ticket_end_date" column="ticket_end_date" />
+	</resultMap>
+	
+	<!-- 특정 회원 조회(스프링 시큐리티도 사용함) - OUTER JOIN을 사용할 이유가 없습니다. -->
+	<select id="selectMember" resultMap="memberMap">
+		SELECT mem.member_id, member_pw, member_email, member_name, member_birth, member_phonenumber, member_register_date
+        	member_delete_flag, member_enabled, member_height, member_weight, member_muscle_percent, member_fat_percent,
+        	member_goal, ticket_number, ticket_start_date, ticket_end_date
+		FROM project_health.tbl_member mem INNER JOIN project_health.tbl_member_authority auth ON mem.member_id = auth.member_id
+		WHERE mem.member_id = #{member_id};
+	</select>
+	
+	<!-- 회원 등록: 회원 등록 시 회원 권한 추가도 같이 수행 -->
+	<insert id="insertMember">
+		INSERT INTO project_health.tbl_member
+		VALUES (#{member_id}, #{member_pw}, #{member_email}, #{member_name}, #{member_birth}, #{member_phonenumber}, default, default, default, default, default, default, default, #{member_goal}, #{ticket_number}, default, default);
+	</insert>
+	
+	<!-- 회원 권한 추가 -->
+	<insert id="insertMemberAuthority">
+		INSERT INTO project_health.tbl_member_authority
+		VALUES(#{member_id}, #{authority});
+	</insert>
+	
+	
+	
+	
+
+</mapper>

@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  <mapper namespace="com.soldesk.healthproject.mapper.NoticeBoardMapper">
+  
+<!-- 게시물 조회 - 목록 -->
+	<select id="selectNoticeBoardList" resultType="com.soldesk.healthproject.domain.NoticeBoardVO">
+		SELECT npost_number, ntitle, ncontent, nwriter, nregister_date, nview_count, nreply_count, ndelete_flag
+		FROM project_health.notice_board
+		WHERE npost_number > 0
+		ORDER BY npost_number DESC
+	</select>
+	
+<!-- 게시물 등록 -->
+	<insert id="insertNoticeBoard" parameterType="com.soldesk.healthproject.domain.NoticeBoardVO">
+		<selectKey order="BEFORE" keyProperty="npost_number" resultType="long">
+			SELECT project_health.seq_notice_board.nextval FROM dual
+		</selectKey>
+		INSERT INTO project_health.notice_board
+		VALUES(#{npost_number}, #{ntitle}, #{ncontent}, #{nwriter}, DEFAULT, DEFAULT, DEFAULT, DEFAULT)
+	</insert>
+	
+<!-- 특정 게시물 조회 -->
+	<select id="selectNoticeBoard">
+		SELECT npost_number, ntitle, ncontent, nwriter, nregister_date, nview_count, nreply_count, ndelete_flag
+		FROM project_health.notice_board
+		WHERE npost_number = #{npost_number}
+	</select>
+	
+<!-- 특정 게시물 삭제 요청 -->
+	<update id="updateNdeleteFlag" parameterType="long">
+		UPDATE project_health.notice_board
+		SET ndelete_flag = 1
+		WHERE npost_number = #{npost_number}
+	</update>
+	
+<!-- 특정 게시물 삭제 - 실제 삭제 -->
+	<delete id="deleteNoticeBoard" parameterType="long">
+		DELETE FROM project_health.notice_board
+		WHERE npost_number = #{npost_number}
+	</delete>
+
+<!-- 게시물 삭제(관리자) -->
+
+<!-- 특정 게시물 수정 -->
+	<update id="updateNoticeBoard" parameterType="com.soldesk.healthproject.domain.NoticeBoardVO">
+		UPDATE project_health.notice_board
+		SET ntitle = #{ntitle}
+			ncontent = #{ncontent}
+		WHERE npost_number = #{npost_number}
+	</update>
+
+<!-- 특정 게시물 조회수 증가 -->
+	<update id = "updateNviewCount">
+		UPDATE project_health.notice_board
+		SET nview_count = nview_count + 1
+		WEHRE npost_number = #{npost_number}
+	</update>
+	
+
+</mapper>

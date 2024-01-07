@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mybatis-spring="http://mybatis.org/schema/mybatis-spring"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://mybatis.org/schema/mybatis-spring http://mybatis.org/schema/mybatis-spring.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.3.xsd">
+
+<!-- 1. Connection Pool 관련 Bean 구성: HikariCP -->
+
+<!-- 방법1: JDBC 정보를 직접 설정 -->
+<!-- 1-1. JDBC 설정 정보가 설정된 HikariConfig 빈 생성-->
+	<bean id="hikariConfig" class="com.zaxxer.hikari.HikariConfig">
+		<property name="driverClassName" value="oracle.jdbc.OracleDriver"/>
+		<property name="jdbcUrl" value="jdbc:oracle:thin:@localhost:1521:xe"/>
+		<property name="username" value="project_health"/>
+		<property name="password" value="project_health" />
+	</bean>
+
+
+<!-- 2. HikariDataSource 클래스를 이용한 dataSource 빈 생성: JDBC 설정이 저장된 HikariConfig 빈 주입받음 --> 
+	<bean id="dataSource" class="com.zaxxer.hikari.HikariDataSource" destroy-method="close">
+		<constructor-arg ref="hikariConfig" />
+	</bean>	 
+	
+<!-- 3. mybatis-spring 연동구성(dataSource 빈을 주입받음) -->
+	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="dataSource"/>
+		<property name="mapperLocations">
+			<list>
+				<value>classpath:com/soldesk/healthproject/mapper/NoticeBoardMapper.xml</value>
+				<value>classpath:com/soldesk/healthproject/mapper/NoticeCommentMapper.xml</value>
+				<value>classpath:com/soldesk/healthproject/mapper/FreeBoardMapper.xml</value>
+				<value>classpath:com/soldesk/healthproject/mapper/FreeCommentMapper.xml</value>
+				<value>classpath:com/soldesk/healthproject/mapper/MemberMapper.xml</value>
+				<value>classpath:com/soldesk/healthproject/mapper/QuestionCommentMapper.xml</value>
+				<value>classpath:com/soldesk/healthproject/mapper/ProductCommentMapper.xml</value>
+			</list>
+		</property>		
+	</bean>
+
+<!-- 4. mybatis-spring 연동 (SqlSessionFactoryBean 빈 주입 받음) -->
+<!-- SqlSessionFactoryBean 보다 쓰레드에 안전 -->
+	<bean id="sqlSession" class="org.mybatis.spring.SqlSessionTemplate">
+		<constructor-arg index="0" ref="sqlSessionFactory" />
+	</bean>
+	
+<!-- 5. Mybatis Mapper 파일을 액세스하는 인터페이스의 위치를 설정 -->
+	<mybatis-spring:scan base-package="com.soldesk.healthproject.mapper" template-ref="sqlSession"/>
+	
+
+<!-- @Transaction 어노테이션 기능을 활성화(스프링 트랜잭션 기능 활성화) -->
+	<bean id="txManager"  class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource"/>
+	</bean>
+	
+	<tx:annotation-driven transaction-manager="txManager"/>
+
+</beans>

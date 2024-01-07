@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app version="2.5" xmlns="http://java.sun.com/xml/ns/javaee"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee https://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
+
+<absolute-ordering/>
+
+<!-- 스프링 UTF-8 인코딩 필터(한글처리)한글처리를 위한 UTF-8 인코딩 필터를 추가 -->
+	<filter>
+		<filter-name>encodingFilter</filter-name>
+		<filter-class>
+		org.springframework.web.filter.CharacterEncodingFilter
+		</filter-class>
+		<init-param>
+			<param-name>encoding</param-name>
+			<param-value>UTF-8</param-value>
+		</init-param>
+		<init-param>
+			<param-name>forceEncoding</param-name>
+			<param-value>true</param-value>
+		</init-param>
+	</filter>
+	<filter-mapping>
+		<filter-name>encodingFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+		<!--<servlet-name>appServlet</servlet-name> -->
+	</filter-mapping>
+	
+<!-- Spring-Security Filter: DelegatingFilterProxy: 이 필터는 모든 요청을 가로채는 필터입니다
+  스프링 시큐리티는 이 필터를 이용하여, 모든 요청을 가로채서 요청에 대한 사용자의 인증과 승인 처리를 합니다.
+  사용자가 입력한 정보와 DB에 저장되어 있는 정보를 자동으로 비교합니다.
+  단, App마다 달라지는 부분은 개발자가 알아서 프로그램을 작성하여 처리해야 합니다. -->
+<!-- Spring-Security 기능 활성화: Spring-Security DelegatingFilterProxy 설정 -->
+   <!-- <filter>
+      <filter-name>springSecurityFilterChain</filter-name>
+      <filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
+   </filter>
+   <filter-mapping>
+      <filter-name>springSecurityFilterChain</filter-name>
+      <url-pattern>/*</url-pattern>
+   </filter-mapping> -->
+
+
+	<!-- The definition of the Root Spring Container shared by all Servlets and Filters -->
+	<context-param>
+		<param-name>contextConfigLocation</param-name>
+		<param-value>
+			/WEB-INF/spring/root-context.xml 
+			/WEB-INF/spring/mybatis-context.xml <!--
+			/WEB-INF/spring/security-context.xml -->
+		</param-value>
+	</context-param>
+	<!--  -->
+	<!-- Creates the Spring Container shared by all Servlets and Filters -->
+	<listener>
+		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+	</listener>
+
+	<!-- Processes application requests -->
+	<servlet>
+		<servlet-name>appServlet</servlet-name>
+		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+		<init-param>
+			<param-name>contextConfigLocation</param-name>
+			<param-value>
+				/WEB-INF/spring/appServlet/servlet-context.xml
+			</param-value>
+		</init-param>
+		<load-on-startup>1</load-on-startup>
+		<multipart-config>
+		 	<location>C:/myupload/temp</location><!-- 임시 업로드 경로 -->
+		 	<max-file-size>20971520</max-file-size><!-- 20MB: 업로드가 허용되는 한 개 파일의 최대크기 -->
+			<max-request-size>41943040</max-request-size><!-- 40MB: 한 번의 업로드 요청에서 허용되는 최대 파일 크기 -->
+		 	<file-size-threshold>20971520</file-size-threshold><!-- 20MB --><!-- 메모리 제한 크기 -->
+		 </multipart-config>
+	</servlet>
+	
+			<!-- /WEB-INF/spring/appServlet/sample-context.xml -->
+		
+	<servlet-mapping>
+		<servlet-name>appServlet</servlet-name>
+		<url-pattern>/</url-pattern>
+	</servlet-mapping>
+
+</web-app>
