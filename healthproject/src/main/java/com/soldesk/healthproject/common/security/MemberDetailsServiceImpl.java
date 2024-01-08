@@ -12,7 +12,7 @@ import lombok.Setter;
 import lombok.extern.log4j.Log4j;
 
 @Log4j
-public class MemberDetailsService implements UserDetailsService {
+public class MemberDetailsServiceImpl implements UserDetailsService {
 	
 	@Setter(onMethod_ = {@Autowired})
 	private MemberMapper MemberMapper;

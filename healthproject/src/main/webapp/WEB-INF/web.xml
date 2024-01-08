@@ -31,14 +31,14 @@
   사용자가 입력한 정보와 DB에 저장되어 있는 정보를 자동으로 비교합니다.
   단, App마다 달라지는 부분은 개발자가 알아서 프로그램을 작성하여 처리해야 합니다. -->
 <!-- Spring-Security 기능 활성화: Spring-Security DelegatingFilterProxy 설정 -->
-   <!-- <filter>
+   <filter>
       <filter-name>springSecurityFilterChain</filter-name>
       <filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
    </filter>
    <filter-mapping>
       <filter-name>springSecurityFilterChain</filter-name>
       <url-pattern>/*</url-pattern>
-   </filter-mapping> -->
+   </filter-mapping>
 
 
 	<!-- The definition of the Root Spring Container shared by all Servlets and Filters -->
@@ -46,8 +46,8 @@
 		<param-name>contextConfigLocation</param-name>
 		<param-value>
 			/WEB-INF/spring/root-context.xml 
-			/WEB-INF/spring/mybatis-context.xml <!--
-			/WEB-INF/spring/security-context.xml -->
+			/WEB-INF/spring/mybatis-context.xml 
+			/WEB-INF/spring/security-context.xml
 		</param-value>
 	</context-param>
 	<!--  -->

@@ -17,6 +17,9 @@
 	
 	<!-- Enables the Spring MVC @Controller programming model -->
 	<annotation-driven />
+	
+	<!-- Spring AOP 기능 활성화 -->
+	<aop:aspectj-autoproxy/>
 
 	<!-- Handles HTTP GET requests for /resources/** by efficiently serving up static resources in the ${webappRoot}/resources directory -->
 	<resources mapping="/resources/**" location="/resources/" />
@@ -31,6 +34,9 @@
 	
 	<context:component-scan base-package="com.soldesk.healthproject.service" />
 	<context:component-scan base-package="com.soldesk.healthproject.controller" />
+	<context:component-scan base-package="com.soldesk.healthproject.common.security" />
 	
+	<!-- 어노테이션을 이용한 스프링 시큐리티 활성화 -->
+	<security:global-method-security pre-post-annotations="enabled" secured-annotations="enabled"/>
 	
 </beans:beans>

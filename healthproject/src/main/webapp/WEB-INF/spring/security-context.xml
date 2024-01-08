@@ -5,5 +5,34 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-5.4.xsd
 		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
+<!-- 사용자 password 암호화 처리 빈: BCrypt 방식 암호화 -->
+	<bean id="bCryptPasswordEncoder"
+		  class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder"/>
 
+<!-- 승인/인증을 위해 필요한 데이터를 가져오는 빈(UserDetailsService 타입의 빈) -->
+	<bean id="myMemberUserDetailsServiceImpl"  
+		  class="com.soldesk.healthproject.common.security.MemberDetailsServiceImpl"/>
+	
+	<security:http>
+	
+	<security:intercept-url pattern="/" access="permitAll" />
+	<security:intercept-url pattern="/noticeBoard/list" access="permitAll" />
+	<security:intercept-url pattern="/noticeBoard/modify" access="hasRole('ROLE_MEMBER')" />
+	<security:intercept-url pattern="/noticeBoard/register" access="hasAnyRole('ROLE_MEMBER','ROLE_USER')" />
+	<security:intercept-url pattern="/noticeBoard/detail" access="hasRole('ROLE_ADMIN')" />
+	
+	
+	<security:form-login/>
+	
+	<security:logout/>
+	
+	</security:http>
+	
+	<!-- 스프링 시큐리티의 승인/인증시 필요한 데이터 확보 -->
+	<security:authentication-manager>
+		<security:authentication-provider user-service-ref="MemberDetailsServiceImpl">
+			<security:password-encoder ref="bCryptPasswordEncoder"/>
+		</security:authentication-provider>
+	</security:authentication-manager>
+	
 </beans>
