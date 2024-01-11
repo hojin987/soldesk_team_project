@@ -89,7 +89,7 @@ alert("operation: "+ operation);
 if(operation == "modify"){ //게시물 수정 요청
 frmModify.attr("action", "${contextPath}/noticeBoard/modify");
 } else if(operation == "remove"){ //게시물 삭제 요청
-frmModify.attr("action", "${contextPath}/noticeBoard/delete");
+frmModify.attr("action", "${contextPath}/noticeBoard/remove");
 } else if(operation == "list"){ //게시물 목록 화면 요청
 frmModify.attr("action","${contextPath}/noticeBoard/list").attr("method","get");
 frmModify.empty();

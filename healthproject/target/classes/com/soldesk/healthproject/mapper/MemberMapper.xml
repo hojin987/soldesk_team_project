@@ -27,27 +27,29 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result property="ticket_number" column="ticket_number" />
 		<result property="ticket_start_date" column="ticket_start_date" />
 		<result property="ticket_end_date" column="ticket_end_date" />
+		<collection property="authorityList" resultMap="authorityMap" />
 	</resultMap>
 	
 	<!-- 특정 회원 조회(스프링 시큐리티도 사용함) - OUTER JOIN을 사용할 이유가 없습니다. -->
 	<select id="selectMember" resultMap="memberMap">
-		SELECT mem.member_id, member_pw, member_email, member_name, member_birth, member_phonenumber, member_register_date
+		SELECT mem.member_id, member_pw, member_email, member_name, member_birth, member_phonenumber, member_register_date,
         	member_delete_flag, member_enabled, member_height, member_weight, member_muscle_percent, member_fat_percent,
-        	member_goal, ticket_number, ticket_start_date, ticket_end_date
+        	member_goal, ticket_number, ticket_start_date, ticket_end_date, auth.authority
 		FROM project_health.tbl_member mem INNER JOIN project_health.tbl_member_authority auth ON mem.member_id = auth.member_id
-		WHERE mem.member_id = #{member_id};
+		WHERE mem.member_id = #{member_id}
 	</select>
 	
 	<!-- 회원 등록: 회원 등록 시 회원 권한 추가도 같이 수행 -->
 	<insert id="insertMember">
 		INSERT INTO project_health.tbl_member
-		VALUES (#{member_id}, #{member_pw}, #{member_email}, #{member_name}, #{member_birth}, #{member_phonenumber}, default, default, default, default, default, default, default, #{member_goal}, #{ticket_number}, default, default);
+		VALUES (#{member_id}, #{member_pw}, #{member_email}, #{member_name}, #{member_birth}, #{member_phonenumber}, default, default, default,
+				#{member_height}, #{member_weight}, #{member_muscle_percent}, #{member_fat_percent}, '체력개선', 'Ticket1', default, default)
 	</insert>
 	
 	<!-- 회원 권한 추가 -->
 	<insert id="insertMemberAuthority">
 		INSERT INTO project_health.tbl_member_authority
-		VALUES(#{member_id}, #{authority});
+		VALUES(#{member_id}, #{authority})
 	</insert>
 	
 	

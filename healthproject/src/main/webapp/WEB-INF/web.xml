@@ -67,6 +67,8 @@
 			</param-value>
 		</init-param>
 		<load-on-startup>1</load-on-startup>
+		
+		<!-- 파일 업로드 관련 -->
 		<multipart-config>
 		 	<location>C:/myupload/temp</location><!-- 임시 업로드 경로 -->
 		 	<max-file-size>20971520</max-file-size><!-- 20MB: 업로드가 허용되는 한 개 파일의 최대크기 -->

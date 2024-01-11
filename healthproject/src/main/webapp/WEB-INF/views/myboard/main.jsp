@@ -38,6 +38,7 @@
                     <div class="panel panel-default">
                         <div class="panel-heading">
                             공지사항
+                            <button type="button" style="float:right" onclick="location.href='${contextPath}/noticeBoard/list'">+</button>
                         </div>
                         <!-- /.panel-heading -->
                         <div class="panel-body">
@@ -84,6 +85,7 @@
                     <div class="panel panel-default">
                         <div class="panel-heading">
                             자유게시판
+                            <button type="button" style="float:right" onclick="location.href='${contextPath}/noticeBoard/list'">+</button>
                         </div>
                         <!-- /.panel-heading -->
                         <div class="panel-body">
@@ -136,14 +138,14 @@
                             <div class="table-responsive">
                                 <table class="table table-hover">
                                     <thead>
-                                        <tr>
-                                            <th>로그인</th>
-                                            <th>회원가입</th>
+                                        <tr text-align=center;>
+                                            <th>저희 짐의 회원이 되어 보세요</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <tr>
-                                            <td>목표를 입력해보세요</td>
+                                            <td><button type="button" style="float:right" onclick="location.href='${contextPath}/myLogin'">로그인</button></td>
+                                            <td><button type="button" style="float:right" onclick="location.href='${contextPath}/user/memberRegister'">회원가입</button></td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -162,6 +164,7 @@
                     <div class="panel panel-default">
                         <div class="panel-heading">
                             회원권
+                            <button type="button" style="float:right" onclick="location.href='${contextPath}/ticket/list'">+</button>
                         </div>
                         <!-- /.panel-heading -->
                         <div class="panel-body">
@@ -219,6 +222,7 @@
                     <div class="panel panel-default">
                         <div class="panel-heading">
                             장비&식품 SHOP
+                            <button type="button" style="float:right" onclick="location.href='${contextPath}/ticket/list'">+</button>
                         </div>
                         <!-- /.panel-heading -->
                         <div class="panel-body">

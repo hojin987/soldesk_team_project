@@ -8,23 +8,38 @@
 <!-- 사용자 password 암호화 처리 빈: BCrypt 방식 암호화 -->
 	<bean id="bCryptPasswordEncoder"
 		  class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder"/>
+		  
+<!-- 사용자 password 암호화 처리 빈: 암호화 하지 않음 -->
+	<!-- <bean id="myNoPwEncryptPasswordEncoder"
+		  class="com.soldesk.healthproject.common.security.MyNoPwEncryptPasswordEncoder" /> -->
+
+<!-- 로그인 성공 시의 처리 로직이 정의된 클래스의 빈 등록 -->	  
+	<bean id="myLoginSuccessHandler2" 
+		  class="com.soldesk.healthproject.common.security.MyLoginSuccessHandler2"/>
 
 <!-- 승인/인증을 위해 필요한 데이터를 가져오는 빈(UserDetailsService 타입의 빈) -->
-	<bean id="myMemberUserDetailsServiceImpl"  
+	<bean id="MemberDetailsServiceImpl"  
 		  class="com.soldesk.healthproject.common.security.MemberDetailsServiceImpl"/>
 	
 	<security:http>
-	
 	<security:intercept-url pattern="/" access="permitAll" />
 	<security:intercept-url pattern="/noticeBoard/list" access="permitAll" />
-	<security:intercept-url pattern="/noticeBoard/modify" access="hasRole('ROLE_MEMBER')" />
-	<security:intercept-url pattern="/noticeBoard/register" access="hasAnyRole('ROLE_MEMBER','ROLE_USER')" />
-	<security:intercept-url pattern="/noticeBoard/detail" access="hasRole('ROLE_ADMIN')" />
+	<security:intercept-url pattern="/noticeBoard/modify" access="hasRole('ROLE_USER')" />
+	<security:intercept-url pattern="/noticeBoard/register" access="permitAll" />
+	<security:intercept-url pattern="/noticeBoard/detail" access="permitAll" />
 	
 	
-	<security:form-login/>
+	<security:form-login login-page="/myLogin"
+						 login-processing-url="/myLoginProcess"
+						 default-target-url="/noticeBoard/list"
+						 authentication-success-handler-ref="myLoginSuccessHandler2"
+					     username-parameter="username"
+					     password-parameter="password"
+						/>
 	
-	<security:logout/>
+	<security:logout logout-url="/myLogoutProcess" logout-success-url="/" />
+	
+	<security:csrf disabled="false"/>
 	
 	</security:http>
 	
@@ -32,6 +47,7 @@
 	<security:authentication-manager>
 		<security:authentication-provider user-service-ref="MemberDetailsServiceImpl">
 			<security:password-encoder ref="bCryptPasswordEncoder"/>
+			<!-- <security:password-encoder ref="myNoPwEncryptPasswordEncoder"/> -->
 		</security:authentication-provider>
 	</security:authentication-manager>
 	

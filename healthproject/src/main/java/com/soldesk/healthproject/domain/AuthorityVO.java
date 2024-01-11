@@ -15,5 +15,5 @@ public class AuthorityVO {
 	
 	private String member_id;
 	private String authority;
-
+	
 }

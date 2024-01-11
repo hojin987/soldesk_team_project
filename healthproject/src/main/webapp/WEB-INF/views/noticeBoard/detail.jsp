@@ -50,14 +50,9 @@
 						</div>
 						<div class="col-md-7" style="height: 45px; padding-top:6px;"><%-- vertical-align: middle; --%>
 							<div class="button-group pull-right">
-
-<%-- <sec:authorize access="isAuthenticated()">
-	<sec:authentication property="principal.username" var="username"/>
-		<c:if test="${username eq myboard.bwriter}">
+							
 							<button type="button" id="btnToModify" data-oper="modify"
 									class="btn btn-primary"><span>수정페이지로 이동</span></button>
-		</c:if>							
-</sec:authorize> --%>
 
 									
 							<button type="button" id="btnToList" data-oper="list"
@@ -279,9 +274,9 @@ $("#btnToList").on("click", function(){;
 //게시물 수정-삭제 페이지 이동
 $("#btnToModify").on("click", function(){
 	
-	var bno = '<c:out value="${noticeBoard.npost_number}"/>' ;
+	var npost_number = '<c:out value="${noticeBoard.npost_number}"/>' ;
 	
-	frmSendValue.append("<input type='hidden' name='bno' value='" + bno + "'/>") ;
+	frmSendValue.append("<input type='hidden' name='npost_number' value='" + npost_number + "'/>") ;
 	frmSendValue.attr("action", "${contextPath}/noticeBoard/modify").attr("method", "get") ;
 	frmSendValue.submit() ;
 });

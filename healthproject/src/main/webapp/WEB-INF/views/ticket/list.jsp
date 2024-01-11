@@ -15,7 +15,7 @@
 <div id="page-wrapper">
     <div class="row">
         <div class="col-lg-12">
-            <h3 class="page-header">Board - List</h3>
+            <h3 class="page-header">ticket - List</h3>
         </div><%-- /.col-lg-12 --%>
     </div><%-- /.row --%>
     <div class="row">
@@ -24,99 +24,34 @@
             <div class="panel panel-default">
                 <div class="panel-heading">
 					<div class="row">
-						<div class="col-md-6" style="font-size:20px; height: 45px; padding-top:10px;">게시글 목록</div>
+						<div class="col-md-6" style="font-size:20px; height: 45px; padding-top:10px;">정기권 목록</div>
 						<div class="col-md-6" style="padding-top:8px;">
-							<button type="button" id="btnToRegister" class="btn btn-primary btn-sm pull-right">새글 등록</button>
+							<button type="button" id="btnToRegister" class="btn btn-primary btn-sm pull-right">정기권 등록</button>
 						</div>
 					</div>
 				</div><%-- /.panel-heading --%>
                 
                 <div class="panel-body">
-                
-<%--                 
-<form class="form-inline" id="frmSendValue" name="frmSendValue" action="${contextPath }/myboard/list" method="get" >
-	<div class="form-group">
-		<label class="sr-only">frmSendValues</label>
-		<select class="form-control" id="selectAmount" name="rowAmountPerPage">
-			<option value="10" ${(pagingCreator.myboardPaging.rowAmountPerPage == 10) ? "selected" : "" }>10개</option>
-			<option value="20" ${(pagingCreator.myboardPaging.rowAmountPerPage == 20) ? "selected" : "" }>20개</option>
-			<option value="50" ${(pagingCreator.myboardPaging.rowAmountPerPage == 50) ? "selected" : "" }>50개</option>
-			<option value="100" ${(pagingCreator.myboardPaging.rowAmountPerPage == 100) ? "selected" : "" }>100개</option>
-		</select>
-		
-		<select class="form-control" id="selectScope" name="scope">
-			<option value="" ${(pagingCreator.myboardPaging.scope == null ) ? "selected" : "" }>범위선택</option>
-			<option value="T" ${(pagingCreator.myboardPaging.scope == "T" ) ? "selected" : "" }>제목</option>
-			<option value="C" ${(pagingCreator.myboardPaging.scope == "C" ) ? "selected" : "" }>내용</option>
-			<option value="W" ${(pagingCreator.myboardPaging.scope == "W" ) ? "selected" : "" }>작성자</option>
-			<option value="TC" ${(pagingCreator.myboardPaging.scope == "TC" ) ? "selected" : "" }>제목+내용</option>
-			<option value="TCW" ${(pagingCreator.myboardPaging.scope == "TCW" ) ? "selected" : "" }>제목+내용+작성자</option>
-		</select> --%>
-		
-		
-		<div class="input-group"><!-- 검색어 입력 -->
-			<input class="form-control" id="keyword" name="keyword" type="text" 
-			       placeholder="검색어를 입력하세요"
-				   value='<c:out value="${pagingCreator.myboardPaging.keyword}" />' />
-			<span class="input-group-btn"><!-- 전송버튼 -->
-				<button class="btn btn-warning" type="button" id="btnSearchGo"
-						><i class="fa fa-search"></i>
-				</button>
-			</span>
-		</div>
-		
-		<!-- <div class="input-group">검색 초기화 버튼
-			<button id="btnReset" class="btn btn-info" type="button">
-				<span class="glyphicon glyphicon-remove"></span>
-			</button>
-		</div> -->
-	</div>
 
-	<%-- <div class="form-group pull-right">
-		<input class="form-control" id="startDate" name="startDate" type="date"
-			   value="${pagingCreator.myboardPaging.startDate}" 
-			   />
-		<input class="form-control" id="endDate" name="endDate" type="date"
-			   value="${pagingCreator.myboardPaging.endDate}" 
-			   />
-
-		<button type="button" class="btn btn-primary mybtns" 
-				id="btnIntervalSearch" >기간검색</button>
-	</div>  --%>
-	
-	<%-- <input type="hidden" id="pageNum" name="pageNum" value="${pagingCreator.myboardPaging.pageNum }" >
-	<input type="hidden" id="rowAmountPerPage" name="rowAmountPerPage" value="${pagingCreator.myboardPaging.rowAmountPerPage }" >
-	<input type="hidden" id="lastPageNum" name="lastPageNum" value="${pagingCreator.lastPageNum }" > --%>
-	
 </form>                
 	<table class="table table-striped table-bordered table-hover" 
 	       style="width:100%;text-align: center;">
 	    <thead>
 	        <tr>
-	            <th>글번호</th>
-	            <th>제목</th>
-	            <th>작성자</th>
-	            <th>작성일</th>
-	            <th>조회수</th>
+	            <th>상품번호</th>
+	            <th>상품내용</th>
+	            <th>피티횟수</th>
+	            <th>가격</th>
 	        </tr>
 	    </thead>
 	    <tbody>
-			<c:forEach items="${noticeBoardList}" var="noticeBoard"><%-- 컨트롤러에서 보낸 목록객체 이름: boardList --%>
-				<c:if test="${noticeBoard.ndelete_flag == 'Y'}">
-					<tr style="background-color:Moccasin; text-align:center">
-						<td><c:out value="${noticeBoard.npost_number}" /></td>
-						<td colspan="5"><em>작성자에 의하여 삭제된 게시글입니다.</em></td>
-					</tr>
-				</c:if>
-				<c:if test="${noticeBoard.ndelete_flag == 'N'}">
-					<tr>
-						<td><c:out value="${noticeBoard.npost_number}" /></td>
-						<td style="text-align:left;" ><c:out value="${noticeBoard.ntitle}"/></td>
-						<td><c:out value="${noticeBoard.nwriter}" /></td>
-						<td><fmt:formatDate pattern="yyyy/MM/dd" value="${noticeBoard.nregister_date}" /></td>
-						<td>${noticeBoard.nview_count}</td>
-					</tr>
-				</c:if>
+			<c:forEach items="${ticketList}" var="ticket">
+				<tr>
+					<td><c:out value="${ticket.ticket_number}" /></td>
+					<td style="text-align:left;" ><c:out value="${ticket.ticket_content}"/></td>
+					<td><c:out value="${ticket.pt_count}" /></td>
+					<td><c:out value="${ticket.ticket_price}"/></td>
+				</tr>
 			</c:forEach>              
 
                     </tbody>

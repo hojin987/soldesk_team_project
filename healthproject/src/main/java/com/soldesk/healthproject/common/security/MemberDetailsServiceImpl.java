@@ -22,9 +22,9 @@ public class MemberDetailsServiceImpl implements UserDetailsService {
 		log.info("Load User By UserName: " + username);
 		
 		MemberVO member = MemberMapper.selectMember(username);
-		log.warn("MyMemberMapper에 의해서 반환된 MemberVO: " + member);
+		log.warn("MemberMapper에 의해서 반환된 MemberVO: " + member);
 		
-		return member == null? null : new MemberUser(member);
+		return member == null ? null : new MemberUser(member);
 	}
 	
 	
