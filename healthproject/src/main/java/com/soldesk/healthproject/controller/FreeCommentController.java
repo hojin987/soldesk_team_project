@@ -114,7 +114,7 @@ public class FreeCommentController {
 					method = {RequestMethod.PUT, RequestMethod.PATCH} ,
 					consumes = "application/json;charset=utf-8" ,
 					produces = "text/plain;charset=utf-8") 
-//	@PreAuthorize()
+	@PreAuthorize("isAuthenticated() && principal.username == #freeComment.fcomment_writer")
 	public String modifyFreeComment(@PathVariable("fpost_number") Long fpost_number ,
 							  @PathVariable("fcomment_number") Long fcomment_number ,
 							  @RequestBody FreeCommentVO fcomment){
@@ -132,7 +132,7 @@ public class FreeCommentController {
 	@DeleteMapping(value = "/{fpost_number}/{fcomment_number}" ,
 				   consumes = "application/json; charset=utf-8",
 				   produces = "text/plain;charset=utf-8")
-//	@PreAuthorize()
+	@PreAuthorize("isAuthenticated() && principal.username == #freeComment.fcomment_writer")
 	public ResponseEntity<String> removeFreeComment(@PathVariable("fpost_number") Long fpost_number, 
 											  		@PathVariable("fcommnet_number") Long fcomment_number,
 											  		@RequestBody FreeCommentVO fcomment) {

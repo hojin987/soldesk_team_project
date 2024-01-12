@@ -6,6 +6,8 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.soldesk.healthproject.common.paging.domain.QuestionCommentPagingCreatorDTO;
+import com.soldesk.healthproject.common.paging.domain.QuestionCommentPagingDTO;
 import com.soldesk.healthproject.domain.QuestionCommentVO;
 import com.soldesk.healthproject.mapper.QuestionCommentMapper;
 
@@ -25,9 +27,24 @@ public class QuestionCommentServiceImpl implements QuestionCommentService {
 	
 	//특정 게시물에 대한 댓글 목록 조회
 	@Override
-	public List<QuestionCommentVO> getQuestionCommentList() {
+	public QuestionCommentPagingCreatorDTO getQuestionCommentList(QuestionCommentPagingDTO qcommentPaging) {
+			
+		long qcommentTotalCount = questionCommentMapper.selectQuestionRowTotal(qcommentPaging.getQpost_number()) ;
 		
-		return questionCommentMapper.selectQuestionCommentList() ;			
+		int questionPageNum = qcommentPaging.getQuestionPageNum() ;
+		
+		if (questionPageNum == -10) {
+			
+			questionPageNum = (int) Math.ceil((double)qcommentTotalCount/qcommentPaging.getRowAmountPerQuestionPage()) ;
+			qcommentPaging.setQuestionPageNum(questionPageNum) ;
+		}
+		
+		List<QuestionCommentVO> qcommentList = questionCommentMapper.selectQuestionCommentList(qcommentPaging);
+		
+		QuestionCommentPagingCreatorDTO questionCommentPagingCreatorDTO
+				= new QuestionCommentPagingCreatorDTO(qcommentList, qcommentTotalCount, qcommentPaging);
+		
+		return questionCommentPagingCreatorDTO;			
 	}
 	
 	//특정 게시물에 대한 댓글 등록(qreply_number: null)

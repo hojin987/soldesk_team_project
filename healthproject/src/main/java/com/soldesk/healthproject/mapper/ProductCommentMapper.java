@@ -4,14 +4,18 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
 
+import com.soldesk.healthproject.common.paging.domain.ProductCommentPagingDTO;
 import com.soldesk.healthproject.domain.ProductCommentVO;
 
 
 public interface ProductCommentMapper {
 
 	//특정 게시물에 대한 댓글 목록 조회: (페이징 고려 아직 안함)
-	public List<ProductCommentVO> selectProductCommentList() ;
+	public List<ProductCommentVO> selectProductCommentList(ProductCommentPagingDTO productCommentPagingDTO) ;
 		
+	//특정 게시물에 대한 댓글 총 개수
+	public long selectProductRowTotal(long product_number) ;
+	
 	//특정 게시물에 대한 댓글 등록(preply_number: null)
 	public long insertProductCommentForProduct(ProductCommentVO pcomment) ;
 

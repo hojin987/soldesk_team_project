@@ -19,7 +19,8 @@ public class NoticeCommentVO {
 	private String ncomment_writer ;
 	private Date ncomment_register_date ;
 	private long nreply_number ;
-	private int ncomment_delete_flag ;
+	private String ncomment_delete_flag ;
 
-
+	private int lvl ;  //오라클 계층쿼리의 level 값을 저장할 필드
+	
 }

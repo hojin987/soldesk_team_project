@@ -19,7 +19,8 @@ public class FreeCommentVO {
 	private String fcomment_writer ;
 	private Date fcomment_register_date ;
 	private long freply_number ;
-	private int fcomment_delete_flag ;
+	private String fcomment_delete_flag ;
 
-
+	private int lvl ;  //오라클 계층쿼리의 level 값을 저장할 필드
+	
 }

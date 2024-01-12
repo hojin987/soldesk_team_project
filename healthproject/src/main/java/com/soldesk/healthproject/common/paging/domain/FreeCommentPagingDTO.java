@@ -15,8 +15,8 @@ public class FreeCommentPagingDTO {
 
 	
 //	public FreeBoardPagingDTO() {
-//		this.pageNum = 1 ;
-//		this.rowAmountPerPage = 10 ;
+//		this.freePageNum = 1 ;
+//		this.rowAmountPerFreePage = 10 ;
 //	}
 
 	//생성자: 목록 화면에서 사용자가 표시할 행수를 선택하고 페이징 번호 클릭 시,

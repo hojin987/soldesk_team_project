@@ -17,7 +17,7 @@
 	        parameterType="com.soldesk.healthproject.common.paging.domain.FreeBoardPagingDTO">
 		<![CDATA[
 			SELECT fpost_number, ftitle, fcontent, fwriter, fregister_date, fview_count, freply_count, fdelete_flag
-			FROM ( SELECT /*+ INDEX_DESC (a pk_freeboard) */ROWNUM rn, a.*
+			FROM ( SELECT /*+ INDEX_DESC (a pk_free_board) */ROWNUM rn, a.*
 			       FROM project_health.free_board a
 			       WHERE 
 		]]>
@@ -47,7 +47,7 @@
 		]]>
 	</select> 
 
-	
+ 
 <!-- 게시물 총 개수 조회(페이징): -->	
 	<select id="selectRowTotal" resultType="long"
 	        parameterType="com.soldesk.healthproject.common.paging.domain.FreeBoardPagingDTO" >
@@ -77,10 +77,17 @@
 
 	
 <!-- 게시물 등록 -->
+	<insert id="insertFreeBoard" parameterType="com.soldesk.healthproject.domain.FreeBoardVO">
+		<selectKey order="BEFORE" keyProperty="fpost_number" resultType="long">
+			SELECT project_health.seq_free_board.nextval FROM dual
+		</selectKey>
+		INSERT INTO project_health.free_board
+		VALUES(#{fpost_number}, #{ftitle}, #{fcontent}, #{fwriter}, DEFAULT, DEFAULT, DEFAULT, 'N')
+	</insert><!-- 
 	<insert id="insertFreeBoard">
 		INSERT INTO project_health.free_board
-		VALUES(1, #{ftitle}, #{fcontent}, #{fwriter}, DEFAULT, DEFAULT, DEFAULT, DEFAULT)
-	</insert>
+		VALUES(project_health.seq_free_board.nextval, #{ftitle}, #{fcontent}, #{fwriter}, DEFAULT, DEFAULT, DEFAULT, 'N')
+	</insert> -->
 	
 <!-- 특정 게시물 조회 -->
 	<select id="selectFreeBoard">
@@ -107,7 +114,7 @@
 <!-- 특정 게시물 수정 -->
 	<update id="updateFreeBoard" parameterType="com.soldesk.healthproject.domain.FreeBoardVO">
 		UPDATE project_health.free_board
-		SET ftitle = #{ftitle}
+		SET ftitle = #{ftitle},
 			fcontent = #{fcontent}
 		WHERE fpost_number = #{fpost_number}
 	</update>

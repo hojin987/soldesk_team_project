@@ -3,7 +3,6 @@ package com.soldesk.healthproject.controller;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.ui.Model;
 //import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,6 +13,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.soldesk.healthproject.common.paging.domain.ProductCommentPagingCreatorDTO;
+import com.soldesk.healthproject.common.paging.domain.ProductCommentPagingDTO;
 import com.soldesk.healthproject.domain.ProductCommentVO;
 import com.soldesk.healthproject.service.ProductCommentService;
 
@@ -28,9 +29,25 @@ public class ProductCommentController {
 	}
 	
 	//게시물에 대한 댓글 목록 조회	
-	@GetMapping("/list") 
-	public void showProductCommentList(Model model){
-		model.addAttribute("productCommentList", productCommentService.getProductCommentList());
+//	@GetMapping("/list") 
+//	public void showProductCommentList(Model model){
+//		model.addAttribute("productCommentList", productCommentService.getProductCommentList());
+//	}
+	
+	//게시물에 대한 댓글 목록 조회(페이징 고려)
+	@GetMapping(value= "/{product_number}/page/{productPageNum}",
+				produces = {"application/json;charset=utf-8", "application/xml;charset=utf-8"})
+	
+	public ResponseEntity<ProductCommentPagingCreatorDTO> showProductCommentList(@PathVariable("product_number") Long product_number,
+																		   @PathVariable("productPageNum") Integer productPageNum) {
+	
+		ProductCommentPagingCreatorDTO productCommentPagingCreator =
+				productCommentService.getProductCommentList(new ProductCommentPagingDTO(product_number, productPageNum));
+		
+		ResponseEntity<ProductCommentPagingCreatorDTO> productResponseEntity =
+				new ResponseEntity<ProductCommentPagingCreatorDTO>(productCommentPagingCreator, HttpStatus.OK);
+		
+		return productResponseEntity;
 	}
 	
 	
@@ -97,7 +114,7 @@ public class ProductCommentController {
 					method = {RequestMethod.PUT, RequestMethod.PATCH} ,
 					consumes = "application/json;charset=utf-8" ,
 					produces = "text/plain;charset=utf-8") 
-//	@PreAuthorize()
+	@PreAuthorize("isAuthenticated() && principal.username == #productComment.pcomment_writer")
 	public String modifyProductComment(@PathVariable("product_number") Long product_number ,
 							  @PathVariable("pcomment_number") Long pcomment_number ,
 							  @RequestBody ProductCommentVO pcomment){
@@ -115,7 +132,7 @@ public class ProductCommentController {
 	@DeleteMapping(value = "/{product_number}/{pcomment_number}" ,
 				   consumes = "application/json; charset=utf-8",
 				   produces = "text/plain;charset=utf-8")
-//	@PreAuthorize()
+	@PreAuthorize("isAuthenticated() && principal.username == #productComment.pcomment_writer")
 	public ResponseEntity<String> removeProductComment(@PathVariable("product_number") Long product_number, 
 											  		@PathVariable("pcommnet_number") Long pcomment_number,
 											  		@RequestBody ProductCommentVO pcomment) {

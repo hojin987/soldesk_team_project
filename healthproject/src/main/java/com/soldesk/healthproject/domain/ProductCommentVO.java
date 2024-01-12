@@ -19,7 +19,8 @@ public class ProductCommentVO {
 	private String pcomment_writer ;
 	private Date pcomment_register_date ;
 	private long preply_number ;
-	private int pcomment_delete_flag ;
+	private String pcomment_delete_flag ;
 
-
+	private int lvl ;  //오라클 계층쿼리의 level 값을 저장할 필드
+	
 }

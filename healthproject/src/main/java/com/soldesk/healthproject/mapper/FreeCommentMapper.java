@@ -11,8 +11,11 @@ import com.soldesk.healthproject.domain.FreeCommentVO;
 public interface FreeCommentMapper {
 
 	//특정 게시물에 대한 댓글 목록 조회: (페이징 고려)
-	public List<FreeCommentVO> selectFreeCommentList(@Param("freeCommentPagingDTO") FreeCommentPagingDTO freeCommentPagingDTO) ;
+	public List<FreeCommentVO> selectFreeCommentList(FreeCommentPagingDTO freeCommentPagingDTO) ;
 		
+	//특정 게시물에 대한 댓글 총 개수
+	public long selectFreeRowTotal(long fpost_number) ;
+	
 	//특정 게시물에 대한 댓글 등록(freply_num: null)
 	public long insertFreeCommentForFreeBoard(FreeCommentVO fcomment) ;
 

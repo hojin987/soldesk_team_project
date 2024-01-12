@@ -4,14 +4,18 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
 
+import com.soldesk.healthproject.common.paging.domain.NoticeCommentPagingDTO;
 import com.soldesk.healthproject.domain.NoticeCommentVO;
 
 
 public interface NoticeCommentMapper {
 
-	//특정 게시물에 대한 댓글 목록 조회: (페이징 고려 아직 안함)
-	public List<NoticeCommentVO> selectNoticeCommentList() ;
-		
+	//특정 게시물에 대한 댓글 목록 조회: (페이징 고려)
+	public List<NoticeCommentVO> selectNoticeCommentList(NoticeCommentPagingDTO noticeCommentPagingDTO) ;
+	
+	//특정 게시물에 대한 댓글 총 개수
+	public long selectNoticeRowTotal(long npost_number) ;
+	
 	//특정 게시물에 대한 댓글 등록(nreply_number: null)
 	public long insertNoticeCommentForNoticeBoard(NoticeCommentVO ncomment) ;
 

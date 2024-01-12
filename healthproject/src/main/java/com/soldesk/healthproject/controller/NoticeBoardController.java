@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.soldesk.healthproject.common.paging.domain.NoticeBoardPagingCreatorDTO;
+import com.soldesk.healthproject.common.paging.domain.NoticeBoardPagingDTO;
 import com.soldesk.healthproject.domain.NoticeBoardVO;
 import com.soldesk.healthproject.service.NoticeBoardService;
 
@@ -20,20 +22,26 @@ public class NoticeBoardController {
 		this.noticeBoardService = noticeBoardService;
 		System.out.println("NoticeBoardController의 모든 필드 초기화 생성자 입니다.");
 	}
-	
-	//게시물 전체 목록 조회
+    //게시물 조회(페이징 고려)
 	@GetMapping("/list")
-	public void showNoticeBoardList(Model model) {
-		model.addAttribute("noticeBoardList", noticeBoardService.getNoticeBoardList());
+	public String showBoardList(NoticeBoardPagingDTO noticeboardPaging,  
+							    Model model) {
+		System.out.println("noticeboardPaging: " + noticeboardPaging);
+		NoticeBoardPagingCreatorDTO pagingCreator =  noticeBoardService.getBoardList(noticeboardPaging) ;
+		System.out.println("컨트롤러에 전달된 noticeboardPagingCreator: \n" + pagingCreator);
+		
+		model.addAttribute("pagingCreator", pagingCreator) ;
+		
+		return "noticeBoard/list" ;
 	}
 	
-	//등록 페이지 호출 GET /myboard/register
+	//등록 페이지 호출 GET /noticeboard/register
 	@GetMapping("/register")
 	public void showNoticeBoardRegisterPage() {
 		System.out.println("컨트롤러 - 게시물 등록 페이지 호출");
 	}
 	
-	//등록 처리 POST /myboard/register 
+	//등록 처리 POST /noticeboard/register 
 	@PostMapping("/register")
 	public String registerNewNoticeBoard(NoticeBoardVO noticeBoard, RedirectAttributes redirectAttr) {
 		long npost_number = noticeBoardService.registerNoticeBoard(noticeBoard);

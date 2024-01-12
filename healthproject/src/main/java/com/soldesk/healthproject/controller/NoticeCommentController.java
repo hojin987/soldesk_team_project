@@ -3,7 +3,6 @@ package com.soldesk.healthproject.controller;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.ui.Model;
 //import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,6 +13,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.soldesk.healthproject.common.paging.domain.NoticeCommentPagingCreatorDTO;
+import com.soldesk.healthproject.common.paging.domain.NoticeCommentPagingDTO;
 import com.soldesk.healthproject.domain.NoticeCommentVO;
 import com.soldesk.healthproject.service.NoticeCommentService;
 
@@ -28,9 +29,25 @@ public class NoticeCommentController {
 	}
 	
 	//게시물에 대한 댓글 목록 조회	
-	@GetMapping("/list") 
-	public void showNoticeCommentList(Model model){
-		model.addAttribute("noticeCommentList", noticeCommentService.getNoticeCommentList());
+//	@GetMapping("/list") 
+//	public void showNoticeCommentList(Model model){
+//		model.addAttribute("noticeCommentList", noticeCommentService.getNoticeCommentList());
+//	}
+	
+	//게시물에 대한 댓글 목록 조회(페이징 고려)
+	@GetMapping(value= "/{npost_number}/page/{noticePageNum}",
+				produces = {"application/json;charset=utf-8", "application/xml;charset=utf-8"})
+	
+	public ResponseEntity<NoticeCommentPagingCreatorDTO> showNoticeCommentList(@PathVariable("npost_number") long npost_number,
+																		   @PathVariable("noticePageNum") Integer noticePageNum) {
+	
+		NoticeCommentPagingCreatorDTO noticeCommentPagingCreator =
+				noticeCommentService.getNoticeCommentList(new NoticeCommentPagingDTO(npost_number, noticePageNum));
+		
+		ResponseEntity<NoticeCommentPagingCreatorDTO> noticeResponseEntity =
+				new ResponseEntity<NoticeCommentPagingCreatorDTO>(noticeCommentPagingCreator, HttpStatus.OK);
+		
+		return noticeResponseEntity;
 	}
 	
 	
@@ -97,7 +114,7 @@ public class NoticeCommentController {
 					method = {RequestMethod.PUT, RequestMethod.PATCH} ,
 					consumes = "application/json;charset=utf-8" ,
 					produces = "text/plain;charset=utf-8") 
-//	@PreAuthorize()
+	@PreAuthorize("isAuthenticated() && principal.username == #noticeComment.ncomment_writer")
 	public String modifyNoticeComment(@PathVariable("npost_number") Long npost_number ,
 							  @PathVariable("ncomment_number") Long ncomment_number ,
 							  @RequestBody NoticeCommentVO ncomment){
@@ -115,7 +132,7 @@ public class NoticeCommentController {
 	@DeleteMapping(value = "/{npost_number}/{ncomment_number}" ,
 				   consumes = "application/json; charset=utf-8",
 				   produces = "text/plain;charset=utf-8")
-//	@PreAuthorize()
+	@PreAuthorize("isAuthenticated() && principal.username == #noticeComment.ncomment_writer")
 	public ResponseEntity<String> removeNoticeComment(@PathVariable("npost_number") Long npost_number, 
 											  		@PathVariable("ncommnet_number") Long ncomment_number,
 											  		@RequestBody NoticeCommentVO ncomment) {

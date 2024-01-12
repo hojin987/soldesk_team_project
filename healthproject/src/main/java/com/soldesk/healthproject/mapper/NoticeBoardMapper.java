@@ -2,12 +2,16 @@ package com.soldesk.healthproject.mapper;
 
 import java.util.List;
 
+import com.soldesk.healthproject.common.paging.domain.NoticeBoardPagingDTO;
 import com.soldesk.healthproject.domain.NoticeBoardVO;
 
 public interface NoticeBoardMapper {
 	
-	//게시물 조회 - 목록
-	public List<NoticeBoardVO> selectNoticeBoardList();
+	//게시물 목록 조회
+	public List<NoticeBoardVO> selectNoticeBoardList(NoticeBoardPagingDTO noitceBoardPaging);
+	
+	//게시물 총수(READ)
+	public long selectRowTotal(NoticeBoardPagingDTO noitceboardPaging) ;
 	
 	//게시물 등록
 	public Integer insertNoticeBoard(NoticeBoardVO noticeBoard);

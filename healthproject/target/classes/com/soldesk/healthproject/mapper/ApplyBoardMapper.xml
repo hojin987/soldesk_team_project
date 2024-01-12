@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  <mapper namespace="com.soldesk.healthproject.mapper.ApplyBoardMapper">
+  
+<!-- 게시물 목록조회(READ): 페이징 고려, 기간검색 포함 -->  
+	<select id="selectApplyBoardList" resultType="com.soldesk.healthproject.domain.ApplyBoardVO"
+	        parameterType="com.soldesk.healthproject.common.paging.domain.ApplyBoardPagingDTO">
+		<![CDATA[
+			SELECT apost_number, atitle, acontent, awriter, aregister_date, aview_count, adelete_flag
+			FROM ( SELECT /*+ INDEX_DESC (a pk_apply_board) */ROWNUM rn, a.*
+			       FROM project_health.apply_board a
+			       WHERE 
+		]]>
+
+		<choose>
+			<when test="(beginDate != null and beginDate != '') and (endDate != null and endDate != '')">
+			 	aregister_date BETWEEN TO_DATE(#{beginDate}, 'YYYY-MM-DD')
+			 				 AND TO_DATE(#{endDate}, 'YYYY-MM-DD') AND
+			</when>
+		</choose>
+		<trim prefix="(" suffix=") AND" prefixOverrides="OR" >
+			<foreach item='scope' collection="myScopeArr">
+				<trim prefix="OR">
+					<choose>
+						<when test="scope == 'T'.toString()">atitle LIKE '%'||#{keyword}||'%'</when>
+						<when test="scope == 'C'.toString()">acontent LIKE '%'||#{keyword}||'%'</when>
+						<when test="scope == 'W'.toString()">awriter LIKE '%'||#{keyword}||'%'</when>
+					</choose>
+				</trim> 
+			</foreach>
+		</trim>	 
+
+		<![CDATA[	       
+			       ROWNUM <= (#{pageNum} * #{rowAmountPerPage})
+			       )
+			 WHERE rn >= ((#{pageNum} * #{rowAmountPerPage}) - (#{rowAmountPerPage} - 1)) 
+		]]>
+	</select> 
+
+	
+<!-- 게시물 총 개수 조회(페이징): -->	
+	<select id="selectRowTotal" resultType="long"
+	        parameterType="com.soldesk.healthproject.common.paging.domain.ApplyBoardPagingDTO" >
+		SELECT COUNT(*) rowTotal FROM project_health.apply_board
+		<where>
+			<trim prefix="(" suffix=")" prefixOverrides="OR">
+				<foreach item='scope' collection="myScopeArr">
+					<trim prefix="OR">
+						<choose>
+							<when test="scope == 'T'.toString()">atitle LIKE '%'||#{keyword}||'%'</when>
+							<when test="scope == 'C'.toString()">acontent LIKE '%'||#{keyword}||'%'</when>
+							<when test="scope == 'W'.toString()">awriter LIKE '%'||#{keyword}||'%'</when>
+						</choose>
+					</trim> 
+				</foreach>
+			</trim>
+			<choose>
+				<when test="(beginDate != null and beginDate != '') and (endDate != null and endDate != '')">
+					AND aregister_date BETWEEN TO_DATE(#{beginDate}, 'YYYY-MM-DD')
+				 		 		     AND TO_DATE(#{endDate}, 'YYYY-MM-DD')
+				</when>
+			</choose>	 
+		</where>
+	</select> 
+			
+
+
+	
+<!-- 게시물 등록 -->
+	<insert id="insertApplyBoard" parameterType="com.soldesk.healthproject.domain.ApplyBoardVO">
+		<selectKey order="BEFORE" keyProperty="apost_number" resultType="long">
+			SELECT project_health.seq_apply_board.nextval FROM dual
+		</selectKey>
+		INSERT INTO project_health.apply_board
+		VALUES(#{apost_number}, #{atitle}, #{acontent}, #{awriter}, DEFAULT, DEFAULT, 'N')
+	</insert>
+	
+<!-- 특정 게시물 조회 -->
+	<select id="selectApplyBoard">
+		SELECT apost_number, atitle, acontent, awriter, aregister_date, aview_count, adelete_flag
+		FROM project_health.apply_board
+		WHERE apost_number = #{apost_number}
+	</select>
+	
+<!-- 특정 게시물 삭제 요청 -->
+	<update id="updateAdeleteFlag" parameterType="long">
+		UPDATE project_health.apply_board
+		SET adelete_flag = 1
+		WHERE apost_number = #{apost_number}
+	</update>
+	
+<!-- 특정 게시물 삭제 - 실제 삭제 -->
+	<delete id="deleteApplyBoard" parameterType="long">
+		DELETE FROM project_health.apply_board
+		WHERE apost_number = #{apost_number}
+	</delete>
+
+<!-- 게시물 삭제(관리자) -->
+
+<!-- 특정 게시물 수정 -->
+	<update id="updateApplyBoard" parameterType="com.soldesk.healthproject.domain.ApplyBoardVO">
+		UPDATE project_health.apply_board
+		SET atitle = #{atitle},
+			acontent = #{acontent}
+		WHERE apost_number = #{apost_number}
+	</update>
+
+<!-- 특정 게시물 조회수 증가 -->
+	<update id = "updateAviewCount">
+		UPDATE project_health.apply_board
+		SET aview_count = aview_count + 1
+		WHERE apost_number = #{apost_number}
+	</update>
+	
+
+	
+
+</mapper>

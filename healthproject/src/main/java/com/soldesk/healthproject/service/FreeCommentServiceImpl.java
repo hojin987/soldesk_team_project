@@ -27,12 +27,22 @@ public class FreeCommentServiceImpl implements FreeCommentService {
 	
 	//특정 게시물에 대한 댓글 목록 조회
 	@Override
-	public FreeCommentPagingCreatorDTO getFreeCommentList(FreeCommentPagingDTO freeCommentPaging) {
-				
-		List<FreeCommentVO> freeCommentList = freeCommentMapper.selectFreeCommentList(freeCommentPaging);
+	public FreeCommentPagingCreatorDTO getFreeCommentList(FreeCommentPagingDTO fcommentPaging) {
+			
+		long fcommentTotalCount = freeCommentMapper.selectFreeRowTotal(fcommentPaging.getFpost_number()) ;
+		
+		int freePageNum = fcommentPaging.getFreePageNum() ;
+		
+		if (freePageNum == -10) {
+			
+			freePageNum = (int) Math.ceil((double)fcommentTotalCount/fcommentPaging.getRowAmountPerFreePage()) ;
+			fcommentPaging.setFreePageNum(freePageNum) ;
+		}
+		
+		List<FreeCommentVO> fcommentList = freeCommentMapper.selectFreeCommentList(fcommentPaging);
 		
 		FreeCommentPagingCreatorDTO freeCommentPagingCreatorDTO
-				= new FreeCommentPagingCreatorDTO(freeCommentList, freeCommentPaging);
+				= new FreeCommentPagingCreatorDTO(fcommentList, fcommentTotalCount, fcommentPaging);
 		
 		return freeCommentPagingCreatorDTO;			
 	}

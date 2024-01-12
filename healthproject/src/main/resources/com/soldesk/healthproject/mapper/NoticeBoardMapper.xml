@@ -4,13 +4,74 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
   <mapper namespace="com.soldesk.healthproject.mapper.NoticeBoardMapper">
   
-<!-- 게시물 조회 - 목록 -->
+<!-- 게시물 조회 - 목록 --><!-- 
 	<select id="selectNoticeBoardList" resultType="com.soldesk.healthproject.domain.NoticeBoardVO">
 		SELECT npost_number, ntitle, ncontent, nwriter, nregister_date, nview_count, nreply_count, ndelete_flag
 		FROM project_health.notice_board
 		WHERE npost_number > 0
 		ORDER BY npost_number DESC
-	</select>
+	</select> -->
+	
+	<!-- 게시물 목록조회(READ): 페이징 고려, 기간검색 포함 -->  
+	<select id="selectNoticeBoardList" resultType="com.soldesk.healthproject.domain.NoticeBoardVO"
+	        parameterType="com.soldesk.healthproject.common.paging.domain.NoticeBoardPagingDTO">
+		<![CDATA[
+			SELECT npost_number, ntitle, ncontent, nwriter, nregister_date, nview_count, nreply_count, ndelete_flag
+			FROM ( SELECT /*+ INDEX_DESC (a pk_notice_board) */ROWNUM rn, a.*
+			       FROM project_health.notice_board a
+			       WHERE 
+		]]>
+
+		<choose>
+			<when test="(beginDate != null and beginDate != '') and (endDate != null and endDate != '')">
+			 	nregister_date BETWEEN TO_DATE(#{beginDate}, 'YYYY-MM-DD')
+			 				 AND TO_DATE(#{endDate}, 'YYYY-MM-DD') AND
+			</when>
+		</choose>
+		<trim prefix="(" suffix=") AND" prefixOverrides="OR" >
+			<foreach item='scope' collection="myScopeArr">
+				<trim prefix="OR">
+					<choose>
+						<when test="scope == 'T'.toString()">ntitle LIKE '%'||#{keyword}||'%'</when>
+						<when test="scope == 'C'.toString()">ncontent LIKE '%'||#{keyword}||'%'</when>
+						<when test="scope == 'W'.toString()">nwriter LIKE '%'||#{keyword}||'%'</when>
+					</choose>
+				</trim> 
+			</foreach>
+		</trim>	 
+
+		<![CDATA[	       
+			       ROWNUM <= (#{pageNum} * #{rowAmountPerPage})
+			       )
+			 WHERE rn >= ((#{pageNum} * #{rowAmountPerPage}) - (#{rowAmountPerPage} - 1)) 
+		]]>
+	</select> 
+
+	
+<!-- 게시물 총 개수 조회(페이징): -->	
+	<select id="selectRowTotal" resultType="long"
+	        parameterType="com.soldesk.healthproject.common.paging.domain.NoticeBoardPagingDTO" >
+		SELECT COUNT(*) rowTotal FROM project_health.notice_board
+		<where>
+			<trim prefix="(" suffix=")" prefixOverrides="OR">
+				<foreach item='scope' collection="myScopeArr">
+					<trim prefix="OR">
+						<choose>
+							<when test="scope == 'T'.toString()">ntitle LIKE '%'||#{keyword}||'%'</when>
+							<when test="scope == 'C'.toString()">ncontent LIKE '%'||#{keyword}||'%'</when>
+							<when test="scope == 'W'.toString()">nwriter LIKE '%'||#{keyword}||'%'</when>
+						</choose>
+					</trim> 
+				</foreach>
+			</trim>
+			<choose>
+				<when test="(beginDate != null and beginDate != '') and (endDate != null and endDate != '')">
+					AND nregister_date BETWEEN TO_DATE(#{beginDate}, 'YYYY-MM-DD')
+				 		 		     AND TO_DATE(#{endDate}, 'YYYY-MM-DD')
+				</when>
+			</choose>	 
+		</where>
+	</select> 
 	
 <!-- 게시물 등록 -->
 	<insert id="insertNoticeBoard" parameterType="com.soldesk.healthproject.domain.NoticeBoardVO">
@@ -31,7 +92,7 @@
 <!-- 특정 게시물 삭제 요청 -->
 	<update id="updateNdeleteFlag" parameterType="long">
 		UPDATE project_health.notice_board
-		SET ndelete_flag = 'Y'
+		SET ndelete_flag = 1
 		WHERE npost_number = #{npost_number}
 	</update>
 	
@@ -55,7 +116,7 @@
 	<update id = "updateNviewCount">
 		UPDATE project_health.notice_board
 		SET nview_count = nview_count + 1
-		WEHRE npost_number = #{npost_number}
+		WHERE npost_number = #{npost_number}
 	</update>
 	
 

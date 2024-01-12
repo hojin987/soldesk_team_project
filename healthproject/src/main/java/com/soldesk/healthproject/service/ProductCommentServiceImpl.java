@@ -6,6 +6,8 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.soldesk.healthproject.common.paging.domain.ProductCommentPagingCreatorDTO;
+import com.soldesk.healthproject.common.paging.domain.ProductCommentPagingDTO;
 import com.soldesk.healthproject.domain.ProductCommentVO;
 import com.soldesk.healthproject.mapper.ProductCommentMapper;
 
@@ -24,11 +26,26 @@ public class ProductCommentServiceImpl implements ProductCommentService {
 	
 	
 	//특정 게시물에 대한 댓글 목록 조회
-	@Override
-	public List<ProductCommentVO> getProductCommentList() {
-		
-		return productCommentMapper.selectProductCommentList() ;			
-	}
+		@Override
+		public ProductCommentPagingCreatorDTO getProductCommentList(ProductCommentPagingDTO pcommentPaging) {
+				
+			long pcommentTotalCount = productCommentMapper.selectProductRowTotal(pcommentPaging.getProduct_number()) ;
+			
+			int productPageNum = pcommentPaging.getProductPageNum() ;
+			
+			if (productPageNum == -10) {
+				
+				productPageNum = (int) Math.ceil((double)pcommentTotalCount/pcommentPaging.getRowAmountPerProductPage()) ;
+				pcommentPaging.setProductPageNum(productPageNum) ;
+			}
+			
+			List<ProductCommentVO> pcommentList = productCommentMapper.selectProductCommentList(pcommentPaging);
+			
+			ProductCommentPagingCreatorDTO productCommentPagingCreatorDTO
+					= new ProductCommentPagingCreatorDTO(pcommentList, pcommentTotalCount, pcommentPaging);
+			
+			return productCommentPagingCreatorDTO;			
+		}
 	
 	//특정 게시물에 대한 댓글 등록(preply_number: null)
 	@Transactional

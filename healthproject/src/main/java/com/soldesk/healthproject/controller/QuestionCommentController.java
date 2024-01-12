@@ -3,7 +3,6 @@ package com.soldesk.healthproject.controller;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.ui.Model;
 //import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,6 +13,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.soldesk.healthproject.common.paging.domain.QuestionCommentPagingCreatorDTO;
+import com.soldesk.healthproject.common.paging.domain.QuestionCommentPagingDTO;
 import com.soldesk.healthproject.domain.QuestionCommentVO;
 import com.soldesk.healthproject.service.QuestionCommentService;
 
@@ -28,9 +29,25 @@ public class QuestionCommentController {
 	}
 	
 	//게시물에 대한 댓글 목록 조회	
-	@GetMapping("/list") 
-	public void showQuestionCommentList(Model model){
-		model.addAttribute("questionCommentList", questionCommentService.getQuestionCommentList());
+//	@GetMapping("/list") 
+//	public void showQuestionCommentList(Model model){
+//		model.addAttribute("questionCommentList", questionCommentService.getQuestionCommentList());
+//	}
+	
+	//게시물에 대한 댓글 목록 조회(페이징 고려)
+	@GetMapping(value= "/{qpost_number}/page/{questionPageNum}",
+				produces = {"application/json;charset=utf-8", "application/xml;charset=utf-8"})
+	
+	public ResponseEntity<QuestionCommentPagingCreatorDTO> showQuestionCommentList(@PathVariable("qpost_number") Long qpost_number,
+																		   @PathVariable("questionPageNum") Integer questionPageNum) {
+	
+		QuestionCommentPagingCreatorDTO questionCommentPagingCreator =
+				questionCommentService.getQuestionCommentList(new QuestionCommentPagingDTO(qpost_number, questionPageNum));
+		
+		ResponseEntity<QuestionCommentPagingCreatorDTO> questionResponseEntity =
+				new ResponseEntity<QuestionCommentPagingCreatorDTO>(questionCommentPagingCreator, HttpStatus.OK);
+		
+		return questionResponseEntity;
 	}
 	
 	
@@ -97,7 +114,7 @@ public class QuestionCommentController {
 					method = {RequestMethod.PUT, RequestMethod.PATCH} ,
 					consumes = "application/json;charset=utf-8" ,
 					produces = "text/plain;charset=utf-8") 
-//	@PreAuthorize()
+	@PreAuthorize("isAuthenticated() && principal.username == #questionComment.qcomment_writer")
 	public String modifyQuestionComment(@PathVariable("qpost_number") Long qpost_number ,
 							  @PathVariable("qcomment_number") Long qcomment_number ,
 							  @RequestBody QuestionCommentVO qcomment){
@@ -115,7 +132,7 @@ public class QuestionCommentController {
 	@DeleteMapping(value = "/{qpost_number}/{qcomment_number}" ,
 				   consumes = "application/json; charset=utf-8",
 				   produces = "text/plain;charset=utf-8")
-//	@PreAuthorize()
+	@PreAuthorize("isAuthenticated() && principal.username == #questionComment.qcomment_writer")
 	public ResponseEntity<String> removeQuestionComment(@PathVariable("qpost_number") Long qpost_number, 
 											  		@PathVariable("qcommnet_number") Long qcomment_number,
 											  		@RequestBody QuestionCommentVO qcomment) {

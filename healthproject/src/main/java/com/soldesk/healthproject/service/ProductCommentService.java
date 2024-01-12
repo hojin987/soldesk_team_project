@@ -1,13 +1,16 @@
 package com.soldesk.healthproject.service;
 
-import java.util.List;
-
+import com.soldesk.healthproject.common.paging.domain.ProductCommentPagingCreatorDTO;
+import com.soldesk.healthproject.common.paging.domain.ProductCommentPagingDTO;
 import com.soldesk.healthproject.domain.ProductCommentVO;
 
 public interface ProductCommentService {
 	
 	//특정 게시물에 대한 댓글 목록 조회
-	public List<ProductCommentVO> getProductCommentList() ;
+//	public List<ProductCommentVO> getProductCommentList() ;
+	
+	//특정 게시물에 대한 댓글 목록 조회(페이징 고려)
+	public ProductCommentPagingCreatorDTO getProductCommentList(ProductCommentPagingDTO pcommentPaging);
 	
 	//특정 게시물에 대한 댓글 등록(preply_number: null)
 	public Long registerProductCommentForProductBoard(ProductCommentVO pcomment) ;

@@ -1,14 +1,18 @@
 package com.soldesk.healthproject.service;
 
-import java.util.List;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.soldesk.healthproject.common.paging.domain.NoticeBoardPagingCreatorDTO;
+import com.soldesk.healthproject.common.paging.domain.NoticeBoardPagingDTO;
 import com.soldesk.healthproject.domain.NoticeBoardVO;
 import com.soldesk.healthproject.mapper.NoticeBoardMapper;
 
-import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j;
 
 @Log4j
@@ -28,10 +32,43 @@ public class NoticeBoardServiceImpl implements NoticeBoardService {
 	
 	
 	//게시물 목록 조회
+
 	@Override
-	public List<NoticeBoardVO> getNoticeBoardList() {
-		log.info("NoticeBoardService.getNoticeBoardList() 실행");
-		return noticeBoardMapper.selectNoticeBoardList();
+	public NoticeBoardPagingCreatorDTO getBoardList(NoticeBoardPagingDTO noticeboardPaging) {
+					
+		String beginDate = noticeboardPaging.getBeginDate() ;
+		String endDate = noticeboardPaging.getEndDate() ;
+		
+		Date _endDate = null ;
+		Calendar myCal = null ;
+		
+		if((beginDate != null && beginDate.length() != 0) 
+				&& (endDate != null && endDate.length() != 0)) {
+			if(beginDate.equals(endDate)) {
+				
+				SimpleDateFormat myDateFmt = new SimpleDateFormat("yyyy-MM-dd");
+				try {
+					_endDate = myDateFmt.parse(endDate);//Parses text from the beginning of the given string to produce a date
+					myCal = Calendar.getInstance() ;
+					myCal.setTime(_endDate); 			//Sets this Calendar's time with the given Date
+					
+					myCal.add(Calendar.DAY_OF_MONTH, 1);
+					
+					endDate = myDateFmt.format(myCal.getTime()) ; //문자열로 변환
+					System.out.println("변환 후 endDate: " + endDate);
+					
+				} catch (ParseException e) {
+					e.printStackTrace();
+				}
+				
+				noticeboardPaging.setEndDate(endDate);
+			}
+			
+		}
+		
+		return new NoticeBoardPagingCreatorDTO(noticeBoardMapper.selectRowTotal(noticeboardPaging), 
+										   noticeboardPaging, 
+										   noticeBoardMapper.selectNoticeBoardList(noticeboardPaging)) ;
 	}
 	
 	//게시물 등록

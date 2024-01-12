@@ -4,14 +4,18 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
 
+import com.soldesk.healthproject.common.paging.domain.QuestionCommentPagingDTO;
 import com.soldesk.healthproject.domain.QuestionCommentVO;
 
 
 public interface QuestionCommentMapper {
 
-	//특정 게시물에 대한 댓글 목록 조회: (페이징 고려 아직 안함)
-	public List<QuestionCommentVO> selectQuestionCommentList() ;
+	//특정 게시물에 대한 댓글 목록 조회: (페이징 고려)
+	public List<QuestionCommentVO> selectQuestionCommentList(QuestionCommentPagingDTO questionCommentPagingDTO) ;
 		
+	//특정 게시물에 대한 댓글 총 개수
+	public long selectQuestionRowTotal(long qpost_number) ;
+	
 	//특정 게시물에 대한 댓글 등록(qreply_number: null)
 	public long insertQuestionCommentForQuestionBoard(QuestionCommentVO qcomment) ;
 

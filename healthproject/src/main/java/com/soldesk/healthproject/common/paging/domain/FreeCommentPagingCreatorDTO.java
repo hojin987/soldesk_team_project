@@ -10,14 +10,17 @@ import lombok.ToString;
 @ToString
 public class FreeCommentPagingCreatorDTO {
 	
-	private List<FreeCommentVO> freeCommentList ;
-	private FreeCommentPagingDTO freeCommentPaging ;
+	private List<FreeCommentVO> fcommentList ;
+	private long fcommentTotalCount ;
+	private FreeCommentPagingDTO fcommentPaging ;
 	
-	public FreeCommentPagingCreatorDTO(List<FreeCommentVO> freeCommentList, 
-								   FreeCommentPagingDTO freeCommentPaging) {
+	public FreeCommentPagingCreatorDTO(List<FreeCommentVO> fcommentList,
+									   long fcommentTotalCount,
+								   FreeCommentPagingDTO fcommentPaging) {
 		
-		this.freeCommentList = freeCommentList ;
-		this.freeCommentPaging = freeCommentPaging ;
+		this.fcommentList = fcommentList ;
+		this.fcommentTotalCount = fcommentTotalCount ;
+		this.fcommentPaging = fcommentPaging ;
 	}
 
 }

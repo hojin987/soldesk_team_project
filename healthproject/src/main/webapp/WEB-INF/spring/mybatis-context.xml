@@ -39,6 +39,7 @@
 				<value>classpath:com/soldesk/healthproject/mapper/QuestionCommentMapper.xml</value>
 				<value>classpath:com/soldesk/healthproject/mapper/ProductCommentMapper.xml</value>
 				<value>classpath:com/soldesk/healthproject/mapper/TicketMapper.xml</value>
+				<value>classpath:com/soldesk/healthproject/mapper/ProductMapper.xml</value>
 			</list>
 		</property>		
 	</bean>

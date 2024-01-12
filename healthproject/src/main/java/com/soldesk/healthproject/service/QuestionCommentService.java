@@ -1,13 +1,16 @@
 package com.soldesk.healthproject.service;
 
-import java.util.List;
-
+import com.soldesk.healthproject.common.paging.domain.QuestionCommentPagingCreatorDTO;
+import com.soldesk.healthproject.common.paging.domain.QuestionCommentPagingDTO;
 import com.soldesk.healthproject.domain.QuestionCommentVO;
 
 public interface QuestionCommentService {
 	
 	//특정 게시물에 대한 댓글 목록 조회
-	public List<QuestionCommentVO> getQuestionCommentList() ;
+//	public List<QuestionCommentVO> getQuestionCommentList() ;
+	
+	//특정 게시물에 대한 댓글 목록 조회(페이징 고려)
+	public QuestionCommentPagingCreatorDTO getQuestionCommentList(QuestionCommentPagingDTO qcommentPaging);
 	
 	//특정 게시물에 대한 댓글 등록(qreply_number: null)
 	public Long registerQuestionCommentForQuestionBoard(QuestionCommentVO qcomment) ;

@@ -6,6 +6,8 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.soldesk.healthproject.common.paging.domain.NoticeCommentPagingCreatorDTO;
+import com.soldesk.healthproject.common.paging.domain.NoticeCommentPagingDTO;
 import com.soldesk.healthproject.domain.NoticeCommentVO;
 import com.soldesk.healthproject.mapper.NoticeCommentMapper;
 
@@ -25,9 +27,24 @@ public class NoticeCommentServiceImpl implements NoticeCommentService {
 	
 	//특정 게시물에 대한 댓글 목록 조회
 	@Override
-	public List<NoticeCommentVO> getNoticeCommentList() {
+	public NoticeCommentPagingCreatorDTO getNoticeCommentList(NoticeCommentPagingDTO ncommentPaging) {
 		
-		return noticeCommentMapper.selectNoticeCommentList() ;			
+		long ncommentTotalCount = noticeCommentMapper.selectNoticeRowTotal(ncommentPaging.getNpost_number()) ;
+		
+		int noticePageNum = ncommentPaging.getNoticePageNum() ;
+		
+		if (noticePageNum == -10) {
+			
+			noticePageNum = (int) Math.ceil((double)ncommentTotalCount/ncommentPaging.getRowAmountPerNoticePage()) ;
+			ncommentPaging.setNoticePageNum(noticePageNum) ;
+		}
+		
+		List<NoticeCommentVO> ncommentList = noticeCommentMapper.selectNoticeCommentList(ncommentPaging);
+		
+		NoticeCommentPagingCreatorDTO noticeCommentPagingCreatorDTO
+				= new NoticeCommentPagingCreatorDTO(ncommentList, ncommentTotalCount, ncommentPaging);
+		
+		return noticeCommentPagingCreatorDTO;		
 	}
 	
 	//특정 게시물에 대한 댓글 등록(nreply_number: null)
@@ -64,7 +81,7 @@ public class NoticeCommentServiceImpl implements NoticeCommentService {
 		
 	}
 	
-	//특정 게시물에 대한 특정 댓글/답글 삭제(rdelFlag를 1로 업데이트)
+	//특정 게시물에 대한 특정 댓글/답글 삭제(ncomment_delete_flag를 1로 업데이트)
 	@Override
 	@Transactional
 	public boolean modifyNcommentDeleteFlag(long npost_number, long ncomment_number) {

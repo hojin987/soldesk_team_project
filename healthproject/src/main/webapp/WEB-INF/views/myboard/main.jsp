@@ -46,30 +46,20 @@
                                 <table class="table table-striped table-bordered table-hover">
                                     <thead>
                                         <tr>
-                                            <th>#</th>
+                                            <th> </th>
                                             <th>제목</th>
                                             <th>작성자</th>
-                                            <th>작성날짜</th>
+                                            <th>작성일</th>
+                                            <th>조회수</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <tr>
-                                            <td>1</td>
-                                            <td>1번게시글제목</td>
-                                            <td>서호진</td>
-                                            <td>2023/12/30</td>
-                                        </tr>
-                                        <tr>
-                                            <td>2</td>
-                                            <td>2번게시글제목</td>
-                                            <td>김영석</td>
-                                            <td>2023/12/31</td>
-                                        </tr>
-                                        <tr>
-                                            <td>3</td>
-                                            <td>3번게시글제목</td>
-                                            <td>문영훈</td>
-                                            <td>2024/01/01</td>
+                                            <td>공지</td>
+                                            <td>${noticeBoard.ntitle }</td>
+                                            <td>${noticeBoard.nwriter }</td>
+                                            <td>${noticeBoard.nregister_date }</td>
+                                        	<td>${noticeBoard.nview_count }</td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -96,27 +86,17 @@
                                             <th>#</th>
                                             <th>제목</th>
                                             <th>작성자</th>
-                                            <th>작성날짜</th>
+                                            <th>작성일</th>
+                                            <th>조회수</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <tr>
-                                            <td>1</td>
-                                            <td>1번게시글제목</td>
-                                            <td>서호진</td>
-                                            <td>2023/12/30</td>
-                                        </tr>
-                                        <tr>
-                                            <td>2</td>
-                                            <td>2번게시글제목</td>
-                                            <td>김영석</td>
-                                            <td>2023/12/31</td>
-                                        </tr>
-                                        <tr>
-                                            <td>3</td>
-                                            <td>3번게시글제목</td>
-                                            <td>문영훈</td>
-                                            <td>2024/01/01</td>
+                                            <td>${freeBoard.fpost_number }</td>
+                                            <td>${freeBoard.ftitle }</td>
+                                            <td>${freeBoard.fwriter }</td>
+                                            <td>${freeBoard.fregister_date }</td>
+                                            <td>${freeBoard.fview_count }</td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -172,41 +152,14 @@
                                 <table class="table table-striped">
                                     <thead>
                                         <tr>
-                                            <th>#</th>
-                                            <th>정기권이름</th>
+                                            <th>정기권</th>
                                             <th>가격</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <tr>
-                                            <td>1</td>
-                                            <td>회원권 3개월</td>
-                                            <td>90,000원</td>
-                                        </tr>
-                                        <tr>
-                                            <td>2</td>
-                                            <td>회원권 6개월</td>
-                                            <td>170,000원</td>
-                                        </tr>
-                                        <tr>
-                                            <td>3</td>
-                                            <td>회원권 12개월</td>
-                                            <td>320,000원</td>
-                                        </tr>
-                                        <tr>
-                                            <td>4</td>
-                                            <td>pt 10회권</td>
-                                            <td>150,000원</td>
-                                        </tr>
-                                        <tr>
-                                            <td>5</td>
-                                            <td>pt 20회권</td>
-                                            <td>280,000원</td>
-                                        </tr>
-                                        <tr>
-                                            <td>6</td>
-                                            <td>pt 30회권</td>
-                                            <td>420,000원</td>
+                                            <td>${ticket.ticket_content}</td>
+                                            <td>${ticket.ticket_price }</td>
                                         </tr>
                                     </tbody>
                                 </table>

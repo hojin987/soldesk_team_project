@@ -12,27 +12,33 @@
 	</select>  -->
 
  <!-- 특정 게시물에 대한 댓글 목록 조회: 페이징 고려 -->
-<select id="selectFreeCommentList" 
+	<select id="selectFreeCommentList" 
 			resultType="com.soldesk.healthproject.domain.FreeCommentVO"
 			parameterType="com.soldesk.healthproject.common.paging.domain.FreeCommentPagingDTO">
 	<![CDATA[
-		SELECT lvl, fcomment_number, fpost_number, fcomment, fcomment_writer, fcomment_register_date, freply_nunmber, fcomment_delete_flag
-		FROM ( 	SELECT /*+ INDEX(a IDX_fpost_number_fcomment_number_fcomment)  */ ROWNUM rn, LEVEL lvl, a.*
-				FROM project_health.free_comment 
+		SELECT fcomment_number, fpost_number, fcomment, fcomment_writer, fcomment_register_date, freply_number, fcomment_delete_flag, lvl
+		FROM ( 	SELECT /*+ INDEX(a IDX_FREECOMMENT_FPOST_NUMBER_FCOMMENT_NUMBER)  */ ROWNUM rn, LEVEL lvl, a.*
+				FROM project_health.free_comment a 
 				WHERE fpost_number = #{fpost_number}
-				AND ROWNUM <= (#{fpageNum} * #{rowAmountPerFreePage})
+				AND ROWNUM <= (#{freePageNum} * #{rowAmountPerFreePage})
 				START WITH freply_number IS NULL
 				CONNECT BY PRIOR fcomment_number = freply_number
 			  )
-		WHERE rn >= ((#{pageNum} * #{rowAmountPerFreePage}) - (#{rowAmountPerFreePage} - 1))  
+		WHERE rn >= ((#{freePageNum} * #{rowAmountPerFreePage}) - (#{rowAmountPerFreePage} - 1))  
 
 	]]>	
 	</select>
 	
+<!-- 특정 게시물에 대한 댓글 총 개수 -->
+	<select id="selectFreeRowTotal" resultType="Long" parameterType="long">
+		SELECT COUNT(*) FROM project_health.free_comment
+		WHERE fpost_number = #{fpost_number}
+	</select>	
+	
 <!-- 특정 게시물에 대한 댓글 등록 -->
 	<insert id="insertFreeCommentForFreeBoard" parameterType="com.soldesk.healthproject.domain.FreeCommentVO">
 		<selectKey keyProperty="fcomment_number" order="BEFORE" resultType="long">
-			SELECT project_health.free_comment.NEXTVAL FROM dual 
+			SELECT project_health.seq_free_comment.NEXTVAL FROM dual 
 		</selectKey>
 	
 	INSERT INTO project_health.free_comment
@@ -43,7 +49,7 @@
 <!-- 댓글에 대한 답글 등록(freply_number: 부모글의 fcomment_number 값) -->
 	<insert id="insertFreeCommentForFreeComment" parameterType="com.soldesk.healthproject.domain.FreeCommentVO">
 		<selectKey keyProperty="fcomment_number" order="BEFORE" resultType="long">
-			SELECT project_health.free_comment.NEXTVAL FROM dual 
+			SELECT project_health.seq_free_comment.NEXTVAL FROM dual 
 		</selectKey>
 	
 	INSERT INTO project_health.free_comment
@@ -60,14 +66,14 @@
 <!-- 특정 게시물에 대한 특정 댓글/답글 수정 -->
 	<update id="updateFreeComment" parameterType="com.soldesk.healthproject.domain.FreeCommentVO">
 		UPDATE project_health.free_comment
-		SET fcomment = #{fcomment} ,
+		SET fcomment = #{fcomment} 
 		WHERE fpost_number = #{fpost_number} AND fcomment_number = #{fcomment_number}
 	</update>
 
 <!-- 특정 게시물에 대한 특정 댓글/답글 삭제요청 -->
 	<update id="updateFcommentDeleteFlag">
 		UPDATE project_health.free_comment
-		SET fcommentDeleteFlag = 1,
+		SET fcommentDeleteFlag = 1
 		WHERE fpost_number = #{fpost_number} AND fcomment_number = #{fcomment_number}
 	</update>
 

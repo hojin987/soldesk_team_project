@@ -10,7 +10,7 @@ public interface FreeCommentService {
 //	public List<FreeCommentVO> getFreeCommentList() ;
 	
 	//특정 게시물에 대한 댓글 목록 조회(페이징 고려)
-	public FreeCommentPagingCreatorDTO getFreeCommentList(FreeCommentPagingDTO freeCommentPaging);
+	public FreeCommentPagingCreatorDTO getFreeCommentList(FreeCommentPagingDTO fcommentPaging);
 	
 	//특정 게시물에 대한 댓글 등록(prno: null)
 	public Long registerFreeCommentForFreeBoard(FreeCommentVO fcomment) ;
