@@ -24,24 +24,23 @@
                 
                 <div class="panel-body">
 					<div class="form-group">
-						<label>글번호</label>
+						<label>상품 내용</label>
 							<input class="form-control" name="product_content" value='<c:out value="${product.product_content}"/>'
 								   readonly="readonly" />
 					</div>
 					<div class="form-group">
-						<label>글제목</label>
-							<input class="form-control" name="ntitle" value='<c:out value="${noticeBoard.ntitle}"/>'
+						<label>상품 유통기한</label>
+							<input class="form-control" name="product_period" value='<c:out value="${product.product_period}"/>'
 								   readonly="readonly"/>
 					</div>
 					<div class="form-group">
-						<label>글내용</label>
-						<%-- <textarea>와 </textarea>는 사이에 공백이 없어야 데이터베이스 저장 시에 필요 없는 공백이 포함되지 않음 --%>
-						<textarea class="form-control" rows="3" name="ncontent"
-								  readonly="readonly"><c:out value="${noticeBoard.ncontent}"/></textarea>
+						<label>상품 가격</label>
+							<input class="form-control" name="product_price" value='<c:out value="${product.product_price}"/>'
+								   readonly="readonly"/>
 					</div>
 					<div class="form-group">
-						<label>작성자</label>
-							<input class="form-control" name="nwriter" value='<c:out value="${noticeBoard.nwriter}"/>'
+						<label>상품 재고</label>
+							<input class="form-control" name="product_stock" value='<c:out value="${product.product_stock}"/>'
 								   readonly="readonly"/>
 					</div>
 						
@@ -75,13 +74,13 @@
 </div><%-- /.modal --%>
 
 <script>
-//게시물 수정 페이지로 이동
+//상품정보 수정-삭제 페이지로 이동
 $("#BtnMoveModify").on("click", function(){
- location.href='${contextPath}/noticeBoard/modify?npost_number=<c:out value="${noticeBoard.npost_number}"/>';
+ location.href='${contextPath}/product/modify?product_number=<c:out value="${product.product_number}"/>';
 })
-//게시물 목록 페이지로 이동
+//상품 목록 페이지로 이동
 $("#BtnMoveList").on("click", function(){
- location.href="${contextPath}/noticeBoard/list";
+ location.href="${contextPath}/product/list";
 })
 </script>
 

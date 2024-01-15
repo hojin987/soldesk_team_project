@@ -45,7 +45,7 @@
         $.ajax({
             type: "post" ,
             url: "/healthproject/noticeComment/" + npost_number + "/new" ,
-            data: {comment:JSON.stringify(comment) , _csrf: $("input[name='_csrf']").val()}
+            data: JSON.stringify(comment),
             contentType: "application/json; charset=utf-8" ,
             success: function(result, status) {
                 if(callback) {

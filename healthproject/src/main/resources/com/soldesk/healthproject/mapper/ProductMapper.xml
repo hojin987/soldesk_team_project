@@ -25,7 +25,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 				#{product_content},
 				#{product_period},
 				#{product_price},
-				#{product_stock}
+				#{product_stock},
+				default)
 				<!--  #{product_delete_flag}) -->
 	</insert>
 	

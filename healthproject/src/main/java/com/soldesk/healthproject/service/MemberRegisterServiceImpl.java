@@ -24,8 +24,8 @@ public class MemberRegisterServiceImpl implements MemberRegisterService {
 		System.out.println("MemberRegisterServiceImpl의 기본생성자");
 	}
 	
-	@Setter(onMethod_ = @Autowired)
-	private PasswordEncoder pwencoder;
+//	@Setter(onMethod_ = @Autowired)
+//	private PasswordEncoder pwencoder;
 	
 	//회원정보조회
 	@Override
@@ -38,7 +38,7 @@ public class MemberRegisterServiceImpl implements MemberRegisterService {
 	public String registerMember(MemberVO member) {
 		
 		//비밀번호 암호화
-		member.setMember_pw(pwencoder.encode(member.getMember_pw()));
+//		member.setMember_pw(pwencoder.encode(member.getMember_pw()));
 		
 		//회원 정보 등록
 		memberMapper.insertMember(member);

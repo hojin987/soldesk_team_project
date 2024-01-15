@@ -23,6 +23,10 @@
                             
                         </div>
                         <!-- /.panel-heading -->
+
+						<form id="frmSendValue">
+						</form>
+                        
                         <div class="panel-body">
                         	<h1>광고화면</h1>
                         </div>
@@ -55,13 +59,12 @@
                                     </thead>
                                     <tbody>
                                     <c:forEach var="noticeBoard" items="${noticeBoard.noticeboardList}" begin="0" end="4">
-                                        <tr>
-                                            <td>공지</td>
+                                        <tr class="moveNoticeBoardDetail" data-npost_number="${noticeBoard.npost_number}">
+                                            <td>공지</td>                                          
                                             <td>${noticeBoard.ntitle }</td>
                                             <td>${noticeBoard.nwriter }</td>
                                             <td>${noticeBoard.nregister_date }</td>
                                         	<td>${noticeBoard.nview_count }</td>
-                                        	
                                         </tr>
                                     </c:forEach>
                                     </tbody>
@@ -123,13 +126,27 @@
                             <div class="table-responsive">
                                 <table class="table table-hover">
                                     <tbody>
-                                    	<tr text-align=center; colspan="2";>
-                                            <th>회원이 되어 보세요</th>
-                                        </tr>
-                                        <tr>
-                                            <td><button type="button" style="float:right" onclick="location.href='${contextPath}/myLogin'">로그인</button></td>
-                                            <td><button type="button" style="float:right" onclick="location.href='${contextPath}/user/memberRegister'">회원가입</button></td>
-                                        </tr>
+                                    <sec:authentication property="principal" var="principal"/>
+                                    <c:choose>
+                                    	<c:when test="${principal eq 'anonymousUser'}">
+                                    		<tr>
+	                                            <td colspan="2" style="text-align:center;">회원이 되어 보세요</td>
+	                                        </tr>
+	                                        <tr>
+	                                            <td style="font-size:11px;"><button type="button" style="float:right" onclick="location.href='${contextPath}/myLogin'">로그인</button></td>
+	                                            <td style="font-size:11px;"><button type="button" style="float:right" onclick="location.href='${contextPath}/user/memberRegister'">회원가입</button></td>
+	                                        </tr>
+                                    	</c:when>
+                                    	<c:otherwise>
+                                    		<tr>	
+                                    			<td style="font-size:12px;">${principal.username}님, 반갑습니다.</td>
+                                    		</tr>
+                                    		<tr>	
+                                    			<td>내 정보 확인하기</td>
+                                    		</tr>
+                                    	</c:otherwise>
+                                    </c:choose>
+                                    	
                                     </tbody>
                                 </table>
                             </div>
@@ -180,7 +197,7 @@
                     <div class="panel panel-default">
                         <div class="panel-heading">
                             장비&식품 SHOP
-                            <button type="button" style="float:right" onclick="location.href='${contextPath}/ticket/list'">+</button>
+                            <button type="button" style="float:right" onclick="location.href='${contextPath}/product/list'">+</button>
                         </div>
                         <!-- /.panel-heading -->
                         <div class="panel-body">
@@ -188,42 +205,19 @@
                                 <table class="table">
                                     <thead>
                                         <tr>
-                                            <th>#</th>
                                             <th>상품이름</th>
-                                            <th>가격</th>
+                                            <th>상품가격</th>
+                                            <th>상품재고</th>
                                         </tr>
                                     </thead>
                                     <tbody>
+                                        <c:forEach var="product" items="${product}" begin="0" end="5">
                                         <tr>
-                                            <td>1</td>
-                                            <td>프로틴파우더(초코맛) 1.2kg</td>
-                                            <td>58,000원</td>
+                                            <td>${product.product_content}</td>
+                                            <td>${product.product_price}</td>
+                                            <td>${product.product_stock}</td>
                                         </tr>
-                                        <tr>
-                                            <td>2</td>
-                                            <td>프로틴파우더(바닐라맛) 1.2kg</td>
-                                            <td>58,000원</td>
-                                        </tr>
-                                        <tr>
-                                            <td>3</td>
-                                            <td>훈제 닭가슴살 10개</td>
-                                            <td>22,000원</td>
-                                        </tr>
-                                        <tr>
-                                            <td>4</td>
-                                            <td>헬스 스트랩</td>
-                                            <td>17,000원</td>
-                                        </tr>
-                                        <tr>
-                                            <td>5</td>
-                                            <td>헬스 벨트</td>
-                                            <td>35,000원</td>
-                                        </tr>
-                                        <tr>
-                                            <td>6</td>
-                                            <td>무릎 보호대</td>
-                                            <td>19,000원</td>
-                                        </tr>
+                                    </c:forEach>  
                                     </tbody>
                                 </table>
                             </div>
@@ -262,6 +256,23 @@
             
         </div>
         <!-- /#page-wrapper -->
+
+<script>
+
+var frmSendValue = $("#frmSendValue") ;
+
+$(".moveNoticeBoardDetail").on("click", function(){
+	var npost_number = $(this).data("npost_number") ;
+	alert(npost_number);
+	
+	frmSendValue.append("<input type='hidden' name='npost_number' value='" + npost_number + "'/>")
+	frmSendValue.attr("action", "${contextPath}/noticeBoard/detail").attr("method", "get") ;
+	frmSendValue.submit() ;
+	frmSendValue.find('input[name="npost_number"]').remove() ; 
+	
+})
+
+</script>
 
 
 <%@include file="../myinclude/myfooter.jsp" %>    

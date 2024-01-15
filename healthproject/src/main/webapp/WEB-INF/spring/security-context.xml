@@ -24,7 +24,7 @@
 	<security:http>
 	<security:intercept-url pattern="/" access="permitAll" />
 	<security:intercept-url pattern="/noticeBoard/list" access="permitAll" />
-	<security:intercept-url pattern="/noticeBoard/modify" access="hasRole('ROLE_USER')" />
+	<security:intercept-url pattern="/noticeBoard/modify" access="permitAll" />
 	<security:intercept-url pattern="/noticeBoard/register" access="permitAll" />
 	<security:intercept-url pattern="/noticeBoard/detail" access="permitAll" />
 	

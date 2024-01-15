@@ -8,14 +8,10 @@
 
 <%@include file="../myinclude/myheader.jsp" %>  
 
-<style>
- th {text-align: center;}
-</style>  
-
 <div id="page-wrapper">
     <div class="row">
         <div class="col-lg-12">
-            <h3 class="page-header">product - List</h3>
+            <h3 class="page-header">Product - Register</h3>
         </div><%-- /.col-lg-12 --%>
     </div><%-- /.row --%>
     <div class="row">
@@ -23,41 +19,33 @@
         
             <div class="panel panel-default">
                 <div class="panel-heading">
-					<div class="row">
-						<div class="col-md-6" style="font-size:20px; height: 45px; padding-top:10px;">상품 목록</div>
-						<div class="col-md-6" style="padding-top:8px;">
-							<button type="button" id="btnToRegister" class="btn btn-primary btn-sm pull-right">상품 등록</button>
-						</div>
-					</div>
+                	<h4>상품 등록</h4>
 				</div><%-- /.panel-heading --%>
                 
                 <div class="panel-body">
-
-	<table class="table table-striped table-bordered table-hover" 
-	       style="width:100%;text-align: center;">
-	    <thead>
-	        <tr>
-	            <th>상품번호</th>
-	            <th>상품내용</th>
-	            <th>유통기한</th>
-	            <th>가격</th>
-	        </tr>
-	    </thead>
-	    <tbody>
-			<c:forEach items="${productList}" var="product">
-				<tr class="moveDetail" data-product_number="${product.product_number}">
-					<td><c:out value="${product.product_number}" /></td>
-					<td style="text-align:left;" ><c:out value="${product.product_content}"/></td>
-					<td><c:out value="${product.product_period}" /></td>
-					<td><c:out value="${product.product_price}"/></td>
-				</tr>
-			</c:forEach>              
-
-                    </tbody>
-                </table><%-- /.table-responsive --%>
-                
-<form id="frmSendValue">
-</form>
+					<form role="form" action="${contextPath}/product/register" method="post" name="frmBoard">
+						<div class="form-group">
+							<label>상품 코드</label> <input class="form-control" name="product_number">
+						</div>
+						<div class="form-group">
+							<label>상품 내용</label> <input class="form-control" name="product_content">
+						</div>
+						<div class="form-group">
+							<label>상품 유통기한</label> <input class="form-control" name="product_period">
+						</div>
+						<div class="form-group">
+							<label>상품 가격</label> <input class="form-control" name="product_price">
+						</div>
+						<div class="form-group">
+							<label>상품 재고</label> <input class="form-control" name="product_stock">
+						</div>
+						<sec:csrfInput/>
+						
+							<button type="submit" class="btn btn-primary">등록</button>
+							<button type="button" class="btn btn-warning" data-oper="list"
+									onclick="location.href='${contextPath}/product/list'">취소
+							</button>
+					</form>
 
           </div><%-- /.panel-body --%>
             
@@ -86,7 +74,7 @@
 </div><%-- /.modal --%>
 
 
-
+<%-- 
 <script>
 
 var frmSendValue = $("#frmSendValue") ;
@@ -95,17 +83,25 @@ var result = '<c:out value="${result}" />' ;
 
 //등록페이지 이동
 $("#btnToRegister").on("click",function(){
-	window.location.href = "${contextPath}/product/register" ; 
+	window.location.href = "${contextPath}/myboard/register" ; //권장
+//	location.href = "${contextPath}/myboard/register" ;
+//	self.location.href = "${contextPath}/myboard/register" ;
+//	self.location = "${contextPath}/myboard/register" ;
+	
 });
 
 //상세페이지 이동
 $(".moveDetail").on("click", function(){
-	var product_number = $(this).data("product_number") ;
+	var bno = $(this).data("bno") ;
 	
-	frmSendValue.append("<input type='hidden' name='product_number' value='" + product_number + "'/>")
-	frmSendValue.attr("action", "${contextPath}/product/detail").attr("method", "get") ;
+//	window.location.href = "${contextPath}/myboard/detail?bno=" + bno ;
+	
+	frmSendValue.append("<input type='hidden' name='bno' value='" + bno + "'/>")
+	frmSendValue.attr("action", "${contextPath}/myboard/detail").attr("method", "get") ;
 	frmSendValue.submit() ;
-	frmSendValue.find('input[name="product_number"]').remove() ;
+	frmSendValue.find('input[name="bno"]').remove() ;  	//웹 브라우저 뒤로가기 후, 다른 게시물 상세 이동 시에
+														//bno값이 계속 url에 추가되는 현상 해결
+	
 });
 
 //모달 호출 함수
@@ -132,27 +128,27 @@ function runModal(result) {
 }
 
 
-//페이지징 처리: 검색 목록 페이지 이동
+페이지징 처리: 검색 목록 페이지 이동
 $("li.pagination-button a").on("click", function(e){
 	e.preventDefault() ;
 	frmSendValue.find("input[name='pageNum']").val($(this).attr("href")) ;
 	console.log(frmSendValue.find("input[name='pageNum']").val());
-	frmSendValue.attr("action", "${contextPath}/noticeBoard/list") ;
+	frmSendValue.attr("action", "${contextPath}/myboard/list") ;
 	frmSendValue.attr("method", "get") ;
 	
 	frmSendValue.submit() ;
 	
 });
 
-//검색 관련 요소의 이벤트 처리
-//표시행수 변경 이벤트 처리
+검색 관련 요소의 이벤트 처리
+표시행수 변경 이벤트 처리
 $("#selectAmount").on("change", function(){
 	frmSendValue.find("input[name='pageNum']").val(1) ;
 	frmSendValue.submit() ;
 } );
 
 
-//키워드 검색버튼 클릭 이벤트 처리
+키워드 검색버튼 클릭 이벤트 처리
 $("#btnSearchGo").on("click", function() {
    
    var scope = $("#selectScope").find("option:selected").val();
@@ -185,7 +181,7 @@ $("#selectScope").on("change", function(){
 });
 
 
-//기간 검색버튼 클릭 이벤트 처리
+기간 검색버튼 클릭 이벤트 처리
 $("#btnIntervalSearch").on("click", function(){
 	
 	var startDate = $("#startDate").val() ;
@@ -217,7 +213,7 @@ $("#btnIntervalSearch").on("click", function(){
 });
 
 
-//검색초기화 버튼 이벤트처리, 버튼 초기화 시, 1페이지에 목록 정보 다시 표시
+검색초기화 버튼 이벤트처리, 버튼 초기화 시, 1페이지에 목록 정보 다시 표시
 $("#btnReset").on("click", function(){
 	$("#selectAmount").val(10) ;
 	$("#selectScope").val("") ;
@@ -247,6 +243,6 @@ $(document).ready(function(){
 
 
 
-</script> 
+</script> --%>
 
 <%@include file="../myinclude/myfooter.jsp" %>    
