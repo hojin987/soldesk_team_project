@@ -9,19 +9,20 @@ import org.springframework.transaction.annotation.Transactional;
 import com.soldesk.healthproject.common.paging.domain.NoticeCommentPagingCreatorDTO;
 import com.soldesk.healthproject.common.paging.domain.NoticeCommentPagingDTO;
 import com.soldesk.healthproject.domain.NoticeCommentVO;
+import com.soldesk.healthproject.mapper.NoticeBoardMapper;
 import com.soldesk.healthproject.mapper.NoticeCommentMapper;
 
 @Service
 public class NoticeCommentServiceImpl implements NoticeCommentService {
 
 	private NoticeCommentMapper noticeCommentMapper ;
-//	private NoticeBoardMapper noticeBoardMapper ;
+	private NoticeBoardMapper noticeBoardMapper ;
 	
-	public NoticeCommentServiceImpl(NoticeCommentMapper noticeCommentMapper
-//								  NoticeBoardMapper noticeBoardMapper) {
-								  ) {
+	public NoticeCommentServiceImpl(NoticeCommentMapper noticeCommentMapper,
+								  NoticeBoardMapper noticeBoardMapper) {
+								  
 		this.noticeCommentMapper = noticeCommentMapper ;
-//		this.noticeBoardMapper = noticeBoardMapper ;
+		this.noticeBoardMapper = noticeBoardMapper;
 	}
 	
 	
@@ -31,12 +32,12 @@ public class NoticeCommentServiceImpl implements NoticeCommentService {
 		
 		long ncommentTotalCount = noticeCommentMapper.selectNoticeRowTotal(ncommentPaging.getNpost_number()) ;
 		
-		int noticePageNum = ncommentPaging.getNoticePageNum() ;
+		int pageNum = ncommentPaging.getPageNum() ;
 		
-		if (noticePageNum == -10) {
+		if (pageNum == -1) {
 			
-			noticePageNum = (int) Math.ceil((double)ncommentTotalCount/ncommentPaging.getRowAmountPerNoticePage()) ;
-			ncommentPaging.setNoticePageNum(noticePageNum) ;
+			pageNum = (int) Math.ceil((double)ncommentTotalCount/ncommentPaging.getRowAmountPerPage()) ;
+			ncommentPaging.setPageNum(pageNum) ;
 		}
 		
 		List<NoticeCommentVO> ncommentList = noticeCommentMapper.selectNoticeCommentList(ncommentPaging);
@@ -53,7 +54,7 @@ public class NoticeCommentServiceImpl implements NoticeCommentService {
 	public Long registerNoticeCommentForNoticeBoard(NoticeCommentVO ncomment) {
 		
 		noticeCommentMapper.insertNoticeCommentForNoticeBoard(ncomment) ;
-//		noticeBoardMapper.updateNreply_count(ncomment.getNpost_number(), 1);
+		noticeBoardMapper.updateNreplyCount(ncomment.getNpost_number(), 1);
 		return ncomment.getNcomment_number() ; 
 	}
 	
@@ -63,7 +64,7 @@ public class NoticeCommentServiceImpl implements NoticeCommentService {
 	@Transactional
 	public Long registerNoticeCommentForNoticeComment(NoticeCommentVO ncomment) {
 		noticeCommentMapper.insertNoticeCommentForNoticeComment(ncomment) ;
-//		noticeBoardMapper.updateNreply_count(ncomment.getNpost_number(), 1);
+		noticeBoardMapper.updateNreplyCount(ncomment.getNpost_number(), 1);
 		
 		return ncomment.getNcomment_number() ; 
 	}
@@ -88,11 +89,10 @@ public class NoticeCommentServiceImpl implements NoticeCommentService {
 		
 		int deleteRowCnt = noticeCommentMapper.updateNcommentDeleteFlag(npost_number, ncomment_number) ;
 		
-//		noticeBoardMapper.updateNreply_count(npost_number, -1);
+		noticeBoardMapper.updateNreplyCount(npost_number, -1);
 		
 		return deleteRowCnt == 1 ;
 		
-//		return noticeCommentMapper.updateNcommentDeleteFlag(npost_number, ncomment_number) == 1;
 	}
 	
 	//특정 게시물에 대한 모든 댓글 삭제: 삭제 행수가 반환됨

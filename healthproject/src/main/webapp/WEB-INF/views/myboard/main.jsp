@@ -34,7 +34,7 @@
             </div>
             <!-- /.row -->
             <div class="row">
-                <div class="col-lg-4">
+                <div class="col-lg-5">
                     <div class="panel panel-default">
                         <div class="panel-heading">
                             공지사항
@@ -54,13 +54,16 @@
                                         </tr>
                                     </thead>
                                     <tbody>
+                                    <c:forEach var="noticeBoard" items="${noticeBoard.noticeboardList}" begin="0" end="4">
                                         <tr>
                                             <td>공지</td>
                                             <td>${noticeBoard.ntitle }</td>
                                             <td>${noticeBoard.nwriter }</td>
                                             <td>${noticeBoard.nregister_date }</td>
                                         	<td>${noticeBoard.nview_count }</td>
+                                        	
                                         </tr>
+                                    </c:forEach>
                                     </tbody>
                                 </table>
                             </div>
@@ -71,7 +74,7 @@
                     <!-- /.panel -->
                 </div>
                 <!-- /.col-lg-6 -->
-                <div class="col-lg-4">
+                <div class="col-lg-5">
                     <div class="panel panel-default">
                         <div class="panel-heading">
                             자유게시판
@@ -91,6 +94,7 @@
                                         </tr>
                                     </thead>
                                     <tbody>
+                                    <c:forEach var="freeBoard" items="${freeBoard.freeboardList}" begin="0" end="4">
                                         <tr>
                                             <td>${freeBoard.fpost_number }</td>
                                             <td>${freeBoard.ftitle }</td>
@@ -98,6 +102,7 @@
                                             <td>${freeBoard.fregister_date }</td>
                                             <td>${freeBoard.fview_count }</td>
                                         </tr>
+                                    </c:forEach>    
                                     </tbody>
                                 </table>
                             </div>
@@ -108,7 +113,7 @@
                     <!-- /.panel -->
                 </div>
                 <!-- /.col-lg- -->
-                <div class="col-lg-4">
+                <div class="col-lg-2">
                     <div class="panel panel-default">
                         <div class="panel-heading">
                             회원정보
@@ -117,12 +122,10 @@
                         <div class="panel-body">
                             <div class="table-responsive">
                                 <table class="table table-hover">
-                                    <thead>
-                                        <tr text-align=center;>
-                                            <th>저희 짐의 회원이 되어 보세요</th>
-                                        </tr>
-                                    </thead>
                                     <tbody>
+                                    	<tr text-align=center; colspan="2";>
+                                            <th>회원이 되어 보세요</th>
+                                        </tr>
                                         <tr>
                                             <td><button type="button" style="float:right" onclick="location.href='${contextPath}/myLogin'">로그인</button></td>
                                             <td><button type="button" style="float:right" onclick="location.href='${contextPath}/user/memberRegister'">회원가입</button></td>
@@ -140,7 +143,7 @@
             </div>
             <!-- /.row -->
             <div class="row">
-                <div class="col-lg-4">
+                <div class="col-lg-5">
                     <div class="panel panel-default">
                         <div class="panel-heading">
                             회원권
@@ -157,10 +160,12 @@
                                         </tr>
                                     </thead>
                                     <tbody>
+                                    <c:forEach var="ticket" items="${ticket}">
                                         <tr>
                                             <td>${ticket.ticket_content}</td>
                                             <td>${ticket.ticket_price }</td>
                                         </tr>
+                                    </c:forEach>    
                                     </tbody>
                                 </table>
                             </div>
@@ -171,7 +176,7 @@
                     <!-- /.panel -->
                 </div>
                 <!-- /.col-lg-4 -->
-                <div class="col-lg-4">
+                <div class="col-lg-5">
                     <div class="panel panel-default">
                         <div class="panel-heading">
                             장비&식품 SHOP
@@ -229,7 +234,7 @@
                     <!-- /.panel -->
                 </div>
                 <!-- /.col-lg-4 -->
-                <div class="col-lg-4">
+                <div class="col-lg-2">
                     <div class="panel panel-default">
                         <div class="panel-heading">
                             오늘의 추천운동

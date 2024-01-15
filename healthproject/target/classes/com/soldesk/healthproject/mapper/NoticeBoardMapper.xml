@@ -118,6 +118,13 @@
 		SET nview_count = nview_count + 1
 		WHERE npost_number = #{npost_number}
 	</update>
+
+<!-- 게시물의 댓글 개수 수정 -->
+	<update id = "updateNreplyCount">
+		UPDATE project_health.notice_board
+		SET nreply_count = nreply_count + #{amount}
+		WHERE npost_number = #{npost_number} AND ndelete_flag = 0
+	</update>
 	
 
 </mapper>

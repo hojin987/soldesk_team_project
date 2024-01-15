@@ -20,11 +20,11 @@
 		FROM ( 	SELECT /*+ INDEX(a IDX_NOTICECOMMENT_NPOST_NUMBER_NCOMMENT_NUMBER)  */ ROWNUM rn, LEVEL lvl, a.*
 				FROM project_health.notice_comment a 
 				WHERE npost_number = #{npost_number}
-				AND ROWNUM <= (#{noticePageNum} * #{rowAmountPerNoticePage})
+				AND ROWNUM <= (#{pageNum} * #{rowAmountPerPage})
 				START WITH nreply_number IS NULL
 				CONNECT BY PRIOR ncomment_number = nreply_number
 			  )
-		WHERE rn >= ((#{noticePageNum} * #{rowAmountPerNoticePage}) - (#{rowAmountPerNoticePage} - 1))  
+		WHERE rn >= ((#{pageNum} * #{rowAmountPerPage}) - (#{rowAmountPerPage} - 1))  
 
 	]]>	
 	</select>
@@ -42,7 +42,7 @@
 		</selectKey>
 	
 	INSERT INTO project_health.notice_comment
-	VALUES (#{ncomment_number},#{npost_number},#{ncomment},#{ncomment_writer},DEFAULT,#{nreply_number},DEFAULT)	
+	VALUES (#{ncomment_number},#{npost_number},#{ncomment},#{ncomment_writer},DEFAULT,NULL,DEFAULT)	
 	
 	</insert>
 
@@ -58,7 +58,7 @@
 	
 <!-- 특정 게시물에 대한 특정 댓글/답글 조회 -->
 	<select id="selectNoticeComment" resultType="com.soldesk.healthproject.domain.NoticeCommentVO">
-		SELECT ncomment_number, npost_number, ncomment,  ncomment_writer, ncomment_register_date, nreply_number, ncomment_delete_flag
+		SELECT ncomment_number, npost_number, ncomment, ncomment_writer, ncomment_register_date, nreply_number, ncomment_delete_flag
 		FROM project_health.notice_comment
 		WHERE npost_number = #{npost_number} AND ncomment_number = #{ncomment_number}	
 	</select>

@@ -30,7 +30,6 @@ public class ApplyBoardServiceImpl implements ApplyBoardService {
 		this.applyBoardMapper = applyBoardMapper;
 	}
 	
-	
 	//게시물 목록 조회
 
 	@Override
