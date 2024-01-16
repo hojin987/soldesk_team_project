@@ -11,7 +11,7 @@
 <div id="page-wrapper">
     <div class="row">
         <div class="col-lg-12">
-            <h3 class="page-header">Board - Register</h3>
+            <h3 class="page-header">Ticket - Register</h3>
         </div><%-- /.col-lg-12 --%>
     </div><%-- /.row --%>
     <div class="row">
@@ -19,26 +19,36 @@
         
             <div class="panel panel-default">
                 <div class="panel-heading">
-                	<h4>게시글 등록</h4>
+                	<h4>회원권 등록</h4>
 				</div><%-- /.panel-heading --%>
                 
                 <div class="panel-body">
-					<form role="form" action="${contextPath}/noticeBoard/register" method="post" name="frmBoard">
+					<form role="form" action="${contextPath}/ticket/register" method="post" name="frmBoard">
 						<div class="form-group">
-							<label>제목</label> <input class="form-control" name="ntitle">
+							<label>회원 번호</label> <input class="form-control" name="ticket_number">
 						</div>
 						<div class="form-group">
-							<label>내용</label> <textarea class="form-control" rows="3" name="ncontent"></textarea>
+							<label>회원권 내용</label> <input class="form-control" name="ticket_content">
 						</div>
 						<div class="form-group">
-							<label>작성자</label> <input class="form-control" name="nwriter">
+							<label>회원권 시작 날짜</label> <input class="form-control" name="ticket_start_date">
 						</div>
+						<div class="form-group">
+							<label>회원권 종료 날짜</label> <input class="form-control" name="ticket_end_date">
+						</div>
+						<div class="form-group">
+							<label>PT 횟수</label> <input class="form-control" name="pt_count">
+						</div>
+						<div class="form-group">
+							<label>회원권 가격</label> <input class="form-control" name="ticket_price">
+						</div>
+						
 							<button type="submit" class="btn btn-primary">등록</button>
 							<button type="button" class="btn btn-warning" data-oper="list"
-									onclick="location.href='${contextPath}/noticeBoard/list'">취소
+									onclick="location.href='${contextPath}/ticket/list'">취소
 							</button>
-						<sec:csrfInput/>
 					</form>
+
           </div><%-- /.panel-body --%>
             
         </div><%-- /.panel --%>

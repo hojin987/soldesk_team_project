@@ -11,7 +11,7 @@
 <div id="page-wrapper">
     <div class="row">
         <div class="col-lg-12">
-            <h3 class="page-header">product - modify</h3>
+            <h3 class="page-header">문의 게시판 - 수정</h3>
         </div><%-- /.col-lg-12 --%>
     </div><%-- /.row --%>
     
@@ -19,30 +19,33 @@
         <div class="col-lg-12">
             <div class="panel panel-default">
                 <div class="panel-heading">
-                	<h4>상품정보 수정-삭제</h4>
+                	<h4>게시글 수정 - 삭제 </h4>
 				</div><%-- /.panel-heading --%>
-                
                 <div class="panel-body">
-                <form role="form" id="frmModify" method="post" name="frmBoard" data-product_number="${product.product_number }" >
+                
+                <form role="form" id="frmModify" method="post" name="frmBoard" >
                 
 					<div class="form-group">
-						<label>상품 내용</label>
-							<input class="form-control" name="product_content" value='<c:out value="${product.product_content}"/>'/>
+						<label>글번호</label>
+							<input class="form-control" name="qpost_number" value='<c:out value="${questionBoard.qpost_number}"/>'
+								   readonly="readonly" />
 					</div>
 					<div class="form-group">
-						<label>상품 유통기한</label>
-							<input class="form-control" name="product_period" value='<c:out value="${product.product_period}"/>'/>
+						<label>글제목</label>
+							<input class="form-control" name="qtitle" value='<c:out value="${questionBoard.qtitle}"/>'/>
 					</div>
 					<div class="form-group">
-						<label>상품 가격</label>
-							<input class="form-control" name="product_price" value='<c:out value="${product.product_price}"/>'/>
+						<label>글내용</label>
+						<%-- <textarea>와 </textarea>는 사이에 공백이 없어야 데이터베이스 저장 시에 필요 없는 공백이 포함되지 않음 --%>
+						<textarea class="form-control" rows="3" name="ncontent"
+								><c:out value="${questionBoard.qcontent}"/></textarea>
 					</div>
 					<div class="form-group">
-						<label>상품 재고</label>
-							<input class="form-control" name="product_stock" value='<c:out value="${product.product_stock}"/>'/>
+						<label>작성자</label>
+							<input class="form-control" name="qwriter" value='<c:out value="${questionBoard.qwriter}"/>'
+								   readonly="readonly"/>
 					</div>
-					<sec:csrfInput/>
-					
+						
 					<button type="button" class="btn btn-default" id="btnModify" data-oper="modify">수정</button>
  					<button type="button" class="btn btn-danger" id="btnRemove" data-oper="remove">삭제</button>
  					<button type="button" class="btn btn-info" id="btnList" data-oper="list">취소</button>
@@ -81,14 +84,14 @@ $('button').on("click", function(e){
 //e.preventDefault(); //버튼 유형이 submit가 아니므로 설정할 필요 없음
 
 var operation = $(this).data("oper"); //각 버튼의 data-xxx 속성에 설정된 값을 저장
+alert("operation: "+ operation);
  
-if(operation == "modify"){ //상품 정보 수정 요청
-frmModify.append("<input type='hidden' name='product_number' value='"+ $(this).data("product_number") +"' />")
-frmModify.attr("action", "${contextPath}/product/modify");
-} else if(operation == "remove"){ //상품 정보 삭제 요청
-frmModify.attr("action", "${contextPath}/product/remove");
-} else if(operation == "list"){ //상품 목록 화면 요청
-frmModify.attr("action","${contextPath}/product/list").attr("method","get");
+if(operation == "modify"){ //게시물 수정 요청
+frmModify.attr("action", "${contextPath}/questionBoard/modify");
+} else if(operation == "remove"){ //게시물 삭제 요청
+frmModify.attr("action", "${contextPath}/questionBoard/remove");
+} else if(operation == "list"){ //게시물 목록 화면 요청
+frmModify.attr("action","${contextPath}/questionBoard/list").attr("method","get");
 frmModify.empty();
 }
  

@@ -15,7 +15,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<select id="selectTicket">
 		SELECT ticket_number, ticket_content, ticket_start_date, ticket_end_date, pt_count, ticket_price
 		FROM project_health.ticket
-		WEHRE ticket_number = #{ticket_number}
+		WHERE ticket_number = #{ticket_number}
 	</select>
 	
 	<!-- 회원권 등록 -->

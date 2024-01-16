@@ -93,7 +93,7 @@ var result = '<c:out value="${result}" />' ;
 
 //등록페이지 이동
 $("#btnToRegister").on("click",function(){
-	window.location.href = "${contextPath}/noticeBoard/register" ; //권장
+	window.location.href = "${contextPath}/ticket/register" ; //권장
 //	location.href = "${contextPath}/myboard/register" ;
 //	self.location.href = "${contextPath}/myboard/register" ;
 //	self.location = "${contextPath}/myboard/register" ;
@@ -102,7 +102,7 @@ $("#btnToRegister").on("click",function(){
 
 //상세페이지 이동
 $(".moveDetail").on("click", function(){
-	var npost_number = $(this).data("npost_number") ;
+	var npost_number = $(this).data("ticket_number") ;
 	
 //	window.location.href = "${contextPath}/myboard/detail?bno=" + bno ;
 	

@@ -81,7 +81,7 @@
                     <div class="panel panel-default">
                         <div class="panel-heading">
                             자유게시판
-                            <button type="button" style="float:right" onclick="location.href='${contextPath}/noticeBoard/list'">+</button>
+                            <button type="button" style="float:right" onclick="location.href='${contextPath}/freeBoard/list'">+</button>
                         </div>
                         <!-- /.panel-heading -->
                         <div class="panel-body">
@@ -98,7 +98,7 @@
                                     </thead>
                                     <tbody>
                                     <c:forEach var="freeBoard" items="${freeBoard.freeboardList}" begin="0" end="4">
-                                        <tr>
+                                        <tr class="moveFreeBoardDetail" data-fpost_number="${freeBoard.fpost_number}">
                                             <td>${freeBoard.fpost_number }</td>
                                             <td>${freeBoard.ftitle }</td>
                                             <td>${freeBoard.fwriter }</td>
@@ -178,7 +178,7 @@
                                     </thead>
                                     <tbody>
                                     <c:forEach var="ticket" items="${ticket}">
-                                        <tr>
+                                        <tr class="moveTicketDetail" data-ticket_number="${ticket.ticket_number}">
                                             <td>${ticket.ticket_content}</td>
                                             <td>${ticket.ticket_price }</td>
                                         </tr>
@@ -212,7 +212,7 @@
                                     </thead>
                                     <tbody>
                                         <c:forEach var="product" items="${product}" begin="0" end="5">
-                                        <tr>
+                                        <tr class="moveProductDetail" data-product_number="${product.product_number}">
                                             <td>${product.product_content}</td>
                                             <td>${product.product_price}</td>
                                             <td>${product.product_stock}</td>
@@ -263,14 +263,44 @@ var frmSendValue = $("#frmSendValue") ;
 
 $(".moveNoticeBoardDetail").on("click", function(){
 	var npost_number = $(this).data("npost_number") ;
-	alert(npost_number);
 	
-	frmSendValue.append("<input type='hidden' name='npost_number' value='" + npost_number + "'/>")
+	frmSendValue.append("<input type='hidden' name='npost_number' value='" + npost_number + "'/>") ;
 	frmSendValue.attr("action", "${contextPath}/noticeBoard/detail").attr("method", "get") ;
 	frmSendValue.submit() ;
 	frmSendValue.find('input[name="npost_number"]').remove() ; 
-	
 })
+
+$(".moveFreeBoardDetail").on("click", function(){
+	var fpost_number = $(this).data("fpost_number") ;
+	
+	frmSendValue.append("<input type='hidden' name='fpost_number' value='" + fpost_number + "'/>") ;
+	frmSendValue.attr("action", "${contextPath}/freeBoard/detail").attr("method", "get") ;
+	frmSendValue.submit() ;
+	frmSendValue.find('input[name="fpost_number"]').remove() ; 
+})
+
+
+$(".moveTicketDetail").on("click", function(){
+	var ticket_number = $(this).data("ticket_number") ;
+	
+	frmSendValue.append("<input type='hidden' name='ticket_number' value='" + ticket_number + "'/>") ;
+	frmSendValue.attr("action", "${contextPath}/ticket/detail").attr("method", "get") ;
+	frmSendValue.submit() ;
+	frmSendValue.find('input[name="ticket_number"]').remove() ; 
+})
+
+
+$(".moveProductDetail").on("click", function(){
+	var product_number = $(this).data("product_number") ;
+	
+	frmSendValue.append("<input type='hidden' name='product_number' value='" + product_number + "'/>") ;
+	frmSendValue.attr("action", "${contextPath}/product/detail").attr("method", "get") ;
+	frmSendValue.submit() ;
+	frmSendValue.find('input[name="product_number"]').remove() ; 
+})
+
+
+
 
 </script>
 

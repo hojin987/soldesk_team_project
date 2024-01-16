@@ -65,9 +65,10 @@ public class ProductController {
 	//상품 수정 POST
 	@PostMapping("/modify")
 	public String modifyProduct(ProductVO product, RedirectAttributes redirectAttr) {
+		String product_number = product.getProduct_number();
 		productService.modifyProduct(product);
 		
-		return "redirect:/product/detail?product_number=" + product.getProduct_number();
+		return "redirect:/product/detail?product_number=" + product_number;
 	}
 	
 	//상품 삭제 POST
