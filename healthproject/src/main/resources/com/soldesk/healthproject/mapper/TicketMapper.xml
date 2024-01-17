@@ -37,7 +37,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			#{ticket_end_date},
 			#{pt_count},
 			#{ticket_price}
-		WEHRE ticket_number = #{ticket_number}
+		WHERE ticket_number = #{ticket_number}
 	</update>
 	
 	<!-- 회원권 삭제 -->
