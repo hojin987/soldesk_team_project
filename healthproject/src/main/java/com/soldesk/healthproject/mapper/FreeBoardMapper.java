@@ -2,6 +2,8 @@ package com.soldesk.healthproject.mapper;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
+
 import com.soldesk.healthproject.common.paging.domain.FreeBoardPagingDTO;
 import com.soldesk.healthproject.domain.FreeBoardVO;
 
@@ -19,6 +21,9 @@ public interface FreeBoardMapper {
 	//특정 게시물 조회
 	public FreeBoardVO selectFreeBoard(Long fpost_number);
 	
+	//특정 게시물 조회(modify:jsp, 단순-SELECT): 특정 게시물 하나의 데이터를 가져옴
+	public FreeBoardVO selectFreeBoard2(long fpost_number) ;
+	
 	//특정 게시물 삭제 요청
 	public int updateFdeleteFlag(Long fpost_number);
 	
@@ -33,4 +38,7 @@ public interface FreeBoardMapper {
 	
 	//특정 게시물 조회수 증가
 	public void updateFviewCount(Long fpost_number);
+	
+	//특정 게시물 댓글/답글 수 변경
+	public void updateFreplyCount(@Param("fpost_number") long fpost_number, @Param("amount") int amount);
 }

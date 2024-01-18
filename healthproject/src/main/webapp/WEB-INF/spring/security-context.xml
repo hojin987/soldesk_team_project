@@ -31,7 +31,7 @@
 	
 	<security:form-login login-page="/myLogin"
 						 login-processing-url="/myLoginProcess"
-						 default-target-url="/noticeBoard/list"
+						 default-target-url="/myboard/main"
 						 authentication-success-handler-ref="myLoginSuccessHandler2"
 					     username-parameter="username"
 					     password-parameter="password"

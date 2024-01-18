@@ -20,7 +20,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 	<!-- 회원권 등록 -->
 	<insert id="insertTicket">
-		INSERT INTO project_health.ticket
+		INSERT INTO project_health.ticket(ticket_number, ticket_content, ticket_start_date, ticket_end_date, pt_count, ticket_price)
 		VALUES (#{ticket_number},
 				#{ticket_content},
 				#{ticket_start_date},
@@ -32,12 +32,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<!-- 회원권 수정 -->
 	<update id="updateTicket">
 		UPDATE project_health.ticket
-		SET #{ticket_content},
-			#{ticket_start_date},
-			#{ticket_end_date},
-			#{pt_count},
-			#{ticket_price}
-		WEHRE ticket_number = #{ticket_number}
+		<set>
+		 	ticket_content = #{ticket_content},
+			ticket_start_date = #{ticket_start_date},
+			ticket_end_date = #{ticket_end_date},
+			pt_count = #{pt_count},
+			ticket_price = #{ticket_price}
+		</set>
+		WHERE ticket_number = #{ticket_number}
 	</update>
 	
 	<!-- 회원권 삭제 -->

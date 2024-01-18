@@ -177,7 +177,7 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                    <c:forEach var="ticket" items="${ticket}">
+                                    <c:forEach var="ticket" items="${ticket}" begin="0" end="5">
                                         <tr class="moveTicketDetail" data-ticket_number="${ticket.ticket_number}">
                                             <td>${ticket.ticket_content}</td>
                                             <td>${ticket.ticket_price }</td>
@@ -232,11 +232,12 @@
                     <div class="panel panel-default">
                         <div class="panel-heading">
                             오늘의 추천운동
+                            <button type="button" style="float:right" onclick="location.href='${contextPath}/workout/list'">+</button>
                         </div>
                         <!-- /.panel-heading -->
                         <div class="panel-body">
                             <div class="table-responsive">
-                                <table class="table table-hover">
+                                <table>
                                     <thead>
                                         <tr>
                                             <th>목표를 설정해보세요</th>

@@ -2,9 +2,16 @@
  * noticecomment.js: 댓글/답글 데이터 처리용 Ajax Closure Module */
  
  //alert("댓글 클로저 모듈 실행됨");
- 
- var ncommentClsr = (function() {
- 	
+
+var ncommentClsr = (function() {
+
+	var csrfToken, csrfHeader;
+	
+	function init(csrfTokenValue, csrfHeaderValue){
+		csrfToken = csrfTokenValue;
+		csrfHeader = csrfHeaderValue;
+	}
+	
  	//댓글 목록(페이징) - ajax() 함수 사용
  	function getCmtList(noticeParam, callback, error) {
  	
@@ -38,15 +45,16 @@
     
      //게시물에 대한 댓글 등록
     function registerCmt(comment, callback, error){
-
         var npost_number = comment.npost_number ;
-		console.log("registerCmt()에 전달된 npost_number: " + npost_number);
 		
         $.ajax({
             type: "post" ,
             url: "/healthproject/noticeComment/" + npost_number + "/new" ,
             data: JSON.stringify(comment),
             contentType: "application/json; charset=utf-8" ,
+            beforeSend: function(xhr) {
+            	xhr.setRequestHeader(csrfHeader, csrfToken);
+            },
             success: function(result, status) {
                 if(callback) {
                     callback(result) ;
@@ -201,6 +209,7 @@
     } //dateTimeFmt-end
     
     return{
+    	init : init,
     	getCmtList : getCmtList,
     	registerCmt : registerCmt,
     	registerReply : registerReply,

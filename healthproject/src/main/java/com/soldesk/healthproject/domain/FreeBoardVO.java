@@ -1,6 +1,7 @@
 package com.soldesk.healthproject.domain;
 
 import java.sql.Date;
+import java.util.List;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -21,4 +22,5 @@ public class FreeBoardVO {
 	private long fview_count ;
 	private long freply_count ; 
 	private String fdelete_flag ;
+	private List<FreeBoardAttachFileVO> attachFileList ;
 }

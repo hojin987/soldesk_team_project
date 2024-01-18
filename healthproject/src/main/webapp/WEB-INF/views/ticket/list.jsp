@@ -32,7 +32,7 @@
 				</div><%-- /.panel-heading --%>
                 
                 <div class="panel-body">
-
+<form id="frmSendValue">
 </form>                
 	<table class="table table-striped table-bordered table-hover" 
 	       style="width:100%;text-align: center;">
@@ -46,7 +46,7 @@
 	    </thead>
 	    <tbody>
 			<c:forEach items="${ticketList}" var="ticket">
-				<tr>
+				<tr class="moveDetail" data-ticket_number="${ticket.ticket_number}">
 					<td><c:out value="${ticket.ticket_number}" /></td>
 					<td style="text-align:left;" ><c:out value="${ticket.ticket_content}"/></td>
 					<td><c:out value="${ticket.pt_count}" /></td>
@@ -93,24 +93,17 @@ var result = '<c:out value="${result}" />' ;
 
 //등록페이지 이동
 $("#btnToRegister").on("click",function(){
-	window.location.href = "${contextPath}/ticket/register" ; //권장
-//	location.href = "${contextPath}/myboard/register" ;
-//	self.location.href = "${contextPath}/myboard/register" ;
-//	self.location = "${contextPath}/myboard/register" ;
-	
+	window.location.href = "${contextPath}/ticket/register" ;
 });
 
 //상세페이지 이동
 $(".moveDetail").on("click", function(){
-	var npost_number = $(this).data("ticket_number") ;
+	var ticket_number = $(this).data("ticket_number") ;
 	
-//	window.location.href = "${contextPath}/myboard/detail?bno=" + bno ;
-	
-	frmSendValue.append("<input type='hidden' name='npost_number' value='" + npost_number + "'/>")
-	frmSendValue.attr("action", "${contextPath}/noticeBoard/detail").attr("method", "get") ;
+	frmSendValue.append("<input type='hidden' name='ticket_number' value='" + ticket_number + "'/>")
+	frmSendValue.attr("action", "${contextPath}/ticket/detail").attr("method", "get") ;
 	frmSendValue.submit() ;
-	frmSendValue.find('input[name="npost_number"]').remove() ;  	//웹 브라우저 뒤로가기 후, 다른 게시물 상세 이동 시에
-														//bno값이 계속 url에 추가되는 현상 해결
+	frmSendValue.find('input[name="ticket_number"]').remove() ;  	
 	
 });
 
@@ -203,20 +196,7 @@ $("#btnIntervalSearch").on("click", function(){
 		alert("시작날짜와 끝날짜를 모두 선택하세요") ;
 		return ;
 	}
-/*	
-	if (beginDate == endDate) {
-		var _endDate = new Date(endDate) ;
-		
-		_endDate.setDate(_endDate.getDate() + 1) ; //하루 후의 날짜
-		
-		_endDate = _endDate.toISOString().slice(0, 10) ;
-
-		$("#endDate").val(_endDate);
-		
-		endDate = $("#endDate").val() ;
-		alert("변환후 endDate: " + endDate);
-	}
-*/	
+	
 	frmSendValue.find("input[name='pageNum']").val(1) ;
 	frmSendValue.submit() ;
 	

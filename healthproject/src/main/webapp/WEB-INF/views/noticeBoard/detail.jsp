@@ -20,6 +20,9 @@
 }
 </style>
 
+<input type="hidden" id="csrfToken" th:value="${_csrf.token}" />
+<input type="hidden" id="csrfHeader" th:value="${_csrf.headerName}" />
+
 <div id="page-wrapper">
     <div class="row">
         <div class="col-lg-12">
@@ -89,9 +92,6 @@
 	<input type="hidden" name="keyword" value="${noticeBoardPaging.keyword }" >
 	<input type="hidden" name="startDate" value="${noticeBoardPaging.beginDate }" >
 	<input type="hidden" name="endDate" value="${noticeBoardPaging.endDate }" >
-	<div>
-    	<input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }"/>
-    </div>
 </form>
 
                 </div><%-- /.panel-body --%>
@@ -274,9 +274,9 @@ $("#btnToList").on("click", function(){;
 //게시물 수정-삭제 페이지 이동
 $("#btnToModify").on("click", function(){
 	
-	var bno = '<c:out value="${noticeBoard.npost_number}"/>' ;
+	var npost_number = '<c:out value="${noticeBoard.npost_number}"/>' ;
 	
-	frmSendValue.append("<input type='hidden' name='bno' value='" + bno + "'/>") ;
+	frmSendValue.append("<input type='hidden' name='npost_number' value='" + npost_number + "'/>") ;
 	frmSendValue.attr("action", "${contextPath}/noticeBoard/modify").attr("method", "get") ;
 	frmSendValue.submit() ;
 });
@@ -336,62 +336,6 @@ $("#attachModal").on("click", function(){
 var npost_number_value = '<c:out value="${noticeBoard.npost_number}"/>'; 
 var commentUL = $(".chat");
 var frmCmtPagingValue = $("#frmCmtPagingValue");
-
-//댓글 목록 데이터 요청 받기 테스트
-/* ncommentClsr.getCmtList(
-	{npost_number:npost_number_value, pageNum:1},
-	function(noticeCommentPagingCreator){
-		for(var i =0,len=noticeCommentPagingCreator.ncommentList.length || 0; i < len; i++){
-			console.log(noticeCommentPagingCreator.ncommentList[i]);
-		}	
-	}		
-); */
-
-/* //댓글등록 테스트
-ncommentClsr.registerCmt(
-		{npost_number:npost_number_value, ncomment:"js-클로저-댓글입력 테스트", ncomment_writer: "user5"},
-		function(result){
-			alert("ncommentClsr.registerCmt()처리결과 " + result);
-		}
-);  */
-
-/* //답글등록 테스트
-ncommentClsr.registerReply(
-		{npost_number:npost_number_value, nreply_number: 1, ncomment:"js-클로저-답글입력 테스트", ncomment_writer: "user6"},
-		function(result){
-			alert("ncommentClsr.registerReply()처리결과 " + result);
-		}
-); */
-
-/* //댓글-답글 조회 테스트
-ncommentClsr.getCmtReply(
-		{npost_number: npost_number_value, nreply_number: 1},
-		function(data){
-			console.log(data);
-		}
-); */
-
-/* //댓글-답글 수정 테스트
-ncommentClsr.modifyCmtReply(
-		{npost_number: npost_number_value, nreply_number: 1, ncomment:"js클로저에 의한 댓글 수정 테스트"},
-		function(modifyResult){
-			alert(modifyResult + "- ajax 처리 완료");
-		}
-); */
-
-//댓글 삭제 테스트
-/* ncommentClsr.removeCmtReply(
-		{npost_number: npost_number_value, nreply_number: 9, ncomment_writer:"user7"},
-		function(deleteResult){
-			console.log(deleteResult);
-			if(deleteResult === "댓글 삭제 성공") {
-				alert(deleteResult + ": 댓글/답글이 삭제되었습니다.");
-			}
-		},
-		function(err) {
-			alert("오류로 댓글/답글 삭제 작업 취소..");
-		}
-); */
 
 <%--댓글목록 표시 함수: 서버로부터 전달된 데이터를 이용해서 댓글 목록을 표시하는 JS 함수--%>
 function showCmtList(pageNum){
@@ -573,12 +517,18 @@ $("#btnChgCmtReg").on("click", function(){
 	
 });
 
+var csrfHeaderName = "${_csrf.headerName}"
+var csrfTokenValue = "${_csrf.token}"
+
 <%-- 댓글 등록 버튼 클릭 처리: 이벤트 전파 --%>
 $("#btnRegCmt").on("click", function(){
+	
 
 	var txtBoxCmt = $(".txtBoxCmt").val() ;
 	var loginUser = "user10" ;	
 	var reply = {npost_number: npost_number_value, ncomment: txtBoxCmt, ncomment_writer: loginUser } ;
+	
+	ncommentClsr.init(csrfTokenValue, csrfHeaderName)
 	
 	ncommentClsr.registerCmt(
 			reply,

@@ -16,8 +16,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-
-    <title>My Admin Board</title>
+    <title>Soldesk GYM</title>
 
     <!-- Bootstrap Core CSS -->
     <link href="${contextPath }/resources/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -80,7 +79,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="${contextPath }/">My Admin Board</a>
+                <a class="navbar-brand" href="${contextPath }/">SOLDESK GYM</a>
             </div>
             <!-- /.navbar-header -->
 

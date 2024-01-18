@@ -31,10 +31,10 @@
 							<label>회원권 내용</label> <input class="form-control" name="ticket_content">
 						</div>
 						<div class="form-group">
-							<label>회원권 시작 날짜</label> <input class="form-control" name="ticket_start_date">
+							<label>회원권 시작 날짜</label> <input type="date" class="form-control" name="ticket_start_date">
 						</div>
 						<div class="form-group">
-							<label>회원권 종료 날짜</label> <input class="form-control" name="ticket_end_date">
+							<label>회원권 종료 날짜</label> <input type="date" class="form-control" name="ticket_end_date">
 						</div>
 						<div class="form-group">
 							<label>PT 횟수</label> <input class="form-control" name="pt_count">
@@ -47,6 +47,7 @@
 							<button type="button" class="btn btn-warning" data-oper="list"
 									onclick="location.href='${contextPath}/ticket/list'">취소
 							</button>
+						<sec:csrfInput/>
 					</form>
 
           </div><%-- /.panel-body --%>

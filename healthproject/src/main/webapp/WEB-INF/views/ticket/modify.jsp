@@ -21,10 +21,10 @@
                 <div class="panel-heading">
                 	<h4>회원권 수정-삭제</h4>
 				</div><%-- /.panel-heading --%>
-                
+		<form role="form" method="post" name="frmModify" id="frmModify">                
                 <div class="panel-body">
 					<div class="form-group">
-						<label>회원 번호</label>
+						<label>회원권 번호</label>
 							<input class="form-control" name="ticket_number" value='<c:out value="${ticket.ticket_number}"/>'/>
 					</div>
 					<div class="form-group">
@@ -47,7 +47,7 @@
 						<label>회원권 가격</label>
 							<input class="form-control" name="ticket_price" value='<c:out value="${ticket.ticket_price}"/>'/>
 					</div>
-						
+					<sec:csrfInput/>
 					<button type="button" class="btn btn-default" id="btnModify" data-oper="modify">수정</button>
  					<button type="button" class="btn btn-danger" id="btnRemove" data-oper="remove">삭제</button>
  					<button type="button" class="btn btn-info" id="btnList" data-oper="list">취소</button>
@@ -83,10 +83,8 @@
 //form의 수정/삭제/목록보기 버튼 클릭 에벤트 처리
 var frmModify = $("#frmModify");
 $('button').on("click", function(e){ 
-//e.preventDefault(); //버튼 유형이 submit가 아니므로 설정할 필요 없음
 
-var operation = $(this).data("oper"); //각 버튼의 data-xxx 속성에 설정된 값을 저장
-alert("operation: "+ operation);
+var operation = $(this).data("oper");
  
 if(operation == "modify"){ //회원권 정보 수정 요청
 frmModify.attr("action", "${contextPath}/ticket/modify");

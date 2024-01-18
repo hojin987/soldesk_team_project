@@ -31,6 +31,7 @@ public class TicketController {
 	@GetMapping("/detail")
 	public String showTicketDetail(@RequestParam("ticket_number") String ticket_number,
 								   Model model) {
+		System.out.println("ticket_number" + ticket_number);
 		model.addAttribute("ticket", ticketService.getTicket(ticket_number));
 	
 		return "ticket/detail";

@@ -23,7 +23,7 @@
 				</div><%-- /.panel-heading --%>
                 
                 <div class="panel-body">
-                <form role="form" id="frmModify" method="post" name="frmBoard" data-product_number="${product.product_number }" >
+                <form role="form" id="frmModify" method="post" name="frmBoard">
                 
 					<div class="form-group">
 						<label>상품 내용</label>
@@ -41,6 +41,7 @@
 						<label>상품 재고</label>
 							<input class="form-control" name="product_stock" value='<c:out value="${product.product_stock}"/>'/>
 					</div>
+					<input type="hidden" name="product_number" value='<c:out value="${product.product_number}"/>' />
 					<sec:csrfInput/>
 					
 					<button type="button" class="btn btn-default" id="btnModify" data-oper="modify">수정</button>
@@ -83,7 +84,6 @@ $('button').on("click", function(e){
 var operation = $(this).data("oper"); //각 버튼의 data-xxx 속성에 설정된 값을 저장
  
 if(operation == "modify"){ //상품 정보 수정 요청
-frmModify.append("<input type='hidden' name='product_number' value='"+ $(this).data("product_number") +"' />")
 frmModify.attr("action", "${contextPath}/product/modify");
 } else if(operation == "remove"){ //상품 정보 삭제 요청
 frmModify.attr("action", "${contextPath}/product/remove");
