@@ -22,6 +22,7 @@ import com.soldesk.healthproject.service.HomeService;
 import com.soldesk.healthproject.service.NoticeBoardService;
 import com.soldesk.healthproject.service.ProductService;
 import com.soldesk.healthproject.service.TicketService;
+import com.soldesk.healthproject.service.WorkoutService;
 
 @Controller
 public class HomeController {
@@ -32,15 +33,18 @@ public class HomeController {
 	private FreeBoardService freeBoardService;
 	private TicketService ticketService;
 	private ProductService productService;
+	private WorkoutService workoutService;
 	
 	public HomeController(NoticeBoardService noticeBoardService,
 						  FreeBoardService freeBoardService,
 						  TicketService ticketService,
-						  ProductService productService) {
+						  ProductService productService,
+						  WorkoutService workoutService) {
 		this.noticeBoardService = noticeBoardService;
 		this.freeBoardService = freeBoardService;
 		this.ticketService = ticketService;
 		this.productService = productService;
+		this.workoutService = workoutService;
 	}
 	
 	@RequestMapping(value = "/", method = RequestMethod.GET)
@@ -61,6 +65,7 @@ public class HomeController {
 		model.addAttribute("freeBoard", freeBoard);
 		model.addAttribute("ticket", ticketService.getTicketList());
 		model.addAttribute("product", productService.getProductList());
+		model.addAttribute("workoutList", workoutService.getWorkoutList());
 		
 		return "myboard/main";
 	}

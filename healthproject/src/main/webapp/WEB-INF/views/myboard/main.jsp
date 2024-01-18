@@ -8,21 +8,9 @@
 
 <%@include file="../myinclude/myheader.jsp" %>  
 
-<div id="page-wrapper">
-            <div class="row">
-                <div class="col-lg-12">
-                    <h1 class="page-header">메인 홈페이지</h1>
-                </div>
-                <!-- /.col-lg-12 -->
-            </div>
-            <!-- /.row -->
             <div class="row">
                 <div class="col-lg-12">
                     <div class="panel panel-default">
-                        <div class="panel-heading">
-                            
-                        </div>
-                        <!-- /.panel-heading -->
 
 						<form id="frmSendValue">
 						</form>
@@ -38,7 +26,7 @@
             </div>
             <!-- /.row -->
             <div class="row">
-                <div class="col-lg-5">
+                <div class="col-lg-6">
                     <div class="panel panel-default">
                         <div class="panel-heading">
                             공지사항
@@ -47,7 +35,7 @@
                         <!-- /.panel-heading -->
                         <div class="panel-body">
                             <div class="table-responsive">
-                                <table class="table table-striped table-bordered table-hover">
+                                <table class="table table-bordered">
                                     <thead>
                                         <tr>
                                             <th> </th>
@@ -77,7 +65,7 @@
                     <!-- /.panel -->
                 </div>
                 <!-- /.col-lg-6 -->
-                <div class="col-lg-5">
+                <div class="col-lg-6">
                     <div class="panel panel-default">
                         <div class="panel-heading">
                             자유게시판
@@ -116,51 +104,10 @@
                     <!-- /.panel -->
                 </div>
                 <!-- /.col-lg- -->
-                <div class="col-lg-2">
-                    <div class="panel panel-default">
-                        <div class="panel-heading">
-                            회원정보
-                        </div>
-                        <!-- /.panel-heading -->
-                        <div class="panel-body">
-                            <div class="table-responsive">
-                                <table class="table table-hover">
-                                    <tbody>
-                                    <sec:authentication property="principal" var="principal"/>
-                                    <c:choose>
-                                    	<c:when test="${principal eq 'anonymousUser'}">
-                                    		<tr>
-	                                            <td colspan="2" style="text-align:center;">회원이 되어 보세요</td>
-	                                        </tr>
-	                                        <tr>
-	                                            <td style="font-size:11px;"><button type="button" style="float:right" onclick="location.href='${contextPath}/myLogin'">로그인</button></td>
-	                                            <td style="font-size:11px;"><button type="button" style="float:right" onclick="location.href='${contextPath}/user/memberRegister'">회원가입</button></td>
-	                                        </tr>
-                                    	</c:when>
-                                    	<c:otherwise>
-                                    		<tr>	
-                                    			<td style="font-size:12px;">${principal.username}님, 반갑습니다.</td>
-                                    		</tr>
-                                    		<tr>	
-                                    			<td>내 정보 확인하기</td>
-                                    		</tr>
-                                    	</c:otherwise>
-                                    </c:choose>
-                                    	
-                                    </tbody>
-                                </table>
-                            </div>
-                            <!-- /.table-responsive -->
-                        </div>
-                        <!-- /.panel-body -->
-                    </div>
-                    <!-- /.panel -->
-                </div>
-                <!-- /.col-lg-4 -->
-            </div>
-            <!-- /.row -->
+            </div><!-- /.row -->
+
             <div class="row">
-                <div class="col-lg-5">
+                <div class="col-lg-6">
                     <div class="panel panel-default">
                         <div class="panel-heading">
                             회원권
@@ -192,8 +139,66 @@
                     </div>
                     <!-- /.panel -->
                 </div>
+                <!-- /.col-lg-6 -->
+                
+                <div class="col-lg-6">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            오늘의 추천운동
+                            <button type="button" style="float:right" onclick="location.href='${contextPath}/workout/list'">+</button>
+                        </div>
+                        <!-- /.panel-heading -->
+                        <div class="panel-body">
+                            <div class="table-responsive">
+                                <table>
+                                    <thead>
+                                   	<c:choose>
+					     			<c:when test="${principal eq 'anonymousUser'}">
+					     				<tr>
+				     						<th>목표를 설정해보세요</th>
+				     					</tr>
+					     			</c:when>
+					     			<c:otherwise>
+									    <tr>
+									        <th>${principal.username}님의 목표를 응원합니다.</th>
+									    </tr>
+									    <c:forEach items="${workoutList}" var="workout" varStatus="loop">
+									        <c:if test="${loop.index < 3}">
+									            <c:if test="${loop.index != 0}">
+									                </tr> <!-- 이전 행을 닫습니다 -->
+									            </c:if>
+									            <tr>
+									                <c:forEach begin="0" end="2" var="imageIndex">
+									                    <td style="font-size:20px">이미지</td>
+									                </c:forEach>
+									            </tr>
+									            <tr>
+									        </c:if>
+									
+									        <td class="moveDetail" data-workout_code="${workout.workout_code}" style="text-align:left;">
+									        [<c:out value="${workout.workout_target}" />] <c:out value="${workout.workout_name}"/></td>
+									
+									        <c:if test="${(loop.index + 1) % 3 == 0 or loop.last}">
+									            </tr> <!-- 행을 닫습니다 -->
+									        </c:if>
+									    </c:forEach>
+									</c:otherwise>
+					    			</c:choose>
+                                        
+                                    </thead>
+                                </table>
+                            </div>
+                            <!-- /.table-responsive -->
+                        </div>
+                        <!-- /.panel-body -->
+                    </div>
+                    <!-- /.panel -->
+                </div>
                 <!-- /.col-lg-4 -->
-                <div class="col-lg-5">
+            </div>
+            
+            <div class="row">
+                <div class="col-lg-12">
                     <div class="panel panel-default">
                         <div class="panel-heading">
                             장비&식품 SHOP
@@ -227,35 +232,11 @@
                     </div>
                     <!-- /.panel -->
                 </div>
-                <!-- /.col-lg-4 -->
-                <div class="col-lg-2">
-                    <div class="panel panel-default">
-                        <div class="panel-heading">
-                            오늘의 추천운동
-                            <button type="button" style="float:right" onclick="location.href='${contextPath}/workout/list'">+</button>
-                        </div>
-                        <!-- /.panel-heading -->
-                        <div class="panel-body">
-                            <div class="table-responsive">
-                                <table>
-                                    <thead>
-                                        <tr>
-                                            <th>목표를 설정해보세요</th>
-                                        </tr>
-                                    </thead>
-                                </table>
-                            </div>
-                            <!-- /.table-responsive -->
-                        </div>
-                        <!-- /.panel-body -->
-                    </div>
-                    <!-- /.panel -->
-                </div>
-                <!-- /.col-lg-4 -->
+                <!-- /.col-lg-12 -->
             </div>
             <!-- /.row -->
             
-        </div>
+        
         <!-- /#page-wrapper -->
 
 <script>

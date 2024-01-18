@@ -64,69 +64,50 @@
 	<link rel="shortcut icon" href="${contextPath}/resources/myicon/favicon.ico" type="image/x-icon">
 	<!-- favicon 을 사용하지 않도록 설정--><!-- 
 	<link rel="shortcut icon" href="data:image/x-icon;," type="image/x-icon"> -->
+	
+	<style>
+		body{margin: 0 60px;}
+		a{font-size: 20px;}
+	</style>
 </head>
 
 <body id="me">
+	
+<div id="wrapper">
 
-    <div id="wrapper">
-
-        <!-- Navigation -->
-        <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <a class="navbar-brand" href="${contextPath }/">SOLDESK GYM</a>
-            </div>
-            <!-- /.navbar-header -->
-
-            <ul class="nav navbar-top-links navbar-right">
-                <li class="dropdown">
-                    <a class="dropdown-toggle" data-toggle="dropdown">
-                        <i class="fa fa-user fa-fw"></i> <i class="fa fa-caret-down"></i>
-                    </a>
-                    <ul class="dropdown-menu dropdown-messages">
-                        <li><a id="myLogin" href="${contextPath}/myLogin">
-                            <i class="fa fa-sign-in fa-fw"></i> Sign in</a>
-                        </li>
-                        <li class="divider"></li>
-                        <li><a id="myLogout" href="${contextPath}/myLogout">                  
-                            <i class="fa fa-sign-out fa-fw"></i> Sign out</a>
-                        </li>
-                    </ul><!-- /.dropdown-user -->
-                </li><!-- /.dropdown -->
-            </ul><!-- /.navbar-top-links -->
-
-            <div class="navbar-default sidebar" role="navigation">
-                <div class="sidebar-nav navbar-collapse">
-                    <ul class="nav" id="side-menu">
-                        <li>
-                            <a href="${contextPath }"><i class="fa fa-home fa-fw"></i> Home Page</a>
-                        </li>
-                        <li>
-                            <a href="${contextPath }/myboard/list"><i class="fa fa-table fa-fw"></i> Board List</a>
-                        </li>
-                        <li>
-                            <a href="${contextPath }/myboard/register"><i class="fa fa-edit fa-fw"></i> Board Register</a>
-                        </li>
-                        <li>
-                            <a href="${contextPath }/myboard/detail?bno=1"><i class="fa fa-edit-in fa-fw"></i> 1번 게시물 조회</a>
-                        </li>
-                        <li>
-                            <a href="${contextPath }/myLogin"><i class="fa fa-sign-in fa-fw"></i> Sign in</a>
-                        </li>
-                        <li>
-                            <a href="${contextPath }/myLogout"><i class="fa fa-sign-out fa-fw"></i> Sign out</a>
-                        </li>
-                        
-                    </ul>
-                </div>
-                <!-- /.sidebar-collapse -->
-            </div>
-            <!-- /.navbar-static-side -->
-        </nav>
+<!-- Navigation -->
+<nav class="navbar navbar-static-top" role="navigation" style="margin-bottom: 0">
+    <div class="col-lg-12">
+    	<table class="table" style="text-align:center;">
+    	<tbody>
+    	<sec:authentication property="principal" var="principal"/>
+    		<tr>
+    			<td><a href="${contextPath }/">SOLDESK GYM</a></td>
+    			<td><a href="${contextPath }/workout/list">운동정보</a></td>
+    			<td><a href="${contextPath }/noticeBoard/list">공지사항</a></td>
+    			<td><a href="${contextPath }/freeBoard/list">자유게시판</a></td>
+    			<td><a href="${contextPath }/questionBoard/list">1:1문의</a></td>
+    			<td><a href="${contextPath }/applyBoard/list">채용공고</a></td>
+    			<td><a href="${contextPath }/ticket/list">회원권</a></td>
+    			<td><a href="${contextPath }/product/list">GYM쇼핑몰</a></td>
+    			<c:choose>
+     			<c:when test="${principal eq 'anonymousUser'}">
+     				<td>
+     					<button type="button" class="btn btn-lignt btn-sm" onclick="location.href='${contextPath}/myLogin'">로그인</button>&nbsp;&nbsp;
+     					<button type="button" class="btn btn-light btn-sm" onclick="location.href='${contextPath}/user/memberRegister'">회원가입</button></td>
+     			</c:when>
+     			<c:otherwise>
+     				<td style="font-size:13px;">${principal.username}님, 반갑습니다.<br>
+     				<a style="font-size:13px;" href="${contextPath}/product/detail?product_number=product1">내 정보 확인하기</a></td>
+     				<%-- <a style="font-size:13px;" href="${contextPath}/member/detail?member_id=${principal.username}">내 정보 확인하기</a></td> --%>
+     			</c:otherwise>
+    			</c:choose>
+    		</tr>
+    	</tbody>
+    	</table>
+        
+    </div> <!-- 나중에 드랍다운 처리-->
+    
+</nav>
 
  
