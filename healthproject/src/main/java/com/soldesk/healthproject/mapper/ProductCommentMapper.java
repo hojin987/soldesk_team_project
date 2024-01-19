@@ -14,7 +14,7 @@ public interface ProductCommentMapper {
 	public List<ProductCommentVO> selectProductCommentList(ProductCommentPagingDTO productCommentPagingDTO) ;
 		
 	//특정 게시물에 대한 댓글 총 개수
-	public long selectProductRowTotal(long product_number) ;
+	public long selectProductRowTotal(String product_number) ;
 	
 	//특정 게시물에 대한 댓글 등록(preply_number: null)
 	public long insertProductCommentForProduct(ProductCommentVO pcomment) ;
@@ -23,15 +23,15 @@ public interface ProductCommentMapper {
 	public long insertProductCommentForProductComment(ProductCommentVO pcomment) ;
 		
 	//특정 게시물에 대한 특정 댓글/답글 조회
-	public ProductCommentVO selectProductComment(@Param("product_number") long product_number, @Param("pcomment_number") long pcomment_number) ;
+	public ProductCommentVO selectProductComment(@Param("product_number") String product_number, @Param("pcomment_number") long pcomment_number) ;
 		
 	//특정 게시물에 대한 특정 댓글/답글 수정
 	public int updateProductComment(ProductCommentVO pcomment) ;
 		
 	//특정 게시물에 대한 특정 댓글/답글 삭제요청(fcomment_delete_flag를 1로 업데이트)
-	public int updatePcommentDeleteFlag(@Param("product_number") long product_number, @Param("pcomment_number") long pcomment_number) ;
+	public int updatePcommentDeleteFlag(@Param("product_number") String product_number, @Param("pcomment_number") long pcomment_number) ;
 		
 	//특정 게시물에 대한 모든 댓글 삭제
-	public int deleteAllProductComment(long product_number) ;
+	public int deleteAllProductComment(String product_number) ;
 	
 }

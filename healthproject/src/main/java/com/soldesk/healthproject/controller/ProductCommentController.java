@@ -38,7 +38,7 @@ public class ProductCommentController {
 	@GetMapping(value= "/{product_number}/page/{productPageNum}",
 				produces = {"application/json;charset=utf-8", "application/xml;charset=utf-8"})
 	
-	public ResponseEntity<ProductCommentPagingCreatorDTO> showProductCommentList(@PathVariable("product_number") Long product_number,
+	public ResponseEntity<ProductCommentPagingCreatorDTO> showProductCommentList(@PathVariable("product_number") String product_number,
 																		   @PathVariable("productPageNum") Integer productPageNum) {
 	
 		ProductCommentPagingCreatorDTO productCommentPagingCreator =
@@ -56,7 +56,7 @@ public class ProductCommentController {
 				 consumes = {"application/json;charset=utf-8"} ,//consumes:브라우저--> 메서드로 전송한 데이터 유형
 				 produces = {"text/plain; charset=utf-8"} )		//produces:메서드--> 브라우저로 보내는 데이터 유형
 	@PreAuthorize("isAuthenticated()")
-	public ResponseEntity<String> registerProductCommentForProduct(@PathVariable("product_number") long product_number ,
+	public ResponseEntity<String> registerProductCommentForProduct(@PathVariable("product_number") String product_number ,
 																  @RequestBody ProductCommentVO pcomment) {
 		Long registered_pcomment_number = productCommentService.registerProductCommentForProductBoard(pcomment);
 		String _registered_pcomment_number = null ;
@@ -79,7 +79,7 @@ public class ProductCommentController {
 				 consumes = {"application/json;charset=utf-8"} ,//consumes:브라우저--> 메서드로 전송한 데이터 유형
 				 produces = {"text/plain; charset=utf-8"} )		//produces:메서드--> 브라우저로 보내는 데이터 유형
 	@PreAuthorize("isAuthenticated()")
-	public ResponseEntity<String> registerProductCommentForProductComment(@PathVariable("product_number") long product_number ,
+	public ResponseEntity<String> registerProductCommentForProductComment(@PathVariable("product_number") String product_number ,
 														@PathVariable("pcomment_number") long pcomment_number,
 													    @RequestBody ProductCommentVO pcomment) {
 	Long registered_pcomment_number = productCommentService.registerProductCommentForProductComment(pcomment);
@@ -101,7 +101,7 @@ public class ProductCommentController {
 //게시물에 대한 특정 댓글 조회 GET 	
 	@GetMapping(value="/{product_number}/{pcomment_number}" , 
 				produces = "application/json;charset=utf-8")
-	public ProductCommentVO showProductComment(@PathVariable("product_number") Long product_number,
+	public ProductCommentVO showProductComment(@PathVariable("product_number") String product_number,
 							   @PathVariable("pcomment_number") Long pcomment_number){
 
 		return productCommentService.getProductComment(product_number, pcomment_number) ;
@@ -115,7 +115,7 @@ public class ProductCommentController {
 					consumes = "application/json;charset=utf-8" ,
 					produces = "text/plain;charset=utf-8") 
 	@PreAuthorize("isAuthenticated() && principal.username == #productComment.pcomment_writer")
-	public String modifyProductComment(@PathVariable("product_number") Long product_number ,
+	public String modifyProductComment(@PathVariable("product_number") String product_number ,
 							  @PathVariable("pcomment_number") Long pcomment_number ,
 							  @RequestBody ProductCommentVO pcomment){
 		System.out.println("컨트롤러에 전달된 pcomment: " + pcomment);
@@ -133,7 +133,7 @@ public class ProductCommentController {
 				   consumes = "application/json; charset=utf-8",
 				   produces = "text/plain;charset=utf-8")
 	@PreAuthorize("isAuthenticated() && principal.username == #productComment.pcomment_writer")
-	public ResponseEntity<String> removeProductComment(@PathVariable("product_number") Long product_number, 
+	public ResponseEntity<String> removeProductComment(@PathVariable("product_number") String product_number, 
 											  		@PathVariable("pcommnet_number") Long pcomment_number,
 											  		@RequestBody ProductCommentVO pcomment) {
 		
@@ -145,7 +145,7 @@ public class ProductCommentController {
 	
 //특정 게시물에 대한 모든 댓글 삭제: 삭제 행수가 반환됨
 	@DeleteMapping(value = "/{product_number}" , produces = "text/plain;charset=utf-8")
-	public ResponseEntity<String> removeAllProductComment(@PathVariable("product_number") Long product_number){
+	public ResponseEntity<String> removeAllProductComment(@PathVariable("product_number") String product_number){
 		
 		int deleteRows = productCommentService.removeAllProductComment(product_number) ;
 		

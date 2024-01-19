@@ -52,15 +52,9 @@ public class HomeController {
 					   NoticeBoardPagingDTO noticeBoardPaging, 
 					   FreeBoardPagingDTO freeBoardPaging) {
 		
-		Date date = new Date();
-		DateFormat dateFormat = DateFormat.getDateTimeInstance(DateFormat.LONG, DateFormat.LONG, locale);
-		
-		String formattedDate = dateFormat.format(date);
-		
 		NoticeBoardPagingCreatorDTO noticeBoard = noticeBoardService.getBoardList(noticeBoardPaging);
 		FreeBoardPagingCreatorDTO freeBoard = freeBoardService.getBoardList(freeBoardPaging);
 		
-		model.addAttribute("serverTime", formattedDate );
 		model.addAttribute("noticeBoard", noticeBoard);
 		model.addAttribute("freeBoard", freeBoard);
 		model.addAttribute("ticket", ticketService.getTicketList());

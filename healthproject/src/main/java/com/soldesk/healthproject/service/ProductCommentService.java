@@ -19,15 +19,15 @@ public interface ProductCommentService {
 	public Long registerProductCommentForProductComment(ProductCommentVO pcomment);
 	
 	//특정 게시물에 대한 특정 댓글/답글 조회
-	public ProductCommentVO getProductComment(long product_number, long pcomment_number) ;
+	public ProductCommentVO getProductComment(String product_number, long pcomment_number) ;
 	
 	//특정 게시물에 대한 특정 댓글/답글 수정
 	public boolean modifyProductComment(ProductCommentVO pcomment);
 	
 	//특정 게시물에 대한 특정 댓글/답글 삭제(productDeleteFlag를 1로 업데이트)
-	public boolean modifyPcommentDeleteFlag(long product_number, long pcomment_number) ;
+	public boolean modifyPcommentDeleteFlag(String product_number, long pcomment_number) ;
 	
 	//특정 게시물에 대한 모든 댓글 삭제: 삭제 행수가 반환됨
-	public int removeAllProductComment(long product_number) ;
+	public int removeAllProductComment(String product_number) ;
 
 }

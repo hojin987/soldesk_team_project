@@ -31,16 +31,13 @@ public class FreeBoardController {
 	//(단일 생성자를 이용한 주입: 생성자가 여러개 이고, 기본 생성자가 포함되어 있으면, 무조건 기본 생성자를 사용함)
 	public FreeBoardController(FreeBoardService freeBoardService) {
 		this.freeBoardService = freeBoardService ;
-		System.out.println("FreeBoardController의 모든 필드 초기화 생성자 입니다.");
 	}
 	
     //게시물 조회(페이징 고려)
 	@GetMapping("/list")
 	public String showBoardList(FreeBoardPagingDTO freeboardPaging,  
 							    Model model) {
-		System.out.println("freeboardPaging: " + freeboardPaging);
 		FreeBoardPagingCreatorDTO pagingCreator =  freeBoardService.getBoardList(freeboardPaging) ;
-		System.out.println("컨트롤러에 전달된 freeboardPagingCreator: \n" + pagingCreator);
 		
 		model.addAttribute("pagingCreator", pagingCreator) ;
 		

@@ -30,7 +30,7 @@
 	</select>
 	
 <!-- 특정 게시물에 대한 댓글 총 개수 -->
-	<select id="selectProductRowTotal" resultType="Long" parameterType="long">
+	<select id="selectProductRowTotal" resultType="Long" parameterType="String">
 		SELECT COUNT(*) FROM project_health.product_comment
 		WHERE product_number = #{product_number}
 	</select>		

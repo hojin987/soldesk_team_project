@@ -150,7 +150,7 @@
                         <!-- /.panel-heading -->
                         <div class="panel-body">
                             <div class="table-responsive">
-                                <table>
+                                <table class="table table-striped">
                                     <thead>
                                    	<c:choose>
 					     			<c:when test="${principal eq 'anonymousUser'}">
@@ -160,10 +160,10 @@
 					     			</c:when>
 					     			<c:otherwise>
 									    <tr>
-									        <th>${principal.username}님의 목표를 응원합니다.</th>
+									        <th colspan="3">${principal.username}님의 목표를 응원합니다.</th>
 									    </tr>
 									    <c:forEach items="${workoutList}" var="workout" varStatus="loop">
-									        <c:if test="${loop.index < 3}">
+									        <c:if test="${loop.index % 3 == 0}">
 									            <c:if test="${loop.index != 0}">
 									                </tr> <!-- 이전 행을 닫습니다 -->
 									            </c:if>

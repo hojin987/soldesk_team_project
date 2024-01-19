@@ -31,7 +31,6 @@ public class TicketController {
 	@GetMapping("/detail")
 	public String showTicketDetail(@RequestParam("ticket_number") String ticket_number,
 								   Model model) {
-		System.out.println("ticket_number" + ticket_number);
 		model.addAttribute("ticket", ticketService.getTicket(ticket_number));
 	
 		return "ticket/detail";
@@ -40,7 +39,6 @@ public class TicketController {
 	//회원권 등록페이지 호출 GET
 	@GetMapping("/register")
 	public void showTicketRegister() {
-		System.out.println("=====회원권 등록 페이지 호출=====");
 	}
 	
 	//회원권 등록 POST

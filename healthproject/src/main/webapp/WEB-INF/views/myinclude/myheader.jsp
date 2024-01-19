@@ -94,11 +94,12 @@
      			<c:when test="${principal eq 'anonymousUser'}">
      				<td>
      					<button type="button" class="btn btn-lignt btn-sm" onclick="location.href='${contextPath}/myLogin'">로그인</button>&nbsp;&nbsp;
-     					<button type="button" class="btn btn-light btn-sm" onclick="location.href='${contextPath}/user/memberRegister'">회원가입</button></td>
+     					<button type="button" class="btn btn-light btn-sm" onclick="location.href='${contextPath}/member/memberRegister'">회원가입</button></td>
      			</c:when>
      			<c:otherwise>
-     				<td style="font-size:13px;">${principal.username}님, 반갑습니다.<br>
-     				<a style="font-size:13px;" href="${contextPath}/product/detail?product_number=product1">내 정보 확인하기</a></td>
+     				<td style="font-size:13px;">${principal.username}님, 반갑습니다.
+     				<button type="button" class="btn btn-lignt btn-sm" onclick="location.href='${contextPath}/myLogout'">로그아웃</button></button><br>
+     				<a style="font-size:13px;" href="${contextPath}/member/detail?member_id=${principal.username}">내 정보 확인하기</a></td>
      				<%-- <a style="font-size:13px;" href="${contextPath}/member/detail?member_id=${principal.username}">내 정보 확인하기</a></td> --%>
      			</c:otherwise>
     			</c:choose>

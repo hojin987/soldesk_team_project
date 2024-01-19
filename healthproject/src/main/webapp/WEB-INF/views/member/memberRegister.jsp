@@ -23,7 +23,7 @@
 				</div><%-- /.panel-heading --%>
                 
                 <div class="panel-body">
-					<form role="form" action="${contextPath}/user/memberRegister" method="post" name="frmBoard">
+					<form role="form" action="${contextPath}/member/memberRegister" method="post" name="frmBoard">
 						<div class="form-group">
 							<label>아이디</label> <input class="form-control" name="member_id">
 						</div>

@@ -21,7 +21,7 @@
                 <div class="panel-heading">
                 	<h4>회원권 수정-삭제</h4>
 				</div><%-- /.panel-heading --%>
-		<form role="form" method="post" name="frmModify" id="frmModify">                
+				<form role="form" method="post" name="frmModify" id="frmModify">                
                 <div class="panel-body">
 					<div class="form-group">
 						<label>회원권 번호</label>
@@ -52,9 +52,8 @@
  					<button type="button" class="btn btn-danger" id="btnRemove" data-oper="remove">삭제</button>
  					<button type="button" class="btn btn-info" id="btnList" data-oper="list">취소</button>
 		  
-		  </form>
-          </div><%-- /.panel-body --%>
-            
+				</div><%-- /.panel-body --%>
+				</form>  
         </div><%-- /.panel --%>
     </div><%-- /.col-lg-12 --%>
 </div><%-- /.row --%>

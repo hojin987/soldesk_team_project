@@ -83,11 +83,7 @@
 		</selectKey>
 		INSERT INTO project_health.free_board
 		VALUES(#{fpost_number}, #{ftitle}, #{fcontent}, #{fwriter}, DEFAULT, DEFAULT, DEFAULT, 'N')
-	</insert><!-- 
-	<insert id="insertFreeBoard">
-		INSERT INTO project_health.free_board
-		VALUES(project_health.seq_free_board.nextval, #{ftitle}, #{fcontent}, #{fwriter}, DEFAULT, DEFAULT, DEFAULT, 'N')
-	</insert> -->
+	</insert>
 	
 <!-- 특정 게시물 조회 -->
 	<select id="selectFreeBoard">

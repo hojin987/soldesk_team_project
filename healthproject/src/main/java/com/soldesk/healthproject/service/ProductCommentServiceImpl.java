@@ -70,7 +70,7 @@ public class ProductCommentServiceImpl implements ProductCommentService {
 	
 	//특정 게시물에 대한 특정 댓글/답글 조회
 	@Override
-	public ProductCommentVO getProductComment(long product_number, long pcomment_number) {
+	public ProductCommentVO getProductComment(String product_number, long pcomment_number) {
 		return productCommentMapper.selectProductComment(product_number, pcomment_number) ;
 	}
 	
@@ -84,7 +84,7 @@ public class ProductCommentServiceImpl implements ProductCommentService {
 	//특정 게시물에 대한 특정 댓글/답글 삭제(pcommentDeleteFlag를 1로 업데이트)
 	@Override
 	@Transactional
-	public boolean modifyPcommentDeleteFlag(long product_number, long pcomment_number) {
+	public boolean modifyPcommentDeleteFlag(String product_number, long pcomment_number) {
 		
 		int deleteRowCnt = productCommentMapper.updatePcommentDeleteFlag(product_number, pcomment_number) ;
 		
@@ -97,7 +97,7 @@ public class ProductCommentServiceImpl implements ProductCommentService {
 	
 	//특정 게시물에 대한 모든 댓글 삭제: 삭제 행수가 반환됨
 	@Override
-	public int removeAllProductComment(long product_number) {
+	public int removeAllProductComment(String product_number) {
 		return productCommentMapper.deleteAllProductComment(product_number) ;
 	}
 

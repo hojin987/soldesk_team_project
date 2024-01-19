@@ -109,55 +109,58 @@
 	                <div class="form-group fileUploadResult">
 	                    <ul>
 <%-- 업로드 후 처리결과가 표시될 영역 --%>
-<c:choose>
-<c:when test="${empty freeboard.attachFileList }">
-	<li style="font-size: 12pt;">첨부파일이 없습니다</li>
+<%-- <c:choose>
+<c:when test="${empty freeBoard.attachFileList }">
+	<li>첨부파일이 없습니다.</li>
 </c:when>
 <c:otherwise>
-	<c:forEach var="attachFile" items="${freeboard.attachFileList }">
+	<c:forEach var="attachFile" items="${freeBoard.attachFileList}">
 		<c:choose>
-		<c:when test="${attachFile.fileType == 'F' }">
-			<li class="attachLi" 
-				data-repopath = "${attachFile.repoPath }"
-			    data-uploadpath = "${attachFile.uploadPath }" 
-			    data-uuid = "${attachFile.uuid }" 
-			    data-filename = "${attachFile.fileName }" 
-			    data-filetype = "F" >
-			        <img src='${contextPath}/resources/img/icon-attach.png' style='width:25px;'>
-			        &nbsp;&nbsp;${attachFile.fileName}
-			</li>
+		<c:when test='${attachFile.fileType == "F"}'>
+		<li class="attachLi" 
+			data-repopath="${attachFile.repoPath}"
+			data-uploadpath="${attachFile.uploadPath}"
+		    data-uuid="${attachFile.uuid}"
+		    data-filename="${attachFile.fileName }"
+		    data-filetype="F">
+		        <img src='${contextPath}/resources/img/icon-attach.png' style='width:25px;'>
+		        &nbsp;&nbsp; ${attachFile.fileName}
+		    </a>
+		</li>
 		</c:when>
 		<c:otherwise>
-			<c:set var="thumbnail" value="${attachFile.repoPath}/${attachFile.uploadPath}/s_${attachFile.uuid}_${attachFile.fileName}"/>
-			<li class="attachLi" 
-				data-repopath = "${attachFile.repoPath }"
-			    data-uploadpath = "${attachFile.uploadPath }" 
-			    data-uuid = "${attachFile.uuid }" 
-			    data-filename = "${attachFile.fileName }" 
-			    data-filetype = "I" >
-			        <img src='${contextPath}/displayThumbnail?fileName=${thumbnail}' style='width:25px;'>
-			        &nbsp;&nbsp;${attachFile.fileName}
-			</li>
-			<c:remove var="thumbnail"/>
+		    <c:set var="thumbnail" value="${attachFile.repoPath}/${attachFile.uploadPath}/s_${attachFile.uuid}_${attachFile.fileName}"/>
+		    <li class="attachLi" 
+		    	data-repopath="${attachFile.repoPath}"
+		        data-uploadpath = "${attachFile.uploadPath }" 
+		        data-uuid = "${attachFile.uuid }" 
+		        data-filename = "${attachFile.fileName }" 
+		        data-filetype = "I" >
+		            <img src='${contextPath}/displayThumbnail?fileName=${thumbnail}' style='width:25px;'>
+		            &nbsp;&nbsp;${attachFile.fileName}
+		        </a> 
+		    </li>
+		    <c:remove var="thumbnail"/>
 		</c:otherwise>
 		</c:choose>
 	</c:forEach>
 </c:otherwise>
-</c:choose>
-	                    </ul>
-	                </div>
-                </div><!-- /.panel-body -->
-            </div><!-- /.panel -->
-        </div><!-- /.col-lg-12 -->
-    </div><!-- /.row -->
+</c:choose> --%>
+                	</ul>
+            	</div>
+            </div><!-- /.panel-body -->
+        </div><!-- /.panel -->
+    </div><!-- /.col-lg-12 -->
+</div><!-- /.row -->
 
-<%-- Modal: 첨부파일 이미지 표시 --%>
+<%-- Modal:첨부파일 이미지 표시 --%>
 <div class="modal fade" id="attachModal" tabindex="-1" role="dialog" aria-labelledby="attachModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-body" id="attachModal-body">
-            	<%--이미지표시 --%>
+            	<%-- 이미지표시 --%>
             </div>
+            
         </div><%-- /.modal-content --%>
     </div><%-- /.modal-dialog --%>
 </div><%-- /.modal --%>
@@ -170,7 +173,7 @@
 			<div class="panel-heading">
 				<p style="margin-bottom: 0px; font-size: 16px;">
 					<strong style="padding-top: 2px;"> 
-						<%-- <span>댓글&nbsp;<c:out value="${freeBoard.freply_count}"/>개</span>  --%>
+						<%-- <span>댓글&nbsp;<c:out value="${noticeBoard.nreply_count}"/>개</span>  --%>
 						<span id="replyTotal"></span>
 						<span>&nbsp;</span>	
 						<button type="button" id="btnChgCmtReg" class="btn btn-info btn-sm">댓글 작성</button>						
