@@ -4,6 +4,13 @@
  //alert("댓글 클로저 모듈 실행됨");
  
  var qcommentClsr = (function() {
+ 
+ 	var csrfToken, csrfHeader;
+	
+	function init(csrfTokenValue, csrfHeaderValue){
+		csrfToken = csrfTokenValue;
+		csrfHeader = csrfHeaderValue;
+	}
  	
  	//댓글 목록(페이징) - ajax() 함수 사용
  	function getCmtList(questionParam, callback, error) {
@@ -47,6 +54,9 @@
             url: "/healthproject/questionComment/" + qpost_number + "/new" ,
             data: JSON.stringify(comment) ,
             contentType: "application/json; charset=utf-8" ,
+            beforeSend: function(xhr) {
+            	xhr.setRequestHeader(csrfHeader, csrfToken);
+            },
             success: function(result, status) {
                 if(callback) {
                     callback(result) ;
@@ -207,6 +217,7 @@
     } //dateTimeFmt-end
     
     return{
+    	init : init,
     	getCmtList : getCmtList,
     	registerCmt : registerCmt,
     	registerReply : registerReply,

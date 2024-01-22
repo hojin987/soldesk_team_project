@@ -35,14 +35,14 @@ public class ProductCommentController {
 //	}
 	
 	//게시물에 대한 댓글 목록 조회(페이징 고려)
-	@GetMapping(value= "/{product_number}/page/{productPageNum}",
+	@GetMapping(value= "/{product_number}/page/{pageNum}",
 				produces = {"application/json;charset=utf-8", "application/xml;charset=utf-8"})
 	
 	public ResponseEntity<ProductCommentPagingCreatorDTO> showProductCommentList(@PathVariable("product_number") String product_number,
-																		   @PathVariable("productPageNum") Integer productPageNum) {
+																		   @PathVariable("pageNum") Integer pageNum) {
 	
 		ProductCommentPagingCreatorDTO productCommentPagingCreator =
-				productCommentService.getProductCommentList(new ProductCommentPagingDTO(product_number, productPageNum));
+				productCommentService.getProductCommentList(new ProductCommentPagingDTO(product_number, pageNum));
 		
 		ResponseEntity<ProductCommentPagingCreatorDTO> productResponseEntity =
 				new ResponseEntity<ProductCommentPagingCreatorDTO>(productCommentPagingCreator, HttpStatus.OK);
@@ -55,7 +55,7 @@ public class ProductCommentController {
 	@PostMapping(value = "/{product_number}/new" , 
 				 consumes = {"application/json;charset=utf-8"} ,//consumes:브라우저--> 메서드로 전송한 데이터 유형
 				 produces = {"text/plain; charset=utf-8"} )		//produces:메서드--> 브라우저로 보내는 데이터 유형
-	@PreAuthorize("isAuthenticated()")
+//	@PreAuthorize("isAuthenticated()")
 	public ResponseEntity<String> registerProductCommentForProduct(@PathVariable("product_number") String product_number ,
 																  @RequestBody ProductCommentVO pcomment) {
 		Long registered_pcomment_number = productCommentService.registerProductCommentForProductBoard(pcomment);
@@ -78,7 +78,7 @@ public class ProductCommentController {
 	@PostMapping(value = "/{product_number}/{pcomment_number}/new" , 
 				 consumes = {"application/json;charset=utf-8"} ,//consumes:브라우저--> 메서드로 전송한 데이터 유형
 				 produces = {"text/plain; charset=utf-8"} )		//produces:메서드--> 브라우저로 보내는 데이터 유형
-	@PreAuthorize("isAuthenticated()")
+//	@PreAuthorize("isAuthenticated()")
 	public ResponseEntity<String> registerProductCommentForProductComment(@PathVariable("product_number") String product_number ,
 														@PathVariable("pcomment_number") long pcomment_number,
 													    @RequestBody ProductCommentVO pcomment) {
@@ -114,7 +114,7 @@ public class ProductCommentController {
 					method = {RequestMethod.PUT, RequestMethod.PATCH} ,
 					consumes = "application/json;charset=utf-8" ,
 					produces = "text/plain;charset=utf-8") 
-	@PreAuthorize("isAuthenticated() && principal.username == #productComment.pcomment_writer")
+//	@PreAuthorize("isAuthenticated() && principal.username == #productComment.pcomment_writer")
 	public String modifyProductComment(@PathVariable("product_number") String product_number ,
 							  @PathVariable("pcomment_number") Long pcomment_number ,
 							  @RequestBody ProductCommentVO pcomment){
@@ -128,13 +128,13 @@ public class ProductCommentController {
 	}
 	
 	
-	//특정 게시물에 대한 특정 댓글/답글 삭제(pcommentDeleteFlag를 1로 업데이트)	/{product_number}/{pcomment_number}
+	//특정 게시물에 대한 특정 댓글/답글 삭제	/{product_number}/{pcomment_number}
 	@DeleteMapping(value = "/{product_number}/{pcomment_number}" ,
 				   consumes = "application/json; charset=utf-8",
 				   produces = "text/plain;charset=utf-8")
-	@PreAuthorize("isAuthenticated() && principal.username == #productComment.pcomment_writer")
+//	@PreAuthorize("isAuthenticated() && principal.username == #productComment.pcomment_writer")
 	public ResponseEntity<String> removeProductComment(@PathVariable("product_number") String product_number, 
-											  		@PathVariable("pcommnet_number") Long pcomment_number,
+											  		@PathVariable("pcomment_number") Long pcomment_number,
 											  		@RequestBody ProductCommentVO pcomment) {
 		
 		return productCommentService.modifyPcommentDeleteFlag(product_number, pcomment_number)  

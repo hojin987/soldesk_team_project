@@ -128,7 +128,7 @@ public class NoticeCommentController {
 	}
 	
 	
-	//특정 게시물에 대한 특정 댓글/답글 삭제(ncommentDeleteFlag를 1로 업데이트)	/{npost_number}/{ncomment_number}
+	//특정 게시물에 대한 특정 댓글/답글 삭제	/{npost_number}/{ncomment_number}
 	@DeleteMapping(value = "/{npost_number}/{ncomment_number}" ,
 				   consumes = "application/json; charset=utf-8",
 				   produces = "text/plain;charset=utf-8")

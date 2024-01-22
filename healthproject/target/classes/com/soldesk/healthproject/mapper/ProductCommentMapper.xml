@@ -20,11 +20,11 @@
 		FROM ( 	SELECT /*+ INDEX(a IDX_PRODUCTCOMMENT_PRODUCT_NUMBER_PCOMMENT_NUMBER)  */ ROWNUM rn, LEVEL lvl, a.*
 				FROM project_health.product_comment a
 				WHERE product_number = #{product_number}
-				AND ROWNUM <= (#{productPageNum} * #{rowAmountPerProductPage})
+				AND ROWNUM <= (#{pageNum} * #{rowAmountPerPage})
 				START WITH preply_number IS NULL
 				CONNECT BY PRIOR pcomment_number = preply_number
 			  )
-		WHERE rn >= ((#{productPageNum} * #{rowAmountPerProductPage}) - (#{rowAmountPerProductPage} - 1))  
+		WHERE rn >= ((#{pageNum} * #{rowAmountPerPage}) - (#{rowAmountPerPage} - 1))  
 
 	]]>	
 	</select>
@@ -42,7 +42,7 @@
 		</selectKey>
 	
 	INSERT INTO project_health.product_comment
-	VALUES (#{pcomment_number},#{product_number},#{pcomment},#{pcomment_writer},DEFAULT,#{preply_number},DEFAULT)	
+	VALUES (#{pcomment_number},#{product_number},#{pcomment},#{pcomment_writer},DEFAULT,NULL,DEFAULT)	
 	
 	</insert>
 
@@ -72,11 +72,9 @@
 
 <!-- 특정 게시물에 대한 특정 댓글/답글 삭제요청 -->
 	<update id="updatePcommentDeleteFlag">
-		UPDATE project_health.product_comment
-		SET pcommentDeleteFlag = 1
+		DELETE project_health.product_comment
 		WHERE product_number = #{product_number} AND pcomment_number = #{pcomment_number}
 	</update>
-
 
 <!-- 특정 게시물에 대한 모든 댓글 삭제 -->
 	<delete id="deleteAllProductComment">

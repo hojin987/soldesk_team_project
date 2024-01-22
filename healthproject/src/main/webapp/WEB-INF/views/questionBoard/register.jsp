@@ -37,6 +37,7 @@
 							<button type="button" class="btn btn-warning" data-oper="list"
 									onclick="location.href='${contextPath}/questionBoard/list'">취소
 							</button>
+						<sec:csrfInput/>
 					</form>
 
           </div><%-- /.panel-body --%>

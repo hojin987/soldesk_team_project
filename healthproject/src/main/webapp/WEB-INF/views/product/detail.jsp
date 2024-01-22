@@ -350,6 +350,9 @@ $("#btnChgCmtReg").on("click", function(){
 	
 });
 
+var csrfHeaderName = "${_csrf.headerName}"
+var csrfTokenValue = "${_csrf.token}"
+
 <%-- 댓글 등록 버튼 클릭 처리: 이벤트 전파 --%>
 $("#btnRegCmt").on("click", function(){
 	
@@ -357,6 +360,8 @@ $("#btnRegCmt").on("click", function(){
 	var txtBoxCmt = $(".txtBoxCmt").val() ;
 	var loginUser = "user11" ;	
 	var reply = {product_number: product_number_value, pcomment: txtBoxCmt, pcomment_writer: loginUser } ;
+	
+	pcommentClsr.init(csrfTokenValue, csrfHeaderName)
 	
 	pcommentClsr.registerCmt(
 			reply,

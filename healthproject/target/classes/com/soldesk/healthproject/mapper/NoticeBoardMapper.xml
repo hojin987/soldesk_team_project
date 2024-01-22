@@ -123,7 +123,7 @@
 	<update id = "updateNreplyCount">
 		UPDATE project_health.notice_board
 		SET nreply_count = nreply_count + #{amount}
-		WHERE npost_number = #{npost_number} AND ndelete_flag = 'N'
+		WHERE npost_number = #{npost_number}
 	</update>
 	
 

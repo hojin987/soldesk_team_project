@@ -20,11 +20,11 @@
 		FROM ( 	SELECT /*+ INDEX(a IDX_FREECOMMENT_FPOST_NUMBER_FCOMMENT_NUMBER)  */ ROWNUM rn, LEVEL lvl, a.*
 				FROM project_health.free_comment a 
 				WHERE fpost_number = #{fpost_number}
-				AND ROWNUM <= (#{freePageNum} * #{rowAmountPerFreePage})
+				AND ROWNUM <= (#{pageNum} * #{rowAmountPerPage})
 				START WITH freply_number IS NULL
 				CONNECT BY PRIOR fcomment_number = freply_number
 			  )
-		WHERE rn >= ((#{freePageNum} * #{rowAmountPerFreePage}) - (#{rowAmountPerFreePage} - 1))  
+		WHERE rn >= ((#{pageNum} * #{rowAmountPerPage}) - (#{rowAmountPerPage} - 1))  
 
 	]]>	
 	</select>
@@ -42,7 +42,7 @@
 		</selectKey>
 	
 	INSERT INTO project_health.free_comment
-	VALUES (#{fcomment_number},#{fpost_number},#{fcomment},#{fcomment_writer},DEFAULT,#{freply_number},DEFAULT)	
+	VALUES (#{fcomment_number},#{fpost_number},#{fcomment},#{fcomment_writer},DEFAULT,NULL,DEFAULT)	
 	
 	</insert>
 
@@ -70,13 +70,11 @@
 		WHERE fpost_number = #{fpost_number} AND fcomment_number = #{fcomment_number}
 	</update>
 
-<!-- 특정 게시물에 대한 특정 댓글/답글 삭제요청 -->
+<!-- 특정 게시물에 대한 특정 댓글/답글 삭제 -->
 	<update id="updateFcommentDeleteFlag">
-		UPDATE project_health.free_comment
-		SET fcommentDeleteFlag = 1
+		DELETE project_health.free_comment
 		WHERE fpost_number = #{fpost_number} AND fcomment_number = #{fcomment_number}
 	</update>
-
 
 <!-- 특정 게시물에 대한 모든 댓글 삭제 -->
 	<delete id="deleteAllFreeComment">

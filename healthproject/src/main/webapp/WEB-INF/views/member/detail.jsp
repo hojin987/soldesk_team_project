@@ -31,11 +31,6 @@
 								   readonly="readonly" />
 					</div>
 					<div class="form-group">
-						<label>회원 비밀번호</label>
-							<input class="form-control" name="member_pw" value='<c:out value="${member.member_pw}"/>'
-								   readonly="readonly"/>
-					</div>
-					<div class="form-group">
 						<label>회원 이메일</label>
 							<input class="form-control" name="member_email" value='<c:out value="${member.member_email}"/>'
 								   readonly="readonly"/>
@@ -91,8 +86,9 @@
 								   readonly="readonly"/>
 					</div>
 						
-					<button type="button" class="btn btn-default" id="BtnMoveModify" data-oper="modify">수정</button>
-					<button type="button" class="btn btn-info" id="BtnMoveList" data-oper="list">목록</button>
+					<button type="button" class="btn btn-default" id="BtnMoveModify">내 정보 수정하기</button>
+					<button type="button" class="btn btn-default" id="BtnMoveModifyPassword">비밀번호 변경하기</button>
+					<button type="button" class="btn btn-info" id="BtnMoveHome">메인페이지</button>
 
           </div><%-- /.panel-body --%>
             
@@ -120,13 +116,18 @@
 </div><%-- /.modal --%>
 
 <script>
-//상품정보 수정-삭제 페이지로 이동
+//회원정보 수정-삭제 페이지로 이동
 $("#BtnMoveModify").on("click", function(){
- location.href='${contextPath}/member/modify?member_id=<c:out value="${member.member_id}"/>';
+	location.href='${contextPath}/member/modify?member_id=<c:out value="${member.member_id}"/>';
 })
+
+$("#BtnMoveModifyPassword").on("click", function(){
+	location.href='${contextPath}/member/modifyPw?member_id=<c:out value="${member.member_id}"/>';
+})
+
 //상품 목록 페이지로 이동
-$("#BtnMoveList").on("click", function(){
- location.href="${contextPath}/member/list";
+$("#BtnMoveHome").on("click", function(){
+	location.href="${contextPath}/";
 })
 </script>
 

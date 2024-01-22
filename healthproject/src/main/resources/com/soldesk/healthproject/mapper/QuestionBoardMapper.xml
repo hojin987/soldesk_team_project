@@ -119,5 +119,12 @@
 		WHERE qpost_number = #{qpost_number}
 	</update>
 	
+<!-- 게시물의 댓글 개수 수정 -->
+	<update id = "updateQreplyCount">
+		UPDATE project_health.question_board
+		SET qreply_count = qreply_count + #{amount}
+		WHERE qpost_number = #{qpost_number}
+	</update>
+
 
 </mapper>

@@ -335,62 +335,6 @@ var fpost_number_value = '<c:out value="${freeBoard.fpost_number}"/>';
 var commentUL = $(".chat");
 var frmCmtPagingValue = $("#frmCmtPagingValue");
 
-//댓글 목록 데이터 요청 받기 테스트
-/*  fcommentClsr.getCmtList(
-	{fpost_number:fpost_number_value, pageNum:1},
-	function(freeCommentPagingCreator){
-		for(var i =0,len=freeCommentPagingCreator.fcommentList.length || 0; i < len; i++){
-			console.log(freeCommentPagingCreator.fcommentList[i]);
-		}	
-	}		
-);  */ 
-
-/* //댓글등록 테스트
-fcommentClsr.registerCmt(
-		{fpost_number:fpost_number_value, fcomment:"js-클로저-댓글입력 테스트", fcomment_writer: "user5"},
-		function(result){
-			alert("fcommentClsr.registerCmt()처리결과 " + result);
-		}
-);  */
-
-/* //답글등록 테스트
-fcommentClsr.registerReply(
-		{fpost_number:fpost_number_value, freply_number: 1, fcomment:"js-클로저-답글입력 테스트", fcomment_writer: "user6"},
-		function(result){
-			alert("fcommentClsr.registerReply()처리결과 " + result);
-		}
-); */ 
-
-/*  //댓글-답글 조회 테스트
-fcommentClsr.getCmtReply(
-		{fpost_number:fpost_number_value, fcomment_number:274},
-		function(data){
-			console.log(data);
-		}
-);  
-
-//댓글-답글 수정 테스트
-fcommentClsr.modifyCmtReply(
-		{fpost_number:fpost_number_value, fcomment_number:274, fcomment:"js클로저에 의한 댓글 수정 테스트"},
-		function(modifyResult){
-			console.log(modifyResult);
-		}
-);  */
-
-//댓글 삭제 테스트
-/* fcommentClsr.removeCmtReply(
-		{fpost_number: fpost_number_value, fcomment_number: 273, fcomment_writer:"user10"},
-		function(deleteResult){
-			console.log(deleteResult);
-			if(deleteResult === "댓글 삭제 성공") {
-				alert(deleteResult + ": 댓글/답글이 삭제되었습니다.");
-			}
-		},
-		function(err) {
-			alert("오류로 댓글/답글 삭제 작업 취소..");
-		}
-); */ 
-
 <%--댓글목록 표시 함수: 서버로부터 전달된 데이터를 이용해서 댓글 목록을 표시하는 JS 함수--%>
 function showCmtList(pageNum){
 	//댓글 목록 데이터를 요청하는 클로저 모듈 함수 호출
@@ -770,7 +714,6 @@ $(document).ready(function(){
 	showCmtList(1);
 	
 });
-
 
 
 </script>

@@ -237,6 +237,8 @@
 	<input type="hidden" name="rowAmountPerPage" value="" />
 </form>
 
+
+
 </div><%-- /#page-wrapper --%>
 
 <%-- Modal --%>
@@ -302,29 +304,6 @@ function runModal(result) {
 </script>
 
 
-<%-- 첨부파일 이미지 표시 --%>
-<script>
-$(".attachLi").on("click", function(){
-	var objLi = $(this) ;
-	var myFileName = objLi.data("repopath") + "/" + objLi.data("uploadpath") + "/" 
-				   + objLi.data("uuid") + "_" + objLi.data("filename");
-	
-	if(objLi.data("filetype")=="I"){
-		$("#attachModal-body").html("<img src='${contextPath}/fileDownloadAjax?fileName=" + encodeURI(myFileName) + "' style='width:80%' >");
-		
-		$("#attachModal").modal("show");
-	}else{
-		self.location="${contextPath}/fileDownloadAjax?fileName=" + encodeURI(myFileName) ;
-	}
-	
-})
-
-<%-- 표시된 이미지 모달 감추기 --%>
-$("#attachModal").on("click", function(){
-	$(this).modal("hide");
-})
-
-</script>
 
 <%-- 댓글/답글 자바스크립트 시작 --%>
 <script type="text/javascript" src="${contextPath}/resources/js/questioncomment.js"></script>

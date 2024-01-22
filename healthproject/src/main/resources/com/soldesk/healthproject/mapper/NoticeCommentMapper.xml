@@ -70,13 +70,11 @@
 		WHERE npost_number = #{npost_number} AND ncomment_number = #{ncomment_number}
 	</update>
 
-<!-- 특정 게시물에 대한 특정 댓글/답글 삭제요청 -->
+<!-- 특정 게시물에 대한 특정 댓글/답글 삭제 -->
 	<update id="updateNcommentDeleteFlag">
-		UPDATE project_health.notice_comment
-		SET ncomment_delete_flag = 1
+		DELETE project_health.notice_comment
 		WHERE npost_number = #{npost_number} AND ncomment_number = #{ncomment_number}
 	</update>
-
 
 <!-- 특정 게시물에 대한 모든 댓글 삭제 -->
 	<delete id="deleteAllNoticeComment">

@@ -49,7 +49,7 @@
 					<button type="button" class="btn btn-default" id="btnModify" data-oper="modify">수정</button>
  					<button type="button" class="btn btn-danger" id="btnRemove" data-oper="remove">삭제</button>
  					<button type="button" class="btn btn-info" id="btnList" data-oper="list">취소</button>
-		  
+ 				<sec:csrfInput/>
 		  </form>
           </div><%-- /.panel-body --%>
             

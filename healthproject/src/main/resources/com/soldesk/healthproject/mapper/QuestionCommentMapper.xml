@@ -20,11 +20,11 @@
 		FROM ( 	SELECT /*+ INDEX(a IDX_QUESTIONCOMMENT_QPOST_NUMBER_QCOMMENT_NUMBER)  */ ROWNUM rn, LEVEL lvl, a.*
 				FROM project_health.question_comment a
 				WHERE qpost_number = #{qpost_number}
-				AND ROWNUM <= (#{questionPageNum} * #{rowAmountPerQuestionPage})
+				AND ROWNUM <= (#{pageNum} * #{rowAmountPerPage})
 				START WITH qreply_number IS NULL
 				CONNECT BY PRIOR qcomment_number = qreply_number
 			  )
-		WHERE rn >= ((#{questionPageNum} * #{rowAmountPerQuestionPage}) - (#{rowAmountPerQuestionPage} - 1))  
+		WHERE rn >= ((#{pageNum} * #{rowAmountPerPage}) - (#{rowAmountPerPage} - 1))  
 
 	]]>	
 	</select>
@@ -42,7 +42,7 @@
 		</selectKey>
 	
 	INSERT INTO project_health.question_comment
-	VALUES (#{qcomment_number},#{qpost_number},#{qcomment},#{qcomment_writer},DEFAULT,#{qreply_number},DEFAULT)	
+	VALUES (#{qcomment_number},#{qpost_number},#{qcomment},#{qcomment_writer},DEFAULT,NULL,DEFAULT)	
 	
 	</insert>
 
@@ -72,11 +72,9 @@
 
 <!-- 특정 게시물에 대한 특정 댓글/답글 삭제요청 -->
 	<update id="updateQcommentDeleteFlag">
-		UPDATE project_health.question_comment
-		SET qcommentDeleteFlag = 1
+		DELETE project_health.question_comment
 		WHERE qpost_number = #{qpost_number} AND qcomment_number = #{qcomment_number}
 	</update>
-
 
 <!-- 특정 게시물에 대한 모든 댓글 삭제 -->
 	<delete id="deleteAllQuestionComment">

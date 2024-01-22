@@ -38,7 +38,6 @@ public class MyLoginSuccessHandler2 extends SavedRequestAwareAuthenticationSucce
 			if(authNameList.contains("ADMIN")) {
 				response.sendRedirect("/healthproject/");
 			} else {
-				
 				response.sendRedirect("/healthproject/");
 			}
 		} else {

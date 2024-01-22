@@ -2,6 +2,8 @@ package com.soldesk.healthproject.mapper;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
+
 import com.soldesk.healthproject.common.paging.domain.QuestionBoardPagingDTO;
 import com.soldesk.healthproject.domain.QuestionBoardVO;
 
@@ -33,4 +35,7 @@ public interface QuestionBoardMapper {
 	
 	//특정 게시물 조회수 증가
 	public void updateQviewCount(Long qpost_number);
+	
+	//특정 게시물 댓글/답글 수 변경
+    public void updateQreplyCount(@Param("qpost_number") long qpost_number, @Param("amount") int amount);
 }
