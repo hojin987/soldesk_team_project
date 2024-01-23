@@ -8,8 +8,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.soldesk.healthproject.common.paging.domain.BoardPagingDTO;
 import com.soldesk.healthproject.common.paging.domain.NoticeBoardPagingCreatorDTO;
-import com.soldesk.healthproject.common.paging.domain.NoticeBoardPagingDTO;
 import com.soldesk.healthproject.domain.NoticeBoardVO;
 import com.soldesk.healthproject.service.NoticeBoardService;
 
@@ -24,7 +24,7 @@ public class NoticeBoardController {
 	}
     //게시물 조회(페이징 고려)
 	@GetMapping("/list")
-	public String showBoardList(NoticeBoardPagingDTO noticeboardPaging,  
+	public String showBoardList(BoardPagingDTO noticeboardPaging,  
 							    Model model) {
 		System.out.println("noticeboardPaging: " + noticeboardPaging);
 		NoticeBoardPagingCreatorDTO pagingCreator =  noticeBoardService.getBoardList(noticeboardPaging) ;

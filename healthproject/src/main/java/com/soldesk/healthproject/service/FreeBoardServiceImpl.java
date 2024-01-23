@@ -10,14 +10,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.soldesk.healthproject.common.paging.domain.BoardPagingDTO;
 import com.soldesk.healthproject.common.paging.domain.FreeBoardPagingCreatorDTO;
-import com.soldesk.healthproject.common.paging.domain.FreeBoardPagingDTO;
 import com.soldesk.healthproject.domain.FreeBoardAttachFileVO;
 import com.soldesk.healthproject.domain.FreeBoardVO;
 import com.soldesk.healthproject.mapper.FreeBoardAttachFileMapper;
 import com.soldesk.healthproject.mapper.FreeBoardMapper;
-
-import lombok.extern.log4j.Log4j;
 
 @Service
 public class FreeBoardServiceImpl implements FreeBoardService {
@@ -39,7 +37,7 @@ public class FreeBoardServiceImpl implements FreeBoardService {
 	// 게시물 목록 조회
 
 	@Override
-	public FreeBoardPagingCreatorDTO getBoardList(FreeBoardPagingDTO freeboardPaging) {
+	public FreeBoardPagingCreatorDTO getBoardList(BoardPagingDTO freeboardPaging) {
 
 		String beginDate = freeboardPaging.getBeginDate();
 		String endDate = freeboardPaging.getEndDate();

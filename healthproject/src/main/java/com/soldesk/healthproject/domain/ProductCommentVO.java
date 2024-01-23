@@ -14,7 +14,7 @@ import lombok.Setter;
 public class ProductCommentVO {
 	
 	private long pcomment_number ;
-	private long product_number ;
+	private String product_number ;
 	private String pcomment ;
 	private String pcomment_writer ;
 	private Date pcomment_register_date ;

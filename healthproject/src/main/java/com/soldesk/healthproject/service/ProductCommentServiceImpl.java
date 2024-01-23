@@ -31,12 +31,12 @@ public class ProductCommentServiceImpl implements ProductCommentService {
 				
 			long pcommentTotalCount = productCommentMapper.selectProductRowTotal(pcommentPaging.getProduct_number()) ;
 			
-			int productPageNum = pcommentPaging.getProductPageNum() ;
+			int pageNum = pcommentPaging.getPageNum() ;
 			
-			if (productPageNum == -10) {
+			if (pageNum == -10) {
 				
-				productPageNum = (int) Math.ceil((double)pcommentTotalCount/pcommentPaging.getRowAmountPerProductPage()) ;
-				pcommentPaging.setProductPageNum(productPageNum) ;
+				pageNum = (int) Math.ceil((double)pcommentTotalCount/pcommentPaging.getRowAmountPerPage()) ;
+				pcommentPaging.setPageNum(pageNum) ;
 			}
 			
 			List<ProductCommentVO> pcommentList = productCommentMapper.selectProductCommentList(pcommentPaging);

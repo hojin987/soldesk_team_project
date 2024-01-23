@@ -2,16 +2,16 @@ package com.soldesk.healthproject.mapper;
 
 import java.util.List;
 
-import com.soldesk.healthproject.common.paging.domain.ApplyBoardPagingDTO;
+import com.soldesk.healthproject.common.paging.domain.BoardPagingDTO;
 import com.soldesk.healthproject.domain.ApplyBoardVO;
 
 public interface ApplyBoardMapper {
 	
 	//게시물 목록 조회
-	public List<ApplyBoardVO> selectApplyBoardList(ApplyBoardPagingDTO applyBoardPaging);
+	public List<ApplyBoardVO> selectApplyBoardList(BoardPagingDTO applyBoardPaging);
 	
 	//게시물 총수(READ)
-	public long selectRowTotal(ApplyBoardPagingDTO applyboardPaging) ;
+	public long selectRowTotal(BoardPagingDTO applyboardPaging) ;
 	
 	//게시물 등록
 	public Integer insertApplyBoard(ApplyBoardVO applyBoard);

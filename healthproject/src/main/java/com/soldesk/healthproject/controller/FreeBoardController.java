@@ -14,8 +14,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.soldesk.healthproject.common.paging.domain.BoardPagingDTO;
 import com.soldesk.healthproject.common.paging.domain.FreeBoardPagingCreatorDTO;
-import com.soldesk.healthproject.common.paging.domain.FreeBoardPagingDTO;
 import com.soldesk.healthproject.domain.FreeBoardAttachFileVO;
 import com.soldesk.healthproject.domain.FreeBoardVO;
 import com.soldesk.healthproject.service.FreeBoardService;
@@ -35,7 +35,7 @@ public class FreeBoardController {
 	
     //게시물 조회(페이징 고려)
 	@GetMapping("/list")
-	public String showBoardList(FreeBoardPagingDTO freeboardPaging,  
+	public String showBoardList(BoardPagingDTO freeboardPaging,  
 							    Model model) {
 		FreeBoardPagingCreatorDTO pagingCreator =  freeBoardService.getBoardList(freeboardPaging) ;
 		
@@ -98,7 +98,7 @@ public class FreeBoardController {
 	//특정 게시물 조회 페이지, 수정 후 조회 페이지
 	@GetMapping("/detail")
 	public String showBoardDetail(Long fpost_number, Model model, String result,
-			 					  @ModelAttribute("freeboardPaging") FreeBoardPagingDTO freeboardPaging) {
+			 					  @ModelAttribute("freeboardPaging") BoardPagingDTO freeboardPaging) {
 		
 		FreeBoardVO freeboard = null ;
 
@@ -119,7 +119,7 @@ public class FreeBoardController {
 	@GetMapping("/modify")
 	@PreAuthorize("isAuthenticated() && principal.username == #freeboard.fwriter")
 	public String showBoardModify(Long fpost_number, Model model, 
-								  FreeBoardPagingDTO freeboardPaging) {
+								  BoardPagingDTO freeboardPaging) {
 		FreeBoardVO freeboard = freeBoardService.getFreeBoard2(fpost_number) ;
 		
 		model.addAttribute("freeboard", freeboard) ;
@@ -132,7 +132,7 @@ public class FreeBoardController {
 	@PreAuthorize("isAuthenticated() && principal.username == #myboard.bwriter")
 	public String modifyBoard(FreeBoardVO freeboard,
 						      RedirectAttributes redirectAttr,
-						      FreeBoardPagingDTO freeboardPaging) {
+						      BoardPagingDTO freeboardPaging) {
 		
 		boolean modifyResult = freeBoardService.modifyFreeBoard(freeboard) ;
 		
@@ -161,7 +161,7 @@ public class FreeBoardController {
 	@PreAuthorize("isAuthenticated() && principal.username == #freeboard.fwriter")
 	public String removeBoard(FreeBoardVO freeboard,  
 							  RedirectAttributes redirectAttr,
-							  FreeBoardPagingDTO freeboardPaging ) {
+							  BoardPagingDTO freeboardPaging ) {
 		
 		if (freeBoardService.modifyFdeleteFlag(freeboard.getFpost_number())) {  //게시물 블라인드처리 시 사용
 			redirectAttr.addFlashAttribute("result","successRemove") ;

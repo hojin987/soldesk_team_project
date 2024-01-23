@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.soldesk.healthproject.common.paging.domain.ApplyBoardPagingCreatorDTO;
-import com.soldesk.healthproject.common.paging.domain.ApplyBoardPagingDTO;
+import com.soldesk.healthproject.common.paging.domain.BoardPagingDTO;
 import com.soldesk.healthproject.domain.ApplyBoardVO;
 import com.soldesk.healthproject.service.ApplyBoardService;
 
@@ -26,7 +26,7 @@ public class ApplyBoardController {
 	
     //게시물 조회(페이징 고려)
 	@GetMapping("/list")
-	public String showBoardList(ApplyBoardPagingDTO applyboardPaging,  
+	public String showBoardList(BoardPagingDTO applyboardPaging,  
 							    Model model) {
 		System.out.println("applyboardPaging: " + applyboardPaging);
 		ApplyBoardPagingCreatorDTO pagingCreator =  applyBoardService.getBoardList(applyboardPaging) ;

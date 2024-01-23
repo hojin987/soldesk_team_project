@@ -2,17 +2,17 @@ package com.soldesk.healthproject.mapper;
 
 import java.util.List;
 
-import com.soldesk.healthproject.common.paging.domain.MemberPagingDTO;
+import com.soldesk.healthproject.common.paging.domain.BoardPagingDTO;
 import com.soldesk.healthproject.domain.AuthorityVO;
 import com.soldesk.healthproject.domain.MemberVO;
 
 public interface MemberMapper {
 	
 	//회원 목록 조회
-	public List<MemberVO> selectMemberList(MemberPagingDTO memberPaging);
+	public List<MemberVO> selectMemberList(BoardPagingDTO memberPaging);
 	
 	//게시물 총수(READ)
-	public long selectRowTotal(MemberPagingDTO memberPaging) ;
+	public long selectRowTotal(BoardPagingDTO memberPaging) ;
 	
 	//회원 조회: 회원 권한도 함께 조회됨(스프링 시큐리티 사용)
 	public MemberVO selectMember(String member_id);

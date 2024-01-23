@@ -9,7 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.soldesk.healthproject.common.paging.domain.ApplyBoardPagingCreatorDTO;
-import com.soldesk.healthproject.common.paging.domain.ApplyBoardPagingDTO;
+import com.soldesk.healthproject.common.paging.domain.BoardPagingDTO;
 import com.soldesk.healthproject.domain.ApplyBoardVO;
 import com.soldesk.healthproject.mapper.ApplyBoardMapper;
 
@@ -33,7 +33,7 @@ public class ApplyBoardServiceImpl implements ApplyBoardService {
 	//게시물 목록 조회
 
 	@Override
-	public ApplyBoardPagingCreatorDTO getBoardList(ApplyBoardPagingDTO applyboardPaging) {
+	public ApplyBoardPagingCreatorDTO getBoardList(BoardPagingDTO applyboardPaging) {
 					
 		String beginDate = applyboardPaging.getBeginDate() ;
 		String endDate = applyboardPaging.getEndDate() ;

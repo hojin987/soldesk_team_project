@@ -31,12 +31,12 @@ public class QuestionCommentServiceImpl implements QuestionCommentService {
 			
 		long qcommentTotalCount = questionCommentMapper.selectQuestionRowTotal(qcommentPaging.getQpost_number()) ;
 		
-		int questionPageNum = qcommentPaging.getQuestionPageNum() ;
+		int pageNum = qcommentPaging.getPageNum() ;
 		
-		if (questionPageNum == -10) {
+		if (pageNum == -10) {
 			
-			questionPageNum = (int) Math.ceil((double)qcommentTotalCount/qcommentPaging.getRowAmountPerQuestionPage()) ;
-			qcommentPaging.setQuestionPageNum(questionPageNum) ;
+			pageNum = (int) Math.ceil((double)qcommentTotalCount/qcommentPaging.getRowAmountPerPage()) ;
+			qcommentPaging.setPageNum(pageNum) ;
 		}
 		
 		List<QuestionCommentVO> qcommentList = questionCommentMapper.selectQuestionCommentList(qcommentPaging);

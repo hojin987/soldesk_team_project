@@ -1,8 +1,5 @@
 package com.soldesk.healthproject.controller;
 
-import java.text.DateFormat;
-import java.util.Date;
-import java.util.List;
 import java.util.Locale;
 
 import org.slf4j.Logger;
@@ -12,11 +9,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.soldesk.healthproject.common.paging.domain.BoardPagingDTO;
 import com.soldesk.healthproject.common.paging.domain.FreeBoardPagingCreatorDTO;
-import com.soldesk.healthproject.common.paging.domain.FreeBoardPagingDTO;
 import com.soldesk.healthproject.common.paging.domain.NoticeBoardPagingCreatorDTO;
-import com.soldesk.healthproject.common.paging.domain.NoticeBoardPagingDTO;
-import com.soldesk.healthproject.domain.NoticeBoardVO;
 import com.soldesk.healthproject.service.FreeBoardService;
 import com.soldesk.healthproject.service.HomeService;
 import com.soldesk.healthproject.service.NoticeBoardService;
@@ -49,8 +44,8 @@ public class HomeController {
 	
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String home(Locale locale, Model model, 
-					   NoticeBoardPagingDTO noticeBoardPaging, 
-					   FreeBoardPagingDTO freeBoardPaging) {
+					   BoardPagingDTO noticeBoardPaging, 
+					   BoardPagingDTO freeBoardPaging) {
 		
 		NoticeBoardPagingCreatorDTO noticeBoard = noticeBoardService.getBoardList(noticeBoardPaging);
 		FreeBoardPagingCreatorDTO freeBoard = freeBoardService.getBoardList(freeBoardPaging);

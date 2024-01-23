@@ -1,13 +1,13 @@
 package com.soldesk.healthproject.service;
 
+import com.soldesk.healthproject.common.paging.domain.BoardPagingDTO;
 import com.soldesk.healthproject.common.paging.domain.NoticeBoardPagingCreatorDTO;
-import com.soldesk.healthproject.common.paging.domain.NoticeBoardPagingDTO;
 import com.soldesk.healthproject.domain.NoticeBoardVO;
 
 public interface NoticeBoardService {
 	
 	//게시물 목록 조회 서비스 - 페이징 고려
-	public NoticeBoardPagingCreatorDTO getBoardList(NoticeBoardPagingDTO noticeboardPaging) ;
+	public NoticeBoardPagingCreatorDTO getBoardList(BoardPagingDTO noticeboardPaging) ;
 	
 	//게시물 등록
 	public long registerNoticeBoard(NoticeBoardVO noticeBoard);

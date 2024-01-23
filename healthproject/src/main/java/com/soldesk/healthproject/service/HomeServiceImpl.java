@@ -3,8 +3,7 @@ package com.soldesk.healthproject.service;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.soldesk.healthproject.common.paging.domain.FreeBoardPagingDTO;
-import com.soldesk.healthproject.common.paging.domain.NoticeBoardPagingDTO;
+import com.soldesk.healthproject.common.paging.domain.BoardPagingDTO;
 import com.soldesk.healthproject.mapper.FreeBoardMapper;
 import com.soldesk.healthproject.mapper.NoticeBoardMapper;
 import com.soldesk.healthproject.mapper.ProductMapper;
@@ -30,8 +29,8 @@ public class HomeServiceImpl implements HomeService {
 
 	@Override
 	@Transactional
-	public void getAllBoard(NoticeBoardPagingDTO noticeBoardPaging,
-							FreeBoardPagingDTO freeBoardPaging) {
+	public void getAllBoard(BoardPagingDTO noticeBoardPaging,
+							BoardPagingDTO freeBoardPaging) {
 		noticeBoardMapper.selectNoticeBoardList(noticeBoardPaging);
 		freeBoardMapper.selectFreeBoardList(freeBoardPaging);
 		ticketMapper.selectTicketList();

@@ -14,7 +14,7 @@
 	
 	<!-- 게시물 목록조회(READ): 페이징 고려, 기간검색 포함 -->  
 	<select id="selectNoticeBoardList" resultType="com.soldesk.healthproject.domain.NoticeBoardVO"
-	        parameterType="com.soldesk.healthproject.common.paging.domain.NoticeBoardPagingDTO">
+	        parameterType="com.soldesk.healthproject.common.paging.domain.BoardPagingDTO">
 		<![CDATA[
 			SELECT npost_number, ntitle, ncontent, nwriter, nregister_date, nview_count, nreply_count, ndelete_flag
 			FROM ( SELECT /*+ INDEX_DESC (a pk_notice_board) */ROWNUM rn, a.*
@@ -50,7 +50,7 @@
 	
 <!-- 게시물 총 개수 조회(페이징): -->	
 	<select id="selectRowTotal" resultType="long"
-	        parameterType="com.soldesk.healthproject.common.paging.domain.NoticeBoardPagingDTO" >
+	        parameterType="com.soldesk.healthproject.common.paging.domain.BoardPagingDTO" >
 		SELECT COUNT(*) rowTotal FROM project_health.notice_board
 		<where>
 			<trim prefix="(" suffix=")" prefixOverrides="OR">

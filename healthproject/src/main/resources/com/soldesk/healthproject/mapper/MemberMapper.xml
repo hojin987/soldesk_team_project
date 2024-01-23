@@ -12,7 +12,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 	<!-- 회원 목록 조회: 페이징 -->
 	<select id="selectMemberList" resultType="com.soldesk.healthproject.domain.MemberVO"
-	        parameterType="com.soldesk.healthproject.common.paging.domain.MemberPagingDTO">
+	        parameterType="com.soldesk.healthproject.common.paging.domain.BoardPagingDTO">
 		<![CDATA[
 			SELECT member_id, member_name, member_email, member_register_date, member_delete_flag, ticket_number
 			FROM ( SELECT /*+ INDEX_DESC (a pk_tbl_member) */ROWNUM rn, a.*
@@ -46,7 +46,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 	<!-- 게시물 총 개수 조회(페이징): -->	
 	<select id="selectRowTotal" resultType="long"
-	        parameterType="com.soldesk.healthproject.common.paging.domain.MemberPagingDTO" >
+	        parameterType="com.soldesk.healthproject.common.paging.domain.BoardPagingDTO" >
 		SELECT COUNT(*) rowTotal FROM project_health.tbl_member
 		<where>
 			<trim prefix="(" suffix=")" prefixOverrides="OR">

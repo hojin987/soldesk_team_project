@@ -2,15 +2,15 @@ package com.soldesk.healthproject.service;
 
 import java.util.List;
 
+import com.soldesk.healthproject.common.paging.domain.BoardPagingDTO;
 import com.soldesk.healthproject.common.paging.domain.FreeBoardPagingCreatorDTO;
-import com.soldesk.healthproject.common.paging.domain.FreeBoardPagingDTO;
 import com.soldesk.healthproject.domain.FreeBoardAttachFileVO;
 import com.soldesk.healthproject.domain.FreeBoardVO;
 
 public interface FreeBoardService {
 	
 	//게시물 목록 조회 서비스 - 페이징 고려
-	public FreeBoardPagingCreatorDTO getBoardList(FreeBoardPagingDTO freeboardPaging) ;
+	public FreeBoardPagingCreatorDTO getBoardList(BoardPagingDTO freeboardPaging) ;
 	
 	//게시물 등록
 	public long registerFreeBoard(FreeBoardVO freeBoard);

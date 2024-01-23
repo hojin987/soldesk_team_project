@@ -553,6 +553,9 @@ $("#btnChgCmtReg").on("click", function(){
 	
 });
 
+var csrfHeaderName = "${_csrf.headerName}"
+var csrfTokenValue = "${_csrf.token}"
+
 <%-- 댓글 등록 버튼 클릭 처리: 이벤트 전파 --%>
 $("#btnRegCmt").on("click", function(){
 	
@@ -560,6 +563,8 @@ $("#btnRegCmt").on("click", function(){
 	var txtBoxCmt = $(".txtBoxCmt").val() ;
 	var loginUser = "user10" ;	
 	var reply = {qpost_number: qpost_number_value, qcomment: txtBoxCmt, qcomment_writer: loginUser } ;
+	
+	qcommentClsr.init(csrfTokenValue, csrfHeaderName)
 	
 	qcommentClsr.registerCmt(
 			reply,
@@ -637,6 +642,8 @@ $(".chat").on("click", ".commentLi .btnRegReply", function(){
 	
 	var reply = {qpost_number: qpost_number_value, qcomment: txtBoxReply, qcomment_writer: loginUser, qreply_number: qreply_number_value } ;
 	
+	qcommentClsr.init(csrfTokenValue, csrfHeaderName)
+	
 	qcommentClsr.registerReply(
 			reply,
 			function(result){
@@ -702,6 +709,8 @@ $(".chat").on("click", ".commentLi .btnModCmt", function(){
 	
 	var cmtReply = {qpost_number: qpost_number_value, qcomment_number: qcomment_value, qcomment: txtBoxComment, qcomment_writer: qcomment_writer_value} ;
 	
+	qcommentClsr.init(csrfTokenValue, csrfHeaderName)
+	
 	qcommentClsr.modifyCmtReply(
 			cmtReply,
 			function(result){
@@ -728,6 +737,8 @@ $(".chat").on("click",".commentLi .btnDelCmt", function(){
 	var qcomment_value = $(this).closest("li").data("qcomment_number");
 	
 	var comment ={qpost_number: qpost_number_value, qcomment_number: qcomment_value, qcomment_writer: qcomment_writer_value} ;
+	
+	qcommentClsr.init(csrfTokenValue, csrfHeaderName)
 	
 	qcommentClsr.removeCmtReply(
 			comment,

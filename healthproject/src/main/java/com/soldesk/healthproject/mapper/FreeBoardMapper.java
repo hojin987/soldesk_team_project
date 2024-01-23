@@ -4,16 +4,16 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
 
-import com.soldesk.healthproject.common.paging.domain.FreeBoardPagingDTO;
+import com.soldesk.healthproject.common.paging.domain.BoardPagingDTO;
 import com.soldesk.healthproject.domain.FreeBoardVO;
 
 public interface FreeBoardMapper {
 	
 	//게시물 목록 조회
-	public List<FreeBoardVO> selectFreeBoardList(FreeBoardPagingDTO freeBoardPaging);
+	public List<FreeBoardVO> selectFreeBoardList(BoardPagingDTO freeBoardPaging);
 	
 	//게시물 총수(READ)
-	public long selectRowTotal(FreeBoardPagingDTO freeboardPaging) ;
+	public long selectRowTotal(BoardPagingDTO freeboardPaging) ;
 		
 	//게시물 등록
 	public Integer insertFreeBoard(FreeBoardVO freeBoard);

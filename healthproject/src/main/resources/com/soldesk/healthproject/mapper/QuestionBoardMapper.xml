@@ -14,7 +14,7 @@
 	
 	<!-- 게시물 목록조회(READ): 페이징 고려, 기간검색 포함 -->  
 	<select id="selectQuestionBoardList" resultType="com.soldesk.healthproject.domain.QuestionBoardVO"
-	        parameterType="com.soldesk.healthproject.common.paging.domain.QuestionBoardPagingDTO">
+	        parameterType="com.soldesk.healthproject.common.paging.domain.BoardPagingDTO">
 		<![CDATA[
 			SELECT qpost_number, qtitle, qcontent, qwriter, qregister_date, qview_count, qreply_count, qdelete_flag
 			FROM ( SELECT /*+ INDEX_DESC (a pk_question_board) */ROWNUM rn, a.*
@@ -50,7 +50,7 @@
 	
 <!-- 게시물 총 개수 조회(페이징): -->	
 	<select id="selectRowTotal" resultType="long"
-	        parameterType="com.soldesk.healthproject.common.paging.domain.QuestionBoardPagingDTO" >
+	        parameterType="com.soldesk.healthproject.common.paging.domain.BoardPagingDTO" >
 		SELECT COUNT(*) rowTotal FROM project_health.question_board
 		<where>
 			<trim prefix="(" suffix=")" prefixOverrides="OR">

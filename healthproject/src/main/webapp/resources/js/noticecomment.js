@@ -81,6 +81,9 @@ var ncommentClsr = (function() {
             data: JSON.stringify(reply) ,
             contentType: "application/json; charset=utf-8" ,
             dataType: 'text' ,
+            beforeSend: function(xhr) {
+            	xhr.setRequestHeader(csrfHeader, csrfToken);
+            },
             success: function(result, status, xhr) {
                 if(callback) {
                     callback(result) ;
@@ -123,6 +126,9 @@ var ncommentClsr = (function() {
             data: JSON.stringify(comment) ,
             contentType: "application/json; charset=utf-8" ,
             dataType: "text" ,
+            beforeSend: function(xhr) {
+            	xhr.setRequestHeader(csrfHeader, csrfToken);
+            },
             success: function(result, status, xhr) {
                 if(callback) {
                     callback(result) ;
@@ -148,6 +154,9 @@ var ncommentClsr = (function() {
             url: "/healthproject/noticeComment/" + npost_number + "/" + ncomment_number,
             data: JSON.stringify({npost_number: npost_number, ncomment_number: ncomment_number, ncomment_writer: ncomment_writer}),
             contentType: "application/json;charset=utf-8",
+            beforeSend: function(xhr) {
+            	xhr.setRequestHeader(csrfHeader, csrfToken);
+            },
             success: function(result, status, xhr) {
                 if(callback) {
                     callback(result) ;
@@ -168,6 +177,9 @@ var ncommentClsr = (function() {
             type: "delete" ,
             url: "/healthproject/noticeComment/" + npost_number ,
             dataType: "text" ,
+            beforeSend: function(xhr) {
+            	xhr.setRequestHeader(csrfHeader, csrfToken);
+            },
             success: function(result, status, xhr) {
                 if(callback) {
                     callback(result) ;

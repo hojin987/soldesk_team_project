@@ -3,7 +3,6 @@ package com.soldesk.healthproject.common.paging.domain;
 import java.util.List;
 
 import com.soldesk.healthproject.domain.MemberVO;
-import com.soldesk.healthproject.domain.NoticeBoardVO;
 
 import lombok.Getter;
 import lombok.ToString;
@@ -11,7 +10,7 @@ import lombok.ToString;
 @ToString
 public class MemberPagingCreatorDTO {
 	
-	private MemberPagingDTO memberPaging ;
+	private BoardPagingDTO memberPaging ;
 	
 	private int startPagingNum ;
 	private int endPagingNum ;
@@ -23,7 +22,7 @@ public class MemberPagingCreatorDTO {
 	private List<MemberVO> memberList ;
 	
 	public MemberPagingCreatorDTO(long rowTotal, 
-								  MemberPagingDTO memberPaging,
+								  BoardPagingDTO memberPaging,
 			                      List<MemberVO> memberList) {
 		
 		this.rowTotal = rowTotal ;

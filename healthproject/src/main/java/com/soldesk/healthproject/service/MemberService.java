@@ -2,15 +2,15 @@ package com.soldesk.healthproject.service;
 
 import java.util.List;
 
+import com.soldesk.healthproject.common.paging.domain.BoardPagingDTO;
 import com.soldesk.healthproject.common.paging.domain.MemberPagingCreatorDTO;
-import com.soldesk.healthproject.common.paging.domain.MemberPagingDTO;
 import com.soldesk.healthproject.domain.AuthorityVO;
 import com.soldesk.healthproject.domain.MemberVO;
 
 public interface MemberService {
 	
 	//회원 목록 조회
-	public MemberPagingCreatorDTO getMemberList(MemberPagingDTO memberPaging);
+	public MemberPagingCreatorDTO getMemberList(BoardPagingDTO memberPaging);
 	
 	//회원 조회: 회원 권한도 함께 조회됨(스프링 시큐리티 사용)
 	public MemberVO getMember(String member_id);

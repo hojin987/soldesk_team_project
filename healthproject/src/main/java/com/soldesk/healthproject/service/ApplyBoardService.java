@@ -1,13 +1,13 @@
 package com.soldesk.healthproject.service;
 
 import com.soldesk.healthproject.common.paging.domain.ApplyBoardPagingCreatorDTO;
-import com.soldesk.healthproject.common.paging.domain.ApplyBoardPagingDTO;
+import com.soldesk.healthproject.common.paging.domain.BoardPagingDTO;
 import com.soldesk.healthproject.domain.ApplyBoardVO;
 
 public interface ApplyBoardService {
 	
 	//게시물 목록 조회 서비스 - 페이징 고려
-	public ApplyBoardPagingCreatorDTO getBoardList(ApplyBoardPagingDTO applyboardPaging) ;
+	public ApplyBoardPagingCreatorDTO getBoardList(BoardPagingDTO applyboardPaging) ;
 	
 	//게시물 등록
 	public long registerApplyBoard(ApplyBoardVO applyBoard);

@@ -10,8 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.soldesk.healthproject.common.paging.domain.BoardPagingDTO;
 import com.soldesk.healthproject.common.paging.domain.MemberPagingCreatorDTO;
-import com.soldesk.healthproject.common.paging.domain.MemberPagingDTO;
 import com.soldesk.healthproject.common.paging.domain.NoticeBoardPagingCreatorDTO;
 import com.soldesk.healthproject.domain.AuthorityVO;
 import com.soldesk.healthproject.domain.MemberVO;
@@ -38,7 +38,7 @@ public class MemberServiceImpl implements MemberService {
 	
 	//회원 목록 조회
 	@Override
-	public MemberPagingCreatorDTO getMemberList(MemberPagingDTO memberPaging){
+	public MemberPagingCreatorDTO getMemberList(BoardPagingDTO memberPaging){
 		
 		String beginDate = memberPaging.getBeginDate();
 		String endDate = memberPaging.getEndDate();

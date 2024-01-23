@@ -9,12 +9,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.soldesk.healthproject.common.paging.domain.BoardPagingDTO;
 import com.soldesk.healthproject.common.paging.domain.FreeBoardPagingCreatorDTO;
-import com.soldesk.healthproject.common.paging.domain.FreeBoardPagingDTO;
 import com.soldesk.healthproject.common.paging.domain.MemberPagingCreatorDTO;
-import com.soldesk.healthproject.common.paging.domain.MemberPagingDTO;
 import com.soldesk.healthproject.common.paging.domain.NoticeBoardPagingCreatorDTO;
-import com.soldesk.healthproject.common.paging.domain.NoticeBoardPagingDTO;
 import com.soldesk.healthproject.domain.MemberVO;
 import com.soldesk.healthproject.service.FreeBoardService;
 import com.soldesk.healthproject.service.MemberService;
@@ -49,7 +47,7 @@ public class MemberController {
 	
 	//회원 목록 조회
 	@GetMapping("/list")
-	public String showMemberList(Model model, MemberPagingDTO memberPaging) {
+	public String showMemberList(Model model, BoardPagingDTO memberPaging) {
 		MemberPagingCreatorDTO pagingCreator = memberService.getMemberList(memberPaging);
 		model.addAttribute("pagingCreator", pagingCreator);
 		
@@ -72,8 +70,8 @@ public class MemberController {
 	
 	@PostMapping("/memberRegister")
 	public String memberRegister(MemberVO member, Model model, 
-								 NoticeBoardPagingDTO noticeBoardPaging, 
-								 FreeBoardPagingDTO freeBoardPaging) {
+								 BoardPagingDTO noticeBoardPaging, 
+								 BoardPagingDTO freeBoardPaging) {
 		
 		memberService.registerMember(member);
 		
@@ -128,8 +126,8 @@ public class MemberController {
 	//회원 탈퇴(delete_flag = 'Y')
 	@PostMapping("/delete")
 	public String deleteMember(String member_id, Model model, 
-							 NoticeBoardPagingDTO noticeBoardPaging, 
-							 FreeBoardPagingDTO freeBoardPaging) {
+							 BoardPagingDTO noticeBoardPaging, 
+							 BoardPagingDTO freeBoardPaging) {
 		memberService.setMemberDelete(member_id);
 		
 		NoticeBoardPagingCreatorDTO noticeBoard = noticeBoardService.getBoardList(noticeBoardPaging);
@@ -156,7 +154,7 @@ public class MemberController {
 	@PostMapping("/remove")
 	@Transactional
 	public String removeMember(String member_id, Model model, 
-							   MemberPagingDTO memberPaging) {
+							   BoardPagingDTO memberPaging) {
 		
 		memberService.removeMemberAuthority(member_id);
 		memberService.removeMember(member_id);

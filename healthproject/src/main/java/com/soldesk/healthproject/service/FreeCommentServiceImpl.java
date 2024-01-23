@@ -31,12 +31,12 @@ public class FreeCommentServiceImpl implements FreeCommentService {
 			
 		long fcommentTotalCount = freeCommentMapper.selectFreeRowTotal(fcommentPaging.getFpost_number()) ;
 		
-		int freePageNum = fcommentPaging.getFreePageNum() ;
+		int pageNum = fcommentPaging.getPageNum() ;
 		
-		if (freePageNum == -10) {
+		if (pageNum == -10) {
 			
-			freePageNum = (int) Math.ceil((double)fcommentTotalCount/fcommentPaging.getRowAmountPerFreePage()) ;
-			fcommentPaging.setFreePageNum(freePageNum) ;
+			pageNum = (int) Math.ceil((double)fcommentTotalCount/fcommentPaging.getRowAmountPerPage()) ;
+			fcommentPaging.setPageNum(pageNum) ;
 		}
 		
 		List<FreeCommentVO> fcommentList = freeCommentMapper.selectFreeCommentList(fcommentPaging);

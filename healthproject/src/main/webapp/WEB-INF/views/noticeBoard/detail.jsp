@@ -20,9 +20,6 @@
 }
 </style>
 
-<input type="hidden" id="csrfToken" th:value="${_csrf.token}" />
-<input type="hidden" id="csrfHeader" th:value="${_csrf.headerName}" />
-
 <div id="page-wrapper">
     <div class="row">
         <div class="col-lg-12">
@@ -176,7 +173,8 @@
 			<div class="panel-heading">
 				<p style="margin-bottom: 0px; font-size: 16px;">
 					<strong style="padding-top: 2px;"> 
-						<span>댓글&nbsp;<c:out value="${noticeBoard.nreply_count}"/>개</span>
+						<%-- <span>댓글&nbsp;<c:out value="${noticeBoard.nreply_count}"/>개</span>  --%>
+						<span id="replyTotal"></span>
 						<span>&nbsp;</span>	
 						<button type="button" id="btnChgCmtReg" class="btn btn-info btn-sm">댓글 작성</button>						
 						<button type="button" id="btnRegCmt" class="btn btn-warning btn-sm"
@@ -187,27 +185,26 @@
 				</p>
 			</div> <%-- /.panel-heading --%>
 			
-			<div class="panel-body">
+<div class="panel-body">
 		
 <%-- 댓글 입력창 div 시작 --%>
 	<div class="form-group" style="margin-bottom: 5px;">
 		<textarea class="form-control txtBoxCmt" name="ncomment"
 				  placeholder="댓글작성을 원하시면,&#10;댓글 작성 버튼을 클릭해주세요."
 				  readonly="readonly"
-				 ></textarea>
+		></textarea>
 	</div>
-	<hr style="margin-top: 10px; margin-bottom: 10px;">
-	
+	<hr style="margin-top: 10px; margin-bottom: 10px;">	
 <%-- 댓글 입력창 div 끝 --%>				
 	<ul class="chat">
-	<%-- 댓글 목록 표시 영역 - JavaScript로 내용이 생성되어 표시됩니다.--%><!--  
+	<%-- 댓글 목록 표시 영역 - JavaScript로 내용이 생성되어 표시됩니다.--%>
 		<li class="left clearfix commentLi" data-bno="123456" data-rno="12">
 			<div>
 				<div>
 					<span class="header info-rwriter">
 						<strong class="primary-font">user00</strong>
 						<span>&nbsp;</span>
-						<small class="text-muted">2018-01-01 13:13</small>
+						<small class="text-muted">2024-01-01 13:24</small>
 					</span>
 					<p>앞으로 사용할 댓글 표시 기본 템플릿입니다.</p>
 				</div>		
@@ -217,15 +214,15 @@
 					<button type="button" style="display:none"
 							class="btn btn-warning btn-xs btnRegCmt">답글 등록</button>
 					<hr class="txtBoxCmtHr" style="margin-top:10px; margin-bottom:10px">
-					<textarea class="form-control txtBoxCmtMod" name="rcontent" 
+					<textarea class="form-control txtBoxCmtMod" name="ncomment" 
 							  style="margin-bottom:10px"
 							  placeholder="답글작성을 원하시면,&#10;답글 작성 버튼을 클릭해주세요."
 					></textarea>
 				</div>
 			</div>
-		</li> --> 
+		</li> 
 	</ul> <%-- /.chat --%>
-   </div><%-- /.panel-body --%>
+</div><%-- /.panel-body --%>
   
    <div class="panel-footer text-center" id="showCmtPagingNums">
 	<%-- 댓글 목록의 페이징 번호 표시 영역 - JavaScript로 내용이 생성되어 표시됩니다.--%>
@@ -233,6 +230,7 @@
   </div><%-- /.panel --%>
  </div><%-- .col-lg-12 --%>
 </div><%-- .row : 댓글 화면 표시 끝 --%>
+
 <%-- 댓글 페이징 데이터 저장 form --%>
 <form id = "frmCmtPagingValue">
 	<input type="hidden" name="pageNum" value="" />
@@ -274,9 +272,9 @@ $("#btnToList").on("click", function(){;
 //게시물 수정-삭제 페이지 이동
 $("#btnToModify").on("click", function(){
 	
-	var npost_number = '<c:out value="${noticeBoard.npost_number}"/>' ;
+	var bno = '<c:out value="${noticeBoard.npost_number}"/>' ;
 	
-	frmSendValue.append("<input type='hidden' name='npost_number' value='" + npost_number + "'/>") ;
+	frmSendValue.append("<input type='hidden' name='bno' value='" + bno + "'/>") ;
 	frmSendValue.attr("action", "${contextPath}/noticeBoard/modify").attr("method", "get") ;
 	frmSendValue.submit() ;
 });
@@ -337,6 +335,62 @@ var npost_number_value = '<c:out value="${noticeBoard.npost_number}"/>';
 var commentUL = $(".chat");
 var frmCmtPagingValue = $("#frmCmtPagingValue");
 
+//댓글 목록 데이터 요청 받기 테스트
+/*  ncommentClsr.getCmtList(
+	{npost_number:npost_number_value, pageNum:1},
+	function(noticeCommentPagingCreator){
+		for(var i =0,len=noticeCommentPagingCreator.ncommentList.length || 0; i < len; i++){
+			console.log(noticeCommentPagingCreator.ncommentList[i]);
+		}	
+	}		
+);  */ 
+
+/* //댓글등록 테스트
+ncommentClsr.registerCmt(
+		{npost_number:npost_number_value, ncomment:"js-클로저-댓글입력 테스트", ncomment_writer: "user5"},
+		function(result){
+			alert("ncommentClsr.registerCmt()처리결과 " + result);
+		}
+);  */
+
+/* //답글등록 테스트
+ncommentClsr.registerReply(
+		{npost_number:npost_number_value, nreply_number: 1, ncomment:"js-클로저-답글입력 테스트", ncomment_writer: "user6"},
+		function(result){
+			alert("ncommentClsr.registerReply()처리결과 " + result);
+		}
+); */ 
+
+/*  //댓글-답글 조회 테스트
+ncommentClsr.getCmtReply(
+		{npost_number:npost_number_value, ncomment_number:274},
+		function(data){
+			console.log(data);
+		}
+);  
+
+//댓글-답글 수정 테스트
+ncommentClsr.modifyCmtReply(
+		{npost_number:npost_number_value, ncomment_number:274, ncomment:"js클로저에 의한 댓글 수정 테스트"},
+		function(modifyResult){
+			console.log(modifyResult);
+		}
+);  */
+
+//댓글 삭제 테스트
+/* ncommentClsr.removeCmtReply(
+		{npost_number: npost_number_value, ncomment_number: 273, ncomment_writer:"user10"},
+		function(deleteResult){
+			console.log(deleteResult);
+			if(deleteResult === "댓글 삭제 성공") {
+				alert(deleteResult + ": 댓글/답글이 삭제되었습니다.");
+			}
+		},
+		function(err) {
+			alert("오류로 댓글/답글 삭제 작업 취소..");
+		}
+); */ 
+
 <%--댓글목록 표시 함수: 서버로부터 전달된 데이터를 이용해서 댓글 목록을 표시하는 JS 함수--%>
 function showCmtList(pageNum){
 	//댓글 목록 데이터를 요청하는 클로저 모듈 함수 호출
@@ -345,7 +399,10 @@ function showCmtList(pageNum){
 		
 		function(noticeCommentPagingCreator){
 			
-			frmCmtPagingValue.find("input[name='noticePageNum']").val(noticeCommentPagingCreator.ncommentPaging.noticePageNum) ;
+			$("#replyTotal").html("댓글&nbsp;" + noticeCommentPagingCreator.ncommentTotalCount + "개") ;
+			
+			frmCmtPagingValue.find("input[name='pageNum']").val(pageNum);
+			frmCmtPagingValue.find("input[name='rowAmountPerPage']").val(noticeCommentPagingCreator.ncommentPaging.rowAmountPerPage) ;
 			
 			var str = '';
 			
@@ -385,7 +442,7 @@ function showCmtList(pageNum){
 					str +='    <span class="header info-ncomment_writer">'
 					    + '        <strong class="primary-font">' + noticeCommentPagingCreator.ncommentList[i].ncomment_writer + '</strong>&nbsp;&nbsp;'
 					    + '    </span>'
-					    + '    <p class="rcontent-p" style="white-space:pre-wrap;"'
+					    + '    <p class="ncomment-p" style="white-space:pre-wrap;"'
 					    + '       data-npost_number="' + noticeCommentPagingCreator.ncommentList[i].npost_number + '"'
 					    + '       data-ncomment_number="' + noticeCommentPagingCreator.ncommentList[i].ncomment_number + '">'
 					    +         noticeCommentPagingCreator.ncommentList[i].ncomment + '</p>'
@@ -579,7 +636,7 @@ $(".chat").on("click", ".commentLi div div .btnChgReplyReg" , function(){
 	resetReplyRegElements();
 	
 	var strTxtBoxReply =
-		  "<textarea class='form-control txtBoxReply' name='rcontent' style='margin-bottom:10px;'"
+		  "<textarea class='form-control txtBoxReply' name='ncomment' style='margin-bottom:10px;'"
 		+ " 		 placeholder='답글작성을 원하시면, &#10;답글 작성 버튼을 클릭해주세요.'"
 		+ "			></textarea>"
 		+ "<button type='button' class='btn btn-warning btn-xs btnRegReply'>답글 등록</button>"
@@ -606,6 +663,8 @@ $(".chat").on("click", ".commentLi .btnRegReply", function(){
 	
 	var reply = {npost_number: npost_number_value, ncomment: txtBoxReply, ncomment_writer: loginUser, nreply_number: nreply_number_value } ;
 	
+	ncommentClsr.init(csrfTokenValue, csrfHeaderName)
+	
 	ncommentClsr.registerReply(
 			reply,
 			function(result){
@@ -616,10 +675,10 @@ $(".chat").on("click", ".commentLi .btnRegReply", function(){
 	);
 });
 
-<%--댓글-답글 수정 초기화 --%>
+<%--댓글-답글 수정-삭제-취소-입력창 삭제 함수 --%>
 function resetReplyModElements() {
 	
-	$("p").attr("style", "display:in-block;white-space:pre;") ;
+	$("p").attr("style", "display:in-block;") ;
 	
 	//답글처리 관련 버튼
 	$(".btnModCmt").remove() ;
@@ -630,7 +689,7 @@ function resetReplyModElements() {
 
 <%-- 댓글/답글 수정/삭제 화면 요소 표시 --%>
 
-$("#chat").on("click",".commentLi p", function(){ 
+$(".chat").on("click",".commentLi p", function(){ 
 	resetCmtRegElements() ;
 	resetReplyRegElements() ;
 	resetReplyModElements();
@@ -642,7 +701,7 @@ $("#chat").on("click",".commentLi p", function(){
 	
 	var strTxtBoxReply =
 		  "<textarea class='form-control txtBoxMod' name='ncomment' style='margin-bottom:10px;'"
-		+ "         ></textarea>"
+		+ "></textarea>"
 		+ "<button type='button' class='btn btn-warning btn-sm btnModCmt'>수정</button> "
 		+ "<button type='button' class='btn btn-danger btn-sm btnDelCmt'>삭제</button>"
 		+ "<button type='button' class='btn btn-info btn-sm btnCancelCmt' style='margin-left: 4px;'>취소</button>";
@@ -663,7 +722,6 @@ $(".chat").on("click", ".commentLi .btnCancelCmt", function(){
 <%-- 댓글-답글 수정 처리: 버튼 클릭 이벤트 --%>
 $(".chat").on("click", ".commentLi .btnModCmt", function(){
 	
-	
 	var ncomment_writer_value = $(this).siblings("p").data("ncomment_writer") ;
 	var pageNum = frmCmtPagingValue.find("input[name='pageNum']").val();
 	
@@ -671,6 +729,8 @@ $(".chat").on("click", ".commentLi .btnModCmt", function(){
 	var ncomment_value = $(this).closest("li").data("ncomment_number");
 	
 	var cmtReply = {npost_number: npost_number_value, ncomment_number: ncomment_value, ncomment: txtBoxComment, ncomment_writer: ncomment_writer_value} ;
+	
+	ncommentClsr.init(csrfTokenValue, csrfHeaderName)
 	
 	ncommentClsr.modifyCmtReply(
 			cmtReply,
@@ -699,12 +759,14 @@ $(".chat").on("click",".commentLi .btnDelCmt", function(){
 	
 	var comment ={npost_number: npost_number_value, ncomment_number: ncomment_value, ncomment_writer: ncomment_writer_value} ;
 	
+	ncommentClsr.init(csrfTokenValue, csrfHeaderName)
+	
 	ncommentClsr.removeCmtReply(
 			comment,
 			function(){
 				alert("글이 삭제되었습니다.") ;
 
-				showCmtList(PageNum) ;
+				showCmtList(pageNum) ;
 			}
 	);
 });
@@ -724,4 +786,3 @@ $(document).ready(function(){
 
 </script>
 <%@include file="../myinclude/myfooter.jsp" %>   
-

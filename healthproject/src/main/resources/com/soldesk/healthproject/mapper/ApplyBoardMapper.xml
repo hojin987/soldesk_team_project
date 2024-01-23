@@ -6,7 +6,7 @@
   
 <!-- 게시물 목록조회(READ): 페이징 고려, 기간검색 포함 -->  
 	<select id="selectApplyBoardList" resultType="com.soldesk.healthproject.domain.ApplyBoardVO"
-	        parameterType="com.soldesk.healthproject.common.paging.domain.ApplyBoardPagingDTO">
+	        parameterType="com.soldesk.healthproject.common.paging.domain.BoardPagingDTO">
 		<![CDATA[
 			SELECT apost_number, atitle, acontent, awriter, aregister_date, aview_count, adelete_flag
 			FROM ( SELECT /*+ INDEX_DESC (a pk_apply_board) */ROWNUM rn, a.*
@@ -42,7 +42,7 @@
 	
 <!-- 게시물 총 개수 조회(페이징): -->	
 	<select id="selectRowTotal" resultType="long"
-	        parameterType="com.soldesk.healthproject.common.paging.domain.ApplyBoardPagingDTO" >
+	        parameterType="com.soldesk.healthproject.common.paging.domain.BoardPagingDTO" >
 		SELECT COUNT(*) rowTotal FROM project_health.apply_board
 		<where>
 			<trim prefix="(" suffix=")" prefixOverrides="OR">

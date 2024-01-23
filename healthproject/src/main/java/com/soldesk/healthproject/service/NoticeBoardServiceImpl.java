@@ -8,8 +8,8 @@ import java.util.Date;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.soldesk.healthproject.common.paging.domain.BoardPagingDTO;
 import com.soldesk.healthproject.common.paging.domain.NoticeBoardPagingCreatorDTO;
-import com.soldesk.healthproject.common.paging.domain.NoticeBoardPagingDTO;
 import com.soldesk.healthproject.domain.NoticeBoardVO;
 import com.soldesk.healthproject.mapper.NoticeBoardMapper;
 
@@ -34,7 +34,7 @@ public class NoticeBoardServiceImpl implements NoticeBoardService {
 	//게시물 목록 조회
 
 	@Override
-	public NoticeBoardPagingCreatorDTO getBoardList(NoticeBoardPagingDTO noticeboardPaging) {
+	public NoticeBoardPagingCreatorDTO getBoardList(BoardPagingDTO noticeboardPaging) {
 					
 		String beginDate = noticeboardPaging.getBeginDate() ;
 		String endDate = noticeboardPaging.getEndDate() ;

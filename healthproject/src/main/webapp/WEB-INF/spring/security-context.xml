@@ -36,6 +36,8 @@
 					     username-parameter="username"
 					     password-parameter="password"
 						/>
+						
+	<security:remember-me data-source-ref="dataSource" token-validity-seconds="604800"/>
 	
 	<security:logout logout-url="/myLogoutProcess" logout-success-url="/" />
 	

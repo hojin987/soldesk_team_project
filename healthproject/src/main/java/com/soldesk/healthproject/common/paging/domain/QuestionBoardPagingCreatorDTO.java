@@ -10,7 +10,7 @@ import lombok.ToString;
 @ToString
 public class QuestionBoardPagingCreatorDTO {
 	
-	private QuestionBoardPagingDTO questionboardPaging ;
+	private BoardPagingDTO questionboardPaging ;
 	
 	private int startPagingNum ;
 	private int endPagingNum ;
@@ -22,7 +22,7 @@ public class QuestionBoardPagingCreatorDTO {
 	private List<QuestionBoardVO> questionboardList ;
 	
 	public QuestionBoardPagingCreatorDTO(long rowTotal, 
-			                       QuestionBoardPagingDTO questionboardPaging,
+			                       BoardPagingDTO questionboardPaging,
 			                       List<QuestionBoardVO> questionboardList) {
 		
 		this.rowTotal = rowTotal ;

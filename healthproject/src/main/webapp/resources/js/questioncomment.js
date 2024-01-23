@@ -83,6 +83,9 @@
             data: JSON.stringify(reply) ,
             contentType: "application/json; charset=utf-8" ,
             dataType: 'text' ,
+            beforeSend: function(xhr) {
+            	xhr.setRequestHeader(csrfHeader, csrfToken);
+            },
             success: function(result, status, xhr) {
                 if(callback) {
                     callback(result) ;
@@ -131,6 +134,9 @@
             data: JSON.stringify(comment),
             contentType: "application/json; charset=utf-8",
             dataType: "text",
+            beforeSend: function(xhr) {
+            	xhr.setRequestHeader(csrfHeader, csrfToken);
+            },
             success: function(modResult, status, xhr) {
                 if(callback) {
                     callback(modResult) ;
@@ -156,6 +162,9 @@
             url: "/healthproject/questionComment/" + qpost_number + "/" + qcomment_number,
             data: JSON.stringify({qpost_number: qpost_number, qcomment_number: qcomment_number, qcomment_writer: qcomment_writer}),
             contentType: "application/json;charset=utf-8",
+            beforeSend: function(xhr) {
+            	xhr.setRequestHeader(csrfHeader, csrfToken);
+            },
             success: function(removeResult, status, xhr) {
                 if(callback) {
                     callback(removeResult) ;
@@ -176,6 +185,9 @@
             type: "delete" ,
             url: "/healthproject/questionComment/" + qpost_number ,
             dataType: "text" ,
+            beforeSend: function(xhr) {
+            	xhr.setRequestHeader(csrfHeader, csrfToken);
+            },
             success: function(result, status, xhr) {
                 if(callback) {
                     callback(result) ;

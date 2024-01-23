@@ -4,16 +4,16 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
 
-import com.soldesk.healthproject.common.paging.domain.NoticeBoardPagingDTO;
+import com.soldesk.healthproject.common.paging.domain.BoardPagingDTO;
 import com.soldesk.healthproject.domain.NoticeBoardVO;
 
 public interface NoticeBoardMapper {
 	
 	//게시물 목록 조회
-	public List<NoticeBoardVO> selectNoticeBoardList(NoticeBoardPagingDTO noitceBoardPaging);
+	public List<NoticeBoardVO> selectNoticeBoardList(BoardPagingDTO noitceBoardPaging);
 	
 	//게시물 총수(READ)
-	public long selectRowTotal(NoticeBoardPagingDTO noitceboardPaging) ;
+	public long selectRowTotal(BoardPagingDTO noitceboardPaging) ;
 	
 	//게시물 등록
 	public Integer insertNoticeBoard(NoticeBoardVO noticeBoard);
