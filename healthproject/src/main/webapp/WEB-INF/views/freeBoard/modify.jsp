@@ -44,6 +44,8 @@
 							<input class="form-control" name="fwriter" value='<c:out value="${freeBoard.fwriter}"/>'
 								   readonly="readonly"/>
 					</div>
+					
+					<sec:csrfInput/>
 						
 					<button type="button" class="btn btn-default" id="btnModify" data-oper="modify">수정</button>
  					<button type="button" class="btn btn-danger" id="btnRemove" data-oper="remove">삭제</button>

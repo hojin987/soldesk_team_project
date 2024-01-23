@@ -518,6 +518,9 @@ $("#btnChgCmtReg").on("click", function(){
 	
 });
 
+var csrfHeaderName = "${_csrf.headerName}"
+var csrfTokenValue = "${_csrf.token}"
+
 <%-- 댓글 등록 버튼 클릭 처리: 이벤트 전파 --%>
 $("#btnRegCmt").on("click", function(){
 	
@@ -525,6 +528,8 @@ $("#btnRegCmt").on("click", function(){
 	var txtBoxCmt = $(".txtBoxCmt").val() ;
 	var loginUser = "user10" ;	
 	var reply = {fpost_number: fpost_number_value, fcomment: txtBoxCmt, fcomment_writer: loginUser } ;
+	
+	fcommentClsr.init(csrfTokenValue, csrfHeaderName)
 	
 	fcommentClsr.registerCmt(
 			reply,
@@ -602,6 +607,8 @@ $(".chat").on("click", ".commentLi .btnRegReply", function(){
 	
 	var reply = {fpost_number: fpost_number_value, fcomment: txtBoxReply, fcomment_writer: loginUser, freply_number: freply_number_value } ;
 	
+	fcommentClsr.init(csrfTokenValue, csrfHeaderName)
+	
 	fcommentClsr.registerReply(
 			reply,
 			function(result){
@@ -667,6 +674,8 @@ $(".chat").on("click", ".commentLi .btnModCmt", function(){
 	
 	var cmtReply = {fpost_number: fpost_number_value, fcomment_number: fcomment_value, fcomment: txtBoxComment, fcomment_writer: fcomment_writer_value} ;
 	
+	fcommentClsr.init(csrfTokenValue, csrfHeaderName)
+	
 	fcommentClsr.modifyCmtReply(
 			cmtReply,
 			function(result){
@@ -693,6 +702,8 @@ $(".chat").on("click",".commentLi .btnDelCmt", function(){
 	var fcomment_value = $(this).closest("li").data("fcomment_number");
 	
 	var comment ={fpost_number: fpost_number_value, fcomment_number: fcomment_value, fcomment_writer: fcomment_writer_value} ;
+	
+	fcommentClsr.init(csrfTokenValue, csrfHeaderName)
 	
 	fcommentClsr.removeCmtReply(
 			comment,

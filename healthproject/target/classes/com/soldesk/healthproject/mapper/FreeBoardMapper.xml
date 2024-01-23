@@ -73,9 +73,6 @@
 		</where>
 	</select> 
 			
-
-
-	
 <!-- 게시물 등록 -->
 	<insert id="insertFreeBoard" parameterType="com.soldesk.healthproject.domain.FreeBoardVO">
 		<selectKey order="BEFORE" keyProperty="fpost_number" resultType="long">

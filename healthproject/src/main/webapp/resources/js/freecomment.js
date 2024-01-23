@@ -83,6 +83,9 @@
             data: JSON.stringify(reply) ,
             contentType: "application/json; charset=utf-8" ,
             dataType: 'text' ,
+            beforeSend: function(xhr) {
+            	xhr.setRequestHeader(csrfHeader, csrfToken);
+            },
             success: function(result, status, xhr) {
                 if(callback) {
                     callback(result) ;
@@ -131,6 +134,9 @@
             data: JSON.stringify(comment),
             contentType: "application/json; charset=utf-8",
             dataType: "text",
+            beforeSend: function(xhr) {
+            	xhr.setRequestHeader(csrfHeader, csrfToken);
+            },
             success: function(modResult, status, xhr) {
                 if(callback) {
                     callback(modResult) ;
@@ -156,6 +162,9 @@
             url: "/healthproject/freeComment/" + fpost_number + "/" + fcomment_number,
             data: JSON.stringify({fpost_number: fpost_number, fcomment_number: fcomment_number, fcomment_writer: fcomment_writer}),
             contentType: "application/json;charset=utf-8",
+            beforeSend: function(xhr) {
+            	xhr.setRequestHeader(csrfHeader, csrfToken);
+            },
             success: function(removeResult, status, xhr) {
                 if(callback) {
                     callback(removeResult) ;
@@ -176,6 +185,9 @@
             type: "delete" ,
             url: "/healthproject/freeComment/" + fpost_number ,
             dataType: "text" ,
+            beforeSend: function(xhr) {
+            	xhr.setRequestHeader(csrfHeader, csrfToken);
+            },
             success: function(result, status, xhr) {
                 if(callback) {
                     callback(result) ;

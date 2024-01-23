@@ -105,9 +105,9 @@ public class FreeBoardController {
 		System.out.println("Detail.jsp-수정삭제 후: result: " + result) ;
 		System.out.println("Detail.jsp-수정삭제 후: fpost_number: " + fpost_number);
 		
-		freeboard = freeBoardService.getFreeBoard(fpost_number, result) ;
+		freeboard = freeBoardService.getFreeBoard(fpost_number) ;
 		
-		model.addAttribute("freeboard", freeboard) ;
+		model.addAttribute("freeBoard", freeboard) ;
 		model.addAttribute("result", result) ;
 		
 		System.out.println("model: " + model);
@@ -120,7 +120,7 @@ public class FreeBoardController {
 	@PreAuthorize("isAuthenticated() && principal.username == #freeboard.fwriter")
 	public String showBoardModify(Long fpost_number, Model model, 
 								  BoardPagingDTO freeboardPaging) {
-		FreeBoardVO freeboard = freeBoardService.getFreeBoard2(fpost_number) ;
+		FreeBoardVO freeboard = freeBoardService.getFreeBoard(fpost_number) ;
 		
 		model.addAttribute("freeboard", freeboard) ;
 			
@@ -163,7 +163,7 @@ public class FreeBoardController {
 							  RedirectAttributes redirectAttr,
 							  BoardPagingDTO freeboardPaging ) {
 		
-		if (freeBoardService.modifyFdeleteFlag(freeboard.getFpost_number())) {  //게시물 블라인드처리 시 사용
+		if (freeBoardService.setFreeBoardDeleted(freeboard.getFpost_number())) {  //게시물 블라인드처리 시 사용
 			redirectAttr.addFlashAttribute("result","successRemove") ;
 			
 		} else {

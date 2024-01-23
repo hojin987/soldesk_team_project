@@ -21,9 +21,6 @@ public interface FreeBoardMapper {
 	//특정 게시물 조회
 	public FreeBoardVO selectFreeBoard(Long fpost_number);
 	
-	//특정 게시물 조회(modify:jsp, 단순-SELECT): 특정 게시물 하나의 데이터를 가져옴
-	public FreeBoardVO selectFreeBoard2(long fpost_number) ;
-	
 	//특정 게시물 삭제 요청
 	public int updateFdeleteFlag(Long fpost_number);
 	
