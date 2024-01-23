@@ -4,12 +4,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.soldesk.healthproject.mapper.MemberMapper">
 
-	<!-- 회원권 목록 조회 --><!--  
-	<select id="selectMemberList" resultType="com.soldesk.healthproject.domain.MemberVO">
-		SELECT member_id, member_name, member_register_date, ticket_number
-		FROM project_health.tbl_member
-	</select>-->
-	
 	<!-- 회원 목록 조회: 페이징 -->
 	<select id="selectMemberList" resultType="com.soldesk.healthproject.domain.MemberVO"
 	        parameterType="com.soldesk.healthproject.common.paging.domain.BoardPagingDTO">
@@ -67,7 +61,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			</choose>	 
 		</where>
 	</select> 
-	
 
 	<resultMap type="com.soldesk.healthproject.domain.AuthorityVO" id="authorityMap">
 		<result property="member_id" column="member_id" />
@@ -92,6 +85,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result property="ticket_number" column="ticket_number" />
 		<result property="ticket_start_date" column="ticket_start_date" />
 		<result property="ticket_end_date" column="ticket_end_date" />
+		<result property="pt_count" column="pt_count" />
 		<collection property="authorityList" resultMap="authorityMap" />
 	</resultMap>
 	
@@ -99,17 +93,16 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<select id="selectMember" resultMap="memberMap">
 		SELECT mem.member_id, member_pw, member_email, member_name, member_birth, member_phonenumber, member_register_date,
         	member_delete_flag, member_enabled, member_height, member_weight, member_muscle_percent, member_fat_percent,
-        	member_goal, ticket_number, ticket_start_date, ticket_end_date, auth.authority
+        	member_goal, ticket_number, ticket_start_date, ticket_end_date, pt_count, auth.authority
 		FROM project_health.tbl_member mem INNER JOIN project_health.tbl_member_authority auth ON mem.member_id = auth.member_id
 		WHERE mem.member_id = #{member_id}
 	</select>
 	
 	<!-- 회원 등록: 회원 등록 시 회원 권한 추가도 같이 수행 -->
 	<insert id="insertMember">
-		INSERT INTO project_health.tbl_member
-		VALUES (#{member_id}, #{member_pw}, #{member_email}, #{member_name}, #{member_birth}, #{member_phonenumber}, default, default, default,
-				#{member_height}, #{member_weight}, #{member_muscle_percent}, #{member_fat_percent}, #{member_goal}, #{ticket_number}, 
-				DEFAULT, DEFAULT, DEFAULT)
+	    INSERT INTO project_health.tbl_member
+	    VALUES (#{member_id}, #{member_pw}, #{member_email}, #{member_name}, #{member_birth}, #{member_phonenumber}, default, default, default,
+	            #{member_height}, #{member_weight}, #{member_muscle_percent}, #{member_fat_percent}, #{member_goal}, #{ticket_number}, #{ticket_start_date}, #{ticket_end_date}, #{pt_count})
 	</insert>
 	
 	<!-- 회원 권한 추가 -->
@@ -153,7 +146,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		</set>
 		WHERE member_id = #{member_id}
 	</update>
-	
 	
 	<!-- 회원 탈퇴 (delete_flag = 'Y') -->
 	<update id="deleteMember">

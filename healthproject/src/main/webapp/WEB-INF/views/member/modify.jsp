@@ -55,7 +55,10 @@
 							<label>목표</label> <select class="form-control" name="member_goal">
 								<option value="체력개선" selected>체력개선</option>
 								<option value="체형교정">체형교정</option>
-								<option value="근육량 증가">근육량 증가</option>
+								<option value="가슴">가슴</option>
+								<option value="등">등</option>
+								<option value="어깨">어깨</option>
+								<option value="하체">하체</option>
 							</select>
 						</div>
 					<div class="form-group">

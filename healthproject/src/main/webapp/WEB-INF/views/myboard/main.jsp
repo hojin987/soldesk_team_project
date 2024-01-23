@@ -160,26 +160,12 @@
 					     			</c:when>
 					     			<c:otherwise>
 									    <tr>
-									        <th colspan="3">${principal.username}님의 목표를 응원합니다.</th>
+									        <th colspan="3">${principal.username}님의 ${member.member_goal}를 응원합니다.</th>
 									    </tr>
 									    <c:forEach items="${workoutList}" var="workout" varStatus="loop">
-									        <c:if test="${loop.index % 3 == 0}">
-									            <c:if test="${loop.index != 0}">
-									                </tr> <!-- 이전 행을 닫습니다 -->
-									            </c:if>
-									            <tr>
-									                <c:forEach begin="0" end="2" var="imageIndex">
-									                    <td style="font-size:20px">이미지</td>
-									                </c:forEach>
-									            </tr>
-									            <tr>
-									        </c:if>
-									
-									        <td class="moveDetail" data-workout_code="${workout.workout_code}" style="text-align:left;">
-									        [<c:out value="${workout.workout_target}" />] <c:out value="${workout.workout_name}"/></td>
-									
-									        <c:if test="${(loop.index + 1) % 3 == 0 or loop.last}">
-									            </tr> <!-- 행을 닫습니다 -->
+									        <c:if test="${workout.workout_target eq member.member_goal}">
+									            <td class="moveDetail" data-workout_code="${workout.workout_code}" style="text-align:left;">
+									        	[<c:out value="${workout.workout_target}" />] <c:out value="${workout.workout_name}"/></td>
 									        </c:if>
 									    </c:forEach>
 									</c:otherwise>

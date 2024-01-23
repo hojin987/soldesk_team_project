@@ -4,7 +4,6 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -12,7 +11,6 @@ import org.springframework.stereotype.Service;
 
 import com.soldesk.healthproject.common.paging.domain.BoardPagingDTO;
 import com.soldesk.healthproject.common.paging.domain.MemberPagingCreatorDTO;
-import com.soldesk.healthproject.common.paging.domain.NoticeBoardPagingCreatorDTO;
 import com.soldesk.healthproject.domain.AuthorityVO;
 import com.soldesk.healthproject.domain.MemberVO;
 import com.soldesk.healthproject.mapper.MemberMapper;
@@ -85,9 +83,41 @@ public class MemberServiceImpl implements MemberService {
 	//회원 등록
 	@Override
 	public String registerMember(MemberVO member) {
+
 		
 		//비밀번호 암호화
 		member.setMember_pw(pwencoder.encode(member.getMember_pw()));
+		
+	    //티켓 선택에 따른 시작/종료일, PT 횟수 설정
+	    String ticketNumber = member.getTicket_number();
+	    Date today = new Date();
+	    Calendar calendar = Calendar.getInstance();
+	    calendar.setTime(today);
+	    
+	    if(ticketNumber.equals("Ticket1")) {
+	        calendar.add(Calendar.MONTH, 3); //3개월
+	        member.setPt_count(0);
+	    } else if(ticketNumber.equals("Ticket2")) {
+	        calendar.add(Calendar.MONTH, 6); //6개월
+	        member.setPt_count(0);
+	    } else if(ticketNumber.equals("Ticket3")) {
+	        calendar.add(Calendar.MONTH, 12); //12개월
+	        member.setPt_count(0);
+	    } else if(ticketNumber.equals("Ticket4")) {
+	        calendar.add(Calendar.MONTH, 12); //12개월
+	        member.setPt_count(10); //10회
+	    } else if(ticketNumber.equals("Ticket5")) {
+	        calendar.add(Calendar.MONTH, 12); //12개월
+	        member.setPt_count(20); //20회
+	    } else if(ticketNumber.equals("Ticket6")) {
+	        calendar.add(Calendar.MONTH, 12); //12개월
+	        member.setPt_count(30); //30회
+	    }
+
+	    member.setTicket_start_date(new java.sql.Date(today.getTime())); //시작일은 오늘
+	    member.setTicket_end_date(new java.sql.Date(calendar.getTime().getTime())); //종료일은 계산된 날짜
+
+
 		
 		//회원 정보 등록
 		memberMapper.insertMember(member);
