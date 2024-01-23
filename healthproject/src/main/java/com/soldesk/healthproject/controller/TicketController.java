@@ -8,7 +8,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.soldesk.healthproject.domain.MemberVO;
 import com.soldesk.healthproject.domain.TicketVO;
+import com.soldesk.healthproject.service.MemberService;
 import com.soldesk.healthproject.service.TicketService;
 
 @Controller
@@ -50,6 +52,24 @@ public class TicketController {
 		redirectAttr.addFlashAttribute("result", ticket_number);
 		
 		return "redirect:/ticket/list";
+	}
+	
+	//회원권 구매 페이지 이동 GET
+	@GetMapping("/buy")
+	public String showTicketBuy(@RequestParam("ticket_number") String ticket_number,
+			   Model model) {
+	model.addAttribute("ticket", ticketService.getTicket(ticket_number));
+	
+	return "ticket/buy";
+	}
+	
+	//회원권 구매 POST
+	@PostMapping("/buy")
+	public String buyTicket(MemberVO member, RedirectAttributes redirectAttr) {
+		
+		ticketService.setMemberTicket(member);
+		
+		return "redirect:/";
 	}
 	
 	//회원권 수정-삭제 페이지 호출 GET

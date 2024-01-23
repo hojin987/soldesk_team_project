@@ -1,17 +1,21 @@
 package com.soldesk.healthproject.service;
 
+import java.sql.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.soldesk.healthproject.domain.MemberVO;
 import com.soldesk.healthproject.domain.TicketVO;
+import com.soldesk.healthproject.mapper.MemberMapper;
 import com.soldesk.healthproject.mapper.TicketMapper;
 
 @Service
 public class TicketServiceImpl implements TicketService {
 	
 	private TicketMapper ticketMapper;
+	private MemberMapper memberMapper;
 	
 	public TicketServiceImpl() {
 		System.out.println("TicketServiceImpl의 기본생성자");
@@ -20,6 +24,11 @@ public class TicketServiceImpl implements TicketService {
 	@Autowired
 	public void setTicketMapper(TicketMapper ticketMapper) {
 		this.ticketMapper = ticketMapper;
+	}
+	
+	@Autowired
+	public void setMemberMapper(MemberMapper memberMapper) {
+		this.memberMapper = memberMapper;
 	}
 	
 	//회원권 목록 조회
@@ -34,11 +43,20 @@ public class TicketServiceImpl implements TicketService {
 		return ticketMapper.selectTicket(ticket_number);
 	}
 	
-	//회원권 등록
+	//회원권 상품 등록
 	@Override
 	public String registerTicket(TicketVO ticket) {
 		ticketMapper.insertTicket(ticket);
 		return ticket.getTicket_number();
+	}
+	
+	//회원 회원권 등록
+	@Override
+	public void setMemberTicket(MemberVO member) {
+		
+		String ticket_number = member.getTicket_number();
+		
+		memberMapper.updateMemberTicket(member);
 	}
 	
 	//회원권 수정

@@ -52,9 +52,12 @@
 							<input class="form-control" name="member_fat_percent" value='<c:out value="${member.member_fat_percent}"/>'/>
 					</div>
 					<div class="form-group">
-						<label>회원 목표</label>
-							<input class="form-control" name="member_goal" value='<c:out value="${member.member_goal}"/>'/>
-					</div>
+							<label>목표</label> <select class="form-control" name="member_goal">
+								<option value="체력개선" selected>체력개선</option>
+								<option value="체형교정">체형교정</option>
+								<option value="근육량 증가">근육량 증가</option>
+							</select>
+						</div>
 					<div class="form-group">
 						<label>구매 회원권</label>
 							<input class="form-control" name="ticket_number" value='<c:out value="${member.ticket_number}"/>'

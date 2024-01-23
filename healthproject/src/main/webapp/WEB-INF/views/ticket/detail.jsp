@@ -39,8 +39,9 @@
 								   readonly="readonly"/>
 					</div>
 						
-					<button type="button" class="btn btn-default" id="BtnMoveModify" data-oper="modify">수정</button>
-					<button type="button" class="btn btn-info" id="BtnMoveList" data-oper="list">목록</button>
+					<button type="button" class="btn btn-default" id="BtnMoveModify">수정하기</button>
+					<button type="button" class="btn btn-default" id="BtnMoveBuy">구매하기</button>
+					<button type="button" class="btn btn-info" id="BtnMoveList">목록</button>
 
           </div><%-- /.panel-body --%>
             
@@ -71,12 +72,20 @@
 <script>
 //상품정보 수정-삭제 페이지로 이동
 $("#BtnMoveModify").on("click", function(){
- location.href='${contextPath}/ticket/modify?ticket_number=<c:out value="${ticket.ticket_number}"/>';
+	location.href='${contextPath}/ticket/modify?ticket_number=<c:out value="${ticket.ticket_number}"/>';
 })
+
+//구매페이지 이동
+$("#BtnMoveBuy").on("click", function(){
+	location.href='${contextPath}/ticket/buy?ticket_number=<c:out value="${ticket.ticket_number}"/>';
+});
+
 //상품 목록 페이지로 이동
 $("#BtnMoveList").on("click", function(){
- location.href="${contextPath}/ticket/list";
+	location.href="${contextPath}/ticket/list";
 })
+
+
 </script>
 
 <%@include file="../myinclude/myfooter.jsp" %>    

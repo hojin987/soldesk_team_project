@@ -34,6 +34,7 @@ public class MemberVO {
 	private String ticket_number;
 	private Date ticket_start_date;
 	private Date ticket_end_date;
+	private int pt_count;
 	
 	private List<AuthorityVO> authorityList;
 }

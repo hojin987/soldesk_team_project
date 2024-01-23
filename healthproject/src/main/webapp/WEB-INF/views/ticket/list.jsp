@@ -51,6 +51,7 @@
 					<td style="text-align:left;" ><c:out value="${ticket.ticket_content}"/></td>
 					<td><c:out value="${ticket.pt_count}" /></td>
 					<td><c:out value="${ticket.ticket_price}"/></td>
+					<td><button type="button" class="button button-sm btnMoveBuy">구매하기</button></td>
 				</tr>
 			</c:forEach>              
 
@@ -106,6 +107,8 @@ $(".moveDetail").on("click", function(){
 	frmSendValue.find('input[name="ticket_number"]').remove() ;  	
 	
 });
+
+
 
 //모달 호출 함수
 function runModal(result) {

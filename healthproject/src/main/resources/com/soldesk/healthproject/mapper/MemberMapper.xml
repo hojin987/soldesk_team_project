@@ -108,7 +108,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<insert id="insertMember">
 		INSERT INTO project_health.tbl_member
 		VALUES (#{member_id}, #{member_pw}, #{member_email}, #{member_name}, #{member_birth}, #{member_phonenumber}, default, default, default,
-				#{member_height}, #{member_weight}, #{member_muscle_percent}, #{member_fat_percent}, '체력개선', 'Ticket1', default, default)
+				#{member_height}, #{member_weight}, #{member_muscle_percent}, #{member_fat_percent}, #{member_goal}, #{ticket_number}, 
+				DEFAULT, DEFAULT, DEFAULT)
 	</insert>
 	
 	<!-- 회원 권한 추가 -->
@@ -140,6 +141,19 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		</set>
 		WHERE member_id = #{member_id}
 	</update>
+	
+	<!-- 회원권 구매 -->
+	<update id="updateMemberTicket" parameterType="com.soldesk.healthproject.domain.MemberVO">
+		UPDATE project_health.tbl_member
+		<set>
+			ticket_number = #{ticket_number},
+			ticket_start_date = #{ticket_start_date},
+			ticket_end_date = #{ticket_end_date},
+			pt_count = #{pt_count}
+		</set>
+		WHERE member_id = #{member_id}
+	</update>
+	
 	
 	<!-- 회원 탈퇴 (delete_flag = 'Y') -->
 	<update id="deleteMember">

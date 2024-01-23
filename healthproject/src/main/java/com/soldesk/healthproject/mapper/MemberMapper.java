@@ -29,6 +29,9 @@ public interface MemberMapper {
 	//회원 비밀번호 수정
 	public long updateMemberPw(MemberVO member);
 	
+	//회원권 구매
+	public long updateMemberTicket(MemberVO member);
+	
 	//회원 탈퇴 (delete_flag = 'Y')
 	public long deleteMember(String member_id);
 	
