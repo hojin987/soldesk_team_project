@@ -89,7 +89,6 @@
     			<td><a href="${contextPath }/questionBoard/list">1:1문의</a></td>
     			<td><a href="${contextPath }/applyBoard/list">채용공고</a></td>
     			<td><a href="${contextPath }/ticket/list">회원권</a></td>
-    			<td><a href="${contextPath }/product/list">GYM쇼핑몰</a></td>
     			<c:choose>
      			<c:when test="${principal eq 'anonymousUser'}">
      				<td>

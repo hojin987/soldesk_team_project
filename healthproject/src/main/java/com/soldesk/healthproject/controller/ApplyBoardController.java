@@ -57,8 +57,10 @@ public class ApplyBoardController {
 	//특정 게시물 조회 GET /applyBoard/detail 
 	@GetMapping("/detail")
 	public String showApplyBoardDetail(@RequestParam("apost_number") Long apost_number,
+									   BoardPagingDTO boardPaging,
 			 						   Model model){
 		model.addAttribute("applyBoard", applyBoardService.getApplyBoard(apost_number));
+		model.addAttribute("boardPaging", boardPaging);
 		
 		return "applyBoard/detail";
 	}

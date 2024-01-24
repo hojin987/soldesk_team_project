@@ -37,7 +37,7 @@
 					<div class="form-group">
 						<label>글내용</label>
 						<%-- <textarea>와 </textarea>는 사이에 공백이 없어야 데이터베이스 저장 시에 필요 없는 공백이 포함되지 않음 --%>
-						<textarea class="form-control" rows="3" name="ncontent"
+						<textarea class="form-control" rows="3" name="qcontent"
 								><c:out value="${questionBoard.qcontent}"/></textarea>
 					</div>
 					<div class="form-group">
@@ -45,7 +45,8 @@
 							<input class="form-control" name="qwriter" value='<c:out value="${questionBoard.qwriter}"/>'
 								   readonly="readonly"/>
 					</div>
-						
+					
+					<sec:csrfInput/>
 					<button type="button" class="btn btn-default" id="btnModify" data-oper="modify">수정</button>
  					<button type="button" class="btn btn-danger" id="btnRemove" data-oper="remove">삭제</button>
  					<button type="button" class="btn btn-info" id="btnList" data-oper="list">취소</button>

@@ -1,22 +1,15 @@
 package com.soldesk.healthproject.controller;
 
-import java.util.List;
-
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.soldesk.healthproject.common.paging.domain.BoardPagingDTO;
 import com.soldesk.healthproject.common.paging.domain.FreeBoardPagingCreatorDTO;
-import com.soldesk.healthproject.domain.FreeBoardAttachFileVO;
 import com.soldesk.healthproject.domain.FreeBoardVO;
 import com.soldesk.healthproject.service.FreeBoardService;
 
@@ -24,7 +17,6 @@ import com.soldesk.healthproject.service.FreeBoardService;
 @Controller
 @RequestMapping("/freeBoard")
 public class FreeBoardController {
-	
 //	@Setter(onMethod_ = @Autowired )
 	private FreeBoardService freeBoardService ;
 	
@@ -44,148 +36,63 @@ public class FreeBoardController {
 		return "/freeBoard/list" ;
 	}
 
-//	//등록 페이지 호출 GET /freeBoard/register
-//	@GetMapping("/register")
-//	public void showFreeBoardRegisterPage() {
-//		System.out.println("컨트롤러 - 게시물 등록 페이지 호출");
-//	}
-//	
-//	//등록 처리 POST /freeBoard/register 
-//	@PostMapping("/register")
-//	public String registerNewFreeBoard(FreeBoardVO freeBoard, RedirectAttributes redirectAttr) {
-//		long fpost_number = freeBoardService.registerFreeBoard(freeBoard);
-//		
-//		redirectAttr.addFlashAttribute("result", fpost_number);
-//		
-//		return "redirect:/freeBoard/list";
-//	}
-	
-//	등록 페이지 호출
+	//등록 페이지 호출 GET /freeBoard/register
 	@GetMapping("/register")
-	public String showBoardRegisterPage() {
-		System.out.println("등록페이지 호출.......");
-		
-		return "freeBoard/register" ;
+	public void showFreeBoardRegisterPage() {
+		System.out.println("컨트롤러 - 게시물 등록 페이지 호출");
 	}
-
-
-	//게시물 등록 처리
 	
+	//등록 처리 POST /freeBoard/register 
 	@PostMapping("/register")
-	public String registerNewBoard(FreeBoardVO freeboard,
-			                       RedirectAttributes redirectAttr) {
+	public String registerNewFreeBoard(FreeBoardVO freeBoard, RedirectAttributes redirectAttr) {
+		long fpost_number = freeBoardService.registerFreeBoard(freeBoard);
 		
-		List<FreeBoardAttachFileVO> freeAttachFileList = freeboard.getAttachFileList() ;
-		
-		if(freeAttachFileList != null) {
-			freeAttachFileList
-				   .forEach(attachFile -> System.out.println(attachFile.toString())) ;
-		} else {
-			System.out.println("<<<<<<<<<<<<<<<<<<< 첨부파일 없음 >>>>>>>>>>>>>>>>>>>>>");
-		}
-		System.out.println();
-		
-		
-		long fpost_number = freeBoardService.registerFreeBoard(freeboard) ;
-		
-		redirectAttr.addFlashAttribute("result", fpost_number) ;
-		System.out.println("result: " + redirectAttr.getFlashAttributes());
+		redirectAttr.addFlashAttribute("result", fpost_number);
 		
 		return "redirect:/freeBoard/list";
-		
 	}
 
-	//특정 게시물 조회 페이지, 수정 후 조회 페이지
+
+	//특정 게시물 조회 GET /freeBoard/detail 
 	@GetMapping("/detail")
-	public String showBoardDetail(Long fpost_number, Model model, String result,
-			 					  @ModelAttribute("freeboardPaging") BoardPagingDTO freeboardPaging) {
+	public String showFreeBoardDetail(@RequestParam("fpost_number") Long fpost_number,
+									  BoardPagingDTO boardPaging,
+			 						  Model model){
+		model.addAttribute("freeBoard", freeBoardService.getFreeBoard(fpost_number));
+		model.addAttribute("boardPaging", boardPaging);
 		
-		FreeBoardVO freeboard = null ;
-
-		System.out.println("Detail.jsp-수정삭제 후: result: " + result) ;
-		System.out.println("Detail.jsp-수정삭제 후: fpost_number: " + fpost_number);
-		
-		freeboard = freeBoardService.getFreeBoard(fpost_number) ;
-		
-		model.addAttribute("freeBoard", freeboard) ;
-		model.addAttribute("result", result) ;
-		
-		System.out.println("model: " + model);
-		
-		return "freeBoard/detail" ;
+		return "freeBoard/detail";
 	}
 	
-	//특정 게시물 수정삭제 페이지 호출
+	//특정 게시물 수정삭제 페이지 호출 GET /freeBoard/modify 
 	@GetMapping("/modify")
-	@PreAuthorize("isAuthenticated() && principal.username == #freeboard.fwriter")
-	public String showBoardModify(Long fpost_number, Model model, 
-								  BoardPagingDTO freeboardPaging) {
-		FreeBoardVO freeboard = freeBoardService.getFreeBoard(fpost_number) ;
+	public String showFreeBoardModify(@RequestParam("fpost_number") Long fpost_number,
+			   Model model){
+		model.addAttribute("freeBoard", freeBoardService.getFreeBoard(fpost_number));
 		
-		model.addAttribute("freeboard", freeboard) ;
-			
-		return "freeBoard/modify" ;
+		return "freeBoard/modify";
 	}
 	
-//	특정 게시물 수정
+	//특정 게시물 수정 POST /freeBoard/modify 
 	@PostMapping("/modify")
-	@PreAuthorize("isAuthenticated() && principal.username == #myboard.bwriter")
-	public String modifyBoard(FreeBoardVO freeboard,
-						      RedirectAttributes redirectAttr,
-						      BoardPagingDTO freeboardPaging) {
-		
-		boolean modifyResult = freeBoardService.modifyFreeBoard(freeboard) ;
-		
-		if(modifyResult) {
-			redirectAttr.addAttribute("result", "successModify") ;
-			
-		} else {
-			redirectAttr.addAttribute("result", "failModify") ;
+	public String modifyFreeBoard(FreeBoardVO freeBoard, RedirectAttributes redirectAttr) {
+		if(freeBoardService.modifyFreeBoard(freeBoard)) {
+			redirectAttr.addFlashAttribute("result", "succesModify");
 		}
 		
-		redirectAttr.addAttribute("fpost_number", freeboard.getFpost_number()) ;
-		redirectAttr.addAttribute("pageNum", freeboardPaging.getPageNum());
-		redirectAttr.addAttribute("rowAmountPerPage", freeboardPaging.getRowAmountPerPage()) ;
-		redirectAttr.addAttribute("scope", freeboardPaging.getScope()) ;
-		redirectAttr.addAttribute("keyword", freeboardPaging.getKeyword()) ;
-		redirectAttr.addAttribute("beginDate", freeboardPaging.getBeginDate()) ;
-		redirectAttr.addAttribute("endDate", freeboardPaging.getEndDate()) ;
-		
-		return "redirect:/freeBoard/detail" ;
+		return "redirect:/freeBoard/detail?fpost_number=" + freeBoard.getFpost_number();
 	}
 	
-	
-	
-//	특정 게시물 삭제 POST /myboard/remove
+	//특정 게시물 삭제 POST /freeBoard/remove
 	@PostMapping("/remove")
-	@PreAuthorize("isAuthenticated() && principal.username == #freeboard.fwriter")
-	public String removeBoard(FreeBoardVO freeboard,  
-							  RedirectAttributes redirectAttr,
-							  BoardPagingDTO freeboardPaging ) {
+	public String removeBoard(@RequestParam("fpost_number") Long fpost_number, 
+							   RedirectAttributes redirectAttr) {
 		
-		if (freeBoardService.setFreeBoardDeleted(freeboard.getFpost_number())) {  //게시물 블라인드처리 시 사용
-			redirectAttr.addFlashAttribute("result","successRemove") ;
-			
-		} else {
-			redirectAttr.addFlashAttribute("result","failRemove") ;
+		if(freeBoardService.setFreeBoardDeleted(fpost_number)) {
+			redirectAttr.addFlashAttribute("result", "succesRemove");
 		}
 		
-		redirectAttr.addAttribute("pageNum", freeboardPaging.getPageNum()) ;
-		redirectAttr.addAttribute("rowAmountPerPage", freeboardPaging.getRowAmountPerPage()) ;
-		redirectAttr.addAttribute("scope", freeboardPaging.getScope()) ;
-		redirectAttr.addAttribute("keyword", freeboardPaging.getKeyword()) ;
-		redirectAttr.addAttribute("beginDate", freeboardPaging.getBeginDate()) ;
-		redirectAttr.addAttribute("endDate", freeboardPaging.getEndDate()) ;
-		
-		return "redirect:/freeBoard/list" ;
-	}
-	
-	
-	//특정 게시물의 첨부파일 정보를 JSON으로 전달(특정 게시물의 수정페이지에서 사용) ###########################
-	@GetMapping(value = "/getFiles" , produces = {"application/json; charset=utf-8"})
-	public @ResponseBody ResponseEntity<List<FreeBoardAttachFileVO>> showAttachFiles(Long fpost_number) {
-		return new ResponseEntity<List<FreeBoardAttachFileVO>>(freeBoardService.getAttachFileList(fpost_number), HttpStatus.OK);
+		return "redirect:/freeBoard/list";
 	}
 
 }
-	

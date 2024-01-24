@@ -10,8 +10,8 @@ import lombok.ToString;
 @ToString
 @EqualsAndHashCode
 public class BoardPagingDTO {
-	private int pageNum;
-	private int rowAmountPerPage;
+	private Integer pageNum;
+	private Integer rowAmountPerPage;
 	private String scope; // 검색범위(scope - ftitle: T, fcontent: C, fwriter: W)
 	private String keyword; // 검색어
 

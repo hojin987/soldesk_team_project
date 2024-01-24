@@ -89,6 +89,15 @@
 					<button type="button" class="btn btn-default" id="BtnMoveModify">내 정보 수정하기</button>
 					<button type="button" class="btn btn-default" id="BtnMoveModifyPassword">비밀번호 변경하기</button>
 					<button type="button" class="btn btn-info" id="BtnMoveHome">메인페이지</button>
+					
+					<form role="form" id="frmSendValue">
+						<input type="hidden" name="pageNum" value="${boardPaging.pageNum }" >
+						<input type="hidden" name="rowAmountPerPage" value="${boardPaging.rowAmountPerPage }" >
+						<input type="hidden" name="scope" value="${boardPaging.scope }" >
+						<input type="hidden" name="keyword" value="${boardPaging.keyword }" >
+						<input type="hidden" name="startDate" value="${boardPaging.beginDate }" >
+						<input type="hidden" name="endDate" value="${boardPaging.endDate }" >
+					</form>
 
           </div><%-- /.panel-body --%>
             

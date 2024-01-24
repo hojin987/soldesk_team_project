@@ -15,9 +15,62 @@
 						<form id="frmSendValue">
 						</form>
                         
-                        <div class="panel-body">
-                        	<h1>광고화면</h1>
-                        </div>
+                       	<!-- 광고 슬라이드 -->    
+						<style>
+						.carousel-caption h5 {
+						    font-size: calc(10px + 1vw);
+						    text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+						}
+						.carousel-caption p {
+						    font-size: calc(15px + 1.5vw);
+						    text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+						}
+						@media (max-width: 991px) {
+						    .carousel-caption {
+						        display: none;
+						    }
+						}
+						</style>
+						
+						<div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel" data-interval="5000">
+						    <ol class="carousel-indicators">
+						        <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+						        <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+						        <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+						    </ol>
+						    <div class="carousel-inner">
+						        <div class="item active">
+						            <img src="${contextPath}/resources/images/img1.jpg" class="d-block w-100" alt="..." style="height:500px;">
+						            <div class="carousel-caption" style="right:200px; bottom: 5px; text-align: right;">
+						                <h5 class="font-weight-bold" style="color: #d9d6c3;">건강의 시작</h5>
+						                <p class="font-weight-bold" style="color: #d9d6c3;">남녀노소 맞춤형 플랜!</p>
+						            </div>
+						        </div>
+						        <div class="item">
+						            <img src="${contextPath}/resources/images/img2.jpg" class="d-block w-100" alt="..." style="height:500px;">
+						            <div class="carousel-caption" style="right:200px; bottom: 5px; text-align: right;">
+						                <h5 class="font-weight-bold" style="color: #d9d6c3;">근육의 끝</h5>
+						                <p class="font-weight-bold" style="color: #d9d6c3;">우수한 강사진과 함께하는 완벽한 관리! </p>
+						            </div>
+						        </div>
+						        <div class="item">
+						            <img src="${contextPath}/resources/images/img3.jpg" class="d-block w-100" alt="..." style="height:500px;">
+						            <div class="carousel-caption" style="right:200px; bottom: 5px; text-align: right;">
+						                <h5 class="font-weight-bold" style="color: #d9d6c3;">솔데스크 헬창클럽!</h5>
+						                <p class="font-weight-bold" style="color: #d9d6c3;">수많은 기구를 월 2만7천원에!</p>
+						            </div>
+						        </div>
+						    </div>
+						    <a class="left carousel-control" href="#carouselExampleIndicators" role="button" data-slide="prev">
+						        <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+						        <span class="sr-only">Previous</span>
+						    </a>
+						    <a class="right carousel-control" href="#carouselExampleIndicators" role="button" data-slide="next">
+						        <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+						        <span class="sr-only">Next</span>
+						    </a>
+						</div>
+						
                         <!-- /.panel-body -->
                     </div>
                     <!-- /.panel -->

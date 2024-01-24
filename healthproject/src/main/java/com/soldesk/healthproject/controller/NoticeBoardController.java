@@ -54,8 +54,11 @@ public class NoticeBoardController {
 	//특정 게시물 조회 GET /myboard/detail 
 	@GetMapping("/detail")
 	public String showNoticeBoardDetail(@RequestParam("npost_number") Long npost_number,
-			 						   Model model){
+										BoardPagingDTO boardPaging,
+			 						    Model model){
+		
 		model.addAttribute("noticeBoard", noticeBoardService.getNoticeBoard(npost_number));
+		model.addAttribute("boardPaging", boardPaging);
 		
 		return "noticeBoard/detail";
 	}

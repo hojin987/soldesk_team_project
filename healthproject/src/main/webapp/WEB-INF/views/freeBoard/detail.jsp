@@ -60,7 +60,6 @@
 							<button type="button" id="btnToModify" data-oper="modify"
 									class="btn btn-primary"><span>수정페이지로 이동</span></button>
 
-									
 							<button type="button" id="btnToList" data-oper="list"
 									class="btn btn-warning"><span>목록페이지로 이동</span></button>
 							</div>
@@ -79,16 +78,16 @@
 	<div class="form-group">
 	    <label>글내용</label>
 	    <textarea class="form-control" rows="3" name="fcontent" id="fcontent"
-	    		  readonly="readonly">${freeBoard.fcontent}</textarea>
+	    		  readonly="readonly">${freeBoard.fcontent}/${boardPaging.pageNum }</textarea>
 	</div>
 	
-<form id="frmSendValue">
-	<input type="hidden" name="pageNum" value="${freeBoardPaging.pageNum }" >
-	<input type="hidden" name="rowAmountPerPage" value="${freeBoardPaging.rowAmountPerPage }" >
-	<input type="hidden" name="scope" value="${freeBoardPaging.scope }" >
-	<input type="hidden" name="keyword" value="${freeBoardPaging.keyword }" >
-	<input type="hidden" name="startDate" value="${freeBoardPaging.beginDate }" >
-	<input type="hidden" name="endDate" value="${freeBoardPaging.endDate }" >
+<form role="form" id="frmSendValue">
+	<input type="hidden" name="pageNum" value="${boardPaging.pageNum }" >
+	<input type="hidden" name="rowAmountPerPage" value="${boardPaging.rowAmountPerPage }" >
+	<input type="hidden" name="scope" value="${boardPaging.scope }" >
+	<input type="hidden" name="keyword" value="${boardPaging.keyword }" >
+	<input type="hidden" name="startDate" value="${boardPaging.beginDate }" >
+	<input type="hidden" name="endDate" value="${boardPaging.endDate }" >
 </form>
 
                 </div><%-- /.panel-body --%>

@@ -82,13 +82,13 @@
 	    		  readonly="readonly">${noticeBoard.ncontent}</textarea>
 	</div>
 	
-<form id="frmSendValue">
-	<input type="hidden" name="pageNum" value="${noticeBoardPaging.pageNum }" >
-	<input type="hidden" name="rowAmountPerPage" value="${noticeBoardPaging.rowAmountPerPage }" >
-	<input type="hidden" name="scope" value="${noticeBoardPaging.scope }" >
-	<input type="hidden" name="keyword" value="${noticeBoardPaging.keyword }" >
-	<input type="hidden" name="startDate" value="${noticeBoardPaging.beginDate }" >
-	<input type="hidden" name="endDate" value="${noticeBoardPaging.endDate }" >
+<form role="form" id="frmSendValue">
+	<input type="hidden" name="pageNum" value="${boardPaging.pageNum }" >
+	<input type="hidden" name="rowAmountPerPage" value="${boardPaging.rowAmountPerPage }" >
+	<input type="hidden" name="scope" value="${boardPaging.scope }" >
+	<input type="hidden" name="keyword" value="${boardPaging.keyword }" >
+	<input type="hidden" name="startDate" value="${boardPaging.beginDate }" >
+	<input type="hidden" name="endDate" value="${boardPaging.endDate }" >
 </form>
 
                 </div><%-- /.panel-body --%>

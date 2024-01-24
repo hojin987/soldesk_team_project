@@ -58,8 +58,11 @@ public class QuestionBoardController {
 	//특정 게시물 조회 GET /questionBoard/detail 
 	@GetMapping("/detail")
 	public String showQuestionBoardDetail(@RequestParam("qpost_number") Long qpost_number,
-			 						   Model model){
+										  BoardPagingDTO boardPaging,
+			 						      Model model){
+		
 		model.addAttribute("questionBoard", questionBoardService.getQuestionBoard(qpost_number));
+		model.addAttribute("boardPaging", boardPaging);
 		
 		return "questionBoard/detail";
 	}

@@ -11,27 +11,19 @@
 <div id="page-wrapper">
     <div class="row">
         <div class="col-lg-12">
-            <h3 class="page-header">workout - List</h3>
+            <h3 class="page-header">trainer - List</h3>
         </div><%-- /.col-lg-12 --%>
     </div><%-- /.row --%>
     <div class="row">
         <div class="col-lg-12">
         
             <div class="panel panel-default">
-            	<div class="panel-heading">
-					<div class="row">
-						<div class="col-md-6" style="font-size:20px; height: 45px; padding-top:10px;">운동 목록</div>
-						<div class="col-md-6" style="padding-top:8px;">
-							<button type="button" id="btnToRegister" class="btn btn-primary btn-sm pull-right">운동 등록</button>
-						</div>
-					</div>
-				</div><%-- /.panel-heading --%>
                 <div class="panel-body">
 
 	<table class="table table-bordered " 
 	       style="margin:0 auto; width: 80%; text-align: center;">
 	    <tbody>
-			<c:forEach items="${workoutList}" var="workout" varStatus="loop">
+			<c:forEach items="${pagingCreator.memberList}" var="member" varStatus="loop">
 		        <c:if test="${loop.index % 3 == 0}">
 		            <c:if test="${loop.index != 0}">
 		                </tr> <!-- 이전 행을 닫습니다 -->
@@ -43,13 +35,16 @@
 		            </tr>
 		            <tr>
 		        </c:if>
-		
-		        <td class="moveDetail" data-workout_code="${workout.workout_code}" style="text-align:left;">
-		        [<c:out value="${workout.workout_target}" />] <c:out value="${workout.workout_name}"/></td>
-		
+				<c:forEach items="${member.authorityList}" var="authorityList">
+					<c:if test="${authorityList.authority eq 'TRAINER'}">
+			        	<td class="moveDetail" data-workout_code="${member.member_id}" style="text-align:left;">
+			        	[<c:out value="강사" />] <c:out value="${member.member_name}"/></td>
+					</c:if>
+				</c:forEach>
 		        <c:if test="${(loop.index + 1) % 3 == 0 or loop.last}">
 		            </tr> <!-- 행을 닫습니다 -->
 		        </c:if>
+		        
 		    </c:forEach>           
 
                     </tbody>
@@ -83,6 +78,7 @@
         </div><%-- /.modal-content --%>
     </div><%-- /.modal-dialog --%>
 </div><%-- /.modal --%>
+
 
 
 <script>

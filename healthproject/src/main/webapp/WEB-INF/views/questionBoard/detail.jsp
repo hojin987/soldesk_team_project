@@ -82,13 +82,13 @@
 	    		  readonly="readonly">${questionBoard.qcontent}</textarea>
 	</div>
 	
-<form id="frmSendValue">
-	<input type="hidden" name="pageNum" value="${questionBoardPaging.pageNum }" >
-	<input type="hidden" name="rowAmountPerPage" value="${questionBoardPaging.rowAmountPerPage }" >
-	<input type="hidden" name="scope" value="${questionBoardPaging.scope }" >
-	<input type="hidden" name="keyword" value="${questionBoardPaging.keyword }" >
-	<input type="hidden" name="startDate" value="${questionBoardPaging.beginDate }" >
-	<input type="hidden" name="endDate" value="${questionBoardPaging.endDate }" >
+<form role="form" id="frmSendValue">
+	<input type="hidden" name="pageNum" value="${boardPaging.pageNum }" >
+	<input type="hidden" name="rowAmountPerPage" value="${boardPaging.rowAmountPerPage }" >
+	<input type="hidden" name="scope" value="${boardPaging.scope }" >
+	<input type="hidden" name="keyword" value="${boardPaging.keyword }" >
+	<input type="hidden" name="startDate" value="${boardPaging.beginDate }" >
+	<input type="hidden" name="endDate" value="${boardPaging.endDate }" >
 </form>
 
                 </div><%-- /.panel-body --%>

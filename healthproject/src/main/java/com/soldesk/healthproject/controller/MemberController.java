@@ -45,6 +45,14 @@ public class MemberController {
 		this.workoutService = workoutService;
 	}
 	
+	//트레이너 목록 조회
+	@GetMapping("/trainer")
+	public String showTrainterList(Model model, BoardPagingDTO memberPaging) {
+		MemberPagingCreatorDTO pagingCreator = memberService.getMemberList(memberPaging);
+		model.addAttribute("pagingCreator", pagingCreator);
+		return "member/trainer";
+	}
+	
 	//회원 목록 조회
 	@GetMapping("/list")
 	public String showMemberList(Model model, BoardPagingDTO memberPaging) {
@@ -57,8 +65,10 @@ public class MemberController {
 	//특정 회원 조회
 	@GetMapping("/detail")
 	public String showTicketDetail(@RequestParam("member_id") String member_id,
+								   BoardPagingDTO boardPaging,
 								   Model model) {
 		model.addAttribute("member", memberService.getMember(member_id));
+		model.addAttribute("boardPaging", boardPaging);
 	
 		return "member/detail";
 	}

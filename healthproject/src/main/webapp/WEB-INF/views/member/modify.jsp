@@ -69,11 +69,14 @@
 					
 					<button type="button" class="btn btn-default" id="btnModify" data-oper="modify">수정</button>
 					<button type="button" class="btn btn-warning" id="btnDelete" data-oper="delete">회원탈퇴</button>
- 					<button type="button" class="btn btn-info" id="btnList" data-oper="list">취소</button>
- 					<button type="button" class="btn btn-info" id="btnCancel" data-oper="cancel">탈퇴요청취소</button>
- 					<button type="button" class="btn btn-default" id="btnRmove" data-oper="remove">회원삭제</button>
-		  			<sec:csrfInput/>
-		  
+ 					<button type="button" class="btn btn-info" id="btnList" data-oper="list">취소</button><br><br>
+ 					
+ 					<sec:authorize access="hasAuthority('ADMIN')">
+ 					<button type="button" class="btn btn default float-right" id="btnAuth" data-oper="auth">권한부여</button>
+ 					<button type="button" class="btn btn-warning float-right" id="btnCancel" data-oper="cancel">탈퇴요청취소</button>
+ 					<button type="button" class="btn btn-danger float-right" id="btnRmove" data-oper="remove">회원삭제</button>
+		  			</sec:authorize>
+			  			
           </div><%-- /.panel-body --%>
           </form>  
         </div><%-- /.panel --%>

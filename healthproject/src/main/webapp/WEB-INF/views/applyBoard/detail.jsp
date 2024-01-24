@@ -76,13 +76,13 @@
 	    		  readonly="readonly">${applyBoard.acontent}</textarea>
 	</div>
 	
-<form id="frmSendValue">
-	<input type="hidden" name="pageNum" value="${applyBoardPaging.pageNum }" >
-	<input type="hidden" name="rowAmountPerPage" value="${applyBoardPaging.rowAmountPerPage }" >
-	<input type="hidden" name="scope" value="${applyBoardPaging.scope }" >
-	<input type="hidden" name="keyword" value="${applyBoardPaging.keyword }" >
-	<input type="hidden" name="startDate" value="${applyBoardPaging.beginDate }" >
-	<input type="hidden" name="endDate" value="${applyBoardPaging.endDate }" >
+<form role="form" id="frmSendValue">
+	<input type="hidden" name="pageNum" value="${boardPaging.pageNum }" >
+	<input type="hidden" name="rowAmountPerPage" value="${boardPaging.rowAmountPerPage }" >
+	<input type="hidden" name="scope" value="${boardPaging.scope }" >
+	<input type="hidden" name="keyword" value="${boardPaging.keyword }" >
+	<input type="hidden" name="startDate" value="${boardPaging.beginDate }" >
+	<input type="hidden" name="endDate" value="${boardPaging.endDate }" >
 </form>
 
                 </div><%-- /.panel-body --%>
