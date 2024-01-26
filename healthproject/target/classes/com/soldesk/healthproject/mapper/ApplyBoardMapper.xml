@@ -87,7 +87,7 @@
 <!-- 특정 게시물 삭제 요청 -->
 	<update id="updateAdeleteFlag" parameterType="long">
 		UPDATE project_health.apply_board
-		SET adelete_flag = 1
+		SET adelete_flag = 'Y'
 		WHERE apost_number = #{apost_number}
 	</update>
 	

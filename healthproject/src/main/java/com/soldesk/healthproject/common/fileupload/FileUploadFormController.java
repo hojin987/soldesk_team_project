@@ -1,58 +1,58 @@
 package com.soldesk.healthproject.common.fileupload;
 
 import java.io.File;
-import java.io.IOException;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.multipart.MultipartFile;
 
 @Controller
 public class FileUploadFormController {
+	private static final Logger log = LoggerFactory.getLogger(FileUploadFormController.class);
 	
-	private String uploadFileRepoDIr = "C:/myupload" ;
+	//저장경로 설정 (Windows 환경이므로 경로구분자를 \\로 지정)
+	private String uploadFileRepoDir = "C:/myupload" ;
 	
-	//form을 통한 다중 파일 업로드  //uploadFiles
-	
-	//1. 파일 업로드 요청 JSP 페이지 호출
-	
-	@GetMapping(value= {"/fileUploadForm"})
-	public String callFileUploadFormPage() {
-		System.out.println("'Form을 통한 업로드 테스트' JSP 페이지 호출======== ");
+	//다중파일 업로드 방법1: form 방식의 파일업로드
+	//파일 업로드 요청 JSP 페이지 호출
+	@GetMapping("/fileUploadForm")
+	public String callFileUploadForm() {
+		log.info("upload Form =====================");
 		return "sample/fileUploadForm";
-		
 	}
 	
-	//2. 파일 업로드 처리
-	@PostMapping(value = "/fileUploadFormResult")
-	public String fileUploadActionForm(@ModelAttribute("ename") String ename,
-									   MultipartFile[] uploadFiles) {
-		String originalFileName = null ;
-		
-		for(MultipartFile uploadFile : uploadFiles) {
-			System.out.println("=============================");
-			System.out.println("Upload File Name: " + uploadFile.getOriginalFilename());
-			System.out.println("Upload File Size: " + uploadFile.getSize());
+	//다중파일 업로드 방법1: form 방식의 파일업로드
+	//Model이용, 업로드 파일 저장
+	@PostMapping("/fileUploadFormAction")
+	public String fileUploadActionPost(MultipartFile[] uploadFiles, Model model ) {
+		log.info("====FileUpload With Form ========");
+		for(MultipartFile multipartUploadFile : uploadFiles) {
+			log.info("=================================");
+			log.info("Upload File Name: "+ multipartUploadFile.getOriginalFilename());
+			log.info("Upload File Size: "+ multipartUploadFile.getSize());
 			
-//			File saveuploadFile = new File(uploadFileRepoDIr, uploadFile.getOriginalFilename());
+			//업로드 파일의 리소스(저장폴더와 파일이름)가 설정된 File 객체 생성
+			String strUploadFileName = multipartUploadFile.getOriginalFilename();
 			
-			originalFileName = uploadFile.getOriginalFilename();
-			// 파일이름.확장자, 경로명\파일이름.확장자, 파일이름만 남기는 처리.
-			originalFileName = originalFileName.substring(originalFileName.lastIndexOf("\\") + 1) ;
+			//[Edge, IE 오류 해결] multipartUploadFile.getOriginalFilename()에서 업로드 파일이름만 추출
+			//파일이름만 있는 경우, 파일이름만 추출됨
+			strUploadFileName = strUploadFileName.substring(strUploadFileName.lastIndexOf("\\")+1);
+			log.info("수정된 파일이름(strUploadFileName): " + strUploadFileName);
 			
-			File saveuploadFile = new File(uploadFileRepoDIr, originalFileName);
+			//업로드 정보(저장폴더와 파일이름 문자열)의 파일객체 생성
+			File saveUploadFile = new File(uploadFileRepoDir, strUploadFileName);
 			
 			try {
-				uploadFile.transferTo(saveuploadFile);
-				
-			} catch (IllegalStateException | IOException e) {
-				System.out.println("error: " + e.getMessage());
-			} 
-
-		}
-		
-		return "sample/fileUploadFormResult" ;
-	}
+				//서버에 파일객체를 이용하여 업로드 파일 저장
+				multipartUploadFile.transferTo(saveUploadFile);
+			} catch (Exception e) {
+				log.error(e.getMessage());
+			}
+		} // End-for
+		return "sample/fileUploadFormResult";
+}
 }

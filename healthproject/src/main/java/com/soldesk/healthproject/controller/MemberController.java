@@ -1,56 +1,35 @@
 package com.soldesk.healthproject.controller;
 
+import java.util.List;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.soldesk.healthproject.common.paging.domain.BoardPagingDTO;
-import com.soldesk.healthproject.common.paging.domain.FreeBoardPagingCreatorDTO;
 import com.soldesk.healthproject.common.paging.domain.MemberPagingCreatorDTO;
-import com.soldesk.healthproject.common.paging.domain.NoticeBoardPagingCreatorDTO;
+import com.soldesk.healthproject.domain.AuthorityVO;
 import com.soldesk.healthproject.domain.MemberVO;
-import com.soldesk.healthproject.service.FreeBoardService;
+import com.soldesk.healthproject.domain.TrainerVO;
 import com.soldesk.healthproject.service.MemberService;
-import com.soldesk.healthproject.service.NoticeBoardService;
-import com.soldesk.healthproject.service.ProductService;
-import com.soldesk.healthproject.service.TicketService;
-import com.soldesk.healthproject.service.WorkoutService;
+import com.soldesk.healthproject.service.TrainerService;
 
 @Controller
 @RequestMapping("/member")
 public class MemberController {
 	private MemberService memberService;
-	private NoticeBoardService noticeBoardService;
-	private FreeBoardService freeBoardService;
-	private TicketService ticketService;
-	private ProductService productService;
-	private WorkoutService workoutService;
+	private TrainerService trainerService;
 	
 	public MemberController(MemberService memberService,
-							NoticeBoardService noticeBoardService,
-							FreeBoardService freeBoardService,
-							TicketService ticketService,
-							ProductService productService,
-							WorkoutService workoutService) {
+							TrainerService trainerService) {
 		this.memberService = memberService;
-		this.noticeBoardService = noticeBoardService;
-		this.freeBoardService = freeBoardService;
-		this.ticketService = ticketService;
-		this.productService = productService;
-		this.workoutService = workoutService;
-	}
-	
-	//트레이너 목록 조회
-	@GetMapping("/trainer")
-	public String showTrainterList(Model model, BoardPagingDTO memberPaging) {
-		MemberPagingCreatorDTO pagingCreator = memberService.getMemberList(memberPaging);
-		model.addAttribute("pagingCreator", pagingCreator);
-		return "member/trainer";
+		this.trainerService = trainerService;
 	}
 	
 	//회원 목록 조회
@@ -79,23 +58,30 @@ public class MemberController {
 	}
 	
 	@PostMapping("/memberRegister")
-	public String memberRegister(MemberVO member, Model model, 
-								 BoardPagingDTO noticeBoardPaging, 
-								 BoardPagingDTO freeBoardPaging) {
+	public String memberRegister(MemberVO member) {
 		
 		memberService.registerMember(member);
-		
-		NoticeBoardPagingCreatorDTO noticeBoard = noticeBoardService.getBoardList(noticeBoardPaging);
-		FreeBoardPagingCreatorDTO freeBoard = freeBoardService.getBoardList(freeBoardPaging);
-		
-		model.addAttribute("noticeBoard", noticeBoard);
-		model.addAttribute("freeBoard", freeBoard);
-		model.addAttribute("ticket", ticketService.getTicketList());
-		model.addAttribute("product", productService.getProductList());
-		model.addAttribute("workoutList", workoutService.getWorkoutList());
-		
-		return "myboard/main";
+		return "redirect:/";
 	}
+	
+	//강사 권한 부여
+	@PostMapping("/auth")
+	public String registerAuth(MemberVO member) {
+		
+		memberService.registerTrainerAuthority(member);
+		
+		return "redirect:/member/list";
+	}
+	
+	//강사 권한 삭제
+	@PostMapping("/authcancel")
+	public String removeAuth(MemberVO member) {
+		
+		memberService.removeTrainerAuthority(member);
+		
+		return "redirect:/member/list";
+	}
+	
 	
 	//회원 수정페이지 호출
 	@GetMapping("/modify")
@@ -108,10 +94,11 @@ public class MemberController {
 	
 	//회원 수정 처리
 	@PostMapping("/modify")
-	public String memberModify(MemberVO member) {
+	public String memberModify(MemberVO member, AuthorityVO authority) {
 		
 		memberService.modifyMember(member);
 		return "redirect:/member/detail?member_id="+ member.getMember_id();
+		
 	}
 	
 	//회원 비밀번호수정 페이지 호출
@@ -135,24 +122,13 @@ public class MemberController {
 	
 	//회원 탈퇴(delete_flag = 'Y')
 	@PostMapping("/delete")
-	public String deleteMember(String member_id, Model model, 
-							 BoardPagingDTO noticeBoardPaging, 
-							 BoardPagingDTO freeBoardPaging) {
+	public String deleteMember(String member_id) {
 		memberService.setMemberDelete(member_id);
-		
-		NoticeBoardPagingCreatorDTO noticeBoard = noticeBoardService.getBoardList(noticeBoardPaging);
-		FreeBoardPagingCreatorDTO freeBoard = freeBoardService.getBoardList(freeBoardPaging);
-		
-		model.addAttribute("noticeBoard", noticeBoard);
-		model.addAttribute("freeBoard", freeBoard);
-		model.addAttribute("ticket", ticketService.getTicketList());
-		model.addAttribute("product", productService.getProductList());
-		model.addAttribute("workoutList", workoutService.getWorkoutList());
 		
 		return "redirect:/";
 	}
 	
-	//회원 탈퇴 취소
+	//회원 탈퇴 취소(delete_flag = 'N')
 	@PostMapping("/cancel")
 	public String cancelMember(String member_id) {
 		memberService.setMemberCancel(member_id);
@@ -166,6 +142,7 @@ public class MemberController {
 	public String removeMember(String member_id, Model model, 
 							   BoardPagingDTO memberPaging) {
 		
+		trainerService.removeRecord(member_id);
 		memberService.removeMemberAuthority(member_id);
 		memberService.removeMember(member_id);
 		
@@ -173,6 +150,57 @@ public class MemberController {
 		model.addAttribute("pagingCreator", pagingCreator);
 		
 		return "redirect:/member/list";
+	}
+	
+	
+	//강사경력 관련 CRUD
+	//트레이너 조회
+	@GetMapping("/trainer")
+	public String showTrainterList(Model model, BoardPagingDTO memberPaging) {
+		
+		memberPaging.setRowAmountPerPage(100);
+		MemberPagingCreatorDTO pagingCreator = memberService.getMemberList(memberPaging);
+		
+		model.addAttribute("pagingCreator", pagingCreator);
+		model.addAttribute("trainerRecord", trainerService.getTrainerRecordList());
+		
+		return "member/trainer";
+	}
+	
+	//강사 경력 등록페이지 호출
+	@GetMapping("/recordRegister")
+	public String showRecordRegisterPage() {
+		return "member/recordRegister";
+	}
+	
+	//강사 경력 등록
+	@PostMapping("/recordRegister")
+	public String recordRegister(TrainerVO trainer) {
+		trainerService.registerRecord(trainer);
+		return "redirect:/member/trainer";
+	}
+	
+	//강사 경력 수정페이지 호출
+	@GetMapping("/recordModify")
+	public String showRecordModifyPage(@RequestParam("member_id") String member_id,
+									   Model model) {
+		List<TrainerVO> trainerRecord = trainerService.getTrainerRecord(member_id);
+		model.addAttribute("trainerRecord", trainerRecord);
+		
+		return "member/recordModify";
+	}
+	
+	//강사 경력 수정
+	@PostMapping("/recordModify")
+	public String recordModify(TrainerVO frmModify) {
+		
+		System.out.println("받아온 값: " + frmModify.getMember_id());
+		System.out.println("받아온 값: " + frmModify.getTrainer_record());
+		System.out.println("받아온 값: " + frmModify.getTrainer_record_get_date());
+		System.out.println("받아온 값: " + frmModify);
+		
+		trainerService.modifyRecord(frmModify);
+		return "redirect:/member/trainer";
 	}
 	
 	

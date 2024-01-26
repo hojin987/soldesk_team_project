@@ -1,14 +1,10 @@
 package com.soldesk.healthproject.common.fileupload.domain;
 
 import lombok.AllArgsConstructor;
-import lombok.Getter;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
 
-@Getter
-@Setter
-@ToString
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class AttachFileDTO {
@@ -18,8 +14,4 @@ public class AttachFileDTO {
 	private String uuid ;       //파일 이름에 추가된 UUID.toString() 값.
 	private String fileType ; //"I": 이미지파일, "F" : 이미지가 아닌 파일
 	private String repoPath = "C:/myupload" ;
-	
-	
-	
-
 }

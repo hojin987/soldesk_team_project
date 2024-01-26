@@ -18,7 +18,6 @@ public class TicketServiceImpl implements TicketService {
 	private MemberMapper memberMapper;
 	
 	public TicketServiceImpl() {
-		System.out.println("TicketServiceImpl의 기본생성자");
 	}
 	
 	@Autowired

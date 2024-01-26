@@ -3,6 +3,7 @@
     
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 
 <c:set var="contextPath" value="${pageContext.request.contextPath }"/>
 
@@ -30,6 +31,31 @@
 					</div>
 					<div class="form-group">
 						<label>운동 내용</label>
+						<div class="workout-media">
+ <c:if test="${workout != null and workout.workout_media_url != null}">
+    <c:choose>
+        <c:when test="${fn:contains(workout.workout_media_url, 'youtube.com')}">
+            <c:choose>
+                <c:when test="${fn:contains(workout.workout_media_url, 'shorts')}">
+                    <iframe width="560" height="315"
+                        src="https://www.youtube.com/embed/${fn:substringAfter(workout.workout_media_url, 'shorts/')}"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"></iframe>
+                </c:when>
+                <c:otherwise>
+                    <iframe width="560" height="315"
+                        src="https://www.youtube.com/embed/${fn:substringAfter(workout.workout_media_url, 'v=')}"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"></iframe>
+                </c:otherwise>
+            </c:choose>
+        </c:when>
+        <c:when test="${fn:contains(workout.workout_media_url, 'youtu.be')}">
+            <iframe width="560" height="315"
+                src="https://www.youtube.com/embed/${fn:substringAfter(workout.workout_media_url, 'be/')}"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"></iframe>
+        </c:when>
+    </c:choose>
+</c:if>
+
 							<input class="form-control" name="workout_content" value='<c:out value="${workout.workout_content}"/>'
 								   readonly="readonly"/>
 					</div>

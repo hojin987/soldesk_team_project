@@ -38,6 +38,8 @@
 	
 	<context:component-scan base-package="com.soldesk.healthproject.service" />
 	<context:component-scan base-package="com.soldesk.healthproject.controller" />
+	<context:component-scan base-package="com.soldesk.healthproject.common.fileupload" />
+	<context:component-scan base-package="com.soldesk.healthproject.common.filedownload" />
 	<context:component-scan base-package="com.soldesk.healthproject.common.security" />
 	
 	<!-- 어노테이션을 이용한 스프링 시큐리티 활성화 -->

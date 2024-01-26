@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.soldesk.healthproject.mapper.ApplyAttachFileMapper">
+  
+  <!--첨부파일 추가 -->
+	<insert id="insertAttachFile">
+		<![CDATA[
+			INSERT INTO project_health.apply_attachfiles
+			VALUES ( #{uuid}, #{uploadPath}, #{fileName}, #{fileType}, #{apost_number} )
+		]]>
+	</insert>
+	
+<!-- 특정 게시물의 모든 첨부파일 조회 -->
+<!-- 서버의 첨부파일 기본저장 경로는 리터럴 문자열로 처리 -->
+	<select id="selectAttachFiles" resultType="com.soldesk.healthproject.domain.ApplyAttachFileVO">
+		<![CDATA[
+			SELECT uuid, uploadPath, fileName, fileType, apost_number
+			FROM project_health.apply_attachfiles
+			WHERE apost_number = #{apost_number}
+		]]>
+	</select>
+	
+<!--특정 첨부파일 삭제 -->
+	<delete id="deleteAttachFile">
+		<![CDATA[
+			DELETE FROM project_health.apply_attachfiles WHERE uuid = #{uuid}
+		]]>
+	</delete>
+	
+<!-- 특정 게시물의 모든 첨부파일 삭제 -->
+	<delete id="deleteAttachFiles">
+		<![CDATA[
+			DELETE FROM project_health.apply_attachfiles WHERE apost_number = #{apost_number}
+		]]>
+	</delete>
+  
+  
+  
+</mapper>

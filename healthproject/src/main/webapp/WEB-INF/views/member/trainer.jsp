@@ -14,41 +14,36 @@
             <h3 class="page-header">trainer - List</h3>
         </div><%-- /.col-lg-12 --%>
     </div><%-- /.row --%>
+    
     <div class="row">
-        <div class="col-lg-12">
-        
+        <div class="col-lg-12">  
             <div class="panel panel-default">
                 <div class="panel-body">
 
-	<table class="table table-bordered " 
-	       style="margin:0 auto; width: 80%; text-align: center;">
-	    <tbody>
-			<c:forEach items="${pagingCreator.memberList}" var="member" varStatus="loop">
-		        <c:if test="${loop.index % 3 == 0}">
-		            <c:if test="${loop.index != 0}">
-		                </tr> <!-- 이전 행을 닫습니다 -->
-		            </c:if>
-		            <tr>
-		                <c:forEach begin="0" end="2" var="imageIndex">
-		                    <td style="font-size:20px">이미지</td>
-		                </c:forEach>
+<table class="table table-bordered " 
+       style="margin:0 auto; width: 80%; text-align: center;">
+    <tbody>
+		<c:forEach items="${pagingCreator.memberList}" var="member">
+		    <c:forEach items="${member.authorityList}" var="authority">
+		        <c:if test="${authority.authority eq 'TRAINER'}">
+		            <tr class="moveDetail" data-member_id="${member.member_id}">
+		            	<td>이미지</td>
+		            	<td style="text-align:left;">
+		            		[<c:out value="강사" />] <c:out value="${member.member_name}"/><br>
+		            		<c:forEach items="${trainerRecord}" var="trainerRecord">
+			            		<c:if test="${member.member_id eq trainerRecord.member_id}">
+			            			${trainerRecord.trainer_record} (${trainerRecord.trainer_record_get_date})<br>
+			            		</c:if>
+			            	</c:forEach>
+		            	</td>
+		            	<td><button type="button" class="btn btn-sm" id="btnToRegister">등록</button><br>
+		            		<button type="button" class="btn btn-sm" id="btnToModify">수정</button></td>
 		            </tr>
-		            <tr>
 		        </c:if>
-				<c:forEach items="${member.authorityList}" var="authorityList">
-					<c:if test="${authorityList.authority eq 'TRAINER'}">
-			        	<td class="moveDetail" data-workout_code="${member.member_id}" style="text-align:left;">
-			        	[<c:out value="강사" />] <c:out value="${member.member_name}"/></td>
-					</c:if>
-				</c:forEach>
-		        <c:if test="${(loop.index + 1) % 3 == 0 or loop.last}">
-		            </tr> <!-- 행을 닫습니다 -->
-		        </c:if>
-		        
-		    </c:forEach>           
-
-                    </tbody>
-                </table><%-- /.table-responsive --%>
+		    </c:forEach>
+		</c:forEach>
+       </tbody>
+   </table><%-- /.table-responsive --%>
                 
 <form id="frmSendValue">
 </form>
@@ -85,22 +80,30 @@
 
 var frmSendValue = $("#frmSendValue") ;
 var result = '<c:out value="${result}" />' ;
-//alert("result.length: " + result.length)
 
 //등록페이지 이동
 $("#btnToRegister").on("click",function(){
-	window.location.href = "${contextPath}/workout/register" ; 
+	var member_id = $(".moveDetail").data("member_id");
+	window.location.href='${contextPath}/member/recordRegister?member_id='+member_id; 
+});
+btnToModify
+
+//수정페이지 이동
+$("#btnToModify").on("click",function(){
+	var member_id = $(".moveDetail").data("member_id");
+	window.location.href='${contextPath}/member/recordModify?member_id='+member_id; 
 });
 
+
 //상세페이지 이동
-$(".moveDetail").on("click", function(){
+/* $(".moveDetail").on("click", function(){
 	var workout_code = $(this).data("workout_code") ;
 	
 	frmSendValue.append("<input type='hidden' name='workout_code' value='" + workout_code + "'/>")
 	frmSendValue.attr("action", "${contextPath}/workout/detail").attr("method", "get") ;
 	frmSendValue.submit() ;
 	frmSendValue.find('input[name="workout_code"]').remove() ;
-});
+}); */
 
 
 </script> 

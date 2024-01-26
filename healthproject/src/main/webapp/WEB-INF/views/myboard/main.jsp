@@ -235,48 +235,7 @@
                 </div>
                 <!-- /.col-lg-4 -->
             </div>
-            
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="panel panel-default">
-                        <div class="panel-heading">
-                            장비&식품 SHOP
-                            <button type="button" style="float:right" onclick="location.href='${contextPath}/product/list'">+</button>
-                        </div>
-                        <!-- /.panel-heading -->
-                        <div class="panel-body">
-                            <div class="table-responsive table-bordered">
-                                <table class="table">
-                                    <thead>
-                                        <tr>
-                                            <th>상품이름</th>
-                                            <th>상품가격</th>
-                                            <th>상품재고</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <c:forEach var="product" items="${product}" begin="0" end="5">
-                                        <tr class="moveProductDetail" data-product_number="${product.product_number}">
-                                            <td>${product.product_content}</td>
-                                            <td>${product.product_price}</td>
-                                            <td>${product.product_stock}</td>
-                                        </tr>
-                                    </c:forEach>  
-                                    </tbody>
-                                </table>
-                            </div>
-                            <!-- /.table-responsive -->
-                        </div>
-                        <!-- /.panel-body -->
-                    </div>
-                    <!-- /.panel -->
-                </div>
-                <!-- /.col-lg-12 -->
-            </div>
-            <!-- /.row -->
-            
-        
-        <!-- /#page-wrapper -->
+
 
 <script>
 

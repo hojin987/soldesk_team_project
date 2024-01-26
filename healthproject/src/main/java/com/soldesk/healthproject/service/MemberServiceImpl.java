@@ -117,8 +117,6 @@ public class MemberServiceImpl implements MemberService {
 	    member.setTicket_start_date(new java.sql.Date(today.getTime())); //시작일은 오늘
 	    member.setTicket_end_date(new java.sql.Date(calendar.getTime().getTime())); //종료일은 계산된 날짜
 
-
-		
 		//회원 정보 등록
 		memberMapper.insertMember(member);
 		
@@ -133,10 +131,28 @@ public class MemberServiceImpl implements MemberService {
 		return member.getMember_id();
 	}
 	
-	//회원 권한 부여
+	//강사 권한 부여
 	@Override
-	public long registerMemberAuthority(AuthorityVO authority) {
-		return memberMapper.insertMemberAuthority(authority);
+	public long registerTrainerAuthority(MemberVO member) {
+		
+		String member_id = member.getMember_id();
+		String auth = "TRAINER";
+				
+		AuthorityVO memberAuthority = new AuthorityVO(member_id, auth);
+				
+		return memberMapper.insertMemberAuthority(memberAuthority);
+	}
+	
+	//강사 권한 삭제
+	@Override
+	public long removeTrainerAuthority(MemberVO member) {
+		
+		String member_id = member.getMember_id();
+		String auth = "TRAINER";
+				
+		AuthorityVO memberAuthority = new AuthorityVO(member_id, auth);
+				
+		return memberMapper.deleteMemberAuthority(memberAuthority);
 	}
 	
 	//회원 정보 수정

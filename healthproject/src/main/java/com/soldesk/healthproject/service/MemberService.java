@@ -18,8 +18,11 @@ public interface MemberService {
 	//회원 등록: 회원 등록 시 회원 권한 추가도 같이 수행
 	public String registerMember(MemberVO member);
 	
-	//회원 권한 추가
-	public long registerMemberAuthority(AuthorityVO authority);
+	//회원(강사) 권한 추가
+	public long registerTrainerAuthority(MemberVO member);
+	
+	//강사 권한 삭제
+	public long removeTrainerAuthority(MemberVO member);
 	
 	//회원 수정
 	public void modifyMember(MemberVO member);

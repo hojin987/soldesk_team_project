@@ -41,6 +41,11 @@
 						<label>운동 주의사항</label>
 							<input class="form-control" name="workout_warning" value='<c:out value="${workout.workout_warning}"/>'/>
 					</div>
+					<div class="form-group">
+    <label>이미지/영상 URL</label>
+    <input class="form-control" name="workout_media_url" value='<c:out value="${workout.workout_media_url}"/>' placeholder="https://www.youtube.com/watch?v=영상ID 형식으로 입력"/>
+    
+</div>
 					<input type="hidden" name="workout_code" value="<c:out value='${workout.workout_code}'/>"/>
 					<sec:csrfInput/>
 					

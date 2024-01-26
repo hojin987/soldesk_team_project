@@ -52,32 +52,36 @@
 							<input class="form-control" name="member_fat_percent" value='<c:out value="${member.member_fat_percent}"/>'/>
 					</div>
 					<div class="form-group">
-							<label>목표</label> <select class="form-control" name="member_goal">
-								<option value="체력개선" selected>체력개선</option>
-								<option value="체형교정">체형교정</option>
-								<option value="가슴">가슴</option>
-								<option value="등">등</option>
-								<option value="어깨">어깨</option>
-								<option value="하체">하체</option>
-							</select>
-						</div>
+						<label>목표</label> <select class="form-control" name="member_goal">
+							<option value="체력개선" selected>체력개선</option>
+							<option value="체형교정">체형교정</option>
+							<option value="가슴">가슴</option>
+							<option value="등">등</option>
+							<option value="어깨">어깨</option>
+							<option value="하체">하체</option>
+						</select>
+					</div>
 					<div class="form-group">
 						<label>구매 회원권</label>
 							<input class="form-control" name="ticket_number" value='<c:out value="${member.ticket_number}"/>'
 								   readonly="readonly"/>
 					</div>
 					
-					<button type="button" class="btn btn-default" id="btnModify" data-oper="modify">수정</button>
-					<button type="button" class="btn btn-warning" id="btnDelete" data-oper="delete">회원탈퇴</button>
- 					<button type="button" class="btn btn-info" id="btnList" data-oper="list">취소</button><br><br>
- 					
- 					<sec:authorize access="hasAuthority('ADMIN')">
- 					<button type="button" class="btn btn default float-right" id="btnAuth" data-oper="auth">권한부여</button>
- 					<button type="button" class="btn btn-warning float-right" id="btnCancel" data-oper="cancel">탈퇴요청취소</button>
- 					<button type="button" class="btn btn-danger float-right" id="btnRmove" data-oper="remove">회원삭제</button>
-		  			</sec:authorize>
+					<sec:csrfInput/>
+					
+                    <button type="button" class="btn btn-default" id="btnModify" data-oper="modify">수정</button>
+                    <button type="button" class="btn btn-warning" id="btnDelete" data-oper="delete">회원탈퇴</button>
+                    <button type="button" class="btn btn-info" id="btnList" data-oper="list">취소</button>
+
+                    <!-- ADMIN buttons (float-right) -->
+                    <sec:authorize access="hasAuthority('ADMIN')">
+                        <button type="button" class="btn btn-danger pull-right" id="btnRmove" data-oper="remove">회원삭제</button>
+                        <button type="button" class="btn btn-warning pull-right" id="btnCancel" data-oper="cancel">탈퇴요청취소</button>
+                        <button type="button" class="btn btn-default pull-right" id="btnAuthCancel" data-oper="authcancel">강사권한삭제</button>
+                        <button type="button" class="btn btn-default pull-right" id="btnAuth" data-oper="auth">강사권한부여</button>
+                    </sec:authorize>
 			  			
-          </div><%-- /.panel-body --%>
+          	</div><%-- /.panel-body --%>
           </form>  
         </div><%-- /.panel --%>
     </div><%-- /.col-lg-12 --%>
@@ -110,16 +114,20 @@ $('button').on("click", function(e){
 var operation = $(this).data("oper");
  
 if(operation == "modify"){ //회원권 정보 수정 요청
-frmModify.attr("action", "${contextPath}/member/modify");
+	frmModify.attr("action", "${contextPath}/member/modify");
 } else if(operation == "delete"){ //회원 탈퇴 신청
-frmModify.attr("action","${contextPath}/member/delete");
+	frmModify.attr("action","${contextPath}/member/delete");
 } else if(operation == "list"){ //회원권 목록 화면 요청
-frmModify.attr("action","${contextPath}/member/list").attr("method","get");
-frmModify.empty();
-} else if(operation == "cancel"){
-frmModify.attr("action","${contextPath}/member/cancel");
-} else if(operation == "remove"){
-frmModify.attr("action", "${contextPath}/member/remove");
+	frmModify.attr("action","${contextPath}/member/list").attr("method","get");
+	frmModify.empty();
+} else if(operation == "auth"){	//강사 권한 부여
+	frmModify.attr("action","${contextPath}/member/auth");
+} else if(operation == "authcancel"){	//강사 권한 삭제
+	frmModify.attr("action","${contextPath}/member/authcancel");
+} else if(operation == "cancel"){	//회원 탈퇴 신청 취소
+	frmModify.attr("action","${contextPath}/member/cancel");
+} else if(operation == "remove"){	//회원 삭제
+	frmModify.attr("action", "${contextPath}/member/remove");
 }
  
 frmModify.submit() ; //요청 전송

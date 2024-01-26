@@ -39,6 +39,10 @@
 						<div class="form-group">
 							<label>운동 주의사항</label> <input class="form-control" name="workout_warning">
 						</div>
+						<div class="form-group">
+    <label>이미지/영상 URL</label>
+    <input class="form-control" name="workout_media_url" placeholder="예시: https://youtube.com/watch?v=영상id 혹은 https://youtube.com/shorts/영상id"/>
+</div>
 						<sec:csrfInput/>
 						
 							<button type="submit" class="btn btn-primary">등록</button>

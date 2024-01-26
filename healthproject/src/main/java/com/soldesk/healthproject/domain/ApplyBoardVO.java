@@ -1,8 +1,9 @@
 package com.soldesk.healthproject.domain;
 
 import java.sql.Date;
+import java.util.List;
 
-import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -10,7 +11,8 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-@AllArgsConstructor
+//@AllArgsConstructor
+@Data
 public class ApplyBoardVO {
 	
 	private long apost_number ;
@@ -20,4 +22,6 @@ public class ApplyBoardVO {
 	private Date aregister_date ;
 	private long aview_count ;
 	private String adelete_flag ;
+	private List<ApplyAttachFileVO> attachFileList;
+	
 }

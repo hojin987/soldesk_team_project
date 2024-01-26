@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.soldesk.healthproject.mapper.TrainerMapper">
+	
+	
+	<!-- 강사 경력 조회 -->
+	<select id="selectTainerRecordList" resultType="com.soldesk.healthproject.domain.TrainerVO">
+		SELECT member_id, trainer_record, trainer_record_get_date
+		FROM project_health.trainer_career
+	</select>
+	
+	<!-- 특정 강사 경력 조회 -->
+	<select id="selectTrainerRecord" resultType="com.soldesk.healthproject.domain.TrainerVO">
+		SELECT member_id, trainer_record, trainer_record_get_date
+		FROM project_health.trainer_career
+		WHERE member_id = #{member_id}
+	</select>
+	
+	<!-- 강사 경력 등록 -->
+	<insert id="insertTrainerRecord">
+		INSERT INTO project_health.trainer_career
+		VALUES (#{member_id},
+				#{trainer_record},
+				#{trainer_record_get_date})
+	</insert>
+	
+	<parameterMap type="com.soldesk.healthproject.domain.TrainerVO" id="TrainerRecord">
+	    <parameter property="member_id" jdbcType="VARCHAR"/>
+	    <parameter property="trainer_record" jdbcType="VARCHAR"/>
+	    <parameter property="trainer_record_get_date" jdbcType="DATE"/>
+	</parameterMap>
+	
+	<!-- 경력 수정 -->
+	<update id="updateTrainerRecord" parameterMap="TrainerRecord">
+		UPDATE project_health.trainer_career
+		<set>
+		 	trainer_record = #{trainer_record},
+			trainer_record_get_date = #{trainer_record_get_date}
+		</set>
+		WHERE member_id = #{member_id}
+	</update>
+	
+	<!-- 경력 삭제 -->
+	<delete id="deleteTrainerRecord">
+		DELETE FROM project_health.trainer_career
+		WHERE member_id = #{member_id}
+	</delete>
+	
+</mapper>

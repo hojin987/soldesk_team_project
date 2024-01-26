@@ -4,31 +4,29 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.soldesk.healthproject.common.paging.domain.ApplyBoardPagingCreatorDTO;
 import com.soldesk.healthproject.common.paging.domain.BoardPagingDTO;
+import com.soldesk.healthproject.domain.ApplyAttachFileVO;
 import com.soldesk.healthproject.domain.ApplyBoardVO;
+import com.soldesk.healthproject.mapper.ApplyAttachFileMapper;
 import com.soldesk.healthproject.mapper.ApplyBoardMapper;
 
-import lombok.extern.log4j.Log4j;
-
-@Log4j
 @Service
 public class ApplyBoardServiceImpl implements ApplyBoardService {
 	
-	private ApplyBoardMapper applyBoardMapper;
+	private ApplyBoardMapper applyBoardMapper;	
+	private ApplyAttachFileMapper applyAttachFileMapper;
 	
-	public ApplyBoardServiceImpl() {
-		System.out.println("ApplyBoardServiceImpl의 기본생성자");
-	}
-	
-	@Autowired
-	public void setApplyBoardMapper(ApplyBoardMapper applyBoardMapper) {
+	public ApplyBoardServiceImpl(ApplyBoardMapper applyBoardMapper, ApplyAttachFileMapper applyAttachFileMapper) {
 		this.applyBoardMapper = applyBoardMapper;
+		this.applyAttachFileMapper = applyAttachFileMapper;
 	}
+	
 	
 	//게시물 목록 조회
 
@@ -71,9 +69,22 @@ public class ApplyBoardServiceImpl implements ApplyBoardService {
 	}
 	
 	//게시물 등록
+	@Transactional
 	@Override
 	public long registerApplyBoard(ApplyBoardVO applyBoard) {
+				
 		applyBoardMapper.insertApplyBoard(applyBoard);
+		
+		//첨부파일이 없는 경우, 메서드 종료
+		if (applyBoard.getAttachFileList() == null || applyBoard.getAttachFileList().size() <= 0) {
+			return applyBoard.getApost_number() ;
+		}
+		
+		//첨부파일이 있는 경우, applyBoard의 apost_number 값을 첨부파일 정보 VO에 저장 후, apply_attachfiles 테이블에 입력
+		applyBoard.getAttachFileList().forEach(attachFile -> {
+			attachFile.setApost_number(applyBoard.getApost_number());
+			applyAttachFileMapper.insertAttachFile(attachFile);
+		});
 		
 		return applyBoard.getApost_number();
 	}
@@ -86,9 +97,32 @@ public class ApplyBoardServiceImpl implements ApplyBoardService {
 	}
 	
 	//게시물 수정
+	@Transactional
 	@Override
 	public boolean modifyApplyBoard(ApplyBoardVO applyBoard) {
-		return applyBoardMapper.updateApplyBoard(applyBoard) == 1;
+		System.out.println("BoardService.modify()에 전달된 ApplyBoardVO: " + applyBoard);
+		
+		long apost_number = applyBoard.getApost_number();
+		
+		//게시물 변경 시, 기존 첨부파일이 삭제와 새로운 첨부파일 추가를 모두 고려하여, 기존 DB의 정보를 모두 삭제 후,
+		//첨부파일 정보를 DB에 다시 추가하는 방식으로 처리
+		applyAttachFileMapper.deleteAttachFiles(apost_number);
+		
+		//게시물 수정: tbl_myboard 테이블에 수정
+		boolean boardModifyResult = applyBoardMapper.updateApplyBoard(applyBoard) == 1 ;
+		
+		//게시물 수정이 성공하고, 첨부파일이 있는 경우에만 다음작업 수행
+		//첨부파일 정보 저장: tbl_myAttachFiles 테이블에 저장
+		if (boardModifyResult && applyBoard.getAttachFileList().size() > 0) {
+			applyBoard.getAttachFileList().forEach(
+				attachFile -> {
+					attachFile.setApost_number(apost_number);
+					applyAttachFileMapper.insertAttachFile(attachFile);
+					}
+			);
+		}
+		
+		return boardModifyResult;
 	}
 	
 	//게시물 삭제 - 삭제플래그 1로 수정
@@ -97,9 +131,19 @@ public class ApplyBoardServiceImpl implements ApplyBoardService {
 		return applyBoardMapper.updateAdeleteFlag(apost_number) == 1;
 	}
 
+	//게시물 삭제 - 실제 삭제
+	@Transactional
 	@Override
 	public boolean removeApplyBoard(long apost_number) {
+		applyAttachFileMapper.deleteAttachFiles(apost_number);
+		
 		return applyBoardMapper.deleteApplyBoard(apost_number) == 1;
 	}
 	
+	//게시물의 첨부파일 조회
+	@Override
+	public List<ApplyAttachFileVO> getAttachFileList(long apost_number){
+		System.out.println("ApplyBoardService.getAttachFileList()에 전달된 apost_number:" + apost_number);
+		return applyAttachFileMapper.selectAttachFiles(apost_number);
+	}
 }

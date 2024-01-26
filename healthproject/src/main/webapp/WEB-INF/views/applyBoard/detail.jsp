@@ -63,121 +63,59 @@
                 </div><!-- /.panel-heading --><%-- /.panel-heading --%>
                 
                 <div class="panel-body">
-
-	
-	<div class="form-group">
-	    <label>글제목</label>
-	    <input class="form-control" name="atitle" id="atitle" 
-	    	   value="${applyBoard.atitle }" readonly="readonly">
-	</div>
-	<div class="form-group">
-	    <label>글내용</label>
-	    <textarea class="form-control" rows="3" name="acontent" id="acontent"
-	    		  readonly="readonly">${applyBoard.acontent}</textarea>
-	</div>
-	
-<form role="form" id="frmSendValue">
-	<input type="hidden" name="pageNum" value="${boardPaging.pageNum }" >
-	<input type="hidden" name="rowAmountPerPage" value="${boardPaging.rowAmountPerPage }" >
-	<input type="hidden" name="scope" value="${boardPaging.scope }" >
-	<input type="hidden" name="keyword" value="${boardPaging.keyword }" >
-	<input type="hidden" name="startDate" value="${boardPaging.beginDate }" >
-	<input type="hidden" name="endDate" value="${boardPaging.endDate }" >
-</form>
-
+					<div class="form-group">
+					    <label>글제목</label>
+					    <input class="form-control" name="atitle" id="atitle" 
+					    	   value="${applyBoard.atitle }" readonly="readonly">
+					</div>
+					<div class="form-group">
+					    <label>글내용</label>
+					    <textarea class="form-control" rows="3" name="acontent" id="acontent"
+					    		  readonly="readonly">${applyBoard.acontent}</textarea>
+					</div>	
                 </div><%-- /.panel-body --%>
-                
             </div><%-- /.panel --%>
         </div><%-- /.col-lg-12 --%>
     </div><%-- /.row --%>
 
-<%-- 첨부파일 결과 표시 --%>    
-    <div class="row">
-        <div class="col-lg-12">
-            <div class="panel panel-default">
-                <div class="panel-heading">첨부 파일</div><!-- /.panel-heading -->
-                <div class="panel-body"><!-- 
-                    <div class="form-group uploadDiv">
-                        <input id="inputFile" class="btn btn-primary inputFile" type="file" name="uploadFiles" multiple="multiple" /><br> 
-                    </div>-->
-	                <div class="form-group fileUploadResult">
-	                    <ul>
-<%-- 업로드 후 처리결과가 표시될 영역 --%>
-<%-- <c:choose>
-<c:when test="${empty noticeBoard.attachFileList }">
-	<li>첨부파일이 없습니다.</li>
-</c:when>
-<c:otherwise>
-	<c:forEach var="attachFile" items="${applyBoard.attachFileList}">
-		<c:choose>
-		<c:when test='${attachFile.fileType == "F"}'>
-		<li class="attachLi" 
-			data-repopath="${attachFile.repoPath}"
-			data-uploadpath="${attachFile.uploadPath}"
-		    data-uuid="${attachFile.uuid}"
-		    data-filename="${attachFile.fileName }"
-		    data-filetype="F">
-		        <img src='${contextPath}/resources/img/icon-attach.png' style='width:25px;'>
-		        &nbsp;&nbsp; ${attachFile.fileName}
-		    </a>
-		</li>
-		</c:when>
-		<c:otherwise>
-		    <c:set var="thumbnail" value="${attachFile.repoPath}/${attachFile.uploadPath}/s_${attachFile.uuid}_${attachFile.fileName}"/>
-		    <li class="attachLi" 
-		    	data-repopath="${attachFile.repoPath}"
-		        data-uploadpath = "${attachFile.uploadPath }" 
-		        data-uuid = "${attachFile.uuid }" 
-		        data-filename = "${attachFile.fileName }" 
-		        data-filetype = "I" >
-		            <img src='${contextPath}/displayThumbnail?fileName=${thumbnail}' style='width:25px;'>
-		            &nbsp;&nbsp;${attachFile.fileName}
-		        </a> 
-		    </li>
-		    <c:remove var="thumbnail"/>
-		</c:otherwise>
-		</c:choose>
-	</c:forEach>
-</c:otherwise>
-</c:choose> --%>
-                	</ul>
-            	</div>
-            </div><!-- /.panel-body -->
-        </div><!-- /.panel -->
-    </div><!-- /.col-lg-12 -->
-</div><!-- /.row -->
+<%-- 첨부파일 표시 --%>
+<div class="row">
+	<div class="col-lg-12">
+		<div class="panel panel-default">
+			<div class="panel-heading">첨부파일</div>
+			<div class="panel-body">
+				<div class="form-group fileUploadResult">
+					<ul>
+					<%-- 업로드 후, 업로드 처리결과가 표시될 영역 --%>
+					</ul>
+				</div>
+			</div><%-- /.panel-body --%>
+		</div><%-- /.panel --%>
+	</div><%-- /.col-lg-12 --%>
+</div><%-- /.row --%>
 
 <%-- Modal:첨부파일 이미지 표시 --%>
-<div class="modal fade" id="attachModal" tabindex="-1" role="dialog" aria-labelledby="attachModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-body" id="attachModal-body">
-            	<%-- 이미지표시 --%>
-            </div>
-            
-        </div><%-- /.modal-content --%>
-    </div><%-- /.modal-dialog --%>
-</div><%-- /.modal --%>
-</div><%-- /#page-wrapper --%>
-
-<%-- Modal --%>
 <div class="modal fade" id="yourModal" tabindex="-1" role="dialog" aria-labelledby="yourModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title" id="yourModalLabel">Modal title</h4>
-            </div>
-            <div class="modal-body" id="yourModal-body">메시지</div>
-            
-            <div class="modal-footer">
-                <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+            <div class="modal-body">
+            	<%-- 이미지표시 --%>
             </div>
         </div><%-- /.modal-content --%>
     </div><%-- /.modal-dialog --%>
 </div><%-- /.modal --%>
 
 
+<form id="frmSendValue">
+	<input type="hidden" name="pageNum" value="${applyBoardPaging.pageNum }" >
+	<input type="hidden" name="rowAmountPerPage" value="${applyBoardPaging.rowAmountPerPage }" >
+	<input type="hidden" name="scope" value="${applyBoardPaging.scope }" >
+	<input type="hidden" name="keyword" value="${applyBoardPaging.keyword }" >
+	<input type="hidden" name="startDate" value="${applyBoardPaging.beginDate }" >
+	<input type="hidden" name="endDate" value="${applyBoardPaging.endDate }" >
+</form>
+
+</div><%-- /#page-wrapper --%>
 
 <script>
 
@@ -220,29 +158,103 @@ function runModal(result) {
 	
 	myMsg = "" ;
 }
-</script>
 
-
-<%-- 첨부파일 이미지 표시 --%>
-<script>
-$(".attachLi").on("click", function(){
-	var objLi = $(this) ;
-	var myFileName = objLi.data("repopath") + "/" + objLi.data("uploadpath") + "/" 
-				   + objLi.data("uuid") + "_" + objLi.data("filename");
+<%-- 첨부파일 처리 JS --%>
+//업로드 후, 첨부파일 정보 표시 함수
+function showUploadedFiles(uploadResult) {
+	console.log("showUploadedFiles 실행: 화면 표시 시작=======================================");
 	
-	if(objLi.data("filetype")=="I"){
-		$("#attachModal-body").html("<img src='${contextPath}/fileDownloadAjax?fileName=" + encodeURI(myFileName) + "' style='width:80%' >");
-		
-		$("#attachModal").modal("show");
-	}else{
-		self.location="${contextPath}/fileDownloadAjax?fileName=" + encodeURI(myFileName) ;
+	//서버로부터 전달된 파일업로드 결과내용이 없으면, 함수 종료.
+	if(!uploadResult || uploadResult.length == 0){
+		return ;
 	}
 	
-})
+	var fileUploadResult = $(".fileUploadResult ul");
+	var str = "";
+	
+	//전달받은 배열형식 데이터 각각에 대하여
+	$(uploadResult).each(function(i, obj) {
+		if (obj.fileType=="F") { 
+			//이미지가 아닌 경우, 아이콘 이미지 및 원본 파일이름 표시
+			str += "<li data-repopath='" + obj.repoPath + "'"
+					+ " data-uploadpath='" + obj.uploadPath + "'"
+					+ " data-uuid='" + obj.uuid + "'"
+					+ " data-filename='" + obj.fileName + "'"
+					+ " data-filetype='" + obj.fileType + "' >"
+					+ " 	<img src='${contextPath}/resources/img/icon-attach.png' alt='No Icon' "
+					+ " 		style='height: 50px; width: 50px;'>"
+					+ 		  obj.fileName
+					+ "</li>";
+		} else if (obj.fileType=="I") {//이미지파일인 경우 썸네일 및 원본 파일이름 표시
+			//전체 경로명이 포함된 썸네일 파일이름을 encodeURIComponent로 처리
+			var thumbnailFilePath =
+					encodeURIComponent(obj.repoPath + "/" + obj.uploadPath + "/s_" + obj.uuid + "_" + obj.fileName);
+			console.log("encodeURIComponent 처리 파일이름: " + thumbnailFilePath);
 
-<%-- 표시된 이미지 모달 감추기 --%>
-$("#attachModal").on("click", function(){
-	$(this).modal("hide");
-})
+				//원본이미지 파일이름(경로포함)
+				str +="<li data-repopath='" + obj.repoPath + "'"
+					+ " data-uploadpath='" + obj.uploadPath + "'"
+					+ " data-uuid='" + obj.uuid + "'"
+					+ " data-filename='" + obj.fileName + "'"
+					+ " data-filetype='" + obj.fileType + "' >"
+					+ " 	<img src='${contextPath}/displayThumbnailFile?fileName=" + thumbnailFilePath + "'"
+					+ " 		alt='No Icon' style='height: 20px; width: 20px;'>"
+					+ 		  obj.fileName
+					+ "</li>";
+		}
+	});
+	//기존 페이지에 첨부파일 정보 표시를 HTML로 추가
+	fileUploadResult.html(str);
+}
+
+//첨부파일 li 클릭 이벤트 처리: 첨부파일 다운로드//원본 이미지 표시(새로 추가)
+$(".fileUploadResult ul").on("click","li", function(e){
+	
+	var objLi = $(this);
+	
+	var downloadedPathFileName = encodeURIComponent(objLi.data("repopath") + "/" + objLi.data("uploadpath") + "/" +
+													objLi.data("uuid")+"_" + objLi.data("filename"));
+	
+	if(objLi.data("filetype") == "I"){
+		//이미지파일일 경우, 원본이미지를 다운로드 하여 결과표시 영역에 표시
+		$(".modal-body").html("<img src='${contextPath}/fileDownloadAjax?fileName=" +
+										   downloadedPathFileName.replace(new RegExp(/\\/g),"/") + "'" +
+							  "		width='100%' height='100%' >");
+		
+		$("#yourModal").modal("show");
+		
+	} else { // else if(objLi.data("filetype") == "F") {
+		//이미지가 이닐 경우, 다운로드 수행
+		self.location ="${contextPath}/fileDownloadAjax?fileName=" + downloadedPathFileName ;
+	}
+});
+
+//이미지 표시 모달 감추기
+$(".modal").on("click", function(e){
+		$(".modal").modal("hide");
+});
+
+var apost_number_value = '<c:out value="${applyBoard.apost_number}"/>'; 
+
+<%-- 제일 아래 --%>
+$(document).ready(function(){
+	//첨부파일 정보를 가져오는 Ajax.
+	$.ajax({
+		type:'get',
+		url: '${contextPath}/applyBoard/getFiles',
+		data: {apost_number: apost_number_value}, 
+		dataType: 'json',
+		success: function(fileList, status){
+			console.log("첨부파일 목록 수집: " + status);
+			showUploadedFiles(fileList);
+		}
+	}); //ajax end
+	
+});
+
+
 
 </script>
+<%@include file="../myinclude/myfooter.jsp" %>  
+
+

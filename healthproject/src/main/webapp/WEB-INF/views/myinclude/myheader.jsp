@@ -83,6 +83,8 @@
     	<sec:authentication property="principal" var="principal"/>
     		<tr>
     			<td><a href="${contextPath }/">SOLDESK GYM</a></td>
+    			<td><a href="${contextPath }/member/list">회원리스트<br>(삭제예정)</a></td>
+    			<td><a href="${contextPath }/member/trainer">강사정보</a></td>
     			<td><a href="${contextPath }/workout/list">운동정보</a></td>
     			<td><a href="${contextPath }/noticeBoard/list">공지사항</a></td>
     			<td><a href="${contextPath }/freeBoard/list">자유게시판</a></td>
@@ -97,8 +99,8 @@
      			</c:when>
      			<c:otherwise>
      				<td style="font-size:13px;">${principal.username}님, 반갑습니다.
-     				<button type="button" class="btn btn-lignt btn-sm" onclick="location.href='${contextPath}/myLogout'">로그아웃</button></button><br>
-     				<a style="font-size:13px;" href="${contextPath}/member/detail?member_id=${principal.username}">내 정보 확인하기</a></td>
+     				<button type="button" class="btn btn-lignt btn-sm pull-right" onclick="location.href='${contextPath}/myLogout'">로그아웃</button><br>
+     				<a style="text-align:left; font-size:13px;" href="${contextPath}/member/detail?member_id=${principal.username}">내 정보 확인하기</a></td>
      				<%-- <a style="font-size:13px;" href="${contextPath}/member/detail?member_id=${principal.username}">내 정보 확인하기</a></td> --%>
      			</c:otherwise>
     			</c:choose>

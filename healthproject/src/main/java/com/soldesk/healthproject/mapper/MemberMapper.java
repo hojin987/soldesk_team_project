@@ -20,8 +20,11 @@ public interface MemberMapper {
 	//회원 등록: 회원 등록 시 회원 권한 추가도 같이 수행
 	public Integer insertMember(MemberVO member);
 	
-	//회원 권한 추가
+	//회원(강사) 권한 추가
 	public Integer insertMemberAuthority(AuthorityVO authority);
+	
+	//강사 권한 삭제
+	public Integer deleteMemberAuthority(AuthorityVO authority);
 	
 	//회원 정보 수정
 	public long updateMember(MemberVO member);

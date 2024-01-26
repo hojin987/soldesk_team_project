@@ -1,7 +1,10 @@
 package com.soldesk.healthproject.service;
 
+import java.util.List;
+
 import com.soldesk.healthproject.common.paging.domain.ApplyBoardPagingCreatorDTO;
 import com.soldesk.healthproject.common.paging.domain.BoardPagingDTO;
+import com.soldesk.healthproject.domain.ApplyAttachFileVO;
 import com.soldesk.healthproject.domain.ApplyBoardVO;
 
 public interface ApplyBoardService {
@@ -26,4 +29,6 @@ public interface ApplyBoardService {
 	
 	//게시물 삭제(관리자)
 
+	//게시물의 첨부파일 조회
+	public List<ApplyAttachFileVO> getAttachFileList(long apost_number);
 }

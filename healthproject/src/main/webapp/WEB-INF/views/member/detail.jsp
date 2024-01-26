@@ -85,9 +85,20 @@
 							<input class="form-control" name="ticket_number" value='<c:out value="${member.ticket_number}"/>'
 								   readonly="readonly"/>
 					</div>
-						
-					<button type="button" class="btn btn-default" id="BtnMoveModify">내 정보 수정하기</button>
-					<button type="button" class="btn btn-default" id="BtnMoveModifyPassword">비밀번호 변경하기</button>
+					
+					<c:if test="${principal.username eq member.member_id }">
+						<button type="button" class="btn btn-default" id="BtnMoveModify">내 정보 수정하기</button>
+						<button type="button" class="btn btn-default" id="BtnMoveModifyPassword">비밀번호 변경하기</button>
+					</c:if>
+					<sec:authorize access="hasAuthority('ADMIN')">
+					<c:choose>
+						<c:when test="${principal.username eq member.member_id}">
+						</c:when>
+						<c:otherwise>
+							<button type="button" class="btn btn-default" id="BtnMoveModify">회원 정보 수정하기</button>
+						</c:otherwise>
+					</c:choose>
+					</sec:authorize>
 					<button type="button" class="btn btn-info" id="BtnMoveHome">메인페이지</button>
 					
 					<form role="form" id="frmSendValue">
@@ -130,6 +141,7 @@ $("#BtnMoveModify").on("click", function(){
 	location.href='${contextPath}/member/modify?member_id=<c:out value="${member.member_id}"/>';
 })
 
+//비밀번호 변경 페이지로 이동
 $("#BtnMoveModifyPassword").on("click", function(){
 	location.href='${contextPath}/member/modifyPw?member_id=<c:out value="${member.member_id}"/>';
 })

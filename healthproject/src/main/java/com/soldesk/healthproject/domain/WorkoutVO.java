@@ -18,5 +18,5 @@ public class WorkoutVO {
 	private String workout_content;
 	private String workout_target;
 	private String workout_warning;
-	
+	private String workout_media_url;
 }
