@@ -184,7 +184,7 @@ public class MemberController {
 	@GetMapping("/recordModify")
 	public String showRecordModifyPage(@RequestParam("member_id") String member_id,
 									   Model model) {
-		List<TrainerVO> trainerRecord = trainerService.getTrainerRecord(member_id);
+		TrainerVO trainerRecord = trainerService.getTrainerRecord(member_id);
 		model.addAttribute("trainerRecord", trainerRecord);
 		
 		return "member/recordModify";
@@ -194,14 +194,8 @@ public class MemberController {
 	@PostMapping("/recordModify")
 	public String recordModify(TrainerVO frmModify) {
 		
-		System.out.println("받아온 값: " + frmModify.getMember_id());
-		System.out.println("받아온 값: " + frmModify.getTrainer_record());
-		System.out.println("받아온 값: " + frmModify.getTrainer_record_get_date());
-		System.out.println("받아온 값: " + frmModify);
-		
 		trainerService.modifyRecord(frmModify);
 		return "redirect:/member/trainer";
 	}
-	
 	
 }

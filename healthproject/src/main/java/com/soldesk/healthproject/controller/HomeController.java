@@ -17,7 +17,6 @@ import com.soldesk.healthproject.service.FreeBoardService;
 import com.soldesk.healthproject.service.HomeService;
 import com.soldesk.healthproject.service.MemberService;
 import com.soldesk.healthproject.service.NoticeBoardService;
-import com.soldesk.healthproject.service.ProductService;
 import com.soldesk.healthproject.service.TicketService;
 import com.soldesk.healthproject.service.WorkoutService;
 
@@ -28,20 +27,17 @@ public class HomeController {
 	private NoticeBoardService noticeBoardService;
 	private FreeBoardService freeBoardService;
 	private TicketService ticketService;
-	private ProductService productService;
 	private WorkoutService workoutService;
 	private MemberService memberService;
 	
 	public HomeController(NoticeBoardService noticeBoardService,
 						  FreeBoardService freeBoardService,
 						  TicketService ticketService,
-						  ProductService productService,
 						  WorkoutService workoutService,
 						  MemberService memberService) {
 		this.noticeBoardService = noticeBoardService;
 		this.freeBoardService = freeBoardService;
 		this.ticketService = ticketService;
-		this.productService = productService;
 		this.workoutService = workoutService;
 		this.memberService = memberService;
 	}
@@ -58,7 +54,6 @@ public class HomeController {
 		model.addAttribute("noticeBoard", noticeBoard);
 		model.addAttribute("freeBoard", freeBoard);
 		model.addAttribute("ticket", ticketService.getTicketList());
-		model.addAttribute("product", productService.getProductList());
 		model.addAttribute("workoutList", workoutService.getWorkoutList());
 		if(principal !=null && principal.getName() != null) {
 			model.addAttribute("member", memberService.getMember(principal.getName()));

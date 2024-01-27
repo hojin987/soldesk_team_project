@@ -4,16 +4,12 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.soldesk.healthproject.common.paging.domain.BoardPagingDTO;
 import com.soldesk.healthproject.common.paging.domain.FreeBoardPagingCreatorDTO;
-import com.soldesk.healthproject.domain.FreeBoardAttachFileVO;
 import com.soldesk.healthproject.domain.FreeBoardVO;
-import com.soldesk.healthproject.mapper.FreeBoardAttachFileMapper;
 import com.soldesk.healthproject.mapper.FreeBoardMapper;
 
 import lombok.extern.log4j.Log4j;
@@ -23,7 +19,6 @@ import lombok.extern.log4j.Log4j;
 public class FreeBoardServiceImpl implements FreeBoardService {
 	
 	private FreeBoardMapper freeBoardMapper;
-	private FreeBoardAttachFileMapper freeBoardAttachFileMapper ;
 	
 	public FreeBoardServiceImpl() {
 		System.out.println("FreeBoardServiceImpl의 기본생성자");
@@ -106,10 +101,6 @@ public class FreeBoardServiceImpl implements FreeBoardService {
 		return freeBoardMapper.deleteFreeBoard(fpost_number) == 1;
 	}
 	
-	//특정 게시물의 첨부파일 목록 조회
-	@Override
-	public List<FreeBoardAttachFileVO> getAttachFileList(Long fpost_number) {
-		return freeBoardAttachFileMapper.selectAttachFiles(fpost_number) ;
-	}
+
 	
 }

@@ -3,20 +3,15 @@
     
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 
 <c:set var="contextPath" value="${pageContext.request.contextPath }"/>
 
 <%@include file="../myinclude/myheader.jsp" %>  
 
-<div id="page-wrapper">
-    <div class="row">
-        <div class="col-lg-12">
-            <h3 class="page-header">채용게시판 수정</h3>
-        </div><%-- /.col-lg-12 --%>
-    </div><%-- /.row --%>
-    
-    <div class="row">
-        <div class="col-lg-12">
+
+    <div class="row" style="display: flex; justify-content: center;">
+        <div class="col-lg-8">
             <div class="panel panel-default">
                 <div class="panel-heading">
                 	<h4>게시글 수정 - 삭제 </h4>
@@ -46,9 +41,16 @@
 								   readonly="readonly"/>
 					</div>
 						
-					<button type="button" class="btn btn-default btn-frmModify" id="btnModify" data-oper="modify">수정</button>
- 					<button type="button" class="btn btn-danger btn-frmModify" id="btnRemove" data-oper="remove">삭제</button>
- 					<button type="button" class="btn btn-info btn-frmModify" id="btnList" data-oper="list">취소</button>
+					<sec:authorize access="isAuthenticated()" >
+						<sec:authentication property="principal" var="principal"/>
+						<c:if test="${principal.username eq applyBoard.awriter}">
+							<button type="button" class="btn btn-primary btn-frmModify btn-sm" id="btnModify" data-oper="modify">수정</button>
+		 					<button type="button" class="btn btn-primary btn-frmModify btn-sm" id="btnRemove" data-oper="remove">삭제</button>
+		 				</c:if>
+					</sec:authorize>	
+ 					
+ 							<button type="button" class="btn btn-primary btn-frmModify btn-sm" id="btnList" data-oper="list">취소</button>
+ 							
  				<sec:csrfInput/>
 		  </form>
           </div><%-- /.panel-body --%>
@@ -58,8 +60,8 @@
 </div><%-- /.row --%>
   
 <%-- 첨부파일 표시 --%>
-<div class="row">
-	<div class="col-lg-12">
+<div class="row" style="display: flex; justify-content: center;">
+	<div class="col-lg-8">
 		<div class="panel panel-default">
 			<div class="panel-heading">파일첨부</div>
 			<div class="panel-body" >
@@ -76,7 +78,6 @@
 	</div><!-- /.col-lg-12 -->
 </div><!-- /.row -->
 
-</div><%-- /#page-wrapper --%>
 
 <%-- Modal --%>
 <div class="modal fade" id="yourModal" tabindex="-1" role="dialog" aria-labelledby="yourModalLabel" aria-hidden="true">
@@ -96,15 +97,50 @@
 </div><%-- /.modal --%>
 
 <script> 
+
 //form의 수정/삭제/목록보기 버튼 클릭 에벤트 처리
 var frmModify = $("#frmModify");
 
+var loginUser = "";
+<sec:authorize access="isAuthenticated()">
+	loginUser = '<sec:authentication property="principal.username"/>';
+</sec:authorize>
+
 $('.btn-frmModify').on("click", function(e){ 
-//e.preventDefault(); //버튼 유형이 submit가 아니므로 설정할 필요 없음
 
 	var operation = $(this).data("oper"); //각 버튼의 data-xxx 속성에 설정된 값을 저장
-	//alert("operation: "+ operation);
- 
+	var awriter_value = '<c:out value="${applyBoard.awriter}"/>';
+	alert("operation: "+ operation + ", awriter_value: " + awriter_value);
+	
+	if(operation == "list"){//게시물 목록 화면 요청
+		
+		var pageNumInput = $("input[name='pageNum']").clone(); 
+		var rowAmountInput = $("input[name='rowAmountPerPage']").clone(); 
+		var scopeInput = $("input[name='scope']").clone(); 
+		var keywordInput = $("input[name='keyword']").clone(); 
+		
+		frmModify.empty();
+	
+		frmModify.attr("action","${contextPath}/applyBoard/list").attr("method","get");
+		frmModify.append(pageNumInput); 
+		frmModify.append(rowAmountInput); 
+		frmModify.append(scopeInput); 
+		frmModify.append(keywordInput); 
+		
+	} else {
+		<%--로그인 안 한 경우--%>
+		if(!loginUser){
+			alert("로그인 후, 수정/삭제가 가능합니다.");
+			return ;
+			}
+		
+		<%--로그인 계정과 작성자가 다른 경우--%>
+		if(awriter_value != loginUser){
+			alert("작성자만 수정/삭제가 가능합니다");
+			return ;
+		}
+	}
+	
 	if(operation == "modify"){ //게시물 수정 요청
 		
 		var strFilesInputHidden = ""; 
@@ -142,6 +178,13 @@ frmModify.submit() ; //요청 전송
 </script>
 
 <script><%-- 첨부파일 표시 처리 --%>
+	
+//HTML에서 일어나는 모든 Ajax 전송 요청에 대하여 csrf 토큰값이 요청 헤더에 설정됨
+var csrfHeaderName = "${_csrf.headerName}";
+var csrfTokenValue = "${_csrf.token}";
+$(document).ajaxSend(function(e, xhr, options){
+	xhr.setRequestHeader(csrfHeaderName, csrfTokenValue);
+});
 
 var apost_number_value = '<c:out value="${applyBoard.apost_number}"/>'; 
 

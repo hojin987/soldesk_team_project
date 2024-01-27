@@ -3,20 +3,15 @@
     
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 
 <c:set var="contextPath" value="${pageContext.request.contextPath }"/>
 
 <%@include file="../myinclude/myheader.jsp" %>  
 
-<div id="page-wrapper">
-    <div class="row">
-        <div class="col-lg-12">
-            <h3 class="page-header">trainer - List</h3>
-        </div><%-- /.col-lg-12 --%>
-    </div><%-- /.row --%>
     
-    <div class="row">
-        <div class="col-lg-12">  
+    <div class="row" style="display: flex; justify-content: center;">
+        <div class="col-lg-8"> 
             <div class="panel panel-default">
                 <div class="panel-body">
 
@@ -30,14 +25,19 @@
 		            	<td>이미지</td>
 		            	<td style="text-align:left;">
 		            		[<c:out value="강사" />] <c:out value="${member.member_name}"/><br>
-		            		<c:forEach items="${trainerRecord}" var="trainerRecord">
-			            		<c:if test="${member.member_id eq trainerRecord.member_id}">
-			            			${trainerRecord.trainer_record} (${trainerRecord.trainer_record_get_date})<br>
-			            		</c:if>
-			            	</c:forEach>
-		            	</td>
-		            	<td><button type="button" class="btn btn-sm" id="btnToRegister">등록</button><br>
-		            		<button type="button" class="btn btn-sm" id="btnToModify">수정</button></td>
+		            		<c:forEach items="${trainerRecord}" var="record">
+							    <c:if test="${member.member_id eq record.member_id}">
+							        <span data-trainer-record="${record.trainer_record}">${record.trainer_record}</span>
+							    </c:if>
+					    	</c:forEach>
+					    	<sec:authorize access="isAuthenticated()" >
+ 							<sec:authentication property="principal" var="principal"/>
+						    	<c:if test="${principal.username eq member.member_id}">
+				    				<button type="button" class="btn btn-sm pull-right btnToRegister">등록</button>
+				    				<button type="button" class="btn btn-sm pull-right btnToModify">수정</button>
+				    			</c:if>
+			    			</sec:authorize>
+			    		</td>
 		            </tr>
 		        </c:if>
 		    </c:forEach>
@@ -54,8 +54,6 @@
     </div><%-- /.col-lg-12 --%>
 </div><%-- /.row --%>
   
-
-</div><%-- /#page-wrapper --%>
 
 <%-- Modal --%>
 <div class="modal fade" id="yourModal" tabindex="-1" role="dialog" aria-labelledby="yourModalLabel" aria-hidden="true">
@@ -82,28 +80,32 @@ var frmSendValue = $("#frmSendValue") ;
 var result = '<c:out value="${result}" />' ;
 
 //등록페이지 이동
-$("#btnToRegister").on("click",function(){
-	var member_id = $(".moveDetail").data("member_id");
+$(".btnToRegister").on("click",function(){
+	var member_id = $(this).closest("tr").data("member_id");
 	window.location.href='${contextPath}/member/recordRegister?member_id='+member_id; 
 });
-btnToModify
 
 //수정페이지 이동
-$("#btnToModify").on("click",function(){
-	var member_id = $(".moveDetail").data("member_id");
+$(".btnToModify").on("click",function(){
+	var member_id = $(this).closest("tr").data("member_id");
 	window.location.href='${contextPath}/member/recordModify?member_id='+member_id; 
 });
 
 
-//상세페이지 이동
-/* $(".moveDetail").on("click", function(){
-	var workout_code = $(this).data("workout_code") ;
-	
-	frmSendValue.append("<input type='hidden' name='workout_code' value='" + workout_code + "'/>")
-	frmSendValue.attr("action", "${contextPath}/workout/detail").attr("method", "get") ;
-	frmSendValue.submit() ;
-	frmSendValue.find('input[name="workout_code"]').remove() ;
-}); */
+$(document).ready(function() {
+    $(".moveDetail").each(function() {
+        var $td = $(this).find("td:last"); // 가장 마지막 td를 선택
+        var trainerRecordValue = $td.find("[data-trainer-record]").data("trainer-record");
+
+        if (trainerRecordValue) {
+            $td.find(".btnToModify").show();
+            $td.find(".btnToRegister").hide();
+        } else {
+            $td.find(".btnToModify").hide();
+            $td.find(".btnToRegister").show();
+        }
+    });
+});
 
 
 </script> 

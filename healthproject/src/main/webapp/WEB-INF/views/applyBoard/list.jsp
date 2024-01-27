@@ -16,21 +16,15 @@ https://startbootstrap.com/
 
 <style>
  th {text-align: center;}
-</style>  
+</style>
 
-<div id="page-wrapper">
-    <div class="row">
-        <div class="col-lg-12">
-            <h3 class="page-header">강사 채용게시판</h3>
-        </div><%-- /.col-lg-12 --%>
-    </div><%-- /.row --%>
-    <div class="row">
-        <div class="col-lg-12">
+    <div class="row" style="display: flex; justify-content: center;">
+        <div class="col-lg-8">
         
             <div class="panel panel-default">
                 <div class="panel-heading">
 					<div class="row">
-						<div class="col-md-6" style="font-size:20px; height: 45px; padding-top:10px;">게시글 목록</div>
+						<div class="col-md-6" style="font-size:20px; height: 45px; padding-top:10px;">트레이너 지원</div>
 						<div class="col-md-6" style="padding-top:8px;">
 							<button type="button" id="btnToRegister" class="btn btn-primary btn-sm pull-right">새글 등록</button>
 						</div>
@@ -66,14 +60,14 @@ https://startbootstrap.com/
 			       placeholder="검색어를 입력하세요"
 				   value='<c:out value="${pagingCreator.applyboardPaging.keyword}" />' />
 			<span class="input-group-btn"><!-- 전송버튼 -->
-				<button class="btn btn-warning" type="button" id="btnSearchGo"
+				<button class="btn btn-primary btn-sm" type="button" id="btnSearchGo"
 						><i class="fa fa-search"></i>
 				</button>
 			</span>
 		</div>
 		
 		<div class="input-group"><!-- 검색 초기화 버튼 -->
-			<button id="btnReset" class="btn btn-info" type="button">
+			<button id="btnReset" class="btn btn-primary btn-sm" type="button">
 				<span class="glyphicon glyphicon-remove"></span>
 			</button>
 		</div>
@@ -87,7 +81,7 @@ https://startbootstrap.com/
 			   value="${pagingCreator.applyboardPaging.endDate}" 
 			   />
 
-		<button type="button" class="btn btn-primary mybtns" 
+		<button type="button" class="btn btn-primary mybtns btn-sm" 
 				id="btnIntervalSearch" >기간검색</button>
 	</div> 
 	
@@ -192,10 +186,7 @@ https://startbootstrap.com/
                 
             </div><%-- /.panel --%>
         </div><%-- /.col-lg-12 --%>
-    </div><%-- /.row --%>
-  
-
-</div><%-- /#page-wrapper --%>
+    </div><%-- /.row --%
 
 <%-- Modal --%>
 <div class="modal fade" id="yourModal" tabindex="-1" role="dialog" aria-labelledby="yourModalLabel" aria-hidden="true">

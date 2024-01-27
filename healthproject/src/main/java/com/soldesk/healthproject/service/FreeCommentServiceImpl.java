@@ -9,19 +9,20 @@ import org.springframework.transaction.annotation.Transactional;
 import com.soldesk.healthproject.common.paging.domain.FreeCommentPagingCreatorDTO;
 import com.soldesk.healthproject.common.paging.domain.FreeCommentPagingDTO;
 import com.soldesk.healthproject.domain.FreeCommentVO;
+import com.soldesk.healthproject.mapper.FreeBoardMapper;
 import com.soldesk.healthproject.mapper.FreeCommentMapper;
 
 @Service
 public class FreeCommentServiceImpl implements FreeCommentService {
 
 	private FreeCommentMapper freeCommentMapper ;
-//	private FreeBoardMapper freeBoardMapper ;
+	private FreeBoardMapper freeBoardMapper ;
 	
-	public FreeCommentServiceImpl(FreeCommentMapper freeCommentMapper
-//								  FreeBoardMapper freeBoardMapper) {
-								  ) {
+	public FreeCommentServiceImpl(FreeCommentMapper freeCommentMapper,
+								  FreeBoardMapper freeBoardMapper) {
+								  
 		this.freeCommentMapper = freeCommentMapper ;
-//		this.freeBoardMapper = freeBoardMapper ;
+		this.freeBoardMapper = freeBoardMapper ;
 	}
 	
 	
@@ -33,7 +34,7 @@ public class FreeCommentServiceImpl implements FreeCommentService {
 		
 		int pageNum = fcommentPaging.getPageNum() ;
 		
-		if (pageNum == -10) {
+		if (pageNum == -1) {
 			
 			pageNum = (int) Math.ceil((double)fcommentTotalCount/fcommentPaging.getRowAmountPerPage()) ;
 			fcommentPaging.setPageNum(pageNum) ;
@@ -53,7 +54,7 @@ public class FreeCommentServiceImpl implements FreeCommentService {
 	public Long registerFreeCommentForFreeBoard(FreeCommentVO fcomment) {
 		
 		freeCommentMapper.insertFreeCommentForFreeBoard(fcomment) ;
-//		freeBoardMapper.updateFreply_count(fcomment.getFpost_number(), 1);
+		freeBoardMapper.updateFreplyCount(fcomment.getFpost_number(), 1);
 		return fcomment.getFcomment_number() ; 
 	}
 	
@@ -63,7 +64,7 @@ public class FreeCommentServiceImpl implements FreeCommentService {
 	@Transactional
 	public Long registerFreeCommentForFreeComment(FreeCommentVO fcomment) {
 		freeCommentMapper.insertFreeCommentForFreeComment(fcomment) ;
-//		freeBoardMapper.updateFreply_count(fcomment.getFpost_number(), 1);
+		freeBoardMapper.updateFreplyCount(fcomment.getFpost_number(), 1);
 		
 		return fcomment.getFcomment_number() ; 
 	}
@@ -88,11 +89,10 @@ public class FreeCommentServiceImpl implements FreeCommentService {
 		
 		int deleteRowCnt = freeCommentMapper.updateFcommentDeleteFlag(fpost_number, fcomment_number) ;
 		
-//		freeBoardMapper.updateFreply_count(fpost_number, -1);
+		freeBoardMapper.updateFreplyCount(fpost_number, -1);
 		
 		return deleteRowCnt == 1 ;
 		
-//		return freeCommentMapper.updateFcommentDeleteFlag(fpost_number, fcomment_number) == 1;
 	}
 	
 	//특정 게시물에 대한 모든 댓글 삭제: 삭제 행수가 반환됨

@@ -25,24 +25,18 @@
 				</div><%-- /.panel-heading --%>
                 <form role="form" method="post" name="frmModify" id="frmModify"> 
 				    <div class="panel-body">
-				        <c:forEach items="${trainerRecord}" var="trainerRecord">
-				            <div class="form-group">
-				                <input type="hidden" name="member_id" value="${trainerRecord.member_id}"/>
-				            </div>    
-				            <div class="form-group">   
-				                <label>경력</label>
-				                <input class="form-control" name="trainer_record" value='<c:out value="${trainerRecord.trainer_record}"/>'/>
-				            </div>    
-				            <div class="form-group">    
-				                <label>경력 취득일</label>
-				                <input class="form-control" name="trainer_record_get_date" value='<c:out value="${trainerRecord.trainer_record_get_date}"/>'/>
-				            </div>
-				        </c:forEach>
-				        
-				        <sec:csrfInput/>
+			            <div class="form-group">
+			                <input type="hidden" name="member_id" value="${trainerRecord.member_id}"/>
+			            </div>    
+			            <div class="form-group">   
+			                <label>경력</label>
+			                <textarea name="trainer_record" rows="4" cols="100"><c:out value="${trainerRecord.trainer_record}"/></textarea>
+			            </div> 
 				        
 				        <button type="button" class="btn btn-default" id="btnModify" data-oper="modify">수정</button>
 				        <button type="button" class="btn btn-info" id="btnList" data-oper="list">취소</button>
+				        
+				        <sec:csrfInput/>
 				    </div>
 				</form>  
         </div><%-- /.panel --%>

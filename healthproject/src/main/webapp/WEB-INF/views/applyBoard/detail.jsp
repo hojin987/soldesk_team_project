@@ -14,49 +14,42 @@
  th {text-align: center;}
 </style>  
 
-<div id="page-wrapper">
-    <div class="row">
-        <div class="col-lg-12">
-            <h3 class="page-header"
-				style="white-space: nowrap;" >Board - Detail
-				 <small>
-				 	&nbsp;&nbsp;&nbsp;<c:out value="${applyBoard.apost_number}"/>번 게시물
-				 </small>
-			</h3>
-        </div><%-- /.col-lg-12 --%>
-    </div><%-- /.row --%>
-    <div class="row">
-        <div class="col-lg-12">
+    <div class="row" style="display: flex; justify-content: center;">
+        <div class="col-lg-8">
         
             <div class="panel panel-default">
                 <div class="panel-heading">
                 	<div class="row">
 						<div class="col-md-2" style="white-space: nowrap; height: 45px; padding-top:11px;">
-							<strong style="font-size:16px;">${applyBoard.awriter}님 작성</strong>
+							<strong style="font-size:16px; color:#000000">${applyBoard.awriter}님 작성</strong>
 						</div>
 						<div class="col-md-3" style="white-space: nowrap; height: 45px; padding-top:16px;">
-							<span class="text-primary" style="font-size: smaller; height: 45px; padding-top: 19px;">
+							<span class="text-primary" style="font-size: smaller; height: 45px; padding-top: 19px; ">
 								<span>
 									<span>등록일:&nbsp;</span>
-									<strong><fmt:formatDate 
+									<strong style="color:#000000;"><fmt:formatDate 
 												pattern="yyyy-MM-dd HH:mm:ss"
 												value="${applyBoard.aregister_date}"
 											 /></strong>
 									<span>&nbsp;&nbsp;</span>
 								</span>
-								<span>조회수:&nbsp;<strong><c:out value="${applyBoard.aview_count}"/></strong>
+								<span>조회수:&nbsp;<strong style="color:#000000;"><c:out value="${applyBoard.aview_count}"/></strong>
 								</span>
 							</span>
 						</div>
 						<div class="col-md-7" style="height: 45px; padding-top:6px;"><%-- vertical-align: middle; --%>
 							<div class="button-group pull-right">
 							
+			<sec:authorize access="isAuthenticated()" >
+				<sec:authentication property="principal" var="principal"/>
+					<c:if test="${principal.username eq applyBoard.awriter}">
 							<button type="button" id="btnToModify" data-oper="modify"
-									class="btn btn-primary"><span>수정페이지로 이동</span></button>
-
+									class="btn btn-primary btn-sm"><span>수정페이지로 이동</span></button>
+					</c:if>
+			</sec:authorize>
 									
 							<button type="button" id="btnToList" data-oper="list"
-									class="btn btn-warning"><span>목록페이지로 이동</span></button>
+									class="btn btn-primary btn-sm"><span>목록페이지로 이동</span></button>
 							</div>
 						</div>
 					</div>
@@ -72,15 +65,17 @@
 					    <label>글내용</label>
 					    <textarea class="form-control" rows="3" name="acontent" id="acontent"
 					    		  readonly="readonly">${applyBoard.acontent}</textarea>
-					</div>	
+					</div>
+					
+						
                 </div><%-- /.panel-body --%>
             </div><%-- /.panel --%>
         </div><%-- /.col-lg-12 --%>
     </div><%-- /.row --%>
 
 <%-- 첨부파일 표시 --%>
-<div class="row">
-	<div class="col-lg-12">
+<div class="row" style="display: flex; justify-content: center;">
+	<div class="col-lg-8">
 		<div class="panel panel-default">
 			<div class="panel-heading">첨부파일</div>
 			<div class="panel-body">
@@ -95,7 +90,7 @@
 </div><%-- /.row --%>
 
 <%-- Modal:첨부파일 이미지 표시 --%>
-<div class="modal fade" id="yourModal" tabindex="-1" role="dialog" aria-labelledby="yourModalLabel" aria-hidden="true">
+<div class="modal fade " id="yourModal" tabindex="-1" role="dialog" aria-labelledby="yourModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-body">
@@ -105,17 +100,14 @@
     </div><%-- /.modal-dialog --%>
 </div><%-- /.modal --%>
 
-
 <form id="frmSendValue">
-	<input type="hidden" name="pageNum" value="${applyBoardPaging.pageNum }" >
-	<input type="hidden" name="rowAmountPerPage" value="${applyBoardPaging.rowAmountPerPage }" >
-	<input type="hidden" name="scope" value="${applyBoardPaging.scope }" >
-	<input type="hidden" name="keyword" value="${applyBoardPaging.keyword }" >
-	<input type="hidden" name="startDate" value="${applyBoardPaging.beginDate }" >
-	<input type="hidden" name="endDate" value="${applyBoardPaging.endDate }" >
+	<input type="hidden" name="pageNum" value="${boardPaging.pageNum }" >
+	<input type="hidden" name="rowAmountPerPage" value="${boardPaging.rowAmountPerPage }" >
+	<input type="hidden" name="scope" value="${boardPaging.scope }" >
+	<input type="hidden" name="keyword" value="${boardPaging.keyword }" >
+	<input type="hidden" name="startDate" value="${boardPaging.beginDate }" >
+	<input type="hidden" name="endDate" value="${boardPaging.endDate }" >
 </form>
-
-</div><%-- /#page-wrapper --%>
 
 <script>
 

@@ -7,6 +7,7 @@ import java.util.List;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -79,8 +80,10 @@ public class ApplyBoardController {
 	//특정 게시물 조회 GET /applyBoard/detail 
 	@GetMapping("/detail")
 	public String showApplyBoardDetail(@RequestParam("apost_number") Long apost_number,
-			 						   Model model){
+									   BoardPagingDTO boardPaging,
+									   Model model){
 		model.addAttribute("applyBoard", applyBoardService.getApplyBoard(apost_number));
+		model.addAttribute("boardPaging", boardPaging);
 		
 		return "applyBoard/detail";
 	}
@@ -95,6 +98,7 @@ public class ApplyBoardController {
 	}
 	
 	//특정 게시물 수정 POST /applyBoard/modify 
+	@PreAuthorize("isAuthenticated() && principal.username == #applyBoard.awriter")
 	@PostMapping("/modify")
 	public String modifyApplyBoard(ApplyBoardVO applyBoard, RedirectAttributes redirectAttr) {
 		if(applyBoardService.modifyApplyBoard(applyBoard)) {

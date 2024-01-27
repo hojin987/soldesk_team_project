@@ -12,7 +12,7 @@ public interface TrainerService {
 	public List<TrainerVO> getTrainerRecordList();
 	
 	//특정 강사 경력 조회
-	public List<TrainerVO> getTrainerRecord(String member_id);
+	public TrainerVO getTrainerRecord(String member_id);
 	
 	//강사 경력 등록
 	public void registerRecord(TrainerVO trainer);

@@ -3,6 +3,7 @@
     
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 
 <c:set var="contextPath" value="${pageContext.request.contextPath }"/>
 
@@ -36,7 +37,6 @@
 					</div>
 					<div class="form-group">
 						<label>글내용</label>
-						<%-- <textarea>와 </textarea>는 사이에 공백이 없어야 데이터베이스 저장 시에 필요 없는 공백이 포함되지 않음 --%>
 						<textarea class="form-control" rows="3" name="qcontent"
 								><c:out value="${questionBoard.qcontent}"/></textarea>
 					</div>
@@ -46,11 +46,18 @@
 								   readonly="readonly"/>
 					</div>
 					
-					<sec:csrfInput/>
-					<button type="button" class="btn btn-default" id="btnModify" data-oper="modify">수정</button>
- 					<button type="button" class="btn btn-danger" id="btnRemove" data-oper="remove">삭제</button>
- 					<button type="button" class="btn btn-info" id="btnList" data-oper="list">취소</button>
-		  
+					
+					<sec:authorize access="isAuthenticated()" >
+						<sec:authentication property="principal" var="principal"/>
+						<c:if test="${principal.username eq questionBoard.qwriter}">
+							<button type="button" class="btn btn-default btn-frmModify" id="btnModify" data-oper="modify">수정</button>
+		 					<button type="button" class="btn btn-danger btn-frmModify" id="btnRemove" data-oper="remove">삭제</button>
+		 				</c:if>
+					</sec:authorize>	
+ 					
+ 							<button type="button" class="btn btn-info btn-frmModify" id="btnList" data-oper="list">취소</button>
+ 					
+		  	<sec:csrfInput/>
 		  </form>
           </div><%-- /.panel-body --%>
             
@@ -81,11 +88,47 @@
 <script> 
 //form의 수정/삭제/목록보기 버튼 클릭 에벤트 처리
 var frmModify = $("#frmModify");
-$('button').on("click", function(e){ 
-//e.preventDefault(); //버튼 유형이 submit가 아니므로 설정할 필요 없음
 
-var operation = $(this).data("oper"); //각 버튼의 data-xxx 속성에 설정된 값을 저장
-alert("operation: "+ operation);
+var loginUser = "";
+
+<sec:authorize access="isAuthenticated()">
+ 	loginUser = '<sec:authentication property="principal.username"/>';
+</sec:authorize>
+
+$(".btn-frmModify").on("click", function(e){ 
+
+	var operation = $(this).data("oper"); //각 버튼의 data-xxx 속성에 설정된 값을 저장
+	var qwriter_value = '<c:out value="${questionBoard.qwriter}"/>';
+ 	alert("operation: "+ operation + ", qwriter_value: " + qwriter_value);
+ 
+ 	if(operation == "list"){//게시물 목록 화면 요청
+ 		//기존 페이징 데이터 input 요소 복사
+ 		var pageNumInput = $("input[name='pageNum']").clone(); //추가
+ 		var rowAmountInput = $("input[name='rowAmountPerPage']").clone(); //추가
+ 		var scopeInput = $("input[name='scope']").clone(); //추가
+ 		var keywordInput = $("input[name='keyword']").clone(); //추가
+ 
+		frmModify.empty();
+
+ 		frmModify.attr("action","${contextPath}/myboard/list").attr("method","get");
+		frmModify.append(pageNumInput); //추가
+ 		frmModify.append(rowAmountInput); //추가
+ 		frmModify.append(scopeInput); //추가
+ 		frmModify.append(keywordInput); //추가
+ 
+ 	} else {
+ 		<%--로그인 안한 경우--%>
+ 		if(!loginUser){
+ 			alert("로그인 후, 수정/삭제가 가능합니다.");
+ 			return ;
+ 		}
+ 
+ 		<%--로그인 계정과 작성자가 다른 경우--%>
+ 		if(qwriter_value != loginUser){
+ 			alert("작성자만 수정/삭제가 가능합니다");
+ 			return ;
+ 
+ 		}
  
 if(operation == "modify"){ //게시물 수정 요청
 frmModify.attr("action", "${contextPath}/questionBoard/modify");

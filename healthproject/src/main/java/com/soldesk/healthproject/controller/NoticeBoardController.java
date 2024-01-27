@@ -1,5 +1,6 @@
 package com.soldesk.healthproject.controller;
 
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -72,7 +73,8 @@ public class NoticeBoardController {
 		return "noticeBoard/modify";
 	}
 	
-	//특정 게시물 수정 POST /myboard/modify 
+	//특정 게시물 수정 POST /myboard/modify
+	@PreAuthorize("isAuthenticated() && principal.username == #applyBoard.awriter")
 	@PostMapping("/modify")
 	public String modifyNoticeBoard(NoticeBoardVO noticeBoard, RedirectAttributes redirectAttr) {
 		if(noticeBoardService.modifyNoticeBoard(noticeBoard)) {

@@ -113,7 +113,7 @@ public class ApplyBoardServiceImpl implements ApplyBoardService {
 		
 		//게시물 수정이 성공하고, 첨부파일이 있는 경우에만 다음작업 수행
 		//첨부파일 정보 저장: tbl_myAttachFiles 테이블에 저장
-		if (boardModifyResult && applyBoard.getAttachFileList().size() > 0) {
+		if (boardModifyResult && (applyBoard.getAttachFileList().size() > 0)) {
 			applyBoard.getAttachFileList().forEach(
 				attachFile -> {
 					attachFile.setApost_number(apost_number);

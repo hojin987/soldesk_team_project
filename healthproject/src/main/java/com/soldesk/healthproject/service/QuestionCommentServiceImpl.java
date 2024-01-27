@@ -9,19 +9,20 @@ import org.springframework.transaction.annotation.Transactional;
 import com.soldesk.healthproject.common.paging.domain.QuestionCommentPagingCreatorDTO;
 import com.soldesk.healthproject.common.paging.domain.QuestionCommentPagingDTO;
 import com.soldesk.healthproject.domain.QuestionCommentVO;
+import com.soldesk.healthproject.mapper.QuestionBoardMapper;
 import com.soldesk.healthproject.mapper.QuestionCommentMapper;
 
 @Service
 public class QuestionCommentServiceImpl implements QuestionCommentService {
 
 	private QuestionCommentMapper questionCommentMapper ;
-//	private QuestionBoardMapper questionBoardMapper ;
+	private QuestionBoardMapper questionBoardMapper ;
 	
-	public QuestionCommentServiceImpl(QuestionCommentMapper questionCommentMapper
-//								  QuestionBoardMapper questionBoardMapper) {
-								  ) {
+	public QuestionCommentServiceImpl(QuestionCommentMapper questionCommentMapper,
+								  QuestionBoardMapper questionBoardMapper) {
+								  
 		this.questionCommentMapper = questionCommentMapper ;
-//		this.queestionBoardMapper = questionBoardMapper ;
+		this.questionBoardMapper = questionBoardMapper ;
 	}
 	
 	
@@ -33,7 +34,7 @@ public class QuestionCommentServiceImpl implements QuestionCommentService {
 		
 		int pageNum = qcommentPaging.getPageNum() ;
 		
-		if (pageNum == -10) {
+		if (pageNum == -1) {
 			
 			pageNum = (int) Math.ceil((double)qcommentTotalCount/qcommentPaging.getRowAmountPerPage()) ;
 			qcommentPaging.setPageNum(pageNum) ;
@@ -53,7 +54,7 @@ public class QuestionCommentServiceImpl implements QuestionCommentService {
 	public Long registerQuestionCommentForQuestionBoard(QuestionCommentVO qcomment) {
 		
 		questionCommentMapper.insertQuestionCommentForQuestionBoard(qcomment) ;
-//		questionBoardMapper.updateQreply_count(qcomment.getQpost_number(), 1);
+		questionBoardMapper.updateQreplyCount(qcomment.getQpost_number(), 1);
 		return qcomment.getQcomment_number() ; 
 	}
 	
@@ -63,7 +64,7 @@ public class QuestionCommentServiceImpl implements QuestionCommentService {
 	@Transactional
 	public Long registerQuestionCommentForQuestionComment(QuestionCommentVO qcomment) {
 		questionCommentMapper.insertQuestionCommentForQuestionComment(qcomment) ;
-//		questionBoardMapper.updateQreply_count(qcomment.getQpost_number(), 1);
+		questionBoardMapper.updateQreplyCount(qcomment.getQpost_number(), 1);
 		
 		return qcomment.getQcomment_number() ; 
 	}
@@ -88,11 +89,10 @@ public class QuestionCommentServiceImpl implements QuestionCommentService {
 		
 		int deleteRowCnt = questionCommentMapper.updateQcommentDeleteFlag(qpost_number, qcomment_number) ;
 		
-//		questionBoardMapper.updateQreply_count(qpost_number, -1);
+		questionBoardMapper.updateQreplyCount(qpost_number, -1);
 		
 		return deleteRowCnt == 1 ;
 		
-//		return questionCommentMapper.updateQcommentDeleteFlag(qpost_number, qcomment_number) == 1;
 	}
 	
 	//특정 게시물에 대한 모든 댓글 삭제: 삭제 행수가 반환됨

@@ -12,9 +12,9 @@
  th {text-align: center;}
 </style>  
 
-    <div class="row">
-        <div class="col-lg-12">
-            <h3 class="page-header">회원목록</h3>
+    <div class="row" style="display: flex; justify-content: center;">
+        <div class="col-lg-8">
+            <h3 class="page-heading">회원목록</h3>
         </div><%-- /.col-lg-12 --%>
     </div><%-- /.row --%>
     <div class="row">

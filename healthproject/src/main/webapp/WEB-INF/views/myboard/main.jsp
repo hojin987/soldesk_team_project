@@ -78,8 +78,8 @@
                 <!-- /.col-lg-12 -->
             </div>
             <!-- /.row -->
-            <div class="row">
-                <div class="col-lg-6">
+            <div class="row" style="display: flex; justify-content: center;">
+                <div class="col-lg-5">
                     <div class="panel panel-default">
                         <div class="panel-heading">
                             공지사항
@@ -118,7 +118,7 @@
                     <!-- /.panel -->
                 </div>
                 <!-- /.col-lg-6 -->
-                <div class="col-lg-6">
+                <div class="col-lg-5">
                     <div class="panel panel-default">
                         <div class="panel-heading">
                             자유게시판
@@ -159,8 +159,8 @@
                 <!-- /.col-lg- -->
             </div><!-- /.row -->
 
-            <div class="row">
-                <div class="col-lg-6">
+            <div class="row" style="display: flex; justify-content: center;">
+                <div class="col-lg-5">
                     <div class="panel panel-default">
                         <div class="panel-heading">
                             회원권
@@ -192,9 +192,9 @@
                     </div>
                     <!-- /.panel -->
                 </div>
-                <!-- /.col-lg-6 -->
+                <!-- /.col-lg-5 -->
                 
-                <div class="col-lg-6">
+                <div class="col-lg-5">
                     <div class="panel panel-default">
                         <div class="panel-heading">
                             오늘의 추천운동

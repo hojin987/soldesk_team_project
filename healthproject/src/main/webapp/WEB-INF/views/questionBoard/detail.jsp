@@ -12,6 +12,7 @@
 
 <style>
  th {text-align: center;}
+ strong {color:#000;}
 </style>  
 
 <style>
@@ -20,19 +21,9 @@
 }
 </style>
 
-<div id="page-wrapper">
-    <div class="row">
-        <div class="col-lg-12">
-            <h3 class="page-header"
-				style="white-space: nowrap;" >Board - Detail
-				 <small>
-				 	&nbsp;&nbsp;&nbsp;<c:out value="${questionBoard.qpost_number}"/>번 게시물
-				 </small>
-			</h3>
-        </div><%-- /.col-lg-12 --%>
-    </div><%-- /.row --%>
-    <div class="row">
-        <div class="col-lg-12">
+
+    <div class="row" style="display: flex; justify-content: center;">
+        <div class="col-lg-8">
         
             <div class="panel panel-default">
                 <div class="panel-heading">
@@ -56,13 +47,18 @@
 						</div>
 						<div class="col-md-7" style="height: 45px; padding-top:6px;"><%-- vertical-align: middle; --%>
 							<div class="button-group pull-right">
-							
+				
+			<sec:authorize access="isAuthenticated()" >
+				<sec:authentication property="principal" var="principal"/>
+					<c:if test="${principal.username eq questionBoard.qwriter}">
 							<button type="button" id="btnToModify" data-oper="modify"
-									class="btn btn-primary"><span>수정페이지로 이동</span></button>
+									class="btn btn-primary btn-sm"><span>수정페이지로 이동</span></button>
+					</c:if>
+			</sec:authorize>
 
 									
 							<button type="button" id="btnToList" data-oper="list"
-									class="btn btn-warning"><span>목록페이지로 이동</span></button>
+									class="btn btn-primary btn-sm"><span>목록페이지로 이동</span></button>
 							</div>
 						</div>
 					</div>
@@ -97,78 +93,9 @@
         </div><%-- /.col-lg-12 --%>
     </div><%-- /.row --%>
 
-<%-- 첨부파일 결과 표시 --%>    
-    <div class="row">
-        <div class="col-lg-12">
-            <div class="panel panel-default">
-                <div class="panel-heading">첨부 파일</div><!-- /.panel-heading -->
-                <div class="panel-body"><!-- 
-                    <div class="form-group uploadDiv">
-                        <input id="inputFile" class="btn btn-primary inputFile" type="file" name="uploadFiles" multiple="multiple" /><br> 
-                    </div>-->
-	                <div class="form-group fileUploadResult">
-	                    <ul>
-<%-- 업로드 후 처리결과가 표시될 영역 --%>
-<%-- <c:choose>
-<c:when test="${empty questionBoard.attachFileList }">
-	<li>첨부파일이 없습니다.</li>
-</c:when>
-<c:otherwise>
-	<c:forEach var="attachFile" items="${questionBoard.attachFileList}">
-		<c:choose>
-		<c:when test='${attachFile.fileType == "F"}'>
-		<li class="attachLi" 
-			data-repopath="${attachFile.repoPath}"
-			data-uploadpath="${attachFile.uploadPath}"
-		    data-uuid="${attachFile.uuid}"
-		    data-filename="${attachFile.fileName }"
-		    data-filetype="F">
-		        <img src='${contextPath}/resources/img/icon-attach.png' style='width:25px;'>
-		        &nbsp;&nbsp; ${attachFile.fileName}
-		    </a>
-		</li>
-		</c:when>
-		<c:otherwise>
-		    <c:set var="thumbnail" value="${attachFile.repoPath}/${attachFile.uploadPath}/s_${attachFile.uuid}_${attachFile.fileName}"/>
-		    <li class="attachLi" 
-		    	data-repopath="${attachFile.repoPath}"
-		        data-uploadpath = "${attachFile.uploadPath }" 
-		        data-uuid = "${attachFile.uuid }" 
-		        data-filename = "${attachFile.fileName }" 
-		        data-filetype = "I" >
-		            <img src='${contextPath}/displayThumbnail?fileName=${thumbnail}' style='width:25px;'>
-		            &nbsp;&nbsp;${attachFile.fileName}
-		        </a> 
-		    </li>
-		    <c:remove var="thumbnail"/>
-		</c:otherwise>
-		</c:choose>
-	</c:forEach>
-</c:otherwise>
-</c:choose> --%>
-                	</ul>
-            	</div>
-            </div><!-- /.panel-body -->
-        </div><!-- /.panel -->
-    </div><!-- /.col-lg-12 -->
-</div><!-- /.row -->
-
-<%-- Modal:첨부파일 이미지 표시 --%>
-<div class="modal fade" id="attachModal" tabindex="-1" role="dialog" aria-labelledby="attachModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-body" id="attachModal-body">
-            	<%-- 이미지표시 --%>
-            </div>
-            
-        </div><%-- /.modal-content --%>
-    </div><%-- /.modal-dialog --%>
-</div><%-- /.modal --%>
-
-
 <%-- 댓글 화면 표시 시작 --%>
-<div class="row">
-	<div class="col-lg-12">
+<div class="row" style="display: flex; justify-content: center;">
+	<div class="col-lg-8">
 		<div class="panel panel-default" >
 			<div class="panel-heading">
 				<p style="margin-bottom: 0px; font-size: 16px;">
@@ -176,10 +103,14 @@
 						<%-- <span>댓글&nbsp;<c:out value="${questionBoard.qreply_count}"/>개</span>  --%>
 						<span id="replyTotal"></span>
 						<span>&nbsp;</span>	
-						<button type="button" id="btnChgCmtReg" class="btn btn-info btn-sm">댓글 작성</button>						
-						<button type="button" id="btnRegCmt" class="btn btn-warning btn-sm"
+						
+						<sec:authorize access="isAuthenticated()" >
+						<button type="button" id="btnChgCmtReg" class="btn btn-primary btn-sm">댓글 작성</button>	
+						</sec:authorize>
+											
+						<button type="button" id="btnRegCmt" class="btn btn-primary btn-sm"
 								style="display:none">댓글 등록</button>
-						<button type="button" id="btnCancelRegCmt" class="btn btn-warning btn-sm"
+						<button type="button" id="btnCancelRegCmt" class="btn btn-primary btn-sm"
 								style="display:none">취소</button>&nbsp;&nbsp;&nbsp;
 					</strong>
 				</p>
@@ -188,6 +119,7 @@
 <div class="panel-body">
 		
 <%-- 댓글 입력창 div 시작 --%>
+<sec:authorize access="isAuthenticated()" >
 	<div class="form-group" style="margin-bottom: 5px;">
 		<textarea class="form-control txtBoxCmt" name="qcomment"
 				  placeholder="댓글작성을 원하시면,&#10;댓글 작성 버튼을 클릭해주세요."
@@ -195,7 +127,9 @@
 		></textarea>
 	</div>
 	<hr style="margin-top: 10px; margin-bottom: 10px;">	
-<%-- 댓글 입력창 div 끝 --%>				
+</sec:authorize>
+<%-- 댓글 입력창 div 끝 --%>
+				
 	<ul class="chat">
 	<%-- 댓글 목록 표시 영역 - JavaScript로 내용이 생성되어 표시됩니다.--%>
 		<li class="left clearfix commentLi" data-bno="123456" data-rno="12">
@@ -212,7 +146,7 @@
 					<button type="button" style="display:in-block"
 							class="btn btn-primary btn-xs btnChgReg">답글 작성</button>
 					<button type="button" style="display:none"
-							class="btn btn-warning btn-xs btnRegCmt">답글 등록</button>
+							class="btn btn-primary btn-xs btnRegCmt">답글 등록</button>
 					<hr class="txtBoxCmtHr" style="margin-top:10px; margin-bottom:10px">
 					<textarea class="form-control txtBoxCmtMod" name="qcomment" 
 							  style="margin-bottom:10px"
@@ -237,9 +171,6 @@
 	<input type="hidden" name="rowAmountPerPage" value="" />
 </form>
 
-
-
-</div><%-- /#page-wrapper --%>
 
 <%-- Modal --%>
 <div class="modal fade" id="yourModal" tabindex="-1" role="dialog" aria-labelledby="yourModalLabel" aria-hidden="true">
@@ -308,6 +239,19 @@ function runModal(result) {
 <%-- 댓글/답글 자바스크립트 시작 --%>
 <script type="text/javascript" src="${contextPath}/resources/js/questioncomment.js"></script>
 <script> 
+
+<%-- 로그인 계정을 loginUser 변수에 저장 --%>
+var loginUser = "";
+<sec:authorize access="isAuthenticated()">
+	loginUser = '<sec:authentication property="principal.username"/>';
+</sec:authorize>
+
+<%-- HTML에서 일어나는 모든 Ajax 전송 요청에 대하여 csrf 토큰값이 요청 헤더에 설정됨 --%>
+var csrfHeaderName = "${_csrf.headerName}";
+var csrfTokenValue = "${_csrf.token}";
+$(document).ajaxSend(function(e, xhr, options){
+	xhr.setRequestHeader(csrfHeaderName, csrfTokenValue);
+});
 
 //게시물 번호 저장
 var qpost_number_value = '<c:out value="${questionBoard.qpost_number}"/>'; 
@@ -423,14 +367,17 @@ function showCmtList(pageNum){
 					    + '    </span>'
 					    + '    <p class="qcomment-p" style="white-space:pre-wrap;"'
 					    + '       data-qpost_number="' + questionCommentPagingCreator.qcommentList[i].qpost_number + '"'
-					    + '       data-qcomment_number="' + questionCommentPagingCreator.qcommentList[i].qcomment_number + '">'
+					    + '       data-qcomment_number="' + questionCommentPagingCreator.qcommentList[i].qcomment_number + '"'
+					    + '       data-qcomment_writer="' + questionCommentPagingCreator.qcommentList[i].qcomment_writer + '">'
 					    +         questionCommentPagingCreator.qcommentList[i].qcomment + '</p>'
 					    + '</div>'
+					    	<sec:authorize access="isAuthenticated()" >
 					 str+='    <div class="btnsReply" style="margin-bottom:10px">'
 						+ '    		<button type="button" style="display:in-block" ' 
 					    + '            class="btn btn-primary btn-xs btnChgReplyReg">'
 						+ '           <span>답글작성</span></button>'
 						+ '    </div>';
+							</sec:authorize>
 					 str+='</li>' ;
 					}//for-End
 			
@@ -559,12 +506,18 @@ var csrfTokenValue = "${_csrf.token}"
 <%-- 댓글 등록 버튼 클릭 처리: 이벤트 전파 --%>
 $("#btnRegCmt").on("click", function(){
 	
+//	var loginUser = "user10" ;
 
-	var txtBoxCmt = $(".txtBoxCmt").val() ;
-	var loginUser = "user10" ;	
+	if(!loginUser){
+		alert("로그인 후, 등록이 가능합니다.");
+		return ;
+	}
+	console.log("댓글등록 시 logUser: "+ loginUser);
+
+	var txtBoxCmt = $(".txtBoxCmt").val() ;	
 	var reply = {qpost_number: qpost_number_value, qcomment: txtBoxCmt, qcomment_writer: loginUser } ;
 	
-	qcommentClsr.init(csrfTokenValue, csrfHeaderName)
+	/* qcommentClsr.init(csrfTokenValue, csrfHeaderName) */
 	
 	qcommentClsr.registerCmt(
 			reply,
@@ -634,15 +587,22 @@ $(".chat").on("click", ".commentLi .btnCancelRegReply", function(){
 <%-- 답글 등록 버튼 클릭 처리: 이벤트 전파 --%>
 $(".chat").on("click", ".commentLi .btnRegReply", function(){
 
-	var loginUser = "문영훈" ; 
+	//var loginUser = "문영훈" ; 
+	if(!loginUser){
+		alert("로그인 후, 답글 등록이 가능합니다.");
+		return ;
+	}
+	console.log("답글 등록 시 loginUser: "+ loginUser);
+	
 	var pageNum = frmCmtPagingValue.find("input[name='pageNum']").val();
 	
 	var txtBoxReply = $(this).prev().val();
+	
 	var qreply_number_value = $(this).closest("li").data("qcomment_number");
 	
 	var reply = {qpost_number: qpost_number_value, qcomment: txtBoxReply, qcomment_writer: loginUser, qreply_number: qreply_number_value } ;
 	
-	qcommentClsr.init(csrfTokenValue, csrfHeaderName)
+	/* qcommentClsr.init(csrfTokenValue, csrfHeaderName) */
 	
 	qcommentClsr.registerReply(
 			reply,
@@ -666,12 +626,33 @@ function resetReplyModElements() {
 	$(".txtBoxMod").remove() ;
 }
 
+<%--로그인 사용자명 변수에 저장하는 코드는 댓글/답글 자바스크립트 코드 시작 부분으로 이동시킵니다.--%>
+var loginUser = "";
+<sec:authorize access="isAuthenticated()">
+	loginUser = '<sec:authentication property="principal.username"/>';
+</sec:authorize>
+
 <%-- 댓글/답글 수정/삭제 화면 요소 표시 --%>
 
 $(".chat").on("click",".commentLi p", function(){ 
 	resetCmtRegElements() ;
 	resetReplyRegElements() ;
 	resetReplyModElements();
+	
+	<%--로그인 하지 않은 경우--%>
+	if(!loginUser){
+		alert("로그인 후, 수정이 가능합니다.");
+		return ;
+	}
+	
+	<%--작성자 변수에 저장--%>
+	var qcomment_writer = $(this).data("qcomment_writer");
+	
+	<%--로그인 계정과 작성자가 다른 경우--%>
+	if(qcomment_writer != loginUser){
+		alert("작성자만 수정 가능합니다");
+		return ;
+	}
 	
 	$(this).parents("li").find(".btnChgReplyReg").attr("style", "display:none") ;	
 	
@@ -701,15 +682,27 @@ $(".chat").on("click", ".commentLi .btnCancelCmt", function(){
 <%-- 댓글-답글 수정 처리: 버튼 클릭 이벤트 --%>
 $(".chat").on("click", ".commentLi .btnModCmt", function(){
 	
+	if(!loginUser){
+		alert("로그인 후, 수정이 가능합니다.");
+		return ;
+	}
+	
 	var qcomment_writer_value = $(this).siblings("p").data("qcomment_writer") ;
+	
+	if(qcomment_writer_value != loginUser){
+		alert("작성자만 수정 가능합니다");
+		return ;
+	}
+	
 	var pageNum = frmCmtPagingValue.find("input[name='pageNum']").val();
 	
 	var txtBoxComment = $(this).prev().val() ;
+	
 	var qcomment_value = $(this).closest("li").data("qcomment_number");
 	
 	var cmtReply = {qpost_number: qpost_number_value, qcomment_number: qcomment_value, qcomment: txtBoxComment, qcomment_writer: qcomment_writer_value} ;
 	
-	qcommentClsr.init(csrfTokenValue, csrfHeaderName)
+	/* qcommentClsr.init(csrfTokenValue, csrfHeaderName) */
 	
 	qcommentClsr.modifyCmtReply(
 			cmtReply,
@@ -724,7 +717,18 @@ $(".chat").on("click", ".commentLi .btnModCmt", function(){
 <%-- 댓글-답글 삭제 처리: 버튼 클릭 이벤트--%>
 $(".chat").on("click",".commentLi .btnDelCmt", function(){
 	
+	if(!loginUser){
+		alert("로그인 후, 삭제가 가능합니다.");
+		return ;
+	}
+	
 	var qcomment_writer_value = $(this).siblings("p").data("qcomment_writer") ;
+	
+	if(qcomment_writer_value != loginUser){
+		alert("작성자만 삭제 가능합니다");
+		return ;
+	}
+	
 	var delConfirm = confirm('삭제하시겠습니까?');
 	
 	if(!delConfirm){
@@ -738,7 +742,7 @@ $(".chat").on("click",".commentLi .btnDelCmt", function(){
 	
 	var comment ={qpost_number: qpost_number_value, qcomment_number: qcomment_value, qcomment_writer: qcomment_writer_value} ;
 	
-	qcommentClsr.init(csrfTokenValue, csrfHeaderName)
+	/* qcommentClsr.init(csrfTokenValue, csrfHeaderName) */
 	
 	qcommentClsr.removeCmtReply(
 			comment,
@@ -760,7 +764,6 @@ $(document).ready(function(){
 	showCmtList(1);
 	
 });
-
 
 
 </script>

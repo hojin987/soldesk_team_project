@@ -12,6 +12,7 @@
 
 <style>
  th {text-align: center;}
+ strong {color:#000000;}
 </style>  
 
 <style>
@@ -20,19 +21,8 @@
 }
 </style>
 
-<div id="page-wrapper">
-    <div class="row">
-        <div class="col-lg-12">
-            <h3 class="page-header"
-				style="white-space: nowrap;" >Board - Detail
-				 <small>
-				 	&nbsp;&nbsp;&nbsp;<c:out value="${noticeBoard.npost_number}"/>번 게시물
-				 </small>
-			</h3>
-        </div><%-- /.col-lg-12 --%>
-    </div><%-- /.row --%>
-    <div class="row">
-        <div class="col-lg-12">
+    <div class="row" style="display: flex; justify-content: center;">
+        <div class="col-lg-8">
         
             <div class="panel panel-default">
                 <div class="panel-heading">
@@ -57,12 +47,15 @@
 						<div class="col-md-7" style="height: 45px; padding-top:6px;"><%-- vertical-align: middle; --%>
 							<div class="button-group pull-right">
 							
+				<sec:authorize access="isAuthenticated()" >
+					<sec:authentication property="principal" var="principal"/>
+						<c:if test="${principal.username eq noticeBoard.nwriter}">
 							<button type="button" id="btnToModify" data-oper="modify"
-									class="btn btn-primary"><span>수정페이지로 이동</span></button>
-
-									
+									class="btn btn-primary btn-sm"><span>수정페이지로 이동</span></button>
+						</c:if>
+					</sec:authorize>		
 							<button type="button" id="btnToList" data-oper="list"
-									class="btn btn-warning"><span>목록페이지로 이동</span></button>
+									class="btn btn-primary btn-sm"><span>목록페이지로 이동</span></button>
 							</div>
 						</div>
 					</div>
@@ -97,78 +90,11 @@
         </div><%-- /.col-lg-12 --%>
     </div><%-- /.row --%>
 
-<%-- 첨부파일 결과 표시 --%>    
-    <div class="row">
-        <div class="col-lg-12">
-            <div class="panel panel-default">
-                <div class="panel-heading">첨부 파일</div><!-- /.panel-heading -->
-                <div class="panel-body"><!-- 
-                    <div class="form-group uploadDiv">
-                        <input id="inputFile" class="btn btn-primary inputFile" type="file" name="uploadFiles" multiple="multiple" /><br> 
-                    </div>-->
-	                <div class="form-group fileUploadResult">
-	                    <ul>
-<%-- 업로드 후 처리결과가 표시될 영역 --%>
-<%-- <c:choose>
-<c:when test="${empty noticeBoard.attachFileList }">
-	<li>첨부파일이 없습니다.</li>
-</c:when>
-<c:otherwise>
-	<c:forEach var="attachFile" items="${noticeBoard.attachFileList}">
-		<c:choose>
-		<c:when test='${attachFile.fileType == "F"}'>
-		<li class="attachLi" 
-			data-repopath="${attachFile.repoPath}"
-			data-uploadpath="${attachFile.uploadPath}"
-		    data-uuid="${attachFile.uuid}"
-		    data-filename="${attachFile.fileName }"
-		    data-filetype="F">
-		        <img src='${contextPath}/resources/img/icon-attach.png' style='width:25px;'>
-		        &nbsp;&nbsp; ${attachFile.fileName}
-		    </a>
-		</li>
-		</c:when>
-		<c:otherwise>
-		    <c:set var="thumbnail" value="${attachFile.repoPath}/${attachFile.uploadPath}/s_${attachFile.uuid}_${attachFile.fileName}"/>
-		    <li class="attachLi" 
-		    	data-repopath="${attachFile.repoPath}"
-		        data-uploadpath = "${attachFile.uploadPath }" 
-		        data-uuid = "${attachFile.uuid }" 
-		        data-filename = "${attachFile.fileName }" 
-		        data-filetype = "I" >
-		            <img src='${contextPath}/displayThumbnail?fileName=${thumbnail}' style='width:25px;'>
-		            &nbsp;&nbsp;${attachFile.fileName}
-		        </a> 
-		    </li>
-		    <c:remove var="thumbnail"/>
-		</c:otherwise>
-		</c:choose>
-	</c:forEach>
-</c:otherwise>
-</c:choose> --%>
-                	</ul>
-            	</div>
-            </div><!-- /.panel-body -->
-        </div><!-- /.panel -->
-    </div><!-- /.col-lg-12 -->
-</div><!-- /.row -->
-
-<%-- Modal:첨부파일 이미지 표시 --%>
-<div class="modal fade" id="attachModal" tabindex="-1" role="dialog" aria-labelledby="attachModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-body" id="attachModal-body">
-            	<%-- 이미지표시 --%>
-            </div>
-            
-        </div><%-- /.modal-content --%>
-    </div><%-- /.modal-dialog --%>
-</div><%-- /.modal --%>
 
 
 <%-- 댓글 화면 표시 시작 --%>
-<div class="row">
-	<div class="col-lg-12">
+<div class="row" style="display: flex; justify-content: center;">
+	<div class="col-lg-8">
 		<div class="panel panel-default" >
 			<div class="panel-heading">
 				<p style="margin-bottom: 0px; font-size: 16px;">
@@ -176,10 +102,14 @@
 						<%-- <span>댓글&nbsp;<c:out value="${noticeBoard.nreply_count}"/>개</span>  --%>
 						<span id="replyTotal"></span>
 						<span>&nbsp;</span>	
-						<button type="button" id="btnChgCmtReg" class="btn btn-info btn-sm">댓글 작성</button>						
-						<button type="button" id="btnRegCmt" class="btn btn-warning btn-sm"
+						
+						<sec:authorize access="isAuthenticated()" >	
+							<button type="button" id="btnChgCmtReg" class="btn btn-info btn-sm">댓글 작성</button>	
+						</sec:authorize>	
+											
+							<button type="button" id="btnRegCmt" class="btn btn-warning btn-sm"
 								style="display:none">댓글 등록</button>
-						<button type="button" id="btnCancelRegCmt" class="btn btn-warning btn-sm"
+							<button type="button" id="btnCancelRegCmt" class="btn btn-warning btn-sm"
 								style="display:none">취소</button>&nbsp;&nbsp;&nbsp;
 					</strong>
 				</p>
@@ -188,6 +118,7 @@
 <div class="panel-body">
 		
 <%-- 댓글 입력창 div 시작 --%>
+<sec:authorize access="isAuthenticated()" >
 	<div class="form-group" style="margin-bottom: 5px;">
 		<textarea class="form-control txtBoxCmt" name="ncomment"
 				  placeholder="댓글작성을 원하시면,&#10;댓글 작성 버튼을 클릭해주세요."
@@ -195,6 +126,7 @@
 		></textarea>
 	</div>
 	<hr style="margin-top: 10px; margin-bottom: 10px;">	
+</sec:authorize>
 <%-- 댓글 입력창 div 끝 --%>				
 	<ul class="chat">
 	<%-- 댓글 목록 표시 영역 - JavaScript로 내용이 생성되어 표시됩니다.--%>
@@ -237,7 +169,6 @@
 	<input type="hidden" name="rowAmountPerPage" value="" />
 </form>
 
-</div><%-- /#page-wrapper --%>
 
 <%-- Modal --%>
 <div class="modal fade" id="yourModal" tabindex="-1" role="dialog" aria-labelledby="yourModalLabel" aria-hidden="true">
@@ -329,6 +260,19 @@ $("#attachModal").on("click", function(){
 <%-- 댓글/답글 자바스크립트 시작 --%>
 <script type="text/javascript" src="${contextPath}/resources/js/noticecomment.js"></script>
 <script> 
+
+<%-- 로그인 계정을 loginUser 변수에 저장 --%>
+var loginUser = "";
+<sec:authorize access="isAuthenticated()">
+	loginUser = '<sec:authentication property="principal.username"/>';
+</sec:authorize>
+
+<%-- HTML에서 일어나는 모든 Ajax 전송 요청에 대하여 csrf 토큰값이 요청 헤더에 설정됨 --%>
+var csrfHeaderName = "${_csrf.headerName}";
+var csrfTokenValue = "${_csrf.token}";
+$(document).ajaxSend(function(e, xhr, options){
+	xhr.setRequestHeader(csrfHeaderName, csrfTokenValue);
+});
 
 //게시물 번호 저장
 var npost_number_value = '<c:out value="${noticeBoard.npost_number}"/>'; 
@@ -444,14 +388,17 @@ function showCmtList(pageNum){
 					    + '    </span>'
 					    + '    <p class="ncomment-p" style="white-space:pre-wrap;"'
 					    + '       data-npost_number="' + noticeCommentPagingCreator.ncommentList[i].npost_number + '"'
-					    + '       data-ncomment_number="' + noticeCommentPagingCreator.ncommentList[i].ncomment_number + '">'
+					    + '       data-ncomment_number="' + noticeCommentPagingCreator.ncommentList[i].ncomment_number + '"'
+					    + '       data-ncomment_writer="' + noticeCommentPagingCreator.ncommentList[i].ncomment_writer + '">'
 					    +         noticeCommentPagingCreator.ncommentList[i].ncomment + '</p>'
 					    + '</div>'
+					      <sec:authorize access="isAuthenticated()" >
 					 str+='    <div class="btnsReply" style="margin-bottom:10px">'
 						+ '    		<button type="button" style="display:in-block" ' 
 					    + '            class="btn btn-primary btn-xs btnChgReplyReg">'
 						+ '           <span>답글작성</span></button>'
 						+ '    </div>';
+						  </sec:authorize>
 					 str+='</li>' ;
 					}//for-End
 			
@@ -580,12 +527,19 @@ var csrfTokenValue = "${_csrf.token}"
 <%-- 댓글 등록 버튼 클릭 처리: 이벤트 전파 --%>
 $("#btnRegCmt").on("click", function(){
 	
-
+	//var loginUser = "user10" ;	
+	
+	//로그인 유무 검증
+	if(!loginUser){
+		alert("로그인 후, 등록이 가능합니다.");
+		return ;
+	}
+	console.log("댓글등록 시 loginUser: "+ loginUser);
+	
 	var txtBoxCmt = $(".txtBoxCmt").val() ;
-	var loginUser = "user10" ;	
 	var reply = {npost_number: npost_number_value, ncomment: txtBoxCmt, ncomment_writer: loginUser } ;
 	
-	ncommentClsr.init(csrfTokenValue, csrfHeaderName)
+	/* ncommentClsr.init(csrfTokenValue, csrfHeaderName) */
 	
 	ncommentClsr.registerCmt(
 			reply,
@@ -655,7 +609,13 @@ $(".chat").on("click", ".commentLi .btnCancelRegReply", function(){
 <%-- 답글 등록 버튼 클릭 처리: 이벤트 전파 --%>
 $(".chat").on("click", ".commentLi .btnRegReply", function(){
 
-	var loginUser = "문영훈" ; 
+	//var loginUser = "문영훈" ; 
+	if(!loginUser){
+		alert("로그인 후, 답글 등록이 가능합니다.");
+		return ;
+	}
+	console.log("답글 등록 시 loginUser: "+ loginUser);
+	
 	var pageNum = frmCmtPagingValue.find("input[name='pageNum']").val();
 	
 	var txtBoxReply = $(this).prev().val();
@@ -663,7 +623,7 @@ $(".chat").on("click", ".commentLi .btnRegReply", function(){
 	
 	var reply = {npost_number: npost_number_value, ncomment: txtBoxReply, ncomment_writer: loginUser, nreply_number: nreply_number_value } ;
 	
-	ncommentClsr.init(csrfTokenValue, csrfHeaderName)
+	/* ncommentClsr.init(csrfTokenValue, csrfHeaderName) */
 	
 	ncommentClsr.registerReply(
 			reply,
@@ -687,12 +647,32 @@ function resetReplyModElements() {
 	$(".txtBoxMod").remove() ;
 }
 
-<%-- 댓글/답글 수정/삭제 화면 요소 표시 --%>
+<%--로그인 사용자명 변수에 저장하는 코드는 댓글/답글 자바스크립트 코드 시작 부분으로 이동시킵니다.--%>
+var loginUser = "";
+<sec:authorize access="isAuthenticated()">
+	loginUser = '<sec:authentication property="principal.username"/>';<%--로그인 사용자명 변수에 저장--%>
+</sec:authorize>
 
+<%-- 댓글/답글 수정/삭제 화면 요소 표시 --%>
 $(".chat").on("click",".commentLi p", function(){ 
 	resetCmtRegElements() ;
 	resetReplyRegElements() ;
 	resetReplyModElements();
+	
+	<%--로그인 하지 않은 경우--%>
+	if(!loginUser){
+		alert("로그인 후, 수정이 가능합니다.");
+		return ;
+	}
+	
+	<%--작성자 변수에 저장--%>
+	var ncomment_writer = $(this).data("ncomment_writer");
+
+	<%--로그인 계정과 작성자가 다른 경우--%>
+	if(ncomment_writer != loginUser){
+	alert("작성자만 수정 가능합니다");
+	return ;
+	}
 	
 	$(this).parents("li").find(".btnChgReplyReg").attr("style", "display:none") ;	
 	
@@ -722,15 +702,25 @@ $(".chat").on("click", ".commentLi .btnCancelCmt", function(){
 <%-- 댓글-답글 수정 처리: 버튼 클릭 이벤트 --%>
 $(".chat").on("click", ".commentLi .btnModCmt", function(){
 	
-	var ncomment_writer_value = $(this).siblings("p").data("ncomment_writer") ;
-	var pageNum = frmCmtPagingValue.find("input[name='pageNum']").val();
+	if(!loginUser){
+		alert("로그인 후, 수정이 가능합니다.");
+		return ;
+	}
 	
+	var ncomment_writer_value = $(this).siblings("p").data("ncomment_writer") ;
+	
+	if(ncomment_writer_value != loginUser){
+		alert("작성자만 수정 가능합니다");
+		return ;
+	}
+	
+	var pageNum = frmCmtPagingValue.find("input[name='pageNum']").val();
 	var txtBoxComment = $(this).prev().val() ;
 	var ncomment_value = $(this).closest("li").data("ncomment_number");
 	
 	var cmtReply = {npost_number: npost_number_value, ncomment_number: ncomment_value, ncomment: txtBoxComment, ncomment_writer: ncomment_writer_value} ;
 	
-	ncommentClsr.init(csrfTokenValue, csrfHeaderName)
+	/* ncommentClsr.init(csrfTokenValue, csrfHeaderName) */
 	
 	ncommentClsr.modifyCmtReply(
 			cmtReply,
@@ -745,7 +735,17 @@ $(".chat").on("click", ".commentLi .btnModCmt", function(){
 <%-- 댓글-답글 삭제 처리: 버튼 클릭 이벤트--%>
 $(".chat").on("click",".commentLi .btnDelCmt", function(){
 	
+	if(!loginUser){
+		alert("로그인 후, 삭제가 가능합니다.");
+		return ;
+	}
+	
 	var ncomment_writer_value = $(this).siblings("p").data("ncomment_writer") ;
+	if(ncomment_writer_value != loginUser){
+		alert("작성자만 삭제 가능합니다");
+		return ;
+	}
+	
 	var delConfirm = confirm('삭제하시겠습니까?');
 	
 	if(!delConfirm){
@@ -759,7 +759,7 @@ $(".chat").on("click",".commentLi .btnDelCmt", function(){
 	
 	var comment ={npost_number: npost_number_value, ncomment_number: ncomment_value, ncomment_writer: ncomment_writer_value} ;
 	
-	ncommentClsr.init(csrfTokenValue, csrfHeaderName)
+	/* ncommentClsr.init(csrfTokenValue, csrfHeaderName) */
 	
 	ncommentClsr.removeCmtReply(
 			comment,

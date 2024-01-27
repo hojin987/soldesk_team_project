@@ -7,13 +7,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 	<!-- 강사 경력 조회 -->
 	<select id="selectTainerRecordList" resultType="com.soldesk.healthproject.domain.TrainerVO">
-		SELECT member_id, trainer_record, trainer_record_get_date
+		SELECT member_id, trainer_record
 		FROM project_health.trainer_career
 	</select>
 	
 	<!-- 특정 강사 경력 조회 -->
 	<select id="selectTrainerRecord" resultType="com.soldesk.healthproject.domain.TrainerVO">
-		SELECT member_id, trainer_record, trainer_record_get_date
+		SELECT member_id, trainer_record
 		FROM project_health.trainer_career
 		WHERE member_id = #{member_id}
 	</select>
@@ -22,22 +22,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<insert id="insertTrainerRecord">
 		INSERT INTO project_health.trainer_career
 		VALUES (#{member_id},
-				#{trainer_record},
-				#{trainer_record_get_date})
+				#{trainer_record})
 	</insert>
 	
-	<parameterMap type="com.soldesk.healthproject.domain.TrainerVO" id="TrainerRecord">
-	    <parameter property="member_id" jdbcType="VARCHAR"/>
-	    <parameter property="trainer_record" jdbcType="VARCHAR"/>
-	    <parameter property="trainer_record_get_date" jdbcType="DATE"/>
-	</parameterMap>
-	
 	<!-- 경력 수정 -->
-	<update id="updateTrainerRecord" parameterMap="TrainerRecord">
+	<update id="updateTrainerRecord">
 		UPDATE project_health.trainer_career
 		<set>
-		 	trainer_record = #{trainer_record},
-			trainer_record_get_date = #{trainer_record_get_date}
+		 	trainer_record = #{trainer_record}
 		</set>
 		WHERE member_id = #{member_id}
 	</update>

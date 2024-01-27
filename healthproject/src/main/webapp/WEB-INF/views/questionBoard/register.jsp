@@ -8,14 +8,8 @@
 
 <%@include file="../myinclude/myheader.jsp" %>  
 
-<div id="page-wrapper">
-    <div class="row">
-        <div class="col-lg-12">
-            <h3 class="page-header">문의게시판 - 등록</h3>
-        </div><%-- /.col-lg-12 --%>
-    </div><%-- /.row --%>
-    <div class="row">
-        <div class="col-lg-12">
+    <div class="row" style="display: flex; justify-content: center;">
+        <div class="col-lg-8">
         
             <div class="panel panel-default">
                 <div class="panel-heading">
@@ -31,10 +25,11 @@
 							<label>내용</label> <textarea class="form-control" rows="3" name="qcontent"></textarea>
 						</div>
 						<div class="form-group">
-							<label>작성자</label> <input class="form-control" name="qwriter">
+							<label>작성자</label> 
+							<input class="form-control" name="qwriter" value="<sec:authentication property="name" />" readonly>
 						</div>
-							<button type="submit" class="btn btn-primary">등록</button>
-							<button type="button" class="btn btn-warning" data-oper="list"
+							<button type="submit" class="btn btn-primary btn-sm">등록</button>
+							<button type="button" class="btn btn-warning btn-sm" data-oper="list"
 									onclick="location.href='${contextPath}/questionBoard/list'">취소
 							</button>
 						<sec:csrfInput/>

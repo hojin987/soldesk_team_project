@@ -92,7 +92,7 @@
 <!-- 특정 게시물 삭제 요청 -->
 	<update id="updateNdeleteFlag" parameterType="long">
 		UPDATE project_health.notice_board
-		SET ndelete_flag = 1
+		SET ndelete_flag = 'Y'
 		WHERE npost_number = #{npost_number}
 	</update>
 	

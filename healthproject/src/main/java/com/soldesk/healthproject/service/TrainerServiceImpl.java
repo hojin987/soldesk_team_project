@@ -25,24 +25,36 @@ public class TrainerServiceImpl implements TrainerService {
 	//강사 경력 조회
 	@Override
 	public List<TrainerVO> getTrainerRecordList() {
+		
 		return trainerMapper.selectTainerRecordList();
 	}
 	
 	//특정 강사 경력 조회
 	@Override
-	public List<TrainerVO> getTrainerRecord(String member_id) {
-		return trainerMapper.selectTrainerRecord(member_id);
+	public TrainerVO getTrainerRecord(String member_id) {
+		TrainerVO trainer = trainerMapper.selectTrainerRecord(member_id);
+		trainer.setTrainer_record(trainer.getTrainer_record().replace("<br>", "\r\n"));
+		
+		return trainer;
 	}
 	
 	//강사 경력 등록
 	@Override
 	public void registerRecord(TrainerVO trainer) {
+		String trainer_record = trainer.getTrainer_record();
+		String record = trainer_record.replace("\r\n", "<br>");
+		trainer.setTrainer_record(record);
+		
 		trainerMapper.insertTrainerRecord(trainer);
 	}
 	
 	//강사 경력 수정
 	@Override
 	public void modifyRecord(TrainerVO trainer) {
+		String trainer_record = trainer.getTrainer_record();
+		String record = trainer_record.replace("\r\n", "<br>");
+		trainer.setTrainer_record(record);
+		
 		trainerMapper.updateTrainerRecord(trainer);
 	}
 	

@@ -1,5 +1,6 @@
 package com.soldesk.healthproject.controller;
 
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -73,7 +74,8 @@ public class FreeBoardController {
 		return "freeBoard/modify";
 	}
 	
-	//특정 게시물 수정 POST /freeBoard/modify 
+	//특정 게시물 수정 POST /freeBoard/modify
+	@PreAuthorize("isAuthenticated() && principal.username == #applyBoard.awriter")
 	@PostMapping("/modify")
 	public String modifyFreeBoard(FreeBoardVO freeBoard, RedirectAttributes redirectAttr) {
 		if(freeBoardService.modifyFreeBoard(freeBoard)) {

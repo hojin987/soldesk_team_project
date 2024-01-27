@@ -10,7 +10,7 @@ public interface TrainerMapper {
 	public List<TrainerVO> selectTainerRecordList();
 	
 	//특정 강사 경력 조회
-	public List<TrainerVO> selectTrainerRecord(String member_id);
+	public TrainerVO selectTrainerRecord(String member_id);
 	
 	//강사 경력 등록
 	public long insertTrainerRecord(TrainerVO ticket);

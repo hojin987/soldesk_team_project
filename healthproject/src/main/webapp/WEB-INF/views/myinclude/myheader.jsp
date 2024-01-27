@@ -51,7 +51,13 @@
 
     <!-- Metis Menu Plugin JavaScript -->
     <script src="${contextPath }/resources/vendor/metisMenu/metisMenu.min.js"></script>
-
+	
+	<!-- style CSS -->
+	<link href="${contextPath }/resources/vendor/bootstrap/css/style.css" rel="stylesheet">
+	
+	<!-- animsition css -->
+	<link rel="stylesheet" type="text/css" href="${contextPath }/resources/vendor/bootstrap/css/animsition.min.css">
+	
     <!-- DataTables JavaScript --><%-- 
     <script src="${contextPath }/resources/vendor/datatables/js/jquery.dataTables.min.js"></script>
     <script src="${contextPath }/resources/vendor/datatables-plugins/dataTables.bootstrap.min.js"></script>
@@ -66,32 +72,80 @@
 	<link rel="shortcut icon" href="data:image/x-icon;," type="image/x-icon"> -->
 	
 	<style>
-		body{margin: 0 60px;}
-		a{font-size: 20px;}
+		a { font-size: 10px;}
+		 
+		.horizontal-menu {
+		    display: flex; /* Flexbox를 사용하여 가로로 정렬 */
+		    list-style: none; /* 리스트 스타일 제거 */
+		}
+		
+		.horizontal-menu li {
+		    margin-right: 20px; /* 각 항목 사이의 간격 조절 */
+		}
+		
+		.horizontal-menu a {
+		    text-decoration: none; /* 링크의 밑줄 제거 */
+		    color: black; /* 링크 색상 지정 */
+		}
 	</style>
 </head>
 
 <body id="me">
 	
 <div id="wrapper">
-
-<!-- Navigation -->
-<nav class="navbar navbar-static-top" role="navigation" style="margin-bottom: 0">
-    <div class="col-lg-12">
-    	<table class="table" style="text-align:center;">
-    	<tbody>
-    	<sec:authentication property="principal" var="principal"/>
-    		<tr>
-    			<td><a href="${contextPath }/">SOLDESK GYM</a></td>
-    			<td><a href="${contextPath }/member/list">회원리스트<br>(삭제예정)</a></td>
-    			<td><a href="${contextPath }/member/trainer">강사정보</a></td>
-    			<td><a href="${contextPath }/workout/list">운동정보</a></td>
-    			<td><a href="${contextPath }/noticeBoard/list">공지사항</a></td>
-    			<td><a href="${contextPath }/freeBoard/list">자유게시판</a></td>
-    			<td><a href="${contextPath }/questionBoard/list">1:1문의</a></td>
-    			<td><a href="${contextPath }/applyBoard/list">채용공고</a></td>
-    			<td><a href="${contextPath }/ticket/list">회원권</a></td>
-    			<c:choose>
+	<div class="page-header">	
+	<div id="sticky-wrapper" class="sticky-wrapper" style="height: 86px;"><div class="header" style="">
+            <!-- navigation -->
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-3 col-sm-6 col-xs-6">
+                        <div class="logo">
+                            <a href="index.html"><!-- <img src="images/logo.png" alt=""> --></a>
+                        </div>
+                    </div>
+                    <div class="col-md-9 col-sm-12">
+                        <div class="navigation pull-right" id="navigation"><div id="menu-button">Menu</div>
+                        <sec:authentication property="principal" var="principal"/>
+                            <ul class="horizontal-menu">
+                                <li class="active"><a href="${contextPath }/" class="animsition-link">메인</a></li>
+                                <li class="active"><a href="${contextPath }/member/trainer" class="animsition-link">강사</a></li>
+                                <li class="active"><a href="${contextPath }/workout/list" class="animsition-link">운동</a></li>
+                                <li class="has-sub"><span class="submenu-button"></span><a class="animsition-link">게시판</a>
+                                    <ul>
+                                        <li><a href="${contextPath }/noticeBoard/list" class="animsition-link">공지사항</a></li>
+                                        <li><a href="${contextPath }/freeBoard/list" class="animsition-link">자유게시판</a></li>
+                                        <li><a href="${contextPath }/questionBoard/list" class="animsition-link">1:1 문의</a></li>
+                                        <li><a href="${contextPath }/applyBoard/list" class="animsition-link">트레이너 지원</a></li>
+                                    </ul>
+                                </li>
+                                <li><a href="${contextPath }/ticket/list" title="Ticket" class="animsition-link">회원권/PT</a> </li>
+                                <li>
+                                
+                                <c:choose>
+                                	<c:when test="${principal eq 'anonymousUser'}">
+                                		<br><button type="button" style="padding-top: 0.25rem; padding-bottom: 0.25rem; padding-left: 0.5rem; padding-right: 0.5rem; font-size: 1.00rem;" 
+                                					class="btn btn-secondary btn-sm" onclick="location.href='${contextPath}/myLogin'">로그인</button>&nbsp;&nbsp;
+   											<button type="button" style="padding-top: 0.25rem; padding-bottom: 0.25rem; padding-left: 0.5rem; padding-right: 0.5rem; font-size: 1.00rem;" 
+													class="btn btn-secondary btn-sm" onclick="location.href='${contextPath}/member/memberRegister'">회원가입</button>
+                           			</c:when>
+     								<c:otherwise>
+	     								${principal.username}님, 반갑습니다.<a href="${contextPath}/member/detail?member_id=${principal.username}">내 정보 확인하기</a></li>
+					     				<li><br>&nbsp;&nbsp;
+					     				<button type="button"; style="padding-top: 0.25rem; padding-bottom: 0.25rem; padding-left: 0.5rem; padding-right: 0.5rem; font-size: 1.00rem;" 
+			     								class="btn btn-secondary btn-sm pull-right" onclick="location.href='${contextPath}/myLogout'">로그아웃</button>
+					     			</c:otherwise>
+				    			</c:choose>
+				    			</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+    <%-- <div class="col-lg-12">
+    <c:choose>
      			<c:when test="${principal eq 'anonymousUser'}">
      				<td>
      					<button type="button" class="btn btn-lignt btn-sm" onclick="location.href='${contextPath}/myLogin'">로그인</button>&nbsp;&nbsp;
@@ -101,14 +155,22 @@
      				<td style="font-size:13px;">${principal.username}님, 반갑습니다.
      				<button type="button" class="btn btn-lignt btn-sm pull-right" onclick="location.href='${contextPath}/myLogout'">로그아웃</button><br>
      				<a style="text-align:left; font-size:13px;" href="${contextPath}/member/detail?member_id=${principal.username}">내 정보 확인하기</a></td>
-     				<%-- <a style="font-size:13px;" href="${contextPath}/member/detail?member_id=${principal.username}">내 정보 확인하기</a></td> --%>
      			</c:otherwise>
     			</c:choose>
-    		</tr>
-    	</tbody>
-    	</table>
+    	
+	    	<ul class="horizontal-menu listnone">
+			    <li><a href="${contextPath }/">SOLDESK GYM</a></li>
+			    <li><a href="${contextPath }/member/trainer">강사정보</a></li>
+			    <li><a href="${contextPath }/workout/list">운동정보</a></li>
+			    <li><a href="${contextPath }/noticeBoard/list">공지사항</a></li>
+			    <li><a href="${contextPath }/freeBoard/list">자유게시판</a></li>
+			    <li><a href="${contextPath }/questionBoard/list">1:1문의</a></li>
+			    <li><a href="${contextPath }/applyBoard/list">채용공고</a></li>
+			    <li><a href="${contextPath }/ticket/list">회원권</a></li>
+			    
+			</ul>
         
-    </div> <!-- 나중에 드랍다운 처리-->
+    </div>  --%>
     
 </nav>
 

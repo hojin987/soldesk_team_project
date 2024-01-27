@@ -17,5 +17,4 @@ public class TrainerVO {
 	
 	private String member_id;
 	private String trainer_record;
-	private Date trainer_record_get_date;
 }
