@@ -19,13 +19,14 @@ https://startbootstrap.com/
 </style>  
     <div class="row" style="display: flex; justify-content: center;">
         <div class="col-lg-8">
-        
             <div class="panel panel-default">
                 <div class="panel-heading">
 					<div class="row">
 						<div class="col-md-6" style="font-size:20px; height: 45px; padding-top:10px;">공지사항</div>
 						<div class="col-md-6" style="padding-top:8px;">
-							<button type="button" id="btnToRegister" class="btn btn-primary btn-sm pull-right">새글 등록</button>
+							<sec:authorize access="hasAuthority('ADMIN', 'TRAINER')">
+								<button type="button" id="btnToRegister" class="btn btn-primary btn-sm pull-right">새글 등록</button>
+							</sec:authorize>
 						</div>
 					</div>
 				</div><%-- /.panel-heading --%>

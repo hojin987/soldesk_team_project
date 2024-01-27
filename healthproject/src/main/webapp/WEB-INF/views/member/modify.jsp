@@ -7,18 +7,9 @@
 <c:set var="contextPath" value="${pageContext.request.contextPath }"/>
 
 <%@include file="../myinclude/myheader.jsp" %>  
-
-
-
-<div id="page-wrapper">
-    <div class="row">
-        <div class="col-lg-12">
-            <h3 class="page-header">member - modify</h3>
-        </div><%-- /.col-lg-12 --%>
-    </div><%-- /.row --%>
     
-    <div class="row">
-        <div class="col-lg-12">
+    <div class="row" style="display: flex; justify-content: center;">
+        <div class="col-lg-6">
             <div class="panel panel-default">
                 <div class="panel-heading">
                 	<h4>내 정보 수정하기</h4>
@@ -69,16 +60,16 @@
 					
 					<sec:csrfInput/>
 					
-                    <button type="button" class="btn btn-default" id="btnModify" data-oper="modify">수정</button>
-                    <button type="button" class="btn btn-warning" id="btnDelete" data-oper="delete">회원탈퇴</button>
-                    <button type="button" class="btn btn-info" id="btnList" data-oper="list">취소</button>
+                    <button type="button" class="btn btn-primary btn-sm" id="btnModify" data-oper="modify">수정</button>
+                    <button type="button" class="btn btn-primary btn-sm" id="btnDelete" data-oper="delete">회원탈퇴</button>
+                    <button type="button" class="btn btn-waring btn-sm" id="btnList" data-oper="list">취소</button>
 
                     <!-- ADMIN buttons (float-right) -->
                     <sec:authorize access="hasAuthority('ADMIN')">
-                        <button type="button" class="btn btn-danger pull-right" id="btnRmove" data-oper="remove">회원삭제</button>
-                        <button type="button" class="btn btn-warning pull-right" id="btnCancel" data-oper="cancel">탈퇴요청취소</button>
-                        <button type="button" class="btn btn-default pull-right" id="btnAuthCancel" data-oper="authcancel">강사권한삭제</button>
-                        <button type="button" class="btn btn-default pull-right" id="btnAuth" data-oper="auth">강사권한부여</button>
+                        <button type="button" class="btn btn-danger btn-sm pull-right" id="btnRmove" data-oper="remove">회원삭제</button>
+                        <button type="button" class="btn btn-warning btn-sm pull-right" id="btnCancel" data-oper="cancel">탈퇴요청취소</button>
+                        <button type="button" class="btn btn-primary btn-sm pull-right" id="btnAuthCancel" data-oper="authcancel">강사권한삭제</button>
+                        <button type="button" class="btn btn-primary btn-sm pull-right" id="btnAuth" data-oper="auth">강사권한부여</button>
                     </sec:authorize>
 			  			
           	</div><%-- /.panel-body --%>
@@ -118,7 +109,7 @@ if(operation == "modify"){ //회원권 정보 수정 요청
 } else if(operation == "delete"){ //회원 탈퇴 신청
 	frmModify.attr("action","${contextPath}/member/delete");
 } else if(operation == "list"){ //회원권 목록 화면 요청
-	frmModify.attr("action","${contextPath}/member/list").attr("method","get");
+	frmModify.attr("action","${contextPath}/").attr("method","get");
 	frmModify.empty();
 } else if(operation == "auth"){	//강사 권한 부여
 	frmModify.attr("action","${contextPath}/member/auth");

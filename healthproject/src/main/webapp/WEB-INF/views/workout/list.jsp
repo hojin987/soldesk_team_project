@@ -22,7 +22,7 @@
                 <div class="panel-body">
 
 	<table class="table table-bordered " 
-	       style="margin:0 auto; width: 80%; text-align: center;">
+	       style="margin:0 auto; width: 100%; text-align: center;">
 	    <tbody>
 			<c:forEach items="${workoutList}" var="workout" varStatus="loop">
 		        <c:if test="${loop.index % 3 == 0}">

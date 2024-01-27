@@ -8,17 +8,8 @@
 
 <%@include file="../myinclude/myheader.jsp" %>  
 
-
-
-<div id="page-wrapper">
-    <div class="row">
-        <div class="col-lg-12">
-            <h3 class="page-header">member - modifyPw</h3>
-        </div><%-- /.col-lg-12 --%>
-    </div><%-- /.row --%>
-    
-    <div class="row">
-        <div class="col-lg-12">
+    <div class="row" style="display: flex; justify-content: center;">
+        <div class="col-lg-6">
             <div class="panel panel-default">
                 <div class="panel-heading">
                 	<h4>비밀번호 변경</h4>
@@ -37,8 +28,8 @@
 						<input class="form-control" id="member_pw" name="member_pw" placeholder="새 비밀번호 확인" required/>
 					</div>
 					
-					<button type="button" class="btn btn-default" id="btnModify" data-oper="modify">수정</button>
-					<button type="button" class="btn btn-info" id="btnList" data-oper="list">취소</button>
+					<button type="button" class="btn btn-primary btn-sm" id="btnModify" data-oper="modify">수정</button>
+					<button type="button" class="btn btn-warning btn-sm" id="btnList" data-oper="list">취소</button>
 					
 		  			<sec:csrfInput/>
 		  
@@ -47,8 +38,6 @@
         </div><%-- /.panel --%>
     </div><%-- /.col-lg-12 --%>
 </div><%-- /.row --%>
-
-</div><%-- /#page-wrapper --%>
 
 <%-- Modal --%>
 <div class="modal fade" id="yourModal" tabindex="-1" role="dialog" aria-labelledby="yourModalLabel" aria-hidden="true">
@@ -82,7 +71,7 @@ var member_pw = $("#member_pw").val();
 if(operation == "modify"){ //비밀번호 변경 요청
 frmModify.attr("action", "${contextPath}/member/modifyPw");			
 } else if(operation == "list"){ //회원 목록 화면 요청
-frmModify.attr("action","${contextPath}/member/list").attr("method","get");
+frmModify.attr("action","${contextPath}/").attr("method","get");
 frmModify.empty();
 } 
  

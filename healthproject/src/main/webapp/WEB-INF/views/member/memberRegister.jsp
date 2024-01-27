@@ -8,20 +8,11 @@
 
 <%@include file="../myinclude/myheader.jsp"%>
 
-<div id="page-wrapper">
-	<div class="row">
-		<div class="col-lg-12">
-			<h3 class="page-header">회원가입</h3>
-		</div>
-		<%-- /.col-lg-12 --%>
-	</div>
-	<%-- /.row --%>
-	<div class="row">
-		<div class="col-lg-12">
-
+	<div class="row" style="display: flex; justify-content: center;">
+		<div class="col-lg-8">
 			<div class="panel panel-default">
 				<div class="panel-heading">
-					<h4>게시글 등록</h4>
+					<h4>회원가입</h4>
 				</div>
 				<%-- /.panel-heading --%>
 
@@ -121,8 +112,8 @@
 							<input type="hidden" name="${_csrf.parameterName }"
 								value="${_csrf.token }" />
 						</div>
-						<button type="submit" class="btn btn-primary">등록</button>
-						<button type="button" class="btn btn-warning" data-oper="list"
+						<button type="submit" class="btn btn-primary btn-sm">등록</button>
+						<button type="button" class="btn btn-warning btn-sm" data-oper="list"
 							onclick="location.href='${contextPath}/noticeBoard/list'">취소
 						</button>
 					</form>

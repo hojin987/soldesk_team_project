@@ -9,15 +9,8 @@
 
 <%@include file="../myinclude/myheader.jsp" %>  
 
-<div id="page-wrapper">
-    <div class="row">
-        <div class="col-lg-12">
-            <h3 class="page-header">workout - detail</h3>
-        </div><%-- /.col-lg-12 --%>
-    </div><%-- /.row --%>
-    
-    <div class="row">
-        <div class="col-lg-12">
+    <div class="row" style="display: flex; justify-content: center;">
+        <div class="col-lg-8">
             <div class="panel panel-default">
                 <div class="panel-heading">
                 	<h4>운동정보 상세<c:out value="${workout.workout_target}"/></h4>
@@ -32,32 +25,33 @@
 					<div class="form-group">
 						<label>운동 내용</label>
 						<div class="workout-media">
- <c:if test="${workout != null and workout.workout_media_url != null}">
-    <c:choose>
-        <c:when test="${fn:contains(workout.workout_media_url, 'youtube.com')}">
-            <c:choose>
-                <c:when test="${fn:contains(workout.workout_media_url, 'shorts')}">
-                    <iframe width="560" height="315"
-                        src="https://www.youtube.com/embed/${fn:substringAfter(workout.workout_media_url, 'shorts/')}"
-                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"></iframe>
-                </c:when>
-                <c:otherwise>
-                    <iframe width="560" height="315"
-                        src="https://www.youtube.com/embed/${fn:substringAfter(workout.workout_media_url, 'v=')}"
-                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"></iframe>
-                </c:otherwise>
-            </c:choose>
-        </c:when>
-        <c:when test="${fn:contains(workout.workout_media_url, 'youtu.be')}">
-            <iframe width="560" height="315"
-                src="https://www.youtube.com/embed/${fn:substringAfter(workout.workout_media_url, 'be/')}"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"></iframe>
-        </c:when>
-    </c:choose>
-</c:if>
+							<c:if test="${workout != null and workout.workout_media_url != null}">
+							   <c:choose>
+							       <c:when test="${fn:contains(workout.workout_media_url, 'youtube.com')}">
+							           <c:choose>
+							               <c:when test="${fn:contains(workout.workout_media_url, 'shorts')}">
+							                   <iframe width="560" height="315"
+							                       src="https://www.youtube.com/embed/${fn:substringAfter(workout.workout_media_url, 'shorts/')}"
+							                       allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"></iframe>
+							               </c:when>
+							               <c:otherwise>
+							                   <iframe width="560" height="315"
+							                       src="https://www.youtube.com/embed/${fn:substringAfter(workout.workout_media_url, 'v=')}"
+							                       allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"></iframe>
+							               </c:otherwise>
+							           </c:choose>
+							       </c:when>
+							       <c:when test="${fn:contains(workout.workout_media_url, 'youtu.be')}">
+							           <iframe width="560" height="315"
+							               src="https://www.youtube.com/embed/${fn:substringAfter(workout.workout_media_url, 'be/')}"
+							               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"></iframe>
+							       </c:when>
+							   </c:choose>
+							</c:if>
 
 							<input class="form-control" name="workout_content" value='<c:out value="${workout.workout_content}"/>'
 								   readonly="readonly"/>
+						</div>
 					</div>
 					<div class="form-group">
 						<label>운동 주의사항</label>
@@ -65,17 +59,15 @@
 								   readonly="readonly"/>
 					</div>
 						
-					<button type="button" class="btn btn-default" id="BtnMoveModify" data-oper="modify">수정</button>
-					<button type="button" class="btn btn-info" id="BtnMoveList" data-oper="list">목록</button>
+					<button type="button" class="btn btn-primary btn-sm" id="BtnMoveModify" data-oper="modify">수정</button>
+					<button type="button" class="btn btn-warning btn-sm" id="BtnMoveList" data-oper="list">목록</button>
 
           </div><%-- /.panel-body --%>
             
         </div><%-- /.panel --%>
     </div><%-- /.col-lg-12 --%>
 </div><%-- /.row --%>
-  
 
-</div><%-- /#page-wrapper --%>
 
 <%-- Modal --%>
 <div class="modal fade" id="yourModal" tabindex="-1" role="dialog" aria-labelledby="yourModalLabel" aria-hidden="true">

@@ -8,14 +8,8 @@
 
 <%@include file="../myinclude/myheader.jsp" %>  
 
-<div id="page-wrapper">
-    <div class="row">
-        <div class="col-lg-12">
-            <h3 class="page-header">Record - Register</h3>
-        </div><%-- /.col-lg-12 --%>
-    </div><%-- /.row --%>
-    <div class="row">
-        <div class="col-lg-12">
+    <div class="row" style="display: flex; justify-content: center;">
+        <div class="col-lg-8">
         
             <div class="panel panel-default">
                 <div class="panel-heading">
@@ -28,12 +22,12 @@
 						    <div class="form-group">
 						        <input type="hidden" name="member_id" value="${param.member_id}">
 						        <label>경력</label><br>
-						        <textarea name="trainer_record" id="treainer_record" rows="4" cols="100"></textarea>
+						        <textarea name="trainer_record" id="treainer_record" rows="4" style="width:100%"></textarea>
 						    </div>
 						</div>
 						
-						<button type="submit" class="btn btn-default btn-sm">등록</button>
-						<button type="button" class="btn btn-default btn-sm" 
+						<button type="submit" class="btn btn-primary btn-sm">등록</button>
+						<button type="button" class="btn btn-warning btn-sm" 
 								onclick="location.href='${contextPath}/member/trainer'">취소</button>
 								
 						<sec:csrfInput/>
@@ -44,9 +38,6 @@
         </div><%-- /.panel --%>
     </div><%-- /.col-lg-12 --%>
 </div><%-- /.row --%>
-  
-
-</div><%-- /#page-wrapper --%>
 
 <%-- Modal --%>
 <div class="modal fade" id="yourModal" tabindex="-1" role="dialog" aria-labelledby="yourModalLabel" aria-hidden="true">

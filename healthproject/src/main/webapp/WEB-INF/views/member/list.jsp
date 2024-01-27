@@ -14,11 +14,6 @@
 
     <div class="row" style="display: flex; justify-content: center;">
         <div class="col-lg-8">
-            <h3 class="page-heading">회원목록</h3>
-        </div><%-- /.col-lg-12 --%>
-    </div><%-- /.row --%>
-    <div class="row">
-        <div class="col-lg-12">
         
             <div class="panel panel-default">
                 <div class="panel-heading">
@@ -53,14 +48,14 @@
 			       placeholder="검색어를 입력하세요"
 				   value='<c:out value="${pagingCreator.memberPaging.keyword}" />' />
 			<span class="input-group-btn"><!-- 전송버튼 -->
-				<button class="btn btn-warning" type="button" id="btnSearchGo"
+				<button class="btn btn-primary btn-sm" type="button" id="btnSearchGo"
 						><i class="fa fa-search"></i>
 				</button>
 			</span>
 		</div>
 		
 		<div class="input-group"><!-- 검색 초기화 버튼 -->
-			<button id="btnReset" class="btn btn-info" type="button">
+			<button id="btnReset" class="btn btn-primary btn-sm" type="button">
 				<span class="glyphicon glyphicon-remove"></span>
 			</button>
 		</div>
@@ -74,7 +69,7 @@
 			   value="${pagingCreator.memberPaging.endDate}" 
 			   />
 
-		<button type="button" class="btn btn-primary mybtns" 
+		<button type="button" class="btn btn-primary btn-sm mybtns" 
 				id="btnIntervalSearch" >기간검색</button>
 	</div> 
 	

@@ -9,14 +9,19 @@
 
 <%@include file="../myinclude/myheader.jsp" %>  
 
-    
-    <div class="row" style="display: flex; justify-content: center;">
-        <div class="col-lg-8"> 
-            <div class="panel panel-default">
-                <div class="panel-body">
+<div class="row" style="display: flex; justify-content: center;">
+    <div class="col-lg-8">
+       	<div class="panel panel-default">
+        	<div class="panel-heading">
+				<div class="row">
+					<div class="col-md-6" style="font-size:20px; height: 45px; padding-top:10px;">트레이너 소개</div>
+				</div>
+			</div><%-- /.panel-heading --%>
+				 
+            <div class="panel-body">
 
 <table class="table table-bordered " 
-       style="margin:0 auto; width: 80%; text-align: center;">
+       style="margin:0 auto; width: 100%; text-align: center;">
     <tbody>
 		<c:forEach items="${pagingCreator.memberList}" var="member">
 		    <c:forEach items="${member.authorityList}" var="authority">

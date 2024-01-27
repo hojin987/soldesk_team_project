@@ -19,20 +19,19 @@ https://startbootstrap.com/
  strong {color:#000;}
 </style>  
 
-    <div class="row" style="display: flex; justify-content: center;">
-        <div class="col-lg-8">
-        
-            <div class="panel panel-default">
-                <div class="panel-heading">
-					<div class="row">
-						<div class="col-md-6" style="font-size:20px; height: 45px; padding-top:10px;">1:1 문의</div>
-						<div class="col-md-6" style="padding-top:8px;">
-							<button type="button" id="btnToRegister" class="btn btn-primary btn-sm pull-right">새글 등록</button>
-						</div>
+<div class="row" style="display: flex; justify-content: center;">
+    <div class="col-lg-8">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+				<div class="row">
+					<div class="col-md-6" style="font-size:20px; height: 45px; padding-top:10px;">1:1 문의</div>
+					<div class="col-md-6" style="padding-top:8px;">
+						<button type="button" id="btnToRegister" class="btn btn-primary btn-sm pull-right">새글 등록</button>
 					</div>
-				</div><%-- /.panel-heading --%>
-                
-                <div class="panel-body">
+				</div>
+			</div><%-- /.panel-heading --%>
+            
+            <div class="panel-body">
                 
                 
 <form class="form-inline" id="frmSendValue" name="frmSendValue" action="${contextPath }/questionBoard/list" method="get" >
@@ -92,7 +91,7 @@ https://startbootstrap.com/
 </form>                
 <hr>     
                
-                    <table class="table table-striped table-bordered table-hover" 
+                    <table class="table table-bordered table-hover" 
                            style="width:100%;text-align: center;">
                         <thead>
                             <tr>

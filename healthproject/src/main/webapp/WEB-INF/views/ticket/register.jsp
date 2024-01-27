@@ -8,14 +8,8 @@
 
 <%@include file="../myinclude/myheader.jsp" %>  
 
-<div id="page-wrapper">
-    <div class="row">
-        <div class="col-lg-12">
-            <h3 class="page-header">Ticket - Register</h3>
-        </div><%-- /.col-lg-12 --%>
-    </div><%-- /.row --%>
-    <div class="row">
-        <div class="col-lg-12">
+    <div class="row" style="display: flex; justify-content: center;">
+        <div class="col-lg-8">
         
             <div class="panel panel-default">
                 <div class="panel-heading">
@@ -43,8 +37,8 @@
 							<label>회원권 가격</label> <input class="form-control" name="ticket_price">
 						</div>
 						
-							<button type="submit" class="btn btn-primary">등록</button>
-							<button type="button" class="btn btn-warning" data-oper="list"
+							<button type="submit" class="btn btn-primary btn-sm">등록</button>
+							<button type="button" class="btn btn-warning btn-sm" data-oper="list"
 									onclick="location.href='${contextPath}/ticket/list'">취소
 							</button>
 						<sec:csrfInput/>

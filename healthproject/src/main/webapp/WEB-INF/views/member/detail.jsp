@@ -7,21 +7,12 @@
 <c:set var="contextPath" value="${pageContext.request.contextPath }"/>
 
 <%@include file="../myinclude/myheader.jsp" %>  
-
-
-
-<div id="page-wrapper">
-    <div class="row">
-        <div class="col-lg-12">
-            <h3 class="page-header">member - detail</h3>
-        </div><%-- /.col-lg-12 --%>
-    </div><%-- /.row --%>
     
-    <div class="row">
-        <div class="col-lg-12">
+    <div class="row" style="display: flex; justify-content: center;">
+        <div class="col-lg-6">
             <div class="panel panel-default">
                 <div class="panel-heading">
-                	<h4>회원정보 상세</h4>
+                	<h4>내 프로필</h4>
 				</div><%-- /.panel-heading --%>
                 
                 <div class="panel-body">
@@ -88,8 +79,8 @@
 					<sec:authorize access="isAuthenticated()" >
  					<sec:authentication property="principal" var="principal"/> 
 						<c:if test="${principal.username eq member.member_id }">
-							<button type="button" class="btn btn-default" id="BtnMoveModify">내 정보 수정하기</button>
-							<button type="button" class="btn btn-default" id="BtnMoveModifyPassword">비밀번호 변경하기</button>
+							<button type="button" class="btn btn-primary btn-sm" id="BtnMoveModify">내 정보 수정하기</button>
+							<button type="button" class="btn btn-primary btn-sm" id="BtnMoveModifyPassword">비밀번호 변경하기</button>
 						</c:if>
 					</sec:authorize>
 					
@@ -98,11 +89,11 @@
 						<c:when test="${principal.username eq member.member_id}">
 						</c:when>
 						<c:otherwise>
-							<button type="button" class="btn btn-default" id="BtnMoveModify">회원 정보 수정하기</button>
+							<button type="button" class="btn btn-primary btn-sm" id="BtnMoveModify">회원 정보 수정하기</button>
 						</c:otherwise>
 					</c:choose>
 					</sec:authorize>
-					<button type="button" class="btn btn-info" id="BtnMoveHome">메인페이지</button>
+					<button type="button" class="btn btn-warning btn-sm" id="BtnMoveHome">메인페이지</button>
 					
 					<form role="form" id="frmSendValue">
 						<input type="hidden" name="pageNum" value="${boardPaging.pageNum }" >

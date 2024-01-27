@@ -7,19 +7,12 @@
 <c:set var="contextPath" value="${pageContext.request.contextPath }"/>
 
 <%@include file="../myinclude/myheader.jsp" %>  
-
-<div id="page-wrapper">
-    <div class="row">
-        <div class="col-lg-12">
-            <h3 class="page-header">ticket - detail</h3>
-        </div><%-- /.col-lg-12 --%>
-    </div><%-- /.row --%>
     
-    <div class="row">
-        <div class="col-lg-12">
+    <div class="row" style="display: flex; justify-content: center;">
+        <div class="col-lg-8">
             <div class="panel panel-default">
                 <div class="panel-heading">
-                	<h4>정기권 상세</h4>
+                	<h4>회원권 상세</h4>
 				</div><%-- /.panel-heading --%>
                 
                 <div class="panel-body">
@@ -39,9 +32,9 @@
 								   readonly="readonly"/>
 					</div>
 						
-					<button type="button" class="btn btn-default" id="BtnMoveModify">수정하기</button>
-					<button type="button" class="btn btn-default" id="BtnMoveBuy">구매하기</button>
-					<button type="button" class="btn btn-info" id="BtnMoveList">목록</button>
+					<button type="button" class="btn btn-primary btn-sm" id="BtnMoveModify">수정하기</button>
+					<button type="button" class="btn btn-primary btn-sm" id="BtnMoveBuy">구매하기</button>
+					<button type="button" class="btn btn-warning btn-sm" id="BtnMoveList">목록</button>
 
           </div><%-- /.panel-body --%>
             
@@ -49,8 +42,6 @@
     </div><%-- /.col-lg-12 --%>
 </div><%-- /.row --%>
   
-
-</div><%-- /#page-wrapper --%>
 
 <%-- Modal --%>
 <div class="modal fade" id="yourModal" tabindex="-1" role="dialog" aria-labelledby="yourModalLabel" aria-hidden="true">

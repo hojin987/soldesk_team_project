@@ -129,6 +129,7 @@ $(".btn-frmModify").on("click", function(e){
  			return ;
  
  		}
+ 	}
  
 if(operation == "modify"){ //게시물 수정 요청
 frmModify.attr("action", "${contextPath}/questionBoard/modify");
