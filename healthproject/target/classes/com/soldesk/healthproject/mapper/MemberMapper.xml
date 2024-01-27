@@ -33,7 +33,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<choose>
 			<when test="(beginDate != null and beginDate != '') and (endDate != null and endDate != '')">
 			 	member_register_date BETWEEN TO_DATE(#{beginDate}, 'YYYY-MM-DD')
-			 				 AND TO_DATE(#{endDate}, 'YYYY-MM-DD') AND
+			 				 AND TO_DATE(#{endDate}, 'YYYY-MM-DD')+1 AND
 			</when>
 		</choose>
 		<trim prefix="(" suffix=") AND" prefixOverrides="OR" >
@@ -73,7 +73,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			<choose>
 				<when test="(beginDate != null and beginDate != '') and (endDate != null and endDate != '')">
 					AND member_register_date BETWEEN TO_DATE(#{beginDate}, 'YYYY-MM-DD')
-				 		 		     AND TO_DATE(#{endDate}, 'YYYY-MM-DD')
+				 		 		     AND TO_DATE(#{endDate}, 'YYYY-MM-DD')+1
 				</when>
 			</choose>	 
 		</where>

@@ -25,7 +25,7 @@
 		<choose>
 			<when test="(beginDate != null and beginDate != '') and (endDate != null and endDate != '')">
 			 	qregister_date BETWEEN TO_DATE(#{beginDate}, 'YYYY-MM-DD')
-			 				 AND TO_DATE(#{endDate}, 'YYYY-MM-DD') AND
+			 				 AND TO_DATE(#{endDate}, 'YYYY-MM-DD')+1 AND
 			</when>
 		</choose>
 		<trim prefix="(" suffix=") AND" prefixOverrides="OR" >
@@ -67,7 +67,7 @@
 			<choose>
 				<when test="(beginDate != null and beginDate != '') and (endDate != null and endDate != '')">
 					AND qregister_date BETWEEN TO_DATE(#{beginDate}, 'YYYY-MM-DD')
-				 		 		     AND TO_DATE(#{endDate}, 'YYYY-MM-DD')
+				 		 		     AND TO_DATE(#{endDate}, 'YYYY-MM-DD')+1
 				</when>
 			</choose>	 
 		</where>
