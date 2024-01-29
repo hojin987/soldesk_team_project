@@ -1,7 +1,10 @@
 package com.soldesk.healthproject.controller;
 
 import java.security.Principal;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Locale;
+import java.util.Random;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,7 +17,6 @@ import com.soldesk.healthproject.common.paging.domain.BoardPagingDTO;
 import com.soldesk.healthproject.common.paging.domain.FreeBoardPagingCreatorDTO;
 import com.soldesk.healthproject.common.paging.domain.NoticeBoardPagingCreatorDTO;
 import com.soldesk.healthproject.service.FreeBoardService;
-import com.soldesk.healthproject.service.HomeService;
 import com.soldesk.healthproject.service.MemberService;
 import com.soldesk.healthproject.service.NoticeBoardService;
 import com.soldesk.healthproject.service.TicketService;
@@ -58,9 +60,11 @@ public class HomeController {
 		if(principal !=null && principal.getName() != null) {
 			model.addAttribute("member", memberService.getMember(principal.getName()));
 		}
-		
-		
-		return "myboard/main";
-	}
-	
+		List<String> images = Arrays.asList("img1.jpg", "img2.jpg", "img3.jpg");
+        Random rand = new Random();
+        String randomImage = images.get(rand.nextInt(images.size()));
+        model.addAttribute("randomImage", randomImage);
+
+        return "myboard/main";
+    }
 }

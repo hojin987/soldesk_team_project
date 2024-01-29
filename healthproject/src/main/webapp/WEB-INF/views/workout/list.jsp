@@ -15,7 +15,9 @@
 					<div class="row">
 						<div class="col-md-6" style="font-size:20px; height: 45px; padding-top:10px;">운동 목록</div>
 						<div class="col-md-6" style="padding-top:8px;">
-							<button type="button" id="btnToRegister" class="btn btn-primary btn-sm pull-right">운동 등록</button>
+							<sec:authorize access="hasAnyAuthority('ADMIN', 'TRAINER')">
+								<button type="button" id="btnToRegister" class="btn btn-primary btn-sm pull-right">운동 등록</button>
+							</sec:authorize>
 						</div>
 					</div>
 				</div><%-- /.panel-heading --%>
@@ -24,26 +26,37 @@
 	<table class="table table-bordered " 
 	       style="margin:0 auto; width: 100%; text-align: center;">
 	    <tbody>
-			<c:forEach items="${workoutList}" var="workout" varStatus="loop">
-		        <c:if test="${loop.index % 3 == 0}">
-		            <c:if test="${loop.index != 0}">
-		                </tr> <!-- 이전 행을 닫습니다 -->
-		            </c:if>
-		            <tr>
-		                <c:forEach begin="0" end="2" var="imageIndex">
-		                    <td style="font-size:20px">이미지</td>
-		                </c:forEach>
-		            </tr>
-		            <tr>
-		        </c:if>
-		
-		        <td class="moveDetail" data-workout_code="${workout.workout_code}" style="text-align:left;">
-		        [<c:out value="${workout.workout_target}" />] <c:out value="${workout.workout_name}"/></td>
-		
-		        <c:if test="${(loop.index + 1) % 3 == 0 or loop.last}">
-		            </tr> <!-- 행을 닫습니다 -->
-		        </c:if>
-		    </c:forEach>           
+<style>
+    .flex-container {
+        display: flex;
+        flex-wrap: wrap;
+    }
+    .flex-item {
+        flex: 1 0 25%;
+        box-sizing: border-box;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        border: 1px solid #cccccc; /* 셀 사이의 구분선 */
+    }
+    .image-container {
+        border: 1px solid #cccccc; /* 이미지 칸과 그 외를 나누는 선 */
+    }
+</style>
+
+<div class="flex-container">
+    <c:forEach items="${workoutList}" var="workout" varStatus="loop">
+        <div class="flex-item moveDetail" data-workout_code="${workout.workout_code}">
+            <div class="image-container" style="font-size:20px; text-align:center;">
+                <img src="${contextPath}/resources/images/${workout.workout_name}.jpg" style="height:200px;">
+            </div>
+            &nbsp; [<c:out value="${workout.workout_target}" />] <c:out value="${workout.workout_name}"/>
+        </div>
+        <c:if test="${(loop.index + 1) % 4 == 0}">
+            <div style="flex-basis: 100%; height: 0;"></div> <!-- 줄바꿈 -->
+        </c:if>
+    </c:forEach>
+</div>
 
                     </tbody>
                 </table><%-- /.table-responsive --%>
@@ -100,4 +113,4 @@ $(".moveDetail").on("click", function(){
 
 </script> 
 
-<%@include file="../myinclude/myfooter.jsp" %>    
+<%@include file="../myinclude/myfooter.jsp" %> 

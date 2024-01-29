@@ -2,6 +2,7 @@ package com.soldesk.healthproject.controller;
 
 import java.util.List;
 
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
@@ -33,6 +34,7 @@ public class MemberController {
 	}
 	
 	//회원 목록 조회
+//	@PreAuthorize("isAuthenticated() && principal.username == 'admin' ")
 	@GetMapping("/list")
 	public String showMemberList(Model model, BoardPagingDTO memberPaging) {
 		MemberPagingCreatorDTO pagingCreator = memberService.getMemberList(memberPaging);
@@ -65,6 +67,7 @@ public class MemberController {
 	}
 	
 	//강사 권한 부여
+//	@PreAuthorize("isAuthenticated() && principal.username == 'admin' ")
 	@PostMapping("/auth")
 	public String registerAuth(MemberVO member) {
 		
@@ -74,6 +77,7 @@ public class MemberController {
 	}
 	
 	//강사 권한 삭제
+//	@PreAuthorize("isAuthenticated() && principal.username == 'admin' ")
 	@PostMapping("/authcancel")
 	public String removeAuth(MemberVO member) {
 		
@@ -81,7 +85,6 @@ public class MemberController {
 		
 		return "redirect:/member/list";
 	}
-	
 	
 	//회원 수정페이지 호출
 	@GetMapping("/modify")
@@ -93,6 +96,7 @@ public class MemberController {
 	}
 	
 	//회원 수정 처리
+//	@PreAuthorize("isAuthenticated() && principal.username == #member.member_id ")
 	@PostMapping("/modify")
 	public String memberModify(MemberVO member, AuthorityVO authority) {
 		
@@ -111,6 +115,7 @@ public class MemberController {
 	}
 	
 	//회원 비밀번호수정 처리
+//	@PreAuthorize("isAuthenticated() && principal.username == #member.member_id ")
 	@PostMapping("/modifyPw")
 	public String memberPwModify(MemberVO member, @RequestParam("current_pw") String current_pw,
 												  @RequestParam("new_pw") String new_pw) {
@@ -121,6 +126,7 @@ public class MemberController {
 	}
 	
 	//회원 탈퇴(delete_flag = 'Y')
+//	@PreAuthorize("isAuthenticated() && principal.username == #member.member_id ")
 	@PostMapping("/delete")
 	public String deleteMember(String member_id) {
 		memberService.setMemberDelete(member_id);
@@ -129,6 +135,7 @@ public class MemberController {
 	}
 	
 	//회원 탈퇴 취소(delete_flag = 'N')
+//	@PreAuthorize("isAuthenticated() && principal.username == 'admin' ")
 	@PostMapping("/cancel")
 	public String cancelMember(String member_id) {
 		memberService.setMemberCancel(member_id);
@@ -137,6 +144,7 @@ public class MemberController {
 	}
 	
 	//회원 삭제(DB에서 삭제)
+//	@PreAuthorize("isAuthenticated() && principal.username == 'admin' ")
 	@PostMapping("/remove")
 	@Transactional
 	public String removeMember(String member_id, Model model, 
@@ -167,6 +175,7 @@ public class MemberController {
 		return "member/trainer";
 	}
 	
+//	@PreAuthorize("isAuthenticated() && hasAnyAuthority('TRAINER', 'ADMIN') ")
 	//강사 경력 등록페이지 호출
 	@GetMapping("/recordRegister")
 	public String showRecordRegisterPage() {
@@ -174,6 +183,7 @@ public class MemberController {
 	}
 	
 	//강사 경력 등록
+//	@PreAuthorize("isAuthenticated() && hasAnyAuthority('TRAINER', 'ADMIN') ")
 	@PostMapping("/recordRegister")
 	public String recordRegister(TrainerVO trainer) {
 		trainerService.registerRecord(trainer);
@@ -181,6 +191,7 @@ public class MemberController {
 	}
 	
 	//강사 경력 수정페이지 호출
+//	@PreAuthorize("isAuthenticated() && hasAnyAuthority('TRAINER', 'ADMIN') ")
 	@GetMapping("/recordModify")
 	public String showRecordModifyPage(@RequestParam("member_id") String member_id,
 									   Model model) {
@@ -191,6 +202,7 @@ public class MemberController {
 	}
 	
 	//강사 경력 수정
+//	@PreAuthorize("isAuthenticated() && hasAnyAuthority('TRAINER', 'ADMIN') ")
 	@PostMapping("/recordModify")
 	public String recordModify(TrainerVO frmModify) {
 		

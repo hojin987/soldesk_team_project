@@ -49,12 +49,14 @@ public class ApplyBoardController {
 	
 
 	//등록 페이지 호출 GET /applyBoard/register
+	@PreAuthorize("isAuthenticated()")
 	@GetMapping("/register")
 	public void showApplyBoardRegisterPage() {
 		System.out.println("컨트롤러 - 게시물 등록 페이지 호출");
 	}
 	
-	//등록 처리 POST /applyBoard/register 
+	//등록 처리 POST /applyBoard/register
+	@PreAuthorize("isAuthenticated()")
 	@PostMapping("/register")
 	public String registerNewApplyBoard(ApplyBoardVO applyBoard, RedirectAttributes redirectAttr) {
 		
@@ -77,7 +79,7 @@ public class ApplyBoardController {
 		return "redirect:/applyBoard/list";
 	}
 	
-	//특정 게시물 조회 GET /applyBoard/detail 
+	//특정 게시물 조회 GET /applyBoard/detail
 	@GetMapping("/detail")
 	public String showApplyBoardDetail(@RequestParam("apost_number") Long apost_number,
 									   BoardPagingDTO boardPaging,
@@ -88,7 +90,8 @@ public class ApplyBoardController {
 		return "applyBoard/detail";
 	}
 	
-	//특정 게시물 수정삭제 페이지 호출 GET /applyBoard/modify 
+	//특정 게시물 수정삭제 페이지 호출 GET /applyBoard/modify
+	@PreAuthorize("isAuthenticated()")
 	@GetMapping("/modify")
 	public String showApplyBoardModify(@RequestParam("apost_number") Long apost_number,
 			   Model model){
@@ -109,6 +112,7 @@ public class ApplyBoardController {
 	}
 	
 	//특정 게시물 삭제 POST /applyBoard/remove
+	@PreAuthorize("isAuthenticated() && (principal.username == #applyBoard.awriter || hasAuthority('ADMIN'))")
 	@PostMapping("/remove")
 	public String removeBoard(@RequestParam("apost_number") Long apost_number, 
 							   RedirectAttributes redirectAttr) {

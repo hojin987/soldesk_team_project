@@ -10,10 +10,10 @@
 <%@include file="../myinclude/myheader.jsp" %>  
 
     <div class="row" style="display: flex; justify-content: center;">
-        <div class="col-lg-8">
+        <div class="col-lg-6">
             <div class="panel panel-default">
                 <div class="panel-heading">
-                	<h4>운동정보 상세<c:out value="${workout.workout_target}"/></h4>
+                	<h4>운동정보 상세 [<c:out value="${workout.workout_target}"/>]</h4>
 				</div><%-- /.panel-heading --%>
                 
                 <div class="panel-body">
@@ -58,8 +58,9 @@
 							<input class="form-control" name="workout_warning" value='<c:out value="${workout.workout_warning}"/>'
 								   readonly="readonly"/>
 					</div>
-						
-					<button type="button" class="btn btn-primary btn-sm" id="BtnMoveModify" data-oper="modify">수정</button>
+					<sec:authorize access="hasAnyAuthority('TRAINER', 'ADMIN')">	
+						<button type="button" class="btn btn-primary btn-sm" id="BtnMoveModify" data-oper="modify">수정</button>
+					</sec:authorize>
 					<button type="button" class="btn btn-warning btn-sm" id="BtnMoveList" data-oper="list">목록</button>
 
           </div><%-- /.panel-body --%>

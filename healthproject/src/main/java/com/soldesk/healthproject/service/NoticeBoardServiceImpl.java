@@ -82,7 +82,7 @@ public class NoticeBoardServiceImpl implements NoticeBoardService {
 	//게시물 조회
 	@Override
 	public NoticeBoardVO getNoticeBoard(long npost_number) {
-//		noticeBoardMapper.updateNviewCount(npost_number);
+		noticeBoardMapper.updateNviewCount(npost_number);
 		return noticeBoardMapper.selectNoticeBoard(npost_number);
 	}
 	

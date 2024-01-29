@@ -517,7 +517,7 @@ $("#btnRegCmt").on("click", function(){
 	var txtBoxCmt = $(".txtBoxCmt").val() ;	
 	var reply = {qpost_number: qpost_number_value, qcomment: txtBoxCmt, qcomment_writer: loginUser } ;
 	
-	/* qcommentClsr.init(csrfTokenValue, csrfHeaderName) */
+	qcommentClsr.init(csrfTokenValue, csrfHeaderName)
 	
 	qcommentClsr.registerCmt(
 			reply,
@@ -571,8 +571,8 @@ $(".chat").on("click", ".commentLi div div .btnChgReplyReg" , function(){
 		  "<textarea class='form-control txtBoxReply' name='qcomment' style='margin-bottom:10px;'"
 		+ " 		 placeholder='답글작성을 원하시면, &#10;답글 작성 버튼을 클릭해주세요.'"
 		+ "			></textarea>"
-		+ "<button type='button' class='btn btn-warning btn-xs btnRegReply'>답글 등록</button>"
-		+ "<button type='button' class='btn btn-danger btn-xs btnCancelRegReply'"
+		+ "<button type='button' class='btn btn-primary btn-xs btnRegReply'>답글 등록</button>"
+		+ "<button type='button' class='btn btn-warning btn-xs btnCancelRegReply'"
 		+ " 	   style='margin-left:4px;'>취소</button>";
 
 	$(this).after(strTxtBoxReply);
@@ -602,7 +602,7 @@ $(".chat").on("click", ".commentLi .btnRegReply", function(){
 	
 	var reply = {qpost_number: qpost_number_value, qcomment: txtBoxReply, qcomment_writer: loginUser, qreply_number: qreply_number_value } ;
 	
-	/* qcommentClsr.init(csrfTokenValue, csrfHeaderName) */
+	qcommentClsr.init(csrfTokenValue, csrfHeaderName)
 	
 	qcommentClsr.registerReply(
 			reply,
@@ -662,9 +662,9 @@ $(".chat").on("click",".commentLi p", function(){
 	var strTxtBoxReply =
 		  "<textarea class='form-control txtBoxMod' name='qcomment' style='margin-bottom:10px;'"
 		+ "></textarea>"
-		+ "<button type='button' class='btn btn-warning btn-sm btnModCmt'>수정</button> "
-		+ "<button type='button' class='btn btn-danger btn-sm btnDelCmt'>삭제</button>"
-		+ "<button type='button' class='btn btn-info btn-sm btnCancelCmt' style='margin-left: 4px;'>취소</button>";
+		+ "<button type='button' class='btn btn-primary btn-sm btnModCmt'>수정</button> "
+		+ "<button type='button' class='btn btn-primary btn-sm btnDelCmt'>삭제</button>"
+		+ "<button type='button' class='btn btn-waning btn-sm btnCancelCmt' style='margin-left: 4px;'>취소</button>";
 	
 	$(this).after(strTxtBoxReply) ;
 	$(".txtBoxMod").val(qcomment);

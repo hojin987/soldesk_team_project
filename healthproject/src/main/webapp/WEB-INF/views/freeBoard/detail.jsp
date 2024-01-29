@@ -104,7 +104,7 @@
 						<span>&nbsp;</span>	
 						
 						<sec:authorize access="isAuthenticated()" >
-						<button type="button" id="btnChgCmtReg" class="btn btn-primary btn-sm">댓글 작성</button>	
+							<button type="button" id="btnChgCmtReg" class="btn btn-primary btn-sm">댓글 작성</button>	
 						</sec:authorize>	
 											
 						<button type="button" id="btnRegCmt" class="btn btn-primary btn-sm"
@@ -460,7 +460,7 @@ $("#btnRegCmt").on("click", function(){
 	var txtBoxCmt = $(".txtBoxCmt").val() ;		
 	var reply = {fpost_number: fpost_number_value, fcomment: txtBoxCmt, fcomment_writer: loginUser } ;
 	
-	/* fcommentClsr.init(csrfTokenValue, csrfHeaderName) */
+	fcommentClsr.init(csrfTokenValue, csrfHeaderName)
 	
 	fcommentClsr.registerCmt(
 			reply,
@@ -514,8 +514,8 @@ $(".chat").on("click", ".commentLi div div .btnChgReplyReg" , function(){
 		  "<textarea class='form-control txtBoxReply' name='fcomment' style='margin-bottom:10px;'"
 		+ " 		 placeholder='답글작성을 원하시면, &#10;답글 작성 버튼을 클릭해주세요.'"
 		+ "			></textarea>"
-		+ "<button type='button' class='btn btn-warning btn-xs btnRegReply'>답글 등록</button>"
-		+ "<button type='button' class='btn btn-danger btn-xs btnCancelRegReply'"
+		+ "<button type='button' class='btn btn-primary btn-xs btnRegReply'>답글 등록</button>"
+		+ "<button type='button' class='btn btn-warning btn-xs btnCancelRegReply'"
 		+ " 	   style='margin-left:4px;'>취소</button>";
 
 	$(this).after(strTxtBoxReply);
@@ -545,7 +545,7 @@ $(".chat").on("click", ".commentLi .btnRegReply", function(){
 	
 	var reply = {fpost_number: fpost_number_value, fcomment: txtBoxReply, fcomment_writer: loginUser, freply_number: freply_number_value } ;
 	
-/* 	fcommentClsr.init(csrfTokenValue, csrfHeaderName) */
+	fcommentClsr.init(csrfTokenValue, csrfHeaderName)
 	
 	fcommentClsr.registerReply(
 			reply,
@@ -605,9 +605,9 @@ $(".chat").on("click",".commentLi p", function(){
 	var strTxtBoxReply =
 		  "<textarea class='form-control txtBoxMod' name='fcomment' style='margin-bottom:10px;'"
 		+ "></textarea>"
-		+ "<button type='button' class='btn btn-warning btn-sm btnModCmt'>수정</button> "
-		+ "<button type='button' class='btn btn-danger btn-sm btnDelCmt'>삭제</button>"
-		+ "<button type='button' class='btn btn-info btn-sm btnCancelCmt' style='margin-left: 4px;'>취소</button>";
+		+ "<button type='button' class='btn btn-primary btn-sm btnModCmt'>수정</button> "
+		+ "<button type='button' class='btn btn-primary btn-sm btnDelCmt'>삭제</button>"
+		+ "<button type='button' class='btn btn-warning btn-sm btnCancelCmt' style='margin-left: 4px;'>취소</button>";
 	
 	$(this).after(strTxtBoxReply) ;
 	$(".txtBoxMod").val(fcomment);

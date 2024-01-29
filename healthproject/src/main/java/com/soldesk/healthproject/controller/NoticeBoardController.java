@@ -23,6 +23,7 @@ public class NoticeBoardController {
 		this.noticeBoardService = noticeBoardService;
 		System.out.println("NoticeBoardController의 모든 필드 초기화 생성자 입니다.");
 	}
+	
     //게시물 조회(페이징 고려)
 	@GetMapping("/list")
 	public String showBoardList(BoardPagingDTO noticeboardPaging,  
@@ -37,12 +38,14 @@ public class NoticeBoardController {
 	}
 	
 	//등록 페이지 호출 GET /noticeboard/register
+	@PreAuthorize("isAuthenticated()")
 	@GetMapping("/register")
 	public void showNoticeBoardRegisterPage() {
 		System.out.println("컨트롤러 - 게시물 등록 페이지 호출");
 	}
 	
 	//등록 처리 POST /noticeboard/register 
+	@PreAuthorize("isAuthenticated()")
 	@PostMapping("/register")
 	public String registerNewNoticeBoard(NoticeBoardVO noticeBoard, RedirectAttributes redirectAttr) {
 		long npost_number = noticeBoardService.registerNoticeBoard(noticeBoard);
@@ -64,7 +67,8 @@ public class NoticeBoardController {
 		return "noticeBoard/detail";
 	}
 	
-	//특정 게시물 수정삭제 페이지 호출 GET /myboard/modify 
+	//특정 게시물 수정삭제 페이지 호출 GET /myboard/modify
+	@PreAuthorize("isAuthenticated()")
 	@GetMapping("/modify")
 	public String showNoticeBoardModify(@RequestParam("npost_number") Long npost_number,
 			   Model model){
@@ -74,7 +78,7 @@ public class NoticeBoardController {
 	}
 	
 	//특정 게시물 수정 POST /myboard/modify
-	@PreAuthorize("isAuthenticated() && principal.username == #applyBoard.awriter")
+	@PreAuthorize("isAuthenticated() && principal.username == #noticeBoard.nwriter")
 	@PostMapping("/modify")
 	public String modifyNoticeBoard(NoticeBoardVO noticeBoard, RedirectAttributes redirectAttr) {
 		if(noticeBoardService.modifyNoticeBoard(noticeBoard)) {
@@ -85,6 +89,7 @@ public class NoticeBoardController {
 	}
 	
 	//특정 게시물 삭제 POST /myboard/remove
+	@PreAuthorize("isAuthenticated() && principal.username == #noticeBoard.nwriter")
 	@PostMapping("/remove")
 	public String removeBoard(@RequestParam("npost_number") Long npost_number, 
 							   RedirectAttributes redirectAttr) {

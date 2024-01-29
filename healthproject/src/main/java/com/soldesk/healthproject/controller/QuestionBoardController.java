@@ -41,12 +41,14 @@ public class QuestionBoardController {
 	
 
 	//등록 페이지 호출 GET /questionBoard/register
+	@PreAuthorize("isAuthenticated()")
 	@GetMapping("/register")
 	public void showQuestionBoardRegisterPage() {
 		System.out.println("컨트롤러 - 게시물 등록 페이지 호출");
 	}
 	
 	//등록 처리 POST /questionBoard/register 
+	@PreAuthorize("isAuthenticated()")
 	@PostMapping("/register")
 	public String registerNewQuestionBoard(QuestionBoardVO questionBoard, RedirectAttributes redirectAttr) {
 		long qpost_number = questionBoardService.registerQuestionBoard(questionBoard);
@@ -68,7 +70,8 @@ public class QuestionBoardController {
 		return "questionBoard/detail";
 	}
 	
-	//특정 게시물 수정삭제 페이지 호출 GET /questionBoard/modify 
+	//특정 게시물 수정삭제 페이지 호출 GET /questionBoard/modify
+	@PreAuthorize("isAuthenticated()")
 	@GetMapping("/modify")
 	public String showQuestionBoardModify(@RequestParam("qpost_number") Long qpost_number,
 			   Model model){
@@ -78,7 +81,7 @@ public class QuestionBoardController {
 	}
 	
 	//특정 게시물 수정 POST /questionBoard/modify
-	@PreAuthorize("isAuthenticated() && principal.username == #applyBoard.awriter")
+	@PreAuthorize("isAuthenticated() && principal.username == #questionBoard.qwriter")
 	@PostMapping("/modify")
 	public String modifyQuestionBoard(QuestionBoardVO questionBoard, RedirectAttributes redirectAttr) {
 		if(questionBoardService.modifyQuestionBoard(questionBoard)) {
@@ -89,6 +92,7 @@ public class QuestionBoardController {
 	}
 	
 	//특정 게시물 삭제 POST /questionBoard/remove
+	@PreAuthorize("isAuthenticated() && principal.username == #questionBoard.qwriter")
 	@PostMapping("/remove")
 	public String removeBoard(@RequestParam("qpost_number") Long qpost_number, 
 							   RedirectAttributes redirectAttr) {

@@ -28,12 +28,6 @@ public class QuestionCommentController {
 		this.questionCommentService = questionCommentService;
 	}
 	
-	//게시물에 대한 댓글 목록 조회	
-//	@GetMapping("/list") 
-//	public void showQuestionCommentList(Model model){
-//		model.addAttribute("questionCommentList", questionCommentService.getQuestionCommentList());
-//	}
-	
 	//게시물에 대한 댓글 목록 조회(페이징 고려)
 	@GetMapping(value= "/{qpost_number}/page/{pageNum}",
 				produces = {"application/json;charset=utf-8", "application/xml;charset=utf-8"})
@@ -51,11 +45,11 @@ public class QuestionCommentController {
 	}
 	
 	
-	//게시물에 대한 댓글 등록(qcomment_number 반환) POST 		/{qpost_number}/new
+	//게시물에 대한 댓글 등록(qcomment_number 반환) POST 
 	@PostMapping(value = "/{qpost_number}/new" , 
 				 consumes = {"application/json;charset=utf-8"} ,//consumes:브라우저--> 메서드로 전송한 데이터 유형
 				 produces = {"text/plain; charset=utf-8"} )		//produces:메서드--> 브라우저로 보내는 데이터 유형
-	//@PreAuthorize("isAuthenticated()")
+	@PreAuthorize("isAuthenticated()")
 	public ResponseEntity<String> registerQuestionCommentForQuestionBoard(@PathVariable("qpost_number") long qpost_number ,
 																  @RequestBody QuestionCommentVO qcomment) {
 		Long registered_qcomment_number = questionCommentService.registerQuestionCommentForQuestionBoard(qcomment);
@@ -74,11 +68,11 @@ public class QuestionCommentController {
 										  : new ResponseEntity<String>(_registered_qcomment_number, HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 	
-//댓글의 답글 등록(qcomment_number 반환) POST 	/{qpost_number}/new
+	//댓글의 답글 등록(qcomment_number 반환) POST 	/{qpost_number}/new
 	@PostMapping(value = "/{qpost_number}/{qcomment_number}/new" , 
 				 consumes = {"application/json;charset=utf-8"} ,//consumes:브라우저--> 메서드로 전송한 데이터 유형
 				 produces = {"text/plain; charset=utf-8"} )		//produces:메서드--> 브라우저로 보내는 데이터 유형
-	//@PreAuthorize("isAuthenticated()")
+	@PreAuthorize("isAuthenticated()")
 	public ResponseEntity<String> registerQuestionCommentForQuestionComment(@PathVariable("qpost_number") long qpost_number ,
 														@PathVariable("qcomment_number") long qcomment_number,
 													    @RequestBody QuestionCommentVO qcomment) {
@@ -98,7 +92,7 @@ public class QuestionCommentController {
 								 	  : new ResponseEntity<String>(_registered_qcomment_number, HttpStatus.INTERNAL_SERVER_ERROR);
 }
 	
-//게시물에 대한 특정 댓글 조회 GET 	
+	//게시물에 대한 특정 댓글 조회 GET 	
 	@GetMapping(value="/{qpost_number}/{qcomment_number}" , 
 				produces = "application/json;charset=utf-8")
 	public QuestionCommentVO showQuestionComment(@PathVariable("qpost_number") Long qpost_number,
@@ -108,13 +102,13 @@ public class QuestionCommentController {
 	}
 	
 
-//게시물에 대한 특정 댓글 수정 PUT 또는 PATCH 		/{qpost_number}/{qcomment_number}
+	//게시물에 대한 특정 댓글 수정 PUT 또는 PATCH 		/{qpost_number}/{qcomment_number}
 	//Ajax에서의 요청 URI:
 	@RequestMapping(value="/{qpost_number}/{qcomment_number}" , 
 					method = {RequestMethod.PUT, RequestMethod.PATCH} ,
 					consumes = "application/json;charset=utf-8" ,
 					produces = "text/plain;charset=utf-8") 
-//	@PreAuthorize("isAuthenticated() && principal.username == #questionComment.qcomment_writer")
+	@PreAuthorize("isAuthenticated() && principal.username == #questionComment.qcomment_writer")
 	public String modifyQuestionComment(@PathVariable("qpost_number") Long qpost_number ,
 							  @PathVariable("qcomment_number") Long qcomment_number ,
 							  @RequestBody QuestionCommentVO qcomment){
@@ -132,7 +126,7 @@ public class QuestionCommentController {
 	@DeleteMapping(value = "/{qpost_number}/{qcomment_number}" ,
 				   consumes = "application/json; charset=utf-8",
 				   produces = "text/plain;charset=utf-8")
-//	@PreAuthorize("isAuthenticated() && principal.username == #questionComment.qcomment_writer")
+	@PreAuthorize("isAuthenticated() && principal.username == #questionComment.qcomment_writer")
 	public ResponseEntity<String> removeQuestionComment(@PathVariable("qpost_number") Long qpost_number, 
 											  		@PathVariable("qcomment_number") Long qcomment_number,
 											  		@RequestBody QuestionCommentVO qcomment) {
@@ -143,7 +137,7 @@ public class QuestionCommentController {
 	}
 	
 	
-//특정 게시물에 대한 모든 댓글 삭제: 삭제 행수가 반환됨
+	//특정 게시물에 대한 모든 댓글 삭제: 삭제 행수가 반환됨
 	@DeleteMapping(value = "/{qpost_number}" , produces = "text/plain;charset=utf-8")
 	public ResponseEntity<String> removeAllQuestionComment(@PathVariable("qpost_number") Long qpost_number){
 		

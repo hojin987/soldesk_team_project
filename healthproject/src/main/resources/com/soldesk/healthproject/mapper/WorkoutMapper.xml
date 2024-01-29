@@ -8,14 +8,15 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<select id="selectWorkoutList" resultType="com.soldesk.healthproject.domain.WorkoutVO">
 		SELECT workout_code, workout_name, workout_content, workout_target, workout_warning, workout_media_url
 		FROM project_health.workout
+		ORDER BY TO_NUMBER(SUBSTR(workout_code, 5)) ASC
 	</select>
 	
 	<!-- 특정 운동 조회 -->
-<select id="selectWorkout" parameterType="java.lang.String" resultType="com.soldesk.healthproject.domain.WorkoutVO">
-    SELECT workout_code, workout_name, workout_content, workout_target, workout_warning, workout_media_url
-    FROM project_health.workout
-    WHERE workout_code = #{workout_code}
-</select>
+	<select id="selectWorkout" parameterType="java.lang.String" resultType="com.soldesk.healthproject.domain.WorkoutVO">
+	    SELECT workout_code, workout_name, workout_content, workout_target, workout_warning, workout_media_url
+	    FROM project_health.workout
+	    WHERE workout_code = #{workout_code}
+	</select>
 
 	
 	<!-- 운동 등록 -->

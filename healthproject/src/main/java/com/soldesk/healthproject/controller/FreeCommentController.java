@@ -28,12 +28,6 @@ public class FreeCommentController {
 		this.freeCommentService = freeCommentService;
 	}
 	
-	//게시물에 대한 댓글 목록 조회	
-//	@GetMapping("/list") 
-//	public void showFreeCommentList(Model model){
-//		model.addAttribute("freeCommentList", freeCommentService.getFreeCommentList());
-//	}
-	
 	//게시물에 대한 댓글 목록 조회(페이징 고려)
 	@GetMapping(value= "/{fpost_number}/page/{pageNum}",
 				produces = {"application/json;charset=utf-8", "application/xml;charset=utf-8"})
@@ -55,7 +49,7 @@ public class FreeCommentController {
 	@PostMapping(value = "/{fpost_number}/new" , 
 				 consumes = {"application/json;charset=utf-8"} ,//consumes:브라우저--> 메서드로 전송한 데이터 유형
 				 produces = {"text/plain; charset=utf-8"} )		//produces:메서드--> 브라우저로 보내는 데이터 유형
-	//@PreAuthorize("isAuthenticated()")
+	@PreAuthorize("isAuthenticated()")
 	public ResponseEntity<String> registerFreeCommentForFreeBoard(@PathVariable("fpost_number") long fpost_number ,
 																  @RequestBody FreeCommentVO fcomment) {
 		Long registered_fcomment_number = freeCommentService.registerFreeCommentForFreeBoard(fcomment);
@@ -78,7 +72,7 @@ public class FreeCommentController {
 	@PostMapping(value = "/{fpost_number}/{fcomment_number}/new" , 
 				 consumes = {"application/json;charset=utf-8"} ,//consumes:브라우저--> 메서드로 전송한 데이터 유형
 				 produces = {"text/plain; charset=utf-8"} )		//produces:메서드--> 브라우저로 보내는 데이터 유형
-	//@PreAuthorize("isAuthenticated()")
+	@PreAuthorize("isAuthenticated()")
 	public ResponseEntity<String> registerFreeCommentForFreeComment(@PathVariable("fpost_number") long fpost_number ,
 														@PathVariable("fcomment_number") long fcomment_number,
 													    @RequestBody FreeCommentVO fcomment) {
@@ -114,7 +108,7 @@ public class FreeCommentController {
 					method = {RequestMethod.PUT, RequestMethod.PATCH} ,
 					consumes = "application/json;charset=utf-8" ,
 					produces = "text/plain;charset=utf-8") 
-//	@PreAuthorize("isAuthenticated() && principal.username == #freeComment.fcomment_writer")
+	@PreAuthorize("isAuthenticated() && principal.username == #freeComment.fcomment_writer")
 	public String modifyFreeComment(@PathVariable("fpost_number") Long fpost_number ,
 							  @PathVariable("fcomment_number") Long fcomment_number ,
 							  @RequestBody FreeCommentVO fcomment){
@@ -132,7 +126,7 @@ public class FreeCommentController {
 	@DeleteMapping(value = "/{fpost_number}/{fcomment_number}" ,
 				   consumes = "application/json; charset=utf-8",
 				   produces = "text/plain;charset=utf-8")
-//	@PreAuthorize("isAuthenticated() && principal.username == #freeComment.fcomment_writer")
+	@PreAuthorize("isAuthenticated() && principal.username == #freeComment.fcomment_writer")
 	public ResponseEntity<String> removeFreeComment(@PathVariable("fpost_number") Long fpost_number, 
 											  		@PathVariable("fcomment_number") Long fcomment_number,
 											  		@RequestBody FreeCommentVO fcomment) {

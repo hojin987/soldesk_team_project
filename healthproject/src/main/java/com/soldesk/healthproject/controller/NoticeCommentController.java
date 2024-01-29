@@ -28,12 +28,6 @@ public class NoticeCommentController {
 		this.noticeCommentService = noticeCommentService;
 	}
 	
-	//게시물에 대한 댓글 목록 조회	
-//	@GetMapping("/list") 
-//	public void showNoticeCommentList(Model model){
-//		model.addAttribute("noticeCommentList", noticeCommentService.getNoticeCommentList());
-//	}
-	
 	//게시물에 대한 댓글 목록 조회(페이징 고려)
 	@GetMapping(value= "/{npost_number}/page/{pageNum}",
 				produces = {"application/json;charset=utf-8", "application/xml;charset=utf-8"})
@@ -50,12 +44,10 @@ public class NoticeCommentController {
 		return noticeResponseEntity;
 	}
 	
-	
-	//게시물에 대한 댓글 등록(ncomment_number 반환) POST 		/{npost_number}/new
 	@PostMapping(value = "/{npost_number}/new" , 
 				 consumes = {"application/json;charset=utf-8"} ,//consumes:브라우저--> 메서드로 전송한 데이터 유형
 				 produces = {"text/plain; charset=utf-8"} )		//produces:메서드--> 브라우저로 보내는 데이터 유형
-	//@PreAuthorize("isAuthenticated()")
+	@PreAuthorize("isAuthenticated()")
 	public ResponseEntity<String> registerNoticeCommentForNoticeBoard(@PathVariable("npost_number") long npost_number ,
 																  @RequestBody NoticeCommentVO ncomment) {
 		Long registered_ncomment_number = noticeCommentService.registerNoticeCommentForNoticeBoard(ncomment);
@@ -74,11 +66,11 @@ public class NoticeCommentController {
 										  : new ResponseEntity<String>(_registered_ncomment_number, HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 	
-//댓글의 답글 등록(ncomment_number 반환) POST 	/{npost_number}/new
+	//댓글의 답글 등록(ncomment_number 반환) POST
 	@PostMapping(value = "/{npost_number}/{ncomment_number}/new" , 
 				 consumes = {"application/json;charset=utf-8"} ,//consumes:브라우저--> 메서드로 전송한 데이터 유형
 				 produces = {"text/plain; charset=utf-8"} )		//produces:메서드--> 브라우저로 보내는 데이터 유형
-	//@PreAuthorize("isAuthenticated()")
+	@PreAuthorize("isAuthenticated()")
 	public ResponseEntity<String> registerNoticeCommentForNoticeComment(@PathVariable("npost_number") long npost_number ,
 														@PathVariable("ncomment_number") long ncomment_number,
 													    @RequestBody NoticeCommentVO ncomment) {
@@ -98,7 +90,7 @@ public class NoticeCommentController {
 								 	  : new ResponseEntity<String>(_registered_ncomment_number, HttpStatus.INTERNAL_SERVER_ERROR);
 }
 	
-//게시물에 대한 특정 댓글 조회 GET 	
+	//게시물에 대한 특정 댓글 조회 GET 	
 	@GetMapping(value="/{npost_number}/{ncomment_number}" , 
 				produces = "application/json;charset=utf-8")
 	public NoticeCommentVO showNoticeComment(@PathVariable("npost_number") Long npost_number,
@@ -108,13 +100,13 @@ public class NoticeCommentController {
 	}
 	
 
-//게시물에 대한 특정 댓글 수정 PUT 또는 PATCH 		/{npost_number}/{ncomment_number}
+	//게시물에 대한 특정 댓글 수정 PUT 또는 PATCH 		/{npost_number}/{ncomment_number}
 	//Ajax에서의 요청 URI:
 	@RequestMapping(value="/{npost_number}/{ncomment_number}" , 
 					method = {RequestMethod.PUT, RequestMethod.PATCH} ,
 					consumes = "application/json;charset=utf-8" ,
 					produces = "text/plain;charset=utf-8") 
-	//@PreAuthorize("isAuthenticated() && principal.username == #noticeComment.ncomment_writer")
+	@PreAuthorize("isAuthenticated() && principal.username == #noticeComment.ncomment_writer")
 	public String modifyNoticeComment(@PathVariable("npost_number") Long npost_number ,
 							  @PathVariable("ncomment_number") Long ncomment_number ,
 							  @RequestBody NoticeCommentVO ncomment){
@@ -132,7 +124,7 @@ public class NoticeCommentController {
 	@DeleteMapping(value = "/{npost_number}/{ncomment_number}" ,
 				   consumes = "application/json; charset=utf-8",
 				   produces = "text/plain;charset=utf-8")
-	//@PreAuthorize("isAuthenticated() && principal.username == #noticeComment.ncomment_writer")
+	@PreAuthorize("isAuthenticated() && principal.username == #noticeComment.ncomment_writer")
 	public ResponseEntity<String> removeNoticeComment(@PathVariable("npost_number") Long npost_number, 
 											  		@PathVariable("ncomment_number") Long ncomment_number,
 											  		@RequestBody NoticeCommentVO ncomment) {
@@ -143,7 +135,7 @@ public class NoticeCommentController {
 	}
 	
 	
-//특정 게시물에 대한 모든 댓글 삭제: 삭제 행수가 반환됨
+	//특정 게시물에 대한 모든 댓글 삭제: 삭제 행수가 반환됨
 	@DeleteMapping(value = "/{npost_number}" , produces = "text/plain;charset=utf-8")
 	public ResponseEntity<String> removeAllNoticeComment(@PathVariable("npost_number") Long npost_number){
 		

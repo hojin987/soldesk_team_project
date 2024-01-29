@@ -195,45 +195,50 @@
                 <!-- /.col-lg-5 -->
                 
                 <div class="col-lg-5">
-                    <div class="panel panel-default">
-                        <div class="panel-heading">
-                            오늘의 추천운동
-                            <button type="button" style="float:right" onclick="location.href='${contextPath}/workout/list'">+</button>
-                        </div>
-                        <!-- /.panel-heading -->
-                        <div class="panel-body">
-                            <div class="table-responsive">
-                                <table class="table table-striped">
-                                    <thead>
-                                   	<c:choose>
-					     			<c:when test="${principal eq 'anonymousUser'}">
-					     				<tr>
-				     						<th>목표를 설정해보세요</th>
-				     					</tr>
-					     			</c:when>
-					     			<c:otherwise>
-									    <tr>
-									        <th colspan="3">${principal.username}님의 ${member.member_goal}를 응원합니다.</th>
-									    </tr>
-									    <c:forEach items="${workoutList}" var="workout" varStatus="loop">
-									        <c:if test="${workout.workout_target eq member.member_goal}">
-									            <td class="moveDetail" data-workout_code="${workout.workout_code}" style="text-align:left;">
-									        	[<c:out value="${workout.workout_target}" />] <c:out value="${workout.workout_name}"/></td>
-									        </c:if>
-									    </c:forEach>
-									</c:otherwise>
-					    			</c:choose>
-                                        
-                                    </thead>
-                                </table>
-                            </div>
-                            <!-- /.table-responsive -->
-                        </div>
-                        <!-- /.panel-body -->
-                    </div>
-                    <!-- /.panel -->
+    <div class="panel panel-default">
+        <!-- /.panel-heading -->
+        <c:choose>
+            <c:when test="${principal eq 'anonymousUser'}">
+                <!-- 비로그인시 띄울 부분 -->
+                <div class="panel-heading">
+                    동기부여 바디프로필
                 </div>
-                <!-- /.col-lg-4 -->
+                <div class="panel-body">
+    <img src="${contextPath}/resources/images/${randomImage}" alt="...">
+</div>
+
+            </c:when>
+            <c:otherwise>
+                <div class="panel-heading">
+                    오늘의 추천운동
+                    <button type="button" style="float:right" onclick="location.href='${contextPath}/workout/list'">+</button>
+                </div>
+                <div class="panel-body">
+                    <div class="table-responsive">
+                        <table class="table table-striped">
+                            <thead>
+                            <tr>
+                                <th colspan="3">${principal.username}님의 ${member.member_goal}를 응원합니다.</th>
+                            </tr>
+                            <c:forEach items="${workoutList}" var="workout" varStatus="loop">
+                                <c:if test="${workout.workout_target eq member.member_goal}">
+                                    <td class="moveDetail" data-workout_code="${workout.workout_code}" style="text-align:left;">
+                                    [<c:out value="${workout.workout_target}" />] <c:out value="${workout.workout_name}"/></td>
+                                </c:if>
+                            </c:forEach>
+                            </thead>
+                        </table>
+                    </div>
+                    <!-- /.table-responsive -->
+                </div>
+            </c:otherwise>
+        </c:choose>
+        <!-- /.panel-body -->
+    </div>
+    <!-- /.panel -->
+</div>
+<!-- /.col-lg-4 -->
+
             </div>
 
 
@@ -285,4 +290,4 @@ $(".moveProductDetail").on("click", function(){
 </script>
 
 
-<%@include file="../myinclude/myfooter.jsp" %>    
+<%@include file="../myinclude/myfooter.jsp" %> 

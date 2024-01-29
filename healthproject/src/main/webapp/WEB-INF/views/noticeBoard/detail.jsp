@@ -104,10 +104,10 @@
 						<span>&nbsp;</span>	
 						
 						<sec:authorize access="isAuthenticated()" >	
-							<button type="button" id="btnChgCmtReg" class="btn btn-info btn-sm">댓글 작성</button>	
+							<button type="button" id="btnChgCmtReg" class="btn btn-primary btn-sm">댓글 작성</button>	
 						</sec:authorize>	
 											
-							<button type="button" id="btnRegCmt" class="btn btn-warning btn-sm"
+							<button type="button" id="btnRegCmt" class="btn btn-primary btn-sm"
 								style="display:none">댓글 등록</button>
 							<button type="button" id="btnCancelRegCmt" class="btn btn-warning btn-sm"
 								style="display:none">취소</button>&nbsp;&nbsp;&nbsp;
@@ -144,7 +144,7 @@
 					<button type="button" style="display:in-block"
 							class="btn btn-primary btn-xs btnChgReg">답글 작성</button>
 					<button type="button" style="display:none"
-							class="btn btn-warning btn-xs btnRegCmt">답글 등록</button>
+							class="btn btn-primary btn-xs btnRegCmt">답글 등록</button>
 					<hr class="txtBoxCmtHr" style="margin-top:10px; margin-bottom:10px">
 					<textarea class="form-control txtBoxCmtMod" name="ncomment" 
 							  style="margin-bottom:10px"
@@ -539,7 +539,7 @@ $("#btnRegCmt").on("click", function(){
 	var txtBoxCmt = $(".txtBoxCmt").val() ;
 	var reply = {npost_number: npost_number_value, ncomment: txtBoxCmt, ncomment_writer: loginUser } ;
 	
-	/* ncommentClsr.init(csrfTokenValue, csrfHeaderName) */
+	ncommentClsr.init(csrfTokenValue, csrfHeaderName)
 	
 	ncommentClsr.registerCmt(
 			reply,
@@ -593,8 +593,8 @@ $(".chat").on("click", ".commentLi div div .btnChgReplyReg" , function(){
 		  "<textarea class='form-control txtBoxReply' name='ncomment' style='margin-bottom:10px;'"
 		+ " 		 placeholder='답글작성을 원하시면, &#10;답글 작성 버튼을 클릭해주세요.'"
 		+ "			></textarea>"
-		+ "<button type='button' class='btn btn-warning btn-xs btnRegReply'>답글 등록</button>"
-		+ "<button type='button' class='btn btn-danger btn-xs btnCancelRegReply'"
+		+ "<button type='button' class='btn btn-primary btn-xs btnRegReply'>답글 등록</button>"
+		+ "<button type='button' class='btn btn-warning btn-xs btnCancelRegReply'"
 		+ " 	   style='margin-left:4px;'>취소</button>";
 
 	$(this).after(strTxtBoxReply);
@@ -623,7 +623,7 @@ $(".chat").on("click", ".commentLi .btnRegReply", function(){
 	
 	var reply = {npost_number: npost_number_value, ncomment: txtBoxReply, ncomment_writer: loginUser, nreply_number: nreply_number_value } ;
 	
-	/* ncommentClsr.init(csrfTokenValue, csrfHeaderName) */
+	ncommentClsr.init(csrfTokenValue, csrfHeaderName)
 	
 	ncommentClsr.registerReply(
 			reply,
@@ -682,9 +682,9 @@ $(".chat").on("click",".commentLi p", function(){
 	var strTxtBoxReply =
 		  "<textarea class='form-control txtBoxMod' name='ncomment' style='margin-bottom:10px;'"
 		+ "></textarea>"
-		+ "<button type='button' class='btn btn-warning btn-sm btnModCmt'>수정</button> "
-		+ "<button type='button' class='btn btn-danger btn-sm btnDelCmt'>삭제</button>"
-		+ "<button type='button' class='btn btn-info btn-sm btnCancelCmt' style='margin-left: 4px;'>취소</button>";
+		+ "<button type='button' class='btn btn-primary btn-sm btnModCmt'>수정</button> "
+		+ "<button type='button' class='btn btn-primary btn-sm btnDelCmt'>삭제</button>"
+		+ "<button type='button' class='btn btn-warning btn-sm btnCancelCmt' style='margin-left: 4px;'>취소</button>";
 	
 	$(this).after(strTxtBoxReply) ;
 	$(".txtBoxMod").val(ncomment);

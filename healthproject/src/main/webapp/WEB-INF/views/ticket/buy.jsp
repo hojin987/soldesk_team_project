@@ -8,18 +8,11 @@
 
 <%@include file="../myinclude/myheader.jsp" %>  
 
-<div id="page-wrapper">
-    <div class="row">
-        <div class="col-lg-12">
-            <h3 class="page-header">Ticket - buy</h3>
-        </div><%-- /.col-lg-12 --%>
-    </div><%-- /.row --%>
-    
-    <div class="row">
-        <div class="col-lg-12">
+    <div class="row" style="display: flex; justify-content: center;">
+        <div class="col-lg-6">
             <div class="panel panel-default">
                 <div class="panel-heading">
-                	<h4>회원권 수정-삭제</h4>
+                	<h4>회원권 구매</h4>
 				</div><%-- /.panel-heading --%>
 				<form role="form" method="post" name="frmModify" id="frmModify">                
                 <div class="panel-body">
@@ -49,17 +42,14 @@
 							<input class="form-control" name="ticket_price" value='<c:out value="${ticket.ticket_price}"/>' readonly/>
 					</div>
 					<sec:csrfInput/>
-					<button type="button" class="btn btn-default" id="btnModify" data-oper="buy">구매하기</button>
- 					<button type="button" class="btn btn-info" id="btnList" data-oper="list">취소</button>
+					<button type="button" class="btn btn-primary btn-sm" id="btnModify" data-oper="buy">구매하기</button>
+ 					<button type="button" class="btn btn-warning btn-sm" id="btnList" data-oper="list">취소</button>
 		  
 				</div><%-- /.panel-body --%>
 				</form>  
         </div><%-- /.panel --%>
     </div><%-- /.col-lg-12 --%>
 </div><%-- /.row --%>
-  
-
-</div><%-- /#page-wrapper --%>
 
 <%-- Modal --%>
 <div class="modal fade" id="yourModal" tabindex="-1" role="dialog" aria-labelledby="yourModalLabel" aria-hidden="true">

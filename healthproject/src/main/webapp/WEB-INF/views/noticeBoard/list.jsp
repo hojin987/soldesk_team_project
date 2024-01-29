@@ -24,7 +24,7 @@ https://startbootstrap.com/
 					<div class="row">
 						<div class="col-md-6" style="font-size:20px; height: 45px; padding-top:10px;">공지사항</div>
 						<div class="col-md-6" style="padding-top:8px;">
-							<sec:authorize access="hasAuthority('ADMIN', 'TRAINER')">
+							<sec:authorize access="hasAnyAuthority('ADMIN','TRAINER')">
 								<button type="button" id="btnToRegister" class="btn btn-primary btn-sm pull-right">새글 등록</button>
 							</sec:authorize>
 						</div>

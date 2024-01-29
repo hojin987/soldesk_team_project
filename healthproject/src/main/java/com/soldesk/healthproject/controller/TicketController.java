@@ -1,5 +1,6 @@
 package com.soldesk.healthproject.controller;
 
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -39,10 +40,12 @@ public class TicketController {
 	}
 	
 	//회원권 등록페이지 호출 GET
+//	@PreAuthorize("isAuthenticated() && hasAnyAuthority('TRAINER', 'ADMIN') ")
 	@GetMapping("/register")
 	public void showTicketRegister() {
 	}
 	
+//	@PreAuthorize("isAuthenticated() && hasAnyAuthority('TRAINER', 'ADMIN') ")
 	//회원권 등록 POST
 	@PostMapping("/register")
 	public String registerTicket(TicketVO ticket, RedirectAttributes redirectAttr) {
@@ -55,6 +58,7 @@ public class TicketController {
 	}
 	
 	//회원권 구매 페이지 이동 GET
+	@PreAuthorize("isAuthenticated()")
 	@GetMapping("/buy")
 	public String showTicketBuy(@RequestParam("ticket_number") String ticket_number,
 			   Model model) {
@@ -64,6 +68,7 @@ public class TicketController {
 	}
 	
 	//회원권 구매 POST
+	@PreAuthorize("isAuthenticated()")
 	@PostMapping("/buy")
 	public String buyTicket(MemberVO member, RedirectAttributes redirectAttr) {
 		
@@ -73,6 +78,7 @@ public class TicketController {
 	}
 	
 	//회원권 수정-삭제 페이지 호출 GET
+//	@PreAuthorize("isAuthenticated() && hasAnyAuthority('TRAINER', 'ADMIN') ")
 	@GetMapping("/modify")
 	public String showTicketModify(@RequestParam("ticket_number") String ticket_number,
 								   Model model) {
@@ -82,6 +88,7 @@ public class TicketController {
 	}
 	
 	//회원권 수정 POST
+//	@PreAuthorize("isAuthenticated() && hasAnyAuthority('TRAINER', 'ADMIN') ")
 	@PostMapping("/modify")
 	public String modifyTicket(TicketVO ticket, RedirectAttributes redirectAttr) {
 		ticketService.modifyTicket(ticket);
@@ -90,6 +97,7 @@ public class TicketController {
 	}
 	
 	//회원권 삭제 POST
+//	@PreAuthorize("isAuthenticated() && hasAnyAuthority('TRAINER', 'ADMIN') ")
 	@PostMapping("/remove")
 	public String removeTicket(@RequestParam("ticket_number") String ticket_number, 
 								RedirectAttributes redirectAttr) {

@@ -26,7 +26,9 @@ https://startbootstrap.com/
 				<div class="row">
 					<div class="col-md-6" style="font-size:20px; height: 45px; padding-top:10px;">1:1 문의</div>
 					<div class="col-md-6" style="padding-top:8px;">
-						<button type="button" id="btnToRegister" class="btn btn-primary btn-sm pull-right">새글 등록</button>
+						<sec:authorize access="hasAnyAuthority('ROLE_USER', 'ADMIN','TRAINER')">
+							<button type="button" id="btnToRegister" class="btn btn-primary btn-sm pull-right">새글 등록</button>
+						</sec:authorize>
 					</div>
 				</div>
 			</div><%-- /.panel-heading --%>

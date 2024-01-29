@@ -38,12 +38,14 @@ public class FreeBoardController {
 	}
 
 	//등록 페이지 호출 GET /freeBoard/register
+	@PreAuthorize("isAuthenticated()")
 	@GetMapping("/register")
 	public void showFreeBoardRegisterPage() {
 		System.out.println("컨트롤러 - 게시물 등록 페이지 호출");
 	}
 	
 	//등록 처리 POST /freeBoard/register 
+	@PreAuthorize("isAuthenticated()")
 	@PostMapping("/register")
 	public String registerNewFreeBoard(FreeBoardVO freeBoard, RedirectAttributes redirectAttr) {
 		long fpost_number = freeBoardService.registerFreeBoard(freeBoard);
@@ -66,6 +68,7 @@ public class FreeBoardController {
 	}
 	
 	//특정 게시물 수정삭제 페이지 호출 GET /freeBoard/modify 
+	@PreAuthorize("isAuthenticated()")
 	@GetMapping("/modify")
 	public String showFreeBoardModify(@RequestParam("fpost_number") Long fpost_number,
 			   Model model){
@@ -75,7 +78,7 @@ public class FreeBoardController {
 	}
 	
 	//특정 게시물 수정 POST /freeBoard/modify
-	@PreAuthorize("isAuthenticated() && principal.username == #applyBoard.awriter")
+	@PreAuthorize("isAuthenticated() && principal.username == #freeBoard.fwriter")
 	@PostMapping("/modify")
 	public String modifyFreeBoard(FreeBoardVO freeBoard, RedirectAttributes redirectAttr) {
 		if(freeBoardService.modifyFreeBoard(freeBoard)) {
@@ -86,6 +89,7 @@ public class FreeBoardController {
 	}
 	
 	//특정 게시물 삭제 POST /freeBoard/remove
+	@PreAuthorize("isAuthenticated() && principal.username == #freeBoard.fwriter")
 	@PostMapping("/remove")
 	public String removeBoard(@RequestParam("fpost_number") Long fpost_number, 
 							   RedirectAttributes redirectAttr) {
