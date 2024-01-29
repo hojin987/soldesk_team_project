@@ -72,7 +72,9 @@
 	<link rel="shortcut icon" href="data:image/x-icon;," type="image/x-icon"> -->
 	
 	<style>
-		a { font-size: 10px;}
+		a { font-size: 15px;
+			text-decoration: none; /* 링크의 밑줄 제거 */
+		    color: black; /* 링크 색상 지정 */;}
 		 
 		.horizontal-menu {
 		    display: flex; /* Flexbox를 사용하여 가로로 정렬 */
@@ -100,7 +102,7 @@
                 <div class="row">
                     <div class="col-md-3 col-sm-6 col-xs-6">
                         <div class="logo">
-                            <a href="index.html"><!-- <img src="images/logo.png" alt=""> --></a>
+                            <a href="${contextPath}/"><img src="${contextPath}/resources/images/logo.jpg" alt="" style="height:60px;'"></a>
                         </div>
                     </div>
                     <div class="col-md-9 col-sm-12">
@@ -131,8 +133,11 @@
      								<c:otherwise>
 	     								${principal.username}님, 반갑습니다.<a href="${contextPath}/member/detail?member_id=${principal.username}">내 정보 확인하기</a></li>
 					     				<li><br>&nbsp;&nbsp;
-					     				<button type="button"; style="padding-top: 0.25rem; padding-bottom: 0.25rem; padding-left: 0.5rem; padding-right: 0.5rem; font-size: 1.00rem;" 
-			     								class="btn btn-secondary btn-sm pull-right" onclick="location.href='${contextPath}/myLogout'">로그아웃</button>
+					     				<form role="form" id="frmMyLogout" method="post" action="${contextPath }/myLogoutProcess">
+						     				<input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }"/>
+						     				<button type="submit"; style="padding-top: 0.25rem; padding-bottom: 0.25rem; padding-left: 0.5rem; padding-right: 0.5rem; font-size: 1.00rem;" 
+				     								class="btn btn-secondary btn-sm pull-right">로그아웃</button>
+					     				</form>
 					     			</c:otherwise>
 				    			</c:choose>
 				    			</li>

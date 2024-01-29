@@ -3,6 +3,7 @@
 
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 
 <c:set var="contextPath" value="${pageContext.request.contextPath }"/>
 
@@ -203,9 +204,9 @@
                 <div class="panel-heading">
                     동기부여 바디프로필
                 </div>
-                <div class="panel-body">
-    <img src="${contextPath}/resources/images/${randomImage}" alt="...">
-</div>
+                <div class="panel-body" style="text-align:center">
+				    <img src="${contextPath}/resources/images/${randomImage}" alt="..." style="height:300px">
+				</div>
 
             </c:when>
             <c:otherwise>
@@ -220,12 +221,38 @@
                             <tr>
                                 <th colspan="3">${principal.username}님의 ${member.member_goal}를 응원합니다.</th>
                             </tr>
-                            <c:forEach items="${workoutList}" var="workout" varStatus="loop">
-                                <c:if test="${workout.workout_target eq member.member_goal}">
-                                    <td class="moveDetail" data-workout_code="${workout.workout_code}" style="text-align:left;">
-                                    [<c:out value="${workout.workout_target}" />] <c:out value="${workout.workout_name}"/></td>
-                                </c:if>
-                            </c:forEach>
+                            <c:choose>
+	                            <c:when test="${member.member_goal eq '어깨'}">
+	                                <td class="moveDetail" data-workout_code="${workout.workout_code}" style="text-align:center;">
+	                                <iframe width="560" height="315"
+							               src="https://www.youtube.com/embed/${fn:substringAfter('https://youtu.be/242emFBMtUk?si=whDjAMIZUPomt-3B', 'be/')}"
+							               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"></iframe></td>
+	                            </c:when>
+	                            <c:when test="${member.member_goal eq '가슴'}">
+	                                <td class="moveDetail" data-workout_code="${workout.workout_code}" style="text-align:left;">
+	                                <iframe width="560" height="315"
+					                        src="https://www.youtube.com/embed/${fn:substringAfter('https://youtu.be/9M1Yu6ddVnM?si=uMK2orZ26QmM4BCF', 'be/')}"
+					                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"></iframe></td>
+	                            </c:when>
+	                            <c:when test="${member.member_goal eq '하체'}">
+	                                <td class="moveDetail" data-workout_code="${workout.workout_code}" style="text-align:left;">
+	                                <iframe width="560" height="315"
+					                        src="https://www.youtube.com/embed/${fn:substringAfter('https://youtu.be/GJe-kl0UMD4?si=GPDlpx7AJM8IgSxe', 'be/')}"
+					                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"></iframe></td>
+	                            </c:when>
+	                            <c:when test="${member.member_goal eq '등'}">
+	                                <td class="moveDetail" data-workout_code="${workout.workout_code}" style="text-align:left;">
+	                                <iframe width="560" height="315"
+					                        src="https://www.youtube.com/embed/${fn:substringAfter('https://youtu.be/wuyvlTWb3Jo?si=UQ6k8Q9OMM4sUKd5', 'be/')}"
+					                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"></iframe></td>
+	                            </c:when>
+	                            <c:when test="${member.member_goal eq '체력증진'}">
+	                                <td class="moveDetail" data-workout_code="${workout.workout_code}" style="text-align:left;">
+	                                <iframe width="560" height="315"
+					                        src="https://www.youtube.com/embed/${fn:substringAfter('https://youtu.be/O3GU4hMK75w?si=2Mr57cbX9AapUfEB', 'be/')}"
+					                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"></iframe></td>
+	                            </c:when>
+                            </c:choose>
                             </thead>
                         </table>
                     </div>
