@@ -23,7 +23,6 @@ public class QuestionBoardController {
 	//(단일 생성자를 이용한 주입: 생성자가 여러개 이고, 기본 생성자가 포함되어 있으면, 무조건 기본 생성자를 사용함)
 	public QuestionBoardController(QuestionBoardService questionBoardService) {
 		this.questionBoardService = questionBoardService ;
-		System.out.println("QuestionBoardController의 모든 필드 초기화 생성자 입니다.");
 	}
 	
     //게시물 조회(페이징 고려)

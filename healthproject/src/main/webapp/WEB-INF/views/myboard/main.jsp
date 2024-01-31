@@ -41,24 +41,30 @@
 						    </ol>
 						    <div class="carousel-inner">
 						        <div class="item active">
-						            <img src="${contextPath}/resources/images/img1.jpg" class="d-block w-100" alt="..." style="height:500px;">
+						            <a href="${contextPath}/ticket/list">
+						            	<img src="${contextPath}/resources/images/img1.jpg" class="d-block w-100" alt="..." style="height:500px;">
+						            </a>
 						            <div class="carousel-caption" style="right:200px; bottom: 5px; text-align: right;">
 						                <h5 class="font-weight-bold" style="color: #d9d6c3;">건강의 시작</h5>
 						                <p class="font-weight-bold" style="color: #d9d6c3;">남녀노소 맞춤형 플랜!</p>
 						            </div>
 						        </div>
 						        <div class="item">
-						            <img src="${contextPath}/resources/images/img2.jpg" class="d-block w-100" alt="..." style="height:500px;">
+						        	<a href="${contextPath}/member/trainer">
+						            	<img src="${contextPath}/resources/images/img2.jpg" class="d-block w-100" alt="..." style="height:500px;">
+						            </a>
 						            <div class="carousel-caption" style="right:200px; bottom: 5px; text-align: right;">
 						                <h5 class="font-weight-bold" style="color: #d9d6c3;">근육의 끝</h5>
-						                <p class="font-weight-bold" style="color: #d9d6c3;">우수한 강사진과 함께하는 완벽한 관리! </p>
+						                <p class="font-weight-bold" style="color: #d9d6c3;">우수한 트레이너들과 함께하는 완벽한 관리! </p>
 						            </div>
 						        </div>
 						        <div class="item">
-						            <img src="${contextPath}/resources/images/img3.jpg" class="d-block w-100" alt="..." style="height:500px;">
+						        	<a href="${contextPath}/workout/list">
+						            	<img src="${contextPath}/resources/images/img3.jpg" class="d-block w-100" alt="..." style="height:500px;">
+						            </a>
 						            <div class="carousel-caption" style="right:200px; bottom: 5px; text-align: right;">
-						                <h5 class="font-weight-bold" style="color: #d9d6c3;">솔데스크 헬창클럽!</h5>
-						                <p class="font-weight-bold" style="color: #d9d6c3;">수많은 기구를 월 2만7천원에!</p>
+						                <h5 class="font-weight-bold" style="color: #d9d6c3;">솔데스크 헬스클럽</h5>
+						                <p class="font-weight-bold" style="color: #d9d6c3;">명품 운동기구를 직접 경험해보세요!</p>
 						            </div>
 						        </div>
 						    </div>
@@ -89,7 +95,7 @@
                         <!-- /.panel-heading -->
                         <div class="panel-body">
                             <div class="table-responsive">
-                                <table class="table table-bordered">
+                                <table class="table">
                                     <thead>
                                         <tr>
                                             <th> </th>

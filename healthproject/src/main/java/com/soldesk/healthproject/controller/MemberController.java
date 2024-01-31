@@ -2,7 +2,10 @@ package com.soldesk.healthproject.controller;
 
 import java.util.List;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
@@ -12,6 +15,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.soldesk.healthproject.common.paging.domain.BoardPagingDTO;
 import com.soldesk.healthproject.common.paging.domain.MemberPagingCreatorDTO;
@@ -131,6 +135,8 @@ public class MemberController {
 	public String deleteMember(String member_id) {
 		memberService.setMemberDelete(member_id);
 		
+		SecurityContextHolder.clearContext();
+		
 		return "redirect:/";
 	}
 	
@@ -208,6 +214,22 @@ public class MemberController {
 		
 		trainerService.modifyRecord(frmModify);
 		return "redirect:/member/trainer";
+	}
+	
+	//회원 아이디 중복검사
+	@PostMapping("/check")
+	public ResponseEntity<String> checkDupMemberId(@RequestParam String member_id, RedirectAttributes redirectAttr) {
+		
+		String result = null;
+		
+		if(memberService.checkDupMemberId(member_id)) {
+			result = "duplicate";
+		} else {
+			result = "non-dup";
+		}
+		
+		return memberService.checkDupMemberId(member_id) ? new ResponseEntity<String>(result, HttpStatus.OK):
+														   new ResponseEntity<String>(result, HttpStatus.OK) ;
 	}
 	
 }

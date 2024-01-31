@@ -28,7 +28,6 @@ public class MemberServiceImpl implements MemberService {
 	}
 	
 	public MemberServiceImpl() {
-		System.out.println("MemberRegisterServiceImpl의 기본생성자");
 	}
 	
 	@Setter(onMethod_ = @Autowired)
@@ -213,7 +212,11 @@ public class MemberServiceImpl implements MemberService {
 		memberMapper.removeMember(member_id);
 	}
 
-	
+	//회원 아이디 중복검사
+	@Override
+	public boolean checkDupMemberId(String member_id) {
+		return memberMapper.checkDupMemberId(member_id) == 1 ? true : false;
+	}
 	
 	
 }

@@ -50,13 +50,6 @@ public class FreeBoardPagingCreatorDTO {
 		//다음 버튼 표시(true) 여부
 		this.next = this.endPagingNum < this.lastPageNum ;
 		
-		System.out.println("전달된 페이징 기본데이터-freeBoardPagingDTO: " + this.freeboardPaging.toString());
-		System.out.println("시작 페이징번호: " + this.startPagingNum);
-		System.out.println("끝 페이징번호: " + this.endPagingNum);
-		System.out.println("이전버튼 표시 여부: " + this.prev);
-		System.out.println("다음버튼 표시 여부: " + this.next);
-		System.out.println("마지막 페이지 번호: " + this.lastPageNum);
-		System.out.println("표시할 데이터: " + this.freeboardList);
 	}
 
 }

@@ -279,62 +279,6 @@ var npost_number_value = '<c:out value="${noticeBoard.npost_number}"/>';
 var commentUL = $(".chat");
 var frmCmtPagingValue = $("#frmCmtPagingValue");
 
-//댓글 목록 데이터 요청 받기 테스트
-/*  ncommentClsr.getCmtList(
-	{npost_number:npost_number_value, pageNum:1},
-	function(noticeCommentPagingCreator){
-		for(var i =0,len=noticeCommentPagingCreator.ncommentList.length || 0; i < len; i++){
-			console.log(noticeCommentPagingCreator.ncommentList[i]);
-		}	
-	}		
-);  */ 
-
-/* //댓글등록 테스트
-ncommentClsr.registerCmt(
-		{npost_number:npost_number_value, ncomment:"js-클로저-댓글입력 테스트", ncomment_writer: "user5"},
-		function(result){
-			alert("ncommentClsr.registerCmt()처리결과 " + result);
-		}
-);  */
-
-/* //답글등록 테스트
-ncommentClsr.registerReply(
-		{npost_number:npost_number_value, nreply_number: 1, ncomment:"js-클로저-답글입력 테스트", ncomment_writer: "user6"},
-		function(result){
-			alert("ncommentClsr.registerReply()처리결과 " + result);
-		}
-); */ 
-
-/*  //댓글-답글 조회 테스트
-ncommentClsr.getCmtReply(
-		{npost_number:npost_number_value, ncomment_number:274},
-		function(data){
-			console.log(data);
-		}
-);  
-
-//댓글-답글 수정 테스트
-ncommentClsr.modifyCmtReply(
-		{npost_number:npost_number_value, ncomment_number:274, ncomment:"js클로저에 의한 댓글 수정 테스트"},
-		function(modifyResult){
-			console.log(modifyResult);
-		}
-);  */
-
-//댓글 삭제 테스트
-/* ncommentClsr.removeCmtReply(
-		{npost_number: npost_number_value, ncomment_number: 273, ncomment_writer:"user10"},
-		function(deleteResult){
-			console.log(deleteResult);
-			if(deleteResult === "댓글 삭제 성공") {
-				alert(deleteResult + ": 댓글/답글이 삭제되었습니다.");
-			}
-		},
-		function(err) {
-			alert("오류로 댓글/답글 삭제 작업 취소..");
-		}
-); */ 
-
 <%--댓글목록 표시 함수: 서버로부터 전달된 데이터를 이용해서 댓글 목록을 표시하는 JS 함수--%>
 function showCmtList(pageNum){
 	//댓글 목록 데이터를 요청하는 클로저 모듈 함수 호출

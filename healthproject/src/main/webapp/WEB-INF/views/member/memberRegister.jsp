@@ -9,7 +9,7 @@
 <%@include file="../myinclude/myheader.jsp"%>
 
 	<div class="row" style="display: flex; justify-content: center;">
-		<div class="col-lg-6">
+		<div class="col-lg-6" style="min-width: 600px;">
 			<div class="panel panel-default">
 				<div class="panel-heading">
 					<h4>회원가입</h4>
@@ -21,74 +21,69 @@
 						method="post" name="frmBoard">
 						<!-- 아이디 체크: 영문 대소문자로 시작하는 영문, 숫자 조합의 6~20자 -->
 						<div class="form-group">
-							<label>아이디</label> <input class="form-control" name="member_id"
-								pattern="^[a-zA-Z][a-zA-Z0-9]{5,19}$"
-								title="영문 대소문자로 시작하는 영문, 숫자 조합의 6~20자로 입력해주세요."
+							<label>아이디</label> <input class="form-control" id="member_id" name="member_id"
 								placeholder="영문 대소문자로 시작하는 영문, 숫자 조합의 6~20자">
+							<li id="idCheckResult" style="list-style-type:none; color: red;"></li>
 						</div>
 
 						<!-- 비밀번호 체크: 8 ~ 20자 영문 대소문자, 숫자, 특수문자 조합(영문, 숫자 최소 한가지씩 조합) -->
 						<div class="form-group">
-							<label>비밀번호</label> <input class="form-control" name="member_pw"
-								pattern="^(?=.*[a-zA-Z])(?=.*\d)(?=.*[~`!@#$%\^&*()-]).{8,20}$"
-								title="8~20자의 영문 대소문자, 숫자, 특수문자 조합으로 입력해주세요."
+							<label>비밀번호</label> <input class="form-control" id="member_pw" name="member_pw"
 								placeholder="8~20자의 영문 대소문자, 숫자, 특수문자 조합">
+							<li id="passwordCheck" style="display:none; color: red;"></li>
 						</div>
 
 						<!--  이메일 체크 -->
 						<div class="form-group">
-							<label for="member_email">이메일</label> <input type="email"
-								class="form-control" id="member_email" name="member_email"
-								pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$"
-								title="예시: example@example.com"
-								placeholder="예시: example@example.com">
+							<label for="member_email">이메일</label> <input class="form-control" type="email" 
+								id="member_email" name="member_email"
+								placeholder="ex: example@example.com">
+							<li id="emailCheck" style="display:none; color: red;"></li>
 						</div>
-
+						
+						<!-- 이름 한글만 -->
+						<div class="form-group">
+							<label>이름</label> <input class="form-control" name="member_name" id="member_name"
+								pattern="^[가-힣]*$" placeholder="한글만 입력해주세요.">
+							<li id="nameCheck" style="display:none; color: red;"></li>
+						</div>
 
 						<!-- 핸드폰 번호 체크 -->
 						<div class="form-group">
-							<label>연락처</label> <input class="form-control"
-								name="member_phonenumber"
-								pattern="^01(?:0|1|[6-9])-(?:\d{3}|\d{4})-\d{4}$"
-								title="핸드폰 번호 형식에 맞게 입력해주세요." placeholder="예시: 000-0000-0000">
-						</div>
-
-						<!-- 이름 한글만 -->
-						<div class="form-group">
-							<label>이름</label> <input class="form-control" name="member_name"
-								pattern="^[가-힣]*$" title="한글만 입력해주세요.">
+							<label>연락처</label><input class="form-control" id="member_phonenumber" name="member_phonenumber"
+								placeholder="ex: 000-0000-0000">
+							<li id="phoneNumCheck" style="display:none; color: red;"></li>
 						</div>
 
 						<!-- 생일은 YYYY-MM-DD 형식 -->
 						<div class="form-group">
-							<label>생년월일</label> <input class="form-control"
+							<label>생년월일</label> <input class="form-control" id="member_birth"
 								name="member_birth"
-								pattern="^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])$"
-								title="YYYY-MM-DD 형식으로 입력해주세요."
 								placeholder="YYYY-MM-DD 형식으로 입력해주세요.">
+							<li id="birthCheck" style="display:none; color: red;"></li>
 						</div>
 
 						<!-- 키, 몸무게, 골격근량, 체지방률은 숫자만 -->
 						<div class="form-group">
-							<label>키</label> <input class="form-control" name="member_height"
-								pattern="^[0-9]*$" title="숫자만 입력해주세요." placeholder="숫자만 입력해주세요.">
+							<label>키</label> <input class="form-control" name="member_height" id="member_height" placeholder="숫자만 입력해주세요.">
+							<li id="heightCheck" style="display:none; color: red;"></li>
 						</div>
 						<div class="form-group">
-							<label>몸무게</label> <input class="form-control"
-								name="member_weight" pattern="^[0-9]*$" title="숫자만 입력해주세요."
-								placeholder="숫자만 입력해주세요.">
+							<label>몸무게</label> <input class="form-control" id="member_weight"
+								name="member_weight" placeholder="숫자만 입력해주세요.">
+							<li id="weightCheck" style="display:none; color: red;"></li>
 						</div>
 						<div class="form-group">
-							<label>골격근량</label> <input class="form-control"
-								name="member_muscle_percent" pattern="^[0-9]*$"
-								title="숫자만 입력해주세요." placeholder="숫자만 입력해주세요.">
+							<label>골격근량</label> <input class="form-control" id="member_muscle_percent"
+								name="member_muscle_percent" placeholder="숫자만 입력해주세요.">
+							<li id="muscleCheck" style="display:none; color: red;"></li>
 						</div>
 							<div class="form-group">
-							<label>체지방률</label> <input class="form-control"
-								name="member_fat_percent" pattern="^[0-9]*$" 
-								title="숫자만 입력해주세요."
-								placeholder="숫자만 입력해주세요.">
+							<label>체지방률</label> <input class="form-control" id="member_fat_percent"
+								name="member_fat_percent" placeholder="숫자만 입력해주세요.">
+							<li id="fatCheck" style="display:none; color: red;"></li>
 						</div>
+						
 						<div class="form-group">
 							<label>가입한 회원권</label> <select class="form-control"
 								name="ticket_number">
@@ -104,8 +99,10 @@
 						<div class="form-group">
 							<label>목표</label> <select class="form-control" name="member_goal">
 								<option value="체력개선" selected>체력개선</option>
-								<option value="체형교정">체형교정</option>
-								<option value="근육량 증가">근육량 증가</option>
+								<option value="가슴">가슴</option>
+								<option value="등">등</option>
+								<option value="어깨">어깨</option>
+								<option value="하체">하체</option>
 							</select>
 						</div>
 						<div>
@@ -128,202 +125,156 @@
 	</div>
 	<%-- /.row --%>
 
-
-</div>
-<%-- /#page-wrapper --%>
-
-<%-- Modal --%>
-<div class="modal fade" id="yourModal" tabindex="-1" role="dialog"
-	aria-labelledby="yourModalLabel" aria-hidden="true">
-	<div class="modal-dialog">
-		<div class="modal-content">
-			<div class="modal-header">
-				<button type="button" class="close" data-dismiss="modal"
-					aria-hidden="true">&times;</button>
-				<h4 class="modal-title" id="yourModalLabel">Modal title</h4>
-			</div>
-			<div class="modal-body" id="yourModal-body">메시지</div>
-
-			<div class="modal-footer">
-				<button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
-			</div>
-		</div>
-		<%-- /.modal-content --%>
-	</div>
-	<%-- /.modal-dialog --%>
-</div>
-<%-- /.modal --%>
-
-
-<%-- 
 <script>
 
-var frmSendValue = $("#frmSendValue") ;
-var result = '<c:out value="${result}" />' ;
-//alert("result.length: " + result.length)
+var csrfHeader = "${_csrf.headerName}"
+var csrfToken = "${_csrf.token}"
+var resultElement = $("#idCheckResult")
 
-//등록페이지 이동
-$("#btnToRegister").on("click",function(){
-	window.location.href = "${contextPath}/myboard/register" ; //권장
-//	location.href = "${contextPath}/myboard/register" ;
-//	self.location.href = "${contextPath}/myboard/register" ;
-//	self.location = "${contextPath}/myboard/register" ;
-	
-});
-
-//상세페이지 이동
-$(".moveDetail").on("click", function(){
-	var bno = $(this).data("bno") ;
-	
-//	window.location.href = "${contextPath}/myboard/detail?bno=" + bno ;
-	
-	frmSendValue.append("<input type='hidden' name='bno' value='" + bno + "'/>")
-	frmSendValue.attr("action", "${contextPath}/myboard/detail").attr("method", "get") ;
-	frmSendValue.submit() ;
-	frmSendValue.find('input[name="bno"]').remove() ;  	//웹 브라우저 뒤로가기 후, 다른 게시물 상세 이동 시에
-														//bno값이 계속 url에 추가되는 현상 해결
-	
-});
-
-//모달 호출 함수
-function runModal(result) {
-	
-	if (result.length == 0) {
-		return ;
-	
-	} else if ( result == "successRemove" ) {
-		var myMsg =  "게시글이 삭제되었습니다. " ;
-		
-	} else if ( parseInt(result) > 0 ) {
-		var myMsg =  result + "번 게시글이 등록되었습니다. "
-	
-	} 
-
-	
-	//$(".modal-body").html(myMsg) ;
-	$("#yourModal-body").html(myMsg) ;
-	
-	$("#yourModal").modal("show") ;
-	
-	myMsg = "" ;
-}
-
-
-페이지징 처리: 검색 목록 페이지 이동
-$("li.pagination-button a").on("click", function(e){
-	e.preventDefault() ;
-	frmSendValue.find("input[name='pageNum']").val($(this).attr("href")) ;
-	console.log(frmSendValue.find("input[name='pageNum']").val());
-	frmSendValue.attr("action", "${contextPath}/myboard/list") ;
-	frmSendValue.attr("method", "get") ;
-	
-	frmSendValue.submit() ;
-	
-});
-
-검색 관련 요소의 이벤트 처리
-표시행수 변경 이벤트 처리
-$("#selectAmount").on("change", function(){
-	frmSendValue.find("input[name='pageNum']").val(1) ;
-	frmSendValue.submit() ;
-} );
-
-
-키워드 검색버튼 클릭 이벤트 처리
-$("#btnSearchGo").on("click", function() {
-   
-   var scope = $("#selectScope").find("option:selected").val();
-   
-   if(!scope || scope == '' ){
-      alert("검색범위를 선택해주세요.");
-      return false;
-   }
-   
-   var keyword = $("#keyword").val() ;
-   
-   if(!keyword || keyword.length == 0){
-      alert("검색어를 입력해주세요.");
-      return ;      
-   }
-   
-   frmSendValue.find("input[name='pageNum']").val(1);
-   frmSendValue.submit();
-});
-
-$("#selectScope").on("change", function(){
-	
-	var keyword = $("#keyword").val() ;
-	   
-	if(keyword || keyword.length != 0){
-		$("#pageNum").val(1) ;
-		frmSendValue.submit() ;      
-	}
-
-});
-
-
-기간 검색버튼 클릭 이벤트 처리
-$("#btnIntervalSearch").on("click", function(){
-	
-	var startDate = $("#startDate").val() ;
-	var endDate = $("#endDate").val() ;
-	
-//	alert("변환전 endDate: " + endDate);
-	
-	if (!startDate || startDate == "" || !endDate || endDate == "") {
-		alert("시작날짜와 끝날짜를 모두 선택하세요") ;
-		return ;
-	}
-/*	
-	if (beginDate == endDate) {
-		var _endDate = new Date(endDate) ;
-		
-		_endDate.setDate(_endDate.getDate() + 1) ; //하루 후의 날짜
-		
-		_endDate = _endDate.toISOString().slice(0, 10) ;
-
-		$("#endDate").val(_endDate);
-		
-		endDate = $("#endDate").val() ;
-		alert("변환후 endDate: " + endDate);
-	}
-*/	
-	frmSendValue.find("input[name='pageNum']").val(1) ;
-	frmSendValue.submit() ;
-	
-});
-
-
-검색초기화 버튼 이벤트처리, 버튼 초기화 시, 1페이지에 목록 정보 다시 표시
-$("#btnReset").on("click", function(){
-	$("#selectAmount").val(10) ;
-	$("#selectScope").val("") ;
-	$("#keyword").val("") ;
-	$("#startDate").val("") ;
-	$("#endDate").val("") ;
-	$("#pageNum").val(1) ;
-	
-	frmSendValue.submit() ;
-
-});
-
-
-
-
+//아이디 중복체크	
 $(document).ready(function(){
-	runModal(result) ;
+	function checkDupplicateMemberId(){
+	    var member_id = $("input[name='member_id']").val();
+	    
+	    $.ajax({
+	        url: '${contextPath}/member/check', 
+	        type: 'POST',
+	        data: {member_id : member_id},
+	        beforeSend: function(xhr) {
+	        	xhr.setRequestHeader(csrfHeader, csrfToken);
+	        },
+	        success: function(response){
+	            if(response == 'duplicate'){
+	                resultElement.text('이미 사용 중인 아이디입니다.');
+	            } else {
+	                resultElement.text('사용가능합니다.');
+	                resultElement.css('color', 'black'); 
+	            }
+	        }
+	    });
+	}
 	
-	window.addEventListener("popstate", function(event){
-		history.pushState(null, null, location.href) ;
-		
-	});
-	
-	history.pushState(null, null, location.href) ;
-	
+    $("input[name='member_id']").on('blur', function() {
+    	var regex = /^[a-zA-Z][a-zA-Z0-9]{5,19}$/;
+    	
+        if(regex.test(this.value)){
+        	checkDupplicateMemberId();
+        } else{
+        	resultElement.text('영문 대소문자로 시작하는 영문, 숫자 조합의 6~20자로 입력해주세요.')
+        }
+    });
+    
+    document.getElementById("member_pw").addEventListener("blur", function(){
+    	var member_pw = this.value;
+    	var regex = /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[~`!@#$%\^&*()-]).{8,20}$/;
+    	
+    	if(regex.test(member_pw)){
+    		document.getElementById("passwordCheck").style.display="none";
+    	} else{
+    		document.getElementById("passwordCheck").innerText="8~20자의 영문 대소문자, 숫자, 특수문자 조합이어야 합니다.";
+    		document.getElementById("passwordCheck").style.display="block";
+    	}
+    })
+    
+    document.getElementById("member_email").addEventListener("blur", function(){
+    	var member_email = this.value;
+    	var regex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
+    	
+    	if(regex.test(member_email)){
+    		document.getElementById("emailCheck").style.display="none";
+    	} else{
+    		document.getElementById("emailCheck").innerText="올바른 형식이 아닙니다. ex: example@example.com";
+    		document.getElementById("emailCheck").style.display="block";
+    	}
+    })
+    
+    document.getElementById("member_name").addEventListener("blur", function(){
+    	var member_name = this.value;
+    	var regex = /^[가-힣]*$/;
+    	
+    	if(regex.test(member_name)){
+    		document.getElementById("nameCheck").style.display="none";
+    	} else{
+    		document.getElementById("nameCheck").innerText="한글만 작성해주세요.";
+    		document.getElementById("nameCheck").style.display="block";
+    	}
+    })
+    
+    document.getElementById("member_phonenumber").addEventListener("blur", function(){
+    	var member_phonenumber = this.value;
+    	var regex = /^01(?:0|1|[6-9])-(?:\d{3}|\d{4})-\d{4}$/;
+    	
+    	if(regex.test(member_phonenumber)){
+    		document.getElementById("phoneNumCheck").style.display="none";
+    	} else{
+    		document.getElementById("phoneNumCheck").innerText="올바른 형식이 아닙니다. ex: 010-0000-0000";
+    		document.getElementById("phoneNumCheck").style.display="block";
+    	}
+    })
+    
+    document.getElementById("member_birth").addEventListener("blur", function(){
+    	var member_birth = this.value;
+    	var regex = /^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])$/;
+    	
+    	if(regex.test(member_birth)){
+    		document.getElementById("birthCheck").style.display="none";
+    	} else{
+    		document.getElementById("birthCheck").innerText="YYYY-MM-DD 형식으로 입력해주세요.";
+    		document.getElementById("birthCheck").style.display="block";
+    	}
+    })
+    
+    document.getElementById("member_height").addEventListener("blur", function(){
+    	var member_height = this.value;
+    	var regex = /^[0-9]*$/;
+    	
+    	if(regex.test(member_height)){
+    		document.getElementById("heightCheck").style.display="none";
+    	} else{
+    		document.getElementById("heightCheck").innerText="숫자만 입력해주세요";
+    		document.getElementById("heightCheck").style.display="block";
+    	}
+    })
+    
+    document.getElementById("member_weight").addEventListener("blur", function(){
+    	var member_weight = this.value;
+    	var regex = /^[0-9]*$/;
+    	
+    	if(regex.test(member_weight)){
+    		document.getElementById("weightCheck").style.display="none";
+    	} else{
+    		document.getElementById("weightCheck").innerText="숫자만 입력해주세요";
+    		document.getElementById("weightCheck").style.display="block";
+    	}
+    })
+    
+    document.getElementById("member_muscle_percent").addEventListener("blur", function(){
+    	var member_muscle_percent = this.value;
+    	var regex = /^[0-9]*$/;
+    	
+    	if(regex.test(member_muscle_percent)){
+    		document.getElementById("muscleCheck").style.display="none";
+    	} else{
+    		document.getElementById("muscleCheck").innerText="숫자만 입력해주세요";
+    		document.getElementById("muscleCheck").style.display="block";
+    	}
+    })
+    
+    document.getElementById("member_fat_percent").addEventListener("blur", function(){
+    	var member_fat_percent = this.value;
+    	var regex = /^[0-9]*$/;
+    	
+    	if(regex.test(member_fat_percent)){
+    		document.getElementById("fatCheck").style.display="none";
+    	} else{
+    		document.getElementById("fatCheck").innerText="숫자만 입력해주세요";
+    		document.getElementById("fatCheck").style.display="block";
+    	}
+    })
+    
+    
 });
 
-
-
-</script> --%>
+</script>
 
 <%@include file="../myinclude/myfooter.jsp"%>

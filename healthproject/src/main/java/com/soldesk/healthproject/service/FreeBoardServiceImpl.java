@@ -6,11 +6,13 @@ import java.util.Calendar;
 import java.util.Date;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.soldesk.healthproject.common.paging.domain.BoardPagingDTO;
 import com.soldesk.healthproject.common.paging.domain.FreeBoardPagingCreatorDTO;
 import com.soldesk.healthproject.domain.FreeBoardVO;
 import com.soldesk.healthproject.mapper.FreeBoardMapper;
+import com.soldesk.healthproject.mapper.FreeCommentMapper;
 
 import lombok.extern.log4j.Log4j;
 
@@ -19,14 +21,16 @@ import lombok.extern.log4j.Log4j;
 public class FreeBoardServiceImpl implements FreeBoardService {
 	
 	private FreeBoardMapper freeBoardMapper;
+	private FreeCommentMapper freeCommentMapper;
 	
 	public FreeBoardServiceImpl() {
-		System.out.println("FreeBoardServiceImpl의 기본생성자");
 	}
 	
 	@Autowired
-	public void setFreeBoardMapper(FreeBoardMapper freeBoardMapper) {
+	public void setFreeBoardMapper(FreeBoardMapper freeBoardMapper,
+								   FreeCommentMapper freeCommentMapper) {
 		this.freeBoardMapper = freeBoardMapper;
+		this.freeCommentMapper = freeCommentMapper;
 	}
 	
 	
@@ -95,9 +99,12 @@ public class FreeBoardServiceImpl implements FreeBoardService {
 	public boolean setFreeBoardDeleted(long fpost_number) {
 		return freeBoardMapper.updateFdeleteFlag(fpost_number) == 1;
 	}
-
+	
+	//게시물 실제 삭제
 	@Override
+	@Transactional
 	public boolean removeFreeBoard(long fpost_number) {
+		freeCommentMapper.deleteAllFreeComment(fpost_number);
 		return freeBoardMapper.deleteFreeBoard(fpost_number) == 1;
 	}
 	

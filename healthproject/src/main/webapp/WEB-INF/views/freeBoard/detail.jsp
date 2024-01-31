@@ -73,7 +73,7 @@
 	<div class="form-group">
 	    <label>글내용</label>
 	    <textarea class="form-control" rows="3" name="fcontent" id="fcontent"
-	    		  readonly="readonly">${freeBoard.fcontent}/${boardPaging.pageNum }</textarea>
+	    		  readonly="readonly">${freeBoard.fcontent}</textarea>
 	</div>
 	
 <form role="form" id="frmSendValue">

@@ -97,8 +97,6 @@
 		WHERE apost_number = #{apost_number}
 	</delete>
 
-<!-- 게시물 삭제(관리자) -->
-
 <!-- 특정 게시물 수정 -->
 	<update id="updateApplyBoard" parameterType="com.soldesk.healthproject.domain.ApplyBoardVO">
 		UPDATE project_health.apply_board

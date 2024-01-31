@@ -18,7 +18,6 @@ public class WorkoutController {
 	
 	public WorkoutController(WorkoutService workoutService) {
 		this.workoutService = workoutService;
-		System.out.println("workoutService의 모든 필드 초기화 생성자");
 	}
 	
 	//운동 목록 조회 GET

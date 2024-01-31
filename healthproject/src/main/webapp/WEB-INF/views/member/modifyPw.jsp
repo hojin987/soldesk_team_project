@@ -19,13 +19,13 @@
                 <div class="panel-body">
                 	<input type="hidden" name="member_id" value="${member.member_id}"/>
 					<div class="form-group">
-						<input class="form-control" id="current_pw" name="current_pw" placeholder="현재 비밀번호" required/>
+						<input type="password" class="form-control" id="current_pw" name="current_pw" placeholder="현재 비밀번호" required/>
 					</div>
 					<div class="form-group">
-						<input class="form-control" id="new_pw" name="new_pw" placeholder="새 비밀번호" required/>
+						<input type="password" class="form-control" id="new_pw" name="new_pw" placeholder="새 비밀번호" required/>
 					</div>
 					<div class="form-group">
-						<input class="form-control" id="member_pw" name="member_pw" placeholder="새 비밀번호 확인" required/>
+						<input type="password" class="form-control" id="member_pw" name="member_pw" placeholder="새 비밀번호 확인" required/>
 					</div>
 					
 					<button type="button" class="btn btn-primary btn-sm" id="btnModify" data-oper="modify">수정</button>

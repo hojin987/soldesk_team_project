@@ -47,11 +47,8 @@ https://startbootstrap.com/
 		
 		<select class="form-control" id="selectScope" name="scope">
 			<option value="" ${(pagingCreator.applyboardPaging.scope == null ) ? "selected" : "" }>범위선택</option>
-			<option value="T" ${(pagingCreator.applyboardPaging.scope == "T" ) ? "selected" : "" }>제목</option>
-			<option value="C" ${(pagingCreator.applyboardPaging.scope == "C" ) ? "selected" : "" }>내용</option>
 			<option value="W" ${(pagingCreator.applyboardPaging.scope == "W" ) ? "selected" : "" }>작성자</option>
 			<option value="TC" ${(pagingCreator.applyboardPaging.scope == "TC" ) ? "selected" : "" }>제목+내용</option>
-			<option value="TCW" ${(pagingCreator.applyboardPaging.scope == "TCW" ) ? "selected" : "" }>제목+내용+작성자</option>
 		</select>
 		
 		

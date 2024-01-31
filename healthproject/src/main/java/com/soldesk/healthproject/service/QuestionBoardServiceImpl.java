@@ -22,7 +22,6 @@ public class QuestionBoardServiceImpl implements QuestionBoardService {
 	private QuestionBoardMapper questionBoardMapper;
 	
 	public QuestionBoardServiceImpl() {
-		System.out.println("QuestionBoardServiceImpl의 기본생성자");
 	}
 	
 	@Autowired

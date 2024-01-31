@@ -26,9 +26,7 @@ https://startbootstrap.com/
 				<div class="row">
 					<div class="col-md-6" style="font-size:20px; height: 45px; padding-top:10px;">1:1 문의</div>
 					<div class="col-md-6" style="padding-top:8px;">
-						<sec:authorize access="hasAnyAuthority('ROLE_USER', 'ADMIN','TRAINER')">
-							<button type="button" id="btnToRegister" class="btn btn-primary btn-sm pull-right">새글 등록</button>
-						</sec:authorize>
+						<button type="button" id="btnToRegister" class="btn btn-primary btn-sm pull-right">새글 등록</button>
 					</div>
 				</div>
 			</div><%-- /.panel-heading --%>
@@ -49,11 +47,8 @@ https://startbootstrap.com/
 		
 		<select class="form-control" id="selectScope" name="scope">
 			<option value="" ${(pagingCreator.questionboardPaging.scope == null ) ? "selected" : "" }>범위선택</option>
-			<option value="T" ${(pagingCreator.questionboardPaging.scope == "T" ) ? "selected" : "" }>제목</option>
-			<option value="C" ${(pagingCreator.questionboardPaging.scope == "C" ) ? "selected" : "" }>내용</option>
 			<option value="W" ${(pagingCreator.questionboardPaging.scope == "W" ) ? "selected" : "" }>작성자</option>
 			<option value="TC" ${(pagingCreator.questionboardPaging.scope == "TC" ) ? "selected" : "" }>제목+내용</option>
-			<option value="TCW" ${(pagingCreator.questionboardPaging.scope == "TCW" ) ? "selected" : "" }>제목+내용+작성자</option>
 		</select>
 		
 		

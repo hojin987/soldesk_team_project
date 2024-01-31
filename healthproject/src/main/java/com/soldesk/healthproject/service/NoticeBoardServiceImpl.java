@@ -22,7 +22,6 @@ public class NoticeBoardServiceImpl implements NoticeBoardService {
 	private NoticeBoardMapper noticeBoardMapper;
 	
 	public NoticeBoardServiceImpl() {
-		System.out.println("NoticeBoardServiceImpl의 기본생성자");
 	}
 	
 	@Autowired

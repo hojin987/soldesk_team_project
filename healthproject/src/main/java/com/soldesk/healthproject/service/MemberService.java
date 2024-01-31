@@ -42,4 +42,7 @@ public interface MemberService {
 	//회원 삭제
 	public void removeMember(String member_id);
 	
+	//회원 아이디 중복검사
+	public boolean checkDupMemberId(String member_id);
+	
 }

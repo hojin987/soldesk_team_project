@@ -46,4 +46,7 @@ public interface MemberMapper {
 	
 	//회원 삭제 (db에서 삭제)
 	public long removeMember(String member_id);
+	
+	//회원 아이디 중복체크
+	public long checkDupMemberId(String member_id);
 }

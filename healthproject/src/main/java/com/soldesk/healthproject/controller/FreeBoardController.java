@@ -91,12 +91,18 @@ public class FreeBoardController {
 	//특정 게시물 삭제 POST /freeBoard/remove
 	@PreAuthorize("isAuthenticated() && principal.username == #freeBoard.fwriter")
 	@PostMapping("/remove")
-	public String removeBoard(@RequestParam("fpost_number") Long fpost_number, 
-							   RedirectAttributes redirectAttr) {
+	public String removeBoard(@RequestParam("fpost_number") Long fpost_number, FreeBoardVO freeBoard) {
 		
-		if(freeBoardService.setFreeBoardDeleted(fpost_number)) {
-			redirectAttr.addFlashAttribute("result", "succesRemove");
-		}
+		freeBoardService.setFreeBoardDeleted(fpost_number);
+		
+		return "redirect:/freeBoard/list";
+	}
+	
+	@PreAuthorize("isAuthenticated() && hasAuthority('ADMIN') ")
+	@PostMapping("/erase")
+	public String eraseBoard(@RequestParam("fpost_number") Long fpost_number, FreeBoardVO freeBoard) {
+		
+		freeBoardService.removeFreeBoard(fpost_number);
 		
 		return "redirect:/freeBoard/list";
 	}

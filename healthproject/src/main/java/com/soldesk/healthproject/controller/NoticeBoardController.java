@@ -21,7 +21,6 @@ public class NoticeBoardController {
 	
 	public NoticeBoardController(NoticeBoardService noticeBoardService) {
 		this.noticeBoardService = noticeBoardService;
-		System.out.println("NoticeBoardController의 모든 필드 초기화 생성자 입니다.");
 	}
 	
     //게시물 조회(페이징 고려)

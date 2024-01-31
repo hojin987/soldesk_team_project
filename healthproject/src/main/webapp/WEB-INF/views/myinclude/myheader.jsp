@@ -67,9 +67,7 @@
     <script src="${contextPath }/resources/dist/js/sb-admin-2.js"></script>
 
 	<!-- favicon.ico 404 Error 해결 -->  
-	<link rel="shortcut icon" href="${contextPath}/resources/myicon/favicon.ico" type="image/x-icon">
-	<!-- favicon 을 사용하지 않도록 설정--><!-- 
-	<link rel="shortcut icon" href="data:image/x-icon;," type="image/x-icon"> -->
+	<link rel="shortcut icon" href="${contextPath}/resources/images/icon.ico" type="image/x-icon">
 	
 	<style>
 		a { font-size: 15px;
@@ -89,12 +87,26 @@
 		    text-decoration: none; /* 링크의 밑줄 제거 */
 		    color: black; /* 링크 색상 지정 */
 		}
+		 
+		body {
+	      padding-top: 100px; /* fixed-top 네비게이션 바 때문에 페이지가 위로 밀리지 않도록 여백을 추가합니다. */
+	    }
+	    
+	    .navbar-fixed-top {
+	      top: 0;
+	    }
+	    
+	    .navbar {
+	      background-color: #f0f0f0; /* 원하는 회색빛 배경 색상으로 설정 */
+	      border: 1px solid #ddd; /* 원하는 테두리 색상으로 설정 */
+	    }
 	</style>
 </head>
 
 <body id="me">
 	
 <div id="wrapper">
+	<nav class="navbar navbar-expand-lg navbar-fixed-top">
 	<div class="page-header">	
 	<div id="sticky-wrapper" class="sticky-wrapper" style="height: 86px;"><div class="header" style="">
             <!-- navigation -->
@@ -121,6 +133,9 @@
                                     </ul>
                                 </li>
                                 <li><a href="${contextPath }/ticket/list" title="Ticket" class="animsition-link">회원권/PT</a> </li>
+                                <sec:authorize access="hasAuthority('ADMIN')">
+                                	<li class="active"><a href="${contextPath }/member/list" class="animsition-link">회원목록</a></li>
+                                </sec:authorize>
                                 <li>
                                 
                                 <c:choose>
@@ -149,33 +164,7 @@
         </div>
     </div>
     </div>
-    <%-- <div class="col-lg-12">
-    <c:choose>
-     			<c:when test="${principal eq 'anonymousUser'}">
-     				<td>
-     					<button type="button" class="btn btn-lignt btn-sm" onclick="location.href='${contextPath}/myLogin'">로그인</button>&nbsp;&nbsp;
-     					<button type="button" class="btn btn-light btn-sm" onclick="location.href='${contextPath}/member/memberRegister'">회원가입</button></td>
-     			</c:when>
-     			<c:otherwise>
-     				<td style="font-size:13px;">${principal.username}님, 반갑습니다.
-     				<button type="button" class="btn btn-lignt btn-sm pull-right" onclick="location.href='${contextPath}/myLogout'">로그아웃</button><br>
-     				<a style="text-align:left; font-size:13px;" href="${contextPath}/member/detail?member_id=${principal.username}">내 정보 확인하기</a></td>
-     			</c:otherwise>
-    			</c:choose>
-    	
-	    	<ul class="horizontal-menu listnone">
-			    <li><a href="${contextPath }/">SOLDESK GYM</a></li>
-			    <li><a href="${contextPath }/member/trainer">강사정보</a></li>
-			    <li><a href="${contextPath }/workout/list">운동정보</a></li>
-			    <li><a href="${contextPath }/noticeBoard/list">공지사항</a></li>
-			    <li><a href="${contextPath }/freeBoard/list">자유게시판</a></li>
-			    <li><a href="${contextPath }/questionBoard/list">1:1문의</a></li>
-			    <li><a href="${contextPath }/applyBoard/list">채용공고</a></li>
-			    <li><a href="${contextPath }/ticket/list">회원권</a></li>
-			    
-			</ul>
-        
-    </div>  --%>
+    </nav>
     
 </nav>
 

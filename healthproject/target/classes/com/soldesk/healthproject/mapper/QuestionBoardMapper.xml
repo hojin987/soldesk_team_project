@@ -92,7 +92,7 @@
 <!-- 특정 게시물 삭제 요청 -->
 	<update id="updateQdeleteFlag" parameterType="long">
 		UPDATE project_health.question_board
-		SET qdelete_flag = 1
+		SET qdelete_flag = 'Y'
 		WHERE qpost_number = #{qpost_number}
 	</update>
 	

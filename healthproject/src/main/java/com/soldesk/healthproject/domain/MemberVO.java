@@ -14,7 +14,6 @@ import lombok.ToString;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString
 public class MemberVO {
 	
 	private String member_id;
@@ -26,8 +25,8 @@ public class MemberVO {
 	private Timestamp member_register_date;
 	private String member_delete_flag;
 	private String member_enabled;
-	private String member_height;
-	private String member_weight;
+	private long member_height;
+	private long member_weight;
 	private String member_muscle_percent;
 	private String member_fat_percent;
 	private String member_goal;

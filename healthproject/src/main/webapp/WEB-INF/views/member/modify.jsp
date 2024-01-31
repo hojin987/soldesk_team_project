@@ -61,7 +61,9 @@
 					<sec:csrfInput/>
 					
                     <button type="button" class="btn btn-primary btn-sm" id="btnModify" data-oper="modify">수정</button>
-                    <button type="button" class="btn btn-primary btn-sm" id="btnDelete" data-oper="delete">회원탈퇴</button>
+                    <c:if test="${principal.username eq member.member_id}">
+                    	<button type="button" class="btn btn-primary btn-sm" id="btnDelete" data-oper="delete">회원탈퇴</button>
+                    </c:if>
                     <button type="button" class="btn btn-waring btn-sm" id="btnList" data-oper="list">취소</button>
 
                     <!-- ADMIN buttons (float-right) -->

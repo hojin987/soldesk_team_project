@@ -21,7 +21,6 @@ public class TicketController {
 	
 	public TicketController(TicketService ticketService) {
 		this.ticketService = ticketService;
-		System.out.println("ticketService의 모든 필드 초기화 생성자");
 	}
 	
 	//회원권 목록 조회 GET

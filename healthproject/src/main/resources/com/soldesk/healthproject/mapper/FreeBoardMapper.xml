@@ -92,7 +92,7 @@
 <!-- 특정 게시물 삭제 요청 -->
 	<update id="updateFdeleteFlag" parameterType="long">
 		UPDATE project_health.free_board
-		SET fdelete_flag = 1
+		SET fdelete_flag = 'Y'
 		WHERE fpost_number = #{fpost_number}
 	</update>
 	
@@ -101,8 +101,6 @@
 		DELETE FROM project_health.free_board
 		WHERE fpost_number = #{fpost_number}
 	</delete>
-
-<!-- 게시물 삭제(관리자) -->
 
 <!-- 특정 게시물 수정 -->
 	<update id="updateFreeBoard" parameterType="com.soldesk.healthproject.domain.FreeBoardVO">

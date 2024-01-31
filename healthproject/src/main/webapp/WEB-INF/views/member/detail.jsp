@@ -57,6 +57,13 @@
 								   readonly="readonly"/>
 					</div>
 					<div class="form-group">
+					    <label>나의 BMI</label>
+					    <c:set var="height_in_meters" value="${member.member_height / 100.0}" />
+					    <c:set var="bmi" value="${member.member_weight / (height_in_meters * height_in_meters)}" />
+					    <input class="form-control" name="member_bmi" 
+					           value='<c:out value="${String.format('%.2f', bmi)}"/>' readonly="readonly"/>
+					</div>
+					<div class="form-group">
 						<label>회원 골격근량</label>
 							<input class="form-control" name="member_muscle_percent" value='<c:out value="${member.member_muscle_percent}"/>'
 								   readonly="readonly"/>

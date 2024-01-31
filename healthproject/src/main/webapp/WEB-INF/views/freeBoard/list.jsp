@@ -41,11 +41,8 @@
 		
 		<select class="form-control" id="selectScope" name="scope">
 			<option value="" ${(pagingCreator.freeboardPaging.scope == null ) ? "selected" : "" }>범위선택</option>
-			<option value="T" ${(pagingCreator.freeboardPaging.scope == "T" ) ? "selected" : "" }>제목</option>
-			<option value="C" ${(pagingCreator.freeboardPaging.scope == "C" ) ? "selected" : "" }>내용</option>
 			<option value="W" ${(pagingCreator.freeboardPaging.scope == "W" ) ? "selected" : "" }>작성자</option>
 			<option value="TC" ${(pagingCreator.freeboardPaging.scope == "TC" ) ? "selected" : "" }>제목+내용</option>
-			<option value="TCW" ${(pagingCreator.freeboardPaging.scope == "TCW" ) ? "selected" : "" }>제목+내용+작성자</option>
 		</select>
 		
 		
@@ -106,7 +103,12 @@
 			<c:when test="${freeboard.fdelete_flag == 'Y' }">
 				<tr style="background-color: Moccasin; text-align: center">
 				    <td>${freeboard.fpost_number }</td>
-				    <td colspan="6"><em>작성자에 의해서 삭제된 게시글입니다.</em></td>
+				    <td colspan="3"><em>작성자에 의해서 삭제된 게시글입니다.</em></td>
+				    <td>
+				    <sec:authorize access="hasAuthority('ADMIN')">
+				    	<button type="button" class="btn btn-primary btn-xs" onclick="deletePost(${freeboard.fpost_number})">삭제</button>
+					</sec:authorize>
+					</td>
 				</tr>
 			</c:when>
 			<c:otherwise>
@@ -240,8 +242,6 @@ function runModal(result) {
 		var myMsg =  result + "번 게시글이 등록되었습니다. "
 	
 	} 
-
-	
 	//$(".modal-body").html(myMsg) ;
 	$("#yourModal-body").html(myMsg) ;
 	
@@ -249,7 +249,6 @@ function runModal(result) {
 	
 	myMsg = "" ;
 }
-
 
 <%-- 페이지징 처리: 검색 목록 페이지 이동 --%>
 $("li.pagination-button a").on("click", function(e){
@@ -334,9 +333,6 @@ $("#btnReset").on("click", function(){
 
 });
 
-
-
-
 $(document).ready(function(){
 	runModal(result) ;
 	
@@ -349,7 +345,25 @@ $(document).ready(function(){
 	
 });
 
-
+function deletePost(fpost_number) {
+	var csrfHeader = "${_csrf.headerName}"
+	var csrfToken = "${_csrf.token}"
+	
+    $.ajax({
+        url: '${contextPath}/freeBoard/erase',
+        type: 'POST',
+        data: {fpost_number: fpost_number},
+        beforeSend: function(xhr) {
+        	xhr.setRequestHeader(csrfHeader, csrfToken);
+        },
+        success: function(response) {
+        	location.reload()
+        },
+        error: function(error) {
+            console.error('Error:', error);
+        }
+    });
+}
 
 </script>
 
