@@ -42,6 +42,12 @@
 						<label>회원 체지방률</label>
 							<input class="form-control" name="member_fat_percent" value='<c:out value="${member.member_fat_percent}"/>'/>
 					</div>
+					<sec:authorize access="!hasAnyAuthority('TRAINER', 'ADMIN')">
+					<div class="form-group" style="display:none">
+						<input name="ticket_number" value="none">
+					</div>
+					</sec:authorize>
+						
 					<div class="form-group">
 						<label>목표</label> <select class="form-control" name="member_goal">
 							<option value="체력개선" selected>체력개선</option>

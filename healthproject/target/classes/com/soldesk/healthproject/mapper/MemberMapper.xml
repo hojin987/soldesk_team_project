@@ -114,7 +114,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<insert id="insertMember">
 	    INSERT INTO project_health.tbl_member
 	    VALUES (#{member_id}, #{member_pw}, #{member_email}, #{member_name}, #{member_birth}, #{member_phonenumber}, default, default, default,
-	            #{member_height}, #{member_weight}, #{member_muscle_percent}, #{member_fat_percent}, #{member_goal}, #{ticket_number}, #{ticket_start_date}, #{ticket_end_date}, #{pt_count})
+	            #{member_height}, #{member_weight}, #{member_muscle_percent}, #{member_fat_percent}, #{member_goal}, #{ticket_number}, DEFAULT, DEFAULT, DEFAULT)
 	</insert>
 	
 	<!-- 회원(강사) 권한 추가 -->

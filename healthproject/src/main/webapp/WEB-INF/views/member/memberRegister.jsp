@@ -30,7 +30,6 @@
 						<!-- 비밀번호 체크: 8 ~ 20자 영문 대소문자, 숫자, 특수문자 조합(영문, 숫자 최소 한가지씩 조합) -->
 						<div class="form-group">
 							<label>비밀번호</label> <input type="password" class="form-control" id="member_pw" name="member_pw"
-								pattern="^(?=.*[a-zA-Z])(?=.*\d)(?=.*[~`!@#$%\^&*()-]).{8,20}$"
 								placeholder="8~20자의 영문 대소문자, 숫자, 특수문자 조합">
 							<li id="passwordCheck" style="display:none; color: red;"></li>
 						</div>
@@ -38,7 +37,6 @@
 						<!--  이메일 체크 -->
 						<div class="form-group">
 							<label for="member_email">이메일</label> <input class="form-control" type="email" 
-								pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$"
 								id="member_email" name="member_email"
 								placeholder="ex: example@example.com">
 							<li id="emailCheck" style="display:none; color: red;"></li>
@@ -47,7 +45,7 @@
 						<!-- 이름 한글만 -->
 						<div class="form-group">
 							<label>이름</label> <input class="form-control" name="member_name" id="member_name" 
-								patter="^[가-힣]*$" placeholder="한글만 입력해주세요.">
+								pattern="^[가-힣\s]*$" placeholder="한글만 입력해주세요.">
 							<li id="nameCheck" style="display:none; color: red;"></li>
 						</div>
 
@@ -70,22 +68,22 @@
 						<!-- 키, 몸무게, 골격근량, 체지방률은 숫자만 -->
 						<div class="form-group">
 							<label>키</label> <input class="form-control" name="member_height" id="member_height" 
-								patter="^[0-9]*$" placeholder="숫자만 입력해주세요.">
+								pattern="^[0-9]*$" placeholder="숫자만 입력해주세요.">
 							<li id="heightCheck" style="display:none; color: red;"></li>
 						</div>
 						<div class="form-group">
 							<label>몸무게</label> <input class="form-control" id="member_weight" name="member_weight"
-								patter="^[0-9]*$" placeholder="숫자만 입력해주세요.">
+								pattern="^[0-9]*$" placeholder="숫자만 입력해주세요.">
 							<li id="weightCheck" style="display:none; color: red;"></li>
 						</div>
 						<div class="form-group">
 							<label>골격근량</label> <input class="form-control" id="member_muscle_percent" name="member_muscle_percent"
-								patter="^[0-9]*$" placeholder="숫자만 입력해주세요.">
+								pattern="^[0-9]*$" placeholder="숫자만 입력해주세요.">
 							<li id="muscleCheck" style="display:none; color: red;"></li>
 						</div>
 							<div class="form-group">
 							<label>체지방률</label> <input class="form-control" id="member_fat_percent" name="member_fat_percent" 
-								patter="^[0-9]*$" placeholder="숫자만 입력해주세요.">
+								pattern="^[0-9]*$" placeholder="숫자만 입력해주세요.">
 							<li id="fatCheck" style="display:none; color: red;"></li>
 						</div>
 						
@@ -108,7 +106,7 @@
 						</div>
 						<button type="submit" class="btn btn-primary btn-sm">등록</button>
 						<button type="button" class="btn btn-warning btn-sm" data-oper="list"
-							onclick="location.href='${contextPath}/noticeBoard/list'">취소
+							onclick="location.href='${contextPath}/'">취소
 						</button>
 					</form>
 
@@ -187,7 +185,7 @@ $(document).ready(function(){
     
     document.getElementById("member_name").addEventListener("blur", function(){
     	var member_name = this.value;
-    	var regex = /^[가-힣]*$/;
+    	var regex = /^[가-힣\s]+$/;
     	
     	if(regex.test(member_name)){
     		document.getElementById("nameCheck").style.display="none";

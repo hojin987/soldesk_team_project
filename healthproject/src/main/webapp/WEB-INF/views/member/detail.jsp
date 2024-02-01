@@ -68,6 +68,7 @@
 					    <c:set var="bmi" value="${member.member_weight / (height_in_meters * height_in_meters)}" />
 					    <input class="form-control" name="member_bmi" 
 					           value='<c:out value="${String.format('%.2f', bmi)}"/>' readonly="readonly"/>
+			           <li id="fatCheck" style="display:none; color: black;"></li>
 					</div>
 					<div class="form-group">
 						<label>회원 골격근량</label>
@@ -177,6 +178,38 @@ $("#BtnMoveModifyPassword").on("click", function(){
 $("#BtnMoveHome").on("click", function(){
 	location.href="${contextPath}/";
 })
+
+// BMI를 체크하고 결과를 표시하는 함수
+  function checkBMI() {
+    // BMI 계산
+    var heightInMeters = parseFloat("${member.member_height / 100.0}");
+    var weight = parseFloat("${member.member_weight}");
+    var bmi = weight / (heightInMeters * heightInMeters);
+
+    // BMI가 23을 넘으면 "과체중"으로 표시
+    if (bmi > 30) {
+      $("#fatCheck").text("고도비만입니다.").css("display", "block");
+    } else if (bmi > 25) {
+      $("#fatCheck").text("비만입니다.").css("display", "block");
+    } else if (bmi > 23) {
+      $("#fatCheck").text("과체중입니다.").css("display", "block");
+    } else if (bmi > 18.5){
+      $("#fatCheck").text("정상입니다.").css("display", "block");
+    } else {
+      $("#fatCheck").text("저체중입니다.").css("display", "block");
+    }
+  }
+
+  // BMI 값이 변경될 때마다 checkBMI 함수 호출
+  $(document).ready(function() {
+    checkBMI(); // 페이지 로딩 시 초기 체크
+
+    // BMI 계산에 사용된 값이 변경될 때마다 체크
+    $("input[name='member_weight'], input[name='member_height']").on("input", function() {
+      checkBMI();
+    });
+  });
+  
 </script>
 
 

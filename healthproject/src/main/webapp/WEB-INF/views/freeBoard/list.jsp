@@ -136,7 +136,7 @@
                     <small>[댓글수: <strong><c:out value="${post.freply_count}"/></strong>]</small>
                 </td>
                 <td>${post.fwriter }</td>
-                <td class="center"><fmt:formatDate value="${post.fregister_date }" pattern="yyyy/MM/dd HH:mm:ss"/></td>
+                <td class="center"><fmt:formatDate value="${post.fregister_date }" pattern="yyyy/MM/dd"/></td>
                 <td class="center"><c:out value="${post.fview_count }"/></td>
             </tr>
         </c:forEach>

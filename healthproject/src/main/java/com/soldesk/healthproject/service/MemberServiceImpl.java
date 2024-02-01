@@ -155,6 +155,9 @@ public class MemberServiceImpl implements MemberService {
 	    } else if(ticketNumber.equals("Ticket7")) {
 	        calendar.add(Calendar.MONTH, 3); //12개월
 	        member.setPt_count(10); //30회
+	    } else {
+	    	calendar.setTime(today);
+	    	member.setPt_count(0);
 	    }
 
 	    member.setTicket_start_date(new java.sql.Date(today.getTime())); //시작일은 오늘
