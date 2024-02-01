@@ -44,7 +44,7 @@ https://startbootstrap.com/
 
 .table th:nth-child(3),
 .table td:nth-child(3){
-    width: 8%;
+    width: 10%;
     text-align: center;
 }
 .table th:nth-child(4),
@@ -54,7 +54,7 @@ https://startbootstrap.com/
 }
 .table th:nth-child(5),
 .table td:nth-child(5) {
-    width: 9%;
+    width: 10%;
     text-align: center;
 }
 
@@ -139,10 +139,10 @@ https://startbootstrap.com/
 			<c:when test="${applyboard.adelete_flag == 'Y' }">
 				<tr style="background-color: Moccasin; text-align: center">
 				    <td>${applyboard.apost_number }</td>
-				    <td colspan="3"><em>작성자에 의해서 삭제된 게시글입니다.</em></td>
+				    <td colspan="3"><em>블라인드처리 된 글입니다.</em></td>
 				    <td>
 				    <sec:authorize access="hasAuthority('ADMIN')">
-				    	<button type="button" class="btn btn-primary btn-xs" onclick="deletePost(${applyboard.apost_number})">삭제</button>
+				    	<button type="button" class="btn btn-primary btn-xs" onclick="erasePost(${applyboard.apost_number})">삭제</button>
 					</sec:authorize>
 					</td>
 				</tr>
@@ -151,11 +151,20 @@ https://startbootstrap.com/
 				<tr class="moveDetail" data-apost_number="${applyboard.apost_number }">
 					<td><c:out value="${applyboard.apost_number }"/></td>
 					<td style="text-align: left">
-						<c:out value="${applyboard.atitle }"/>
+						<c:choose>
+		                    <c:when test="${principal.username eq applyboard.awriter}">
+		                        <c:out value="${applyboard.atitle }"/>
+		                        <small>[댓글수: <strong><c:out value="${applyboard.areply_count}"/></strong>]</small>
+		                    </c:when>
+		                    <c:otherwise>
+		                        비밀글입니다.
+		                    </c:otherwise>
+		                </c:choose>
 					</td>
 					<td>${applyboard.awriter }</td>
-					<td class="center"><fmt:formatDate value="${applyboard.aregister_date }" pattern="yyyy/MM/dd HH:mm:ss"/></td>
+					<td class="center"><fmt:formatDate value="${applyboard.aregister_date }" pattern="yyyy/MM/dd"/></td>
 					<td class="center"><c:out value="${applyboard.aview_count }"/></td>
+					
 				 </tr>
 			</c:otherwise>
 		</c:choose>
@@ -252,7 +261,7 @@ https://startbootstrap.com/
     </div><%-- /.row --%
 
 <%-- Modal --%>
-<div class="modal fade" id="yourModal" tabindex="-1" role="dialog" aria-labelledby="yourModalLabel" aria-hidden="true">
+<%-- <div class="modal fade" id="yourModal" tabindex="-1" role="dialog" aria-labelledby="yourModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -264,10 +273,13 @@ https://startbootstrap.com/
             <div class="modal-footer">
                 <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
             </div>
-        </div><%-- /.modal-content --%>
-    </div><%-- /.modal-dialog --%>
-</div><%-- /.modal --%>
+        </div>/.modal-content
+    </div>/.modal-dialog
+</div>/.modal --%>
 
+<sec:authorize access="isAuthenticated()">
+    <sec:authentication property="principal.authorities" var="authorities"/>
+</sec:authorize>
 
 <script>
 
@@ -282,7 +294,20 @@ $("#btnToRegister").on("click",function(){
 });
 
 //상세페이지 이동
-$(".moveDetail").on("click", function(){
+$(".moveDetail").on("click", function(e){
+	var loginUser = '<sec:authentication property="principal.username"/>';
+    var awriter = $(this).find('td:eq(2)').text().trim();
+
+    // 사용자의 권한을 가져옵니다.
+    var userAuthorities = '${authorities}';
+
+    // 사용자가 작성자가 아니고, admin 권한도 없는 경우에만 접근을 제한합니다.
+    if(loginUser != awriter && !userAuthorities.includes('ADMIN')){
+        e.preventDefault();
+        alert('작성자와 관리자만 볼 수 있는 게시글입니다.');
+        return;
+    }
+    
 	var apost_number = $(this).data("apost_number") ;
 	
 	frmSendValue.append("<input type='hidden' name='apost_number' value='" + apost_number + "'/>")
@@ -424,7 +449,7 @@ $(document).ready(function(){
 	
 });
 
-function deletePost(apost_number) {
+function erasePost(apost_number) {
 	var csrfHeader = "${_csrf.headerName}"
 	var csrfToken = "${_csrf.token}"
 	

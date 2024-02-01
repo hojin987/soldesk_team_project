@@ -43,13 +43,12 @@
 					<sec:authorize access="isAuthenticated()" >
 						<sec:authentication property="principal" var="principal"/>
 						<c:if test="${principal.username eq noticeBoard.nwriter}">
-							<button type="button" class="btn btn-primary btn-frmModify btn-sm" id="btnModify " data-oper="modify" >수정</button>
-		 					<button type="button" class="btn btn-danger btn-frmModify btn-sm" id="btnRemove" data-oper="remove">삭제</button>
+							<button type="button" class="btn btn-default btn-sm btn-frmModify" id="btnModify" data-oper="modify">수정</button>
+		 					<button type="button" class="btn btn-danger btn-sm btn-frmModify" id="btnRemove" data-oper="remove">삭제</button>
 		 				</c:if>
-					</sec:authorize>
-						
-		 					<button type="button" class="btn btn-primary btn-frmModify btn-sm" id="btnList" data-oper="list">취소</button>
-		 				
+					</sec:authorize>	
+ 					
+ 							<button type="button" class="btn btn-info btn-sm btn-frmModify" id="btnList" data-oper="list">취소</button>
  				<sec:csrfInput/>				  
 		  </form>
           </div><%-- /.panel-body --%>

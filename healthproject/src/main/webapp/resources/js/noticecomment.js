@@ -18,8 +18,6 @@ var ncommentClsr = (function() {
  		var npost_number = noticeParam.npost_number;
  		var pageNum = noticeParam.pageNum || 1;
  
- 		console.log("getCmtList()가 전달받은 npost_number: " + npost_number);
- 		console.log("getCmtList()가 전달받은 pageNum: " + pageNum);
  		
  		//댓글 목록 조회 컨트롤러의 매핑 URL: GET /noticeComment/{npost_number}/page/{pageNum}
         //$.ajax() 함수는, 자바스크립트 객체를 매개값으로 받아 처리

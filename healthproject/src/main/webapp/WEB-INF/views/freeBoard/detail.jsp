@@ -17,13 +17,23 @@
 </style>  
 
 <style>
+body {
+    background-color: #f0f0f0; /* 원하는 색상으로 변경하세요. */
+}
 .txtBoxCmt, .txtBoxComment {
 	overflow: hidden; resize: vertical; min-height: 100px; color: black;
+}
+textarea[readonly] {
+    background-color: white !important;
+}
+#fcontent {
+    overflow: hidden; !important;
+    font-size: 17px;
 }
 </style>
 
     <div class="row" style="display: flex; justify-content: center;">
-        <div class="col-lg-8">
+        <div class="col-lg-8" style="min-width:600px">
         
             <div class="panel panel-default">
                 <div class="panel-heading">
@@ -47,17 +57,22 @@
 						</div>
 						<div class="col-md-7" style="height: 45px; padding-top:6px;"><%-- vertical-align: middle; --%>
 							<div class="button-group pull-right">
-							
-			<sec:authorize access="isAuthenticated()" >
-				<sec:authentication property="principal" var="principal"/>
-					<c:if test="${principal.username eq freeBoard.fwriter}">
-							<button type="button" id="btnToModify" data-oper="modify"
-									class="btn btn-primary btn-sm"><span>수정페이지로 이동</span></button>
-					</c:if>
-			</sec:authorize>
+						
+						<sec:authorize access="hasAuthority('ADMIN')">
+					    	<button type="button" class="btn btn-primary btn-sm" onclick="deletePost(${param.fpost_number})">블라인드</button>
+						</sec:authorize>
+						
+						<sec:authorize access="isAuthenticated()">
+						    <sec:authentication property="principal" var="principal"/>
+						    <c:if test="${principal.username eq freeBoard.fwriter}">
+						        <button type="button" id="btnToModify" data-oper="modify"
+						                class="btn btn-primary btn-sm"><span>수정</span></button>
+						    </c:if>
+						</sec:authorize>
 
+        
 							<button type="button" id="btnToList" data-oper="list"
-									class="btn btn-primary btn-sm"><span>목록페이지로 이동</span></button>
+									class="btn btn-primary btn-sm"><span>목록</span></button>
 							</div>
 						</div>
 					</div>
@@ -65,15 +80,14 @@
                 
                 <div class="panel-body">
 
-	
-	<div class="form-group">
-	    <label>글제목</label>
-	    <input class="form-control" name="ftitle" id="ftitle" 
-	    	   value="${freeBoard.ftitle }" readonly="readonly">
-	</div>
-	<div class="form-group">
-	    <label>글내용</label>
-	    	<div class="freeBoard-media">
+<div class="panel-body">
+    <div class="form-group">
+        <h1 id="ftitle">${freeBoard.ftitle}</h1>
+        <hr>
+        </div>
+        <div class="form-group">
+            <div class="content-field">
+                <div class="freeBoard-media">
 							<c:if test="${freeBoard != null and freeBoard.free_media_url != null}">
 							   <c:choose>
 							       <c:when test="${fn:contains(freeBoard.free_media_url, 'youtube.com')}">
@@ -97,10 +111,12 @@
 							       </c:when>
 							   </c:choose>
 							</c:if>
-						</div>
-	    <textarea class="form-control" rows="3" name="fcontent" id="fcontent"
-	    		  readonly="readonly">${freeBoard.fcontent}</textarea>
-	</div>
+					                </div>
+                <textarea class="form-control" rows="5" name="fcontent" id="fcontent"
+                          readonly="readonly">${freeBoard.fcontent}</textarea>
+            </div>
+            
+
 	
 <form role="form" id="frmSendValue">
 	<input type="hidden" name="pageNum" value="${boardPaging.pageNum }" >
@@ -116,11 +132,13 @@
             </div><%-- /.panel --%>
         </div><%-- /.col-lg-12 --%>
     </div><%-- /.row --%>
+     </div>
+      </div>
 
 
 <%-- 댓글 화면 표시 시작 --%>
 <div class="row" style="display: flex; justify-content: center;">
-	<div class="col-lg-8">
+	<div class="col-lg-8" style="min-width:600px">
 		<div class="panel panel-default" >
 			<div class="panel-heading">
 				<p style="margin-bottom: 0px; font-size: 16px;">
@@ -218,7 +236,15 @@
 
 <script>
 
+window.onload = function() {
+    var textArea = document.querySelector('#fcontent');
+    textArea.style.height = 'auto';
+    textArea.style.height = textArea.scrollHeight + 'px';
+}
+
+var frmModify = $("#frmModify");
 var frmSendValue = $("#frmSendValue") ;
+
 
 //게시물 목록 페이지 이동
 $("#btnToList").on("click", function(){;
@@ -227,15 +253,14 @@ $("#btnToList").on("click", function(){;
 	frmSendValue.submit() ;
 });
 
-//게시물 수정-삭제 페이지 이동
-$("#btnToModify").on("click", function(){
-	
-	var fpost_number = '<c:out value="${freeBoard.fpost_number}"/>' ;
-	
-	frmSendValue.append("<input type='hidden' name='fpost_number' value='" + fpost_number + "'/>") ;
-	frmSendValue.attr("action", "${contextPath}/freeBoard/modify").attr("method", "get") ;
-	frmSendValue.submit() ;
-});
+//게시물 수정페이지 이동
+    $("#btnToModify").on("click", function(){
+    	var fpost_number = '<c:out value="${freeBoard.fpost_number}"/>' ;
+    	
+    	frmSendValue.append("<input type='hidden' name='fpost_number' value='" + fpost_number + "'/>") ;
+    	frmSendValue.attr("action", "${contextPath}/freeBoard/modify").attr("method", "get") ;
+    	frmSendValue.submit() ;
+    });
 
 
 var result = '<c:out value="${result}" />' ;
@@ -491,7 +516,6 @@ $("#btnRegCmt").on("click", function(){
 			reply,
 			function(result){
 				if (result != null) {
-					alert(result + "번 댓글이 등록되었습니다.") ;	
 				} else {
 					alert("서버 장애로 댓글 등록이 취소되었습니다.") ;
 				}
@@ -575,7 +599,6 @@ $(".chat").on("click", ".commentLi .btnRegReply", function(){
 	fcommentClsr.registerReply(
 			reply,
 			function(result){
-				alert(result + "번 답글이 등록되었습니다.") ;
 				
 				showCmtList(pageNum) ;
 			}
@@ -656,7 +679,6 @@ $(".chat").on("click", ".commentLi .btnModCmt", function(){
 	}
 	
 	var fcomment_writer_value = $(this).siblings("p").data("fcomment_writer") ;
-	
 	if(fcomment_writer_value != loginUser){
 		alert("작성자만 수정 가능합니다");
 		return ;
@@ -670,12 +692,11 @@ $(".chat").on("click", ".commentLi .btnModCmt", function(){
 	
 	var cmtReply = {fpost_number: fpost_number_value, fcomment_number: fcomment_value, fcomment: txtBoxComment, fcomment_writer: fcomment_writer_value} ;
 	
-/* 	fcommentClsr.init(csrfTokenValue, csrfHeaderName) */
+ 	fcommentClsr.init(csrfTokenValue, csrfHeaderName)
 	
 	fcommentClsr.modifyCmtReply(
 			cmtReply,
 			function(result){
-				alert("댓글(답글)이 수정되었습니다.") ;
 				
 				showCmtList(pageNum) ;			
 			}
@@ -710,7 +731,7 @@ $(".chat").on("click",".commentLi .btnDelCmt", function(){
 	
 	var comment ={fpost_number: fpost_number_value, fcomment_number: fcomment_value, fcomment_writer: fcomment_writer_value} ;
 	
-/* 	fcommentClsr.init(csrfTokenValue, csrfHeaderName) */
+ 	fcommentClsr.init(csrfTokenValue, csrfHeaderName)
 	
 	fcommentClsr.removeCmtReply(
 			comment,
@@ -722,16 +743,37 @@ $(".chat").on("click",".commentLi .btnDelCmt", function(){
 	);
 });
 
-
+//블라인드 처리 함수
+function deletePost(fpost_number) {
+	var csrfHeader = "${_csrf.headerName}"
+	var csrfToken = "${_csrf.token}"
+	
+    $.ajax({
+        url: '${contextPath}/freeBoard/remove',
+        type: 'POST',
+        data: {fpost_number: fpost_number},
+        beforeSend: function(xhr) {
+        	xhr.setRequestHeader(csrfHeader, csrfToken);
+        },
+        success: function(response) {
+        	window.location.href = "${contextPath}/freeBoard/list";
+        },
+        error: function(error) {
+            console.error('Error:', error);
+        }
+    });
+}
 
 
 
 <%-- 제일 아래 --%>
 $(document).ready(function(){
-	
+
 	showCmtList(1);
 	
 });
+
+
 
 
 </script>

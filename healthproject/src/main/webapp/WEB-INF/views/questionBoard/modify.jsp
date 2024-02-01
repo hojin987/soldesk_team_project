@@ -11,9 +11,7 @@
 
 <div id="page-wrapper">
     <div class="row">
-        <div class="col-lg-12">
-            <h3 class="page-header">문의 게시판 - 수정</h3>
-        </div><%-- /.col-lg-12 --%>
+
     </div><%-- /.row --%>
     
     <div class="row">
@@ -55,7 +53,7 @@
 		 				</c:if>
 					</sec:authorize>	
  					
- 							<button type="button" class="btn btn-info btn-frmModify" id="btnList" data-oper="list">취소</button>
+ 							<button type="button" class="btn btn-info btn-sm btn-frmModify" id="btnList" data-oper="list">취소</button>
  					
 		  	<sec:csrfInput/>
 		  </form>

@@ -56,14 +56,16 @@ textarea[readonly] {
 						</div>
 						<div class="col-md-7" style="height: 45px; padding-top:6px;"><%-- vertical-align: middle; --%>
 							<div class="button-group pull-right">
-							
-			<sec:authorize access="isAuthenticated()" >
-				<sec:authentication property="principal" var="principal"/>
-					<c:if test="${principal.username eq applyBoard.awriter}">
-							<button type="button" id="btnToModify" data-oper="modify"
-									class="btn btn-primary btn-sm"><span>수정</span></button>
-					</c:if>
-			</sec:authorize>
+						<sec:authorize access="hasAuthority('ADMIN')">
+					    	<button type="button" class="btn btn-primary btn-sm" onclick="deletePost(${param.apost_number})">블라인드</button>
+						</sec:authorize>
+					    <sec:authorize access="isAuthenticated()">
+						    <sec:authentication property="principal" var="principal"/>
+						    <c:if test="${principal.username eq applyBoard.awriter}">
+						        <button type="button" id="btnToModify" data-oper="modify"
+						                class="btn btn-primary btn-sm"><span>수정</span></button>
+						    </c:if>
+						</sec:authorize>
 									
 							<button type="button" id="btnToList" data-oper="list"
 									class="btn btn-primary btn-sm"><span>목록</span></button>
@@ -254,6 +256,28 @@ $(".modal").on("click", function(e){
 });
 
 var apost_number_value = '<c:out value="${applyBoard.apost_number}"/>'; 
+
+
+//블라인드 함수
+function deletePost(apost_number) {
+	var csrfHeader = "${_csrf.headerName}"
+	var csrfToken = "${_csrf.token}"
+	
+    $.ajax({
+        url: '${contextPath}/applyBoard/remove',
+        type: 'POST',
+        data: {apost_number: apost_number},
+        beforeSend: function(xhr) {
+        	xhr.setRequestHeader(csrfHeader, csrfToken);
+        },
+        success: function(response) {
+        	window.location.href = "${contextPath}/applyBoard/list";
+        },
+        error: function(error) {
+            console.error('Error:', error);
+        }
+    });
+}
 
 <%-- 제일 아래 --%>
 $(document).ready(function(){

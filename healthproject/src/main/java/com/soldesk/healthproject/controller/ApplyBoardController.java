@@ -35,6 +35,7 @@ public class ApplyBoardController {
 	}
 	
     //게시물 조회(페이징 고려)
+	@PreAuthorize("isAuthenticated()")
 	@GetMapping("/list")
 	public String showBoardList(BoardPagingDTO applyboardPaging,  
 							    Model model) {
@@ -63,9 +64,7 @@ public class ApplyBoardController {
 			attachFileList
 				   .forEach(applyAttachFile -> System.out.println(applyAttachFile.toString())) ;
 		} else {
-			System.out.println("<<<<<<<<<<<<<<<<<<< 첨부파일 없음 >>>>>>>>>>>>>>>>>>>>>");
 		}
-		System.out.println();
 		
 		long apost_number = applyBoardService.registerApplyBoard(applyBoard);
 		
@@ -107,7 +106,6 @@ public class ApplyBoardController {
 	}
 	
 	//특정 게시물 삭제 POST /applyBoard/remove
-	@PreAuthorize("isAuthenticated() && (principal.username == #applyBoard.awriter || hasAuthority('ADMIN'))")
 	@PostMapping("/remove")
 	public String removeBoard(@RequestParam("apost_number") Long apost_number, 
 							   RedirectAttributes redirectAttr) {

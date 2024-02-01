@@ -44,13 +44,12 @@
 					<sec:authorize access="isAuthenticated()" >
 						<sec:authentication property="principal" var="principal"/>
 						<c:if test="${principal.username eq applyBoard.awriter}">
-							<button type="button" class="btn btn-primary btn-sm btn-frmModify btn-sm" id="btnModify" data-oper="modify">수정</button>
-		 					<button type="button" class="btn btn-danger btn-sm btn-frmModify btn-sm" id="btnRemove" data-oper="remove">삭제</button>
+							<button type="button" class="btn btn-default btn-sm btn-frmModify" id="btnModify" data-oper="modify">수정</button>
+		 					<button type="button" class="btn btn-danger btn-sm btn-frmModify" id="btnRemove" data-oper="remove">삭제</button>
 		 				</c:if>
 					</sec:authorize>	
  					
- 							<button type="button" class="btn btn-primary btn-frmModify btn-sm" id="btnList" data-oper="list">취소</button>
- 							
+ 							<button type="button" class="btn btn-info btn-sm btn-frmModify" id="btnList" data-oper="list">취소</button>
  				<sec:csrfInput/>
 		  </form>
           </div><%-- /.panel-body --%>
@@ -276,6 +275,8 @@ var cloneInputFile = $(".uploadDiv").clone() ;
 $(".uploadDiv").on("change", "input[type='file']", function(e) {
 	//FormData() Ajax 파일 전송 시에 사용되는 Web API 클래스의 생성자
 	var formData = new FormData();
+	var csrfHeader = "${_csrf.headerName}"
+	var csrfToken = "${_csrf.token}"
 	
 	//선택된 input 요소를 변수에 저장
 	var inputFiles = $(this);
@@ -303,6 +304,9 @@ $(".uploadDiv").on("change", "input[type='file']", function(e) {
 		contentType: false, //contentType에 MIME 타입을 지정하지 않음.
 		data: formData,
 		dataType: 'json', //수정
+		beforeSend: function(xhr) {
+        	xhr.setRequestHeader(csrfHeader, csrfToken);
+        },
 		success: function(uploadResult, status){
 					alert("첨부파일의 업로드 완료: " + status);
 					$(".uploadDiv").html(cloneInputFile.html()); //파일이름이 선택된 기존 input을 초기화

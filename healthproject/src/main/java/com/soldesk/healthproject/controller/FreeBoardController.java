@@ -88,7 +88,6 @@ public class FreeBoardController {
 	}
 	
 	//특정 게시물 삭제 POST /freeBoard/remove
-	@PreAuthorize("isAuthenticated() && principal.username == #freeBoard.fwriter")
 	@PostMapping("/remove")
 	public String removeBoard(@RequestParam("fpost_number") Long fpost_number, FreeBoardVO freeBoard) {
 		

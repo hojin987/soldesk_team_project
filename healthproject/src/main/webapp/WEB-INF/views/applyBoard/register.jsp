@@ -163,8 +163,9 @@ console.log("cloneInputFile: " + cloneInputFile.html()); //복사된 input 요�
 $(".uploadDiv").on("change", "input[type='file']", function(e) { //수정
 	
 	var formData = new FormData(); //전송될 파일을 저장할 객체
-	
 	var inputFiles = $("input[name='uploadFiles']"); 
+	var csrfHeader = "${_csrf.headerName}"
+	var csrfToken = "${_csrf.token}"
 	
 	var files = inputFiles[0].files;	
 	console.log(files);
@@ -188,8 +189,10 @@ $(".uploadDiv").on("change", "input[type='file']", function(e) { //수정
 		contentType: false, //contentType에 MIME 타입을 지정하지 않음.
 		data: formData,
 		dataType: 'json', //수정
+		beforeSend: function(xhr) {
+        	xhr.setRequestHeader(csrfHeader, csrfToken);
+        },
 		success: function(uploadResult, status){
-				alert("첨부파일의 업로드 완료: " + status);
 				$(".uploadDiv").html(cloneInputFile.html()); //파일이름이 선택된 기존 input을 초기화
 				showUploadedFiles(uploadResult);
 		}
@@ -201,6 +204,8 @@ $(".fileUploadResult").on("click","span", function(e){
 	//this: span
 	var targetFileName = $(this).data("filename");
 	var targetFileType = $(this).data("filetype");
+	var csrfHeader = "${_csrf.headerName}"
+	var csrfToken = "${_csrf.token}"
 	
 	//span이 포함된 li 변수에 저장
 	var parentLi = $(this).parent();
@@ -210,9 +215,11 @@ $(".fileUploadResult").on("click","span", function(e){
 		url: '${contextPath}/deleteUploadedFile',
 		data: {fileName: targetFileName, fileType: targetFileType},
 		dataType:'text',
+		beforeSend: function(xhr) {
+        	xhr.setRequestHeader(csrfHeader, csrfToken);
+        },
 		success: function(result){
 			if (result == "SuccessDeletingFile"){
-				alert("파일이 삭제되었습니다.");
 				
 				parentLi.remove();
 				

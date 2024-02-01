@@ -62,7 +62,6 @@ public class FreeCommentController {
 			_registered_fcomment_number = String.valueOf(registered_fcomment_number) ;
 		}
 		
-		System.out.println("_registered_fcomment_number: " + _registered_fcomment_number);
 		
 		return registered_fcomment_number != null ? new ResponseEntity<String>(_registered_fcomment_number, HttpStatus.OK) 
 										  : new ResponseEntity<String>(_registered_fcomment_number, HttpStatus.INTERNAL_SERVER_ERROR);
@@ -108,11 +107,9 @@ public class FreeCommentController {
 					method = {RequestMethod.PUT, RequestMethod.PATCH} ,
 					consumes = "application/json;charset=utf-8" ,
 					produces = "text/plain;charset=utf-8") 
-	@PreAuthorize("isAuthenticated() && principal.username == #freeComment.fcomment_writer")
 	public String modifyFreeComment(@PathVariable("fpost_number") Long fpost_number ,
 							  @PathVariable("fcomment_number") Long fcomment_number ,
 							  @RequestBody FreeCommentVO fcomment){
-		System.out.println("컨트롤러에 전달된 fcomment: " + fcomment);
 		
 		if(freeCommentService.modifyFreeComment(fcomment)) {
 			return "modifySuccess" ;

@@ -39,7 +39,6 @@ public class NoticeBoardController {
 	@PreAuthorize("isAuthenticated()")
 	@GetMapping("/register")
 	public void showNoticeBoardRegisterPage() {
-		System.out.println("컨트롤러 - 게시물 등록 페이지 호출");
 	}
 	
 	//등록 처리 POST /noticeboard/register 
@@ -87,7 +86,6 @@ public class NoticeBoardController {
 	}
 	
 	//특정 게시물 삭제 POST /myboard/remove
-	@PreAuthorize("isAuthenticated() && (principal.username == #noticeBoard.nwriter || hasAuthority('ADMIN'))")
 	@PostMapping("/remove")
 	public String removeBoard(@RequestParam("npost_number") Long npost_number,
 							  NoticeBoardVO noticeBoard,

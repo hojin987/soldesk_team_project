@@ -44,7 +44,7 @@ https://startbootstrap.com/
 
 .table th:nth-child(3),
 .table td:nth-child(3){
-    width: 8%;
+    width: 10%;
     text-align: center;
 }
 .table th:nth-child(4),
@@ -54,7 +54,7 @@ https://startbootstrap.com/
 }
 .table th:nth-child(5),
 .table td:nth-child(5) {
-    width: 9%;
+    width: 10%;
     text-align: center;
 }
 
@@ -140,10 +140,10 @@ https://startbootstrap.com/
 			<c:when test="${noticeboard.ndelete_flag == 'Y' }">
 				<tr style="background-color: Moccasin; text-align: center">
 				    <td>${noticeboard.npost_number }</td>
-				    <td colspan="3"><em>작성자에 의해서 삭제된 게시글입니다.</em></td>
+				    <td colspan="3"><em>블라인드처리 된 게시글입니다.</em></td>
 				    <td>
 				    <sec:authorize access="hasAuthority('ADMIN')">
-				    	<button type="button" class="btn btn-primary btn-xs" onclick="deletePost(${noticeboard.npost_number})">삭제</button>
+				    	<button type="button" class="btn btn-primary btn-xs" onclick="erasePost(${noticeboard.npost_number})">삭제</button>
 					</sec:authorize>
 					</td>
 				</tr>
@@ -156,8 +156,8 @@ https://startbootstrap.com/
 						<c:out value="${noticeboard.ntitle }"/>
 						<small>[댓글수: <strong style="color:#2f2f2f"><c:out value="${noticeboard.nreply_count}"/></strong>]</small>
 					</td>
-					<td>${noticeboard.nwriter }</td>
-					<td class="center"><fmt:formatDate value="${noticeboard.nregister_date }" pattern="yyyy/MM/dd HH:mm:ss"/></td>
+					<td>Admin</td>
+					<td class="center"><fmt:formatDate value="${noticeboard.nregister_date }" pattern="yyyy/MM/dd"/></td>
 					<td class="center"><c:out value="${noticeboard.nview_count }"/></td>
 				 </tr>
 			</c:otherwise>
@@ -424,7 +424,7 @@ $(document).ready(function(){
 	
 });
 
-function deletePost(npost_number) {
+function erasePost(npost_number) {
 	var csrfHeader = "${_csrf.headerName}"
 	var csrfToken = "${_csrf.token}"
 	

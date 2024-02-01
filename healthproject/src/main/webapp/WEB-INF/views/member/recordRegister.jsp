@@ -9,7 +9,7 @@
 <%@include file="../myinclude/myheader.jsp" %>  
 
     <div class="row" style="display: flex; justify-content: center;">
-        <div class="col-lg-8">
+        <div class="col-lg-8" style="min-width:600px">
         
             <div class="panel panel-default">
                 <div class="panel-heading">

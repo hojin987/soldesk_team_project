@@ -38,7 +38,7 @@
 
 .table th:nth-child(3),
 .table td:nth-child(3){
-    width: 8%;
+    width: 10%;
     text-align: center;
 }
 .table th:nth-child(4),
@@ -48,7 +48,7 @@
 }
 .table th:nth-child(5),
 .table td:nth-child(5) {
-    width: 9%;
+    width: 10%;
     text-align: center;
 }
 
@@ -72,7 +72,7 @@
 					<div class="row">
 						<div class="col-md-6" style="font-size:20px; height: 45px; padding-top:10px;">자유게시판</div>
 						<div class="col-md-6" style="padding-top:8px;">
-							<button type="button" id="btnToRegister" class="btn btn-primary btn-sm pull-right">새글 등록</button>
+							<button type="button" id="btnToRegister" class="btn btn-primary btn-sm pull-right">글쓰기</button>
 						</div>
 					</div>
 				</div><%-- /.panel-heading --%>
@@ -137,10 +137,10 @@
 			<c:when test="${freeboard.fdelete_flag == 'Y' }">
 				<tr style="background-color: Moccasin; text-align: center">
 				    <td>${freeboard.fpost_number }</td>
-				    <td colspan="3"><em>작성자에 의해서 삭제된 게시글입니다.</em></td>
+				    <td colspan="3"><em>블라인드처리 된 게시글입니다.</em></td>
 				    <td>
 				    <sec:authorize access="hasAuthority('ADMIN')">
-				    	<button type="button" class="btn btn-primary btn-xs" onclick="deletePost(${freeboard.fpost_number})">삭제</button>
+				    	<button type="button" class="btn btn-primary btn-xs" onclick="erasePost(${freeboard.fpost_number})">삭제</button>
 					</sec:authorize>
 					</td>
 				</tr>
@@ -154,7 +154,7 @@
 						<small>[댓글수: <strong><c:out value="${freeboard.freply_count}"/></strong>]</small>
 					</td>
 					<td>${freeboard.fwriter }</td>
-					<td class="center"><fmt:formatDate value="${freeboard.fregister_date }" pattern="yyyy/MM/dd HH:mm:ss"/></td>
+					<td class="center"><fmt:formatDate value="${freeboard.fregister_date }" pattern="yyyy/MM/dd"/></td>
 					<td class="center"><c:out value="${freeboard.fview_count }"/></td>
 				 </tr>
 			</c:otherwise>
@@ -424,7 +424,7 @@ $(document).ready(function(){
 	
 });
 
-function deletePost(fpost_number) {
+function erasePost(fpost_number) {
 	var csrfHeader = "${_csrf.headerName}"
 	var csrfToken = "${_csrf.token}"
 	

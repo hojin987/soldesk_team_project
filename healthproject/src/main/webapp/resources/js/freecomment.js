@@ -17,9 +17,6 @@
  	
  		var fpost_number = freeParam.fpost_number;
  		var pageNum = freeParam.pageNum || 1;
- 
- 		console.log("getCmtList()가 전달받은 fpost_number: " + fpost_number);
- 		console.log("getCmtList()가 전달받은 pageNum: " + pageNum);
  		
  		//댓글 목록 조회 컨트롤러의 매핑 URL: GET /freeComment/{fpost_number}/page/{pageNum}
         //$.ajax() 함수는, 자바스크립트 객체를 매개값으로 받아 처리

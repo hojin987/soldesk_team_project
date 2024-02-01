@@ -60,7 +60,6 @@ public class NoticeCommentController {
 			_registered_ncomment_number = String.valueOf(registered_ncomment_number) ;
 		}
 		
-		System.out.println("_registered_ncomment_number: " + _registered_ncomment_number);
 		
 		return registered_ncomment_number != null ? new ResponseEntity<String>(_registered_ncomment_number, HttpStatus.OK) 
 										  : new ResponseEntity<String>(_registered_ncomment_number, HttpStatus.INTERNAL_SERVER_ERROR);
@@ -106,7 +105,6 @@ public class NoticeCommentController {
 					method = {RequestMethod.PUT, RequestMethod.PATCH} ,
 					consumes = "application/json;charset=utf-8" ,
 					produces = "text/plain;charset=utf-8") 
-	@PreAuthorize("isAuthenticated() && principal.username == #noticeComment.ncomment_writer")
 	public String modifyNoticeComment(@PathVariable("npost_number") Long npost_number ,
 							  @PathVariable("ncomment_number") Long ncomment_number ,
 							  @RequestBody NoticeCommentVO ncomment){

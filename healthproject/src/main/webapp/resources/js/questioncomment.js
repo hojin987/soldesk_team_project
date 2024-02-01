@@ -17,9 +17,6 @@
  	
  		var qpost_number = questionParam.qpost_number;
  		var pageNum = questionParam.pageNum || 1;
- 
- 		console.log("getCmtList()가 전달받은 qpost_number: " + qpost_number);
- 		console.log("getCmtList()가 전달받은 pageNum: " + pageNum);
  		
  		//댓글 목록 조회 컨트롤러의 매핑 URL: GET /questionComment/{qpost_number}/page/{pageNum}
         //$.ajax() 함수는, 자바스크립트 객체를 매개값으로 받아 처리

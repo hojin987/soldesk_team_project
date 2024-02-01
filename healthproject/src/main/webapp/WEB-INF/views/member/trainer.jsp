@@ -10,7 +10,7 @@
 <%@include file="../myinclude/myheader.jsp" %>  
 
 <div class="row" style="display: flex; justify-content: center;">
-    <div class="col-lg-8">
+    <div class="col-lg-8" style="min-width:600px">
        	<div class="panel panel-default">
         	<div class="panel-heading">
 				<div class="row">
@@ -27,9 +27,8 @@
 		    <c:forEach items="${member.authorityList}" var="authority">
 		        <c:if test="${authority.authority eq 'TRAINER'}">
 		            <tr class="moveDetail" data-member_id="${member.member_id}">
-		            	<td>이미지</td>
 		            	<td style="text-align:left;">
-		            		[<c:out value="강사" />] <c:out value="${member.member_name}"/><br>
+		            		[<c:out value="트레이너" />] <c:out value="${member.member_name}"/><br>
 		            		<c:forEach items="${trainerRecord}" var="record">
 							    <c:if test="${member.member_id eq record.member_id}">
 							        <span data-trainer-record="${record.trainer_record}">${record.trainer_record}</span>

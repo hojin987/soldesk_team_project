@@ -62,8 +62,6 @@ public class QuestionCommentController {
 			_registered_qcomment_number = String.valueOf(registered_qcomment_number) ;
 		}
 		
-		System.out.println("_registered_qcomment_number: " + _registered_qcomment_number);
-		
 		return registered_qcomment_number != null ? new ResponseEntity<String>(_registered_qcomment_number, HttpStatus.OK) 
 										  : new ResponseEntity<String>(_registered_qcomment_number, HttpStatus.INTERNAL_SERVER_ERROR);
 	}
@@ -108,7 +106,6 @@ public class QuestionCommentController {
 					method = {RequestMethod.PUT, RequestMethod.PATCH} ,
 					consumes = "application/json;charset=utf-8" ,
 					produces = "text/plain;charset=utf-8") 
-	@PreAuthorize("isAuthenticated() && principal.username == #questionComment.qcomment_writer")
 	public String modifyQuestionComment(@PathVariable("qpost_number") Long qpost_number ,
 							  @PathVariable("qcomment_number") Long qcomment_number ,
 							  @RequestBody QuestionCommentVO qcomment){

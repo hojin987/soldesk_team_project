@@ -43,7 +43,6 @@ public class QuestionBoardController {
 	@PreAuthorize("isAuthenticated()")
 	@GetMapping("/register")
 	public void showQuestionBoardRegisterPage() {
-		System.out.println("컨트롤러 - 게시물 등록 페이지 호출");
 	}
 	
 	//등록 처리 POST /questionBoard/register 
@@ -91,7 +90,6 @@ public class QuestionBoardController {
 	}
 	
 	//특정 게시물 삭제 POST /questionBoard/remove
-	@PreAuthorize("isAuthenticated() && principal.username == #questionBoard.qwriter")
 	@PostMapping("/remove")
 	public String removeBoard(@RequestParam("qpost_number") Long qpost_number, 
 							   RedirectAttributes redirectAttr) {
