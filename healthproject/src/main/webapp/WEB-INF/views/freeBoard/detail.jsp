@@ -3,6 +3,7 @@
 
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
 
 <c:set var="contextPath" value="${pageContext.request.contextPath }"/>
@@ -72,6 +73,31 @@
 	</div>
 	<div class="form-group">
 	    <label>글내용</label>
+	    	<div class="freeBoard-media">
+							<c:if test="${freeBoard != null and freeBoard.free_media_url != null}">
+							   <c:choose>
+							       <c:when test="${fn:contains(freeBoard.free_media_url, 'youtube.com')}">
+							           <c:choose>
+							               <c:when test="${fn:contains(freeBoard.free_media_url, 'shorts')}">
+							                   <iframe width="560" height="315"
+							                       src="https://www.youtube.com/embed/${fn:substringAfter(freeBoard.free_media_url, 'shorts/')}"
+							                       allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"></iframe>
+							               </c:when>
+							               <c:otherwise>
+							                   <iframe width="560" height="315"
+							                       src="https://www.youtube.com/embed/${fn:substringAfter(freeBoard.free_media_url, 'v=')}"
+							                       allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"></iframe>
+							               </c:otherwise>
+							           </c:choose>
+							       </c:when>
+							       <c:when test="${fn:contains(freeBoard.free_media_url, 'youtu.be')}">
+							           <iframe width="560" height="315"
+							               src="https://www.youtube.com/embed/${fn:substringAfter(freeBoard.free_media_url, 'be/')}"
+							               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"></iframe>
+							       </c:when>
+							   </c:choose>
+							</c:if>
+						</div>
 	    <textarea class="form-control" rows="3" name="fcontent" id="fcontent"
 	    		  readonly="readonly">${freeBoard.fcontent}</textarea>
 	</div>
@@ -213,7 +239,6 @@ $("#btnToModify").on("click", function(){
 
 
 var result = '<c:out value="${result}" />' ;
-//alert("result" + result);
 
 function runModal(result) {
 	

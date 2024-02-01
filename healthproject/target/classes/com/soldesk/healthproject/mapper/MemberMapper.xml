@@ -139,7 +139,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			member_weight = #{member_weight},
 			member_muscle_percent = #{member_muscle_percent},
 			member_fat_percent = #{member_fat_percent},
-			member_goal = #{member_goal}
+			member_goal = #{member_goal},
+			ticket_number = #{ticket_number},
+			ticket_start_date = #{ticket_start_date},
+			ticket_end_date = #{ticket_end_date},
+			pt_count = #{pt_count}
 		</set>
 		WHERE member_id = #{member_id}
 	</update>

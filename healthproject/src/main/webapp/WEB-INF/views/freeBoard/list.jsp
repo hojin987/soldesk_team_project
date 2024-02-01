@@ -10,8 +10,60 @@
 
 <style>
  th {text-align: center;}
+ body {
+    background-color: #f0f0f0;
+}
  strong {color: #000}
-</style>  
+     .table {
+        border-collapse: separate;
+        border-spacing: 0;
+        border: 2px solid #ddd;
+    }
+.table {
+    table-layout: fixed;
+    width: 100%;
+    overflow: auto;
+}
+
+.table th:nth-child(1),
+.table td:nth-child(1) {
+    width: 5%;
+    text-align: center;
+}
+
+.table th:nth-child(2),
+.table td:nth-child(2) {
+    width: 60%;
+}
+
+.table th:nth-child(3),
+.table td:nth-child(3){
+    width: 8%;
+    text-align: center;
+}
+.table th:nth-child(4),
+.table td:nth-child(4){
+    width: 15%;
+    text-align: center;
+}
+.table th:nth-child(5),
+.table td:nth-child(5) {
+    width: 9%;
+    text-align: center;
+}
+
+.table th, .table td {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.table-bordered th, .table-bordered td {
+    border: none !important;
+}
+
+
+</style> 
+  
     <div class="row" style="display: flex; justify-content: center;">
         <div class="col-lg-8">
         
@@ -37,44 +89,27 @@
 			<option value="20" ${(pagingCreator.freeboardPaging.rowAmountPerPage == 20) ? "selected" : "" }>20개</option>
 			<option value="50" ${(pagingCreator.freeboardPaging.rowAmountPerPage == 50) ? "selected" : "" }>50개</option>
 			<option value="100" ${(pagingCreator.freeboardPaging.rowAmountPerPage == 100) ? "selected" : "" }>100개</option>
-		</select>
+		</select>	
 		
-		<select class="form-control" id="selectScope" name="scope">
-			<option value="" ${(pagingCreator.freeboardPaging.scope == null ) ? "selected" : "" }>범위선택</option>
-			<option value="W" ${(pagingCreator.freeboardPaging.scope == "W" ) ? "selected" : "" }>작성자</option>
-			<option value="TC" ${(pagingCreator.freeboardPaging.scope == "TC" ) ? "selected" : "" }>제목+내용</option>
-		</select>
-		
-		
-		<div class="input-group"><!-- 검색어 입력 -->
-			<input class="form-control" id="keyword" name="keyword" type="text" 
-			       placeholder="검색어를 입력하세요"
-				   value='<c:out value="${pagingCreator.freeboardPaging.keyword}" />' />
-			<span class="input-group-btn"><!-- 전송버튼 -->
-				<button class="btn btn-primary btn-sm" type="button" id="btnSearchGo"
-						><i class="fa fa-search"></i>
-				</button>
-			</span>
-		</div>
-		
-		<div class="input-group"><!-- 검색 초기화 버튼 -->
-			<button id="btnReset" class="btn btn-primary btn-sm" type="button">
-				<span class="glyphicon glyphicon-remove"></span>
-			</button>
-		</div>
+		<!-- 달력버튼 -->
+<button id="btnCalendar" class="btn btn-primary btn-sm" type="button">
+    <span class="glyphicon glyphicon-calendar"></span>
+</button>
+
+<!-- 기간 검색 필드 -->
+<div class="form-group pull-right" id="dateSearch" style="display: none;">
+    <input class="form-control" id="beginDate" name="beginDate" type="date"
+           value="${pagingCreator.freeboardPaging.beginDate}" />
+    <input class="form-control" id="endDate" name="endDate" type="date"
+           value="${pagingCreator.freeboardPaging.endDate}" />
+    <button type="button" class="btn btn-primary mybtns btn-sm" 
+            id="btnIntervalSearch">기간검색</button>
+</div>	
+				
 	</div>
 
-	<div class="form-group pull-right">
-		<input class="form-control" id="beginDate" name="beginDate" type="date"
-			   value="${pagingCreator.freeboardPaging.beginDate}" 
-			   />
-		<input class="form-control" id="endDate" name="endDate" type="date"
-			   value="${pagingCreator.freeboardPaging.endDate}" 
-			   />
+	
 
-		<button type="button" class="btn btn-primary mybtns btn-sm" 
-				id="btnIntervalSearch" >기간검색</button>
-	</div> 
 	
 	<input type="hidden" id="pageNum" name="pageNum" value="${pagingCreator.freeboardPaging.pageNum }" ><%-- 
 	<input type="hidden" id="rowAmountPerPage" name="rowAmountPerPage" value="${pagingCreator.freeboardPaging.rowAmountPerPage }" > --%>
@@ -83,17 +118,16 @@
 </form>                
 <hr>     
                
-                    <table class="table table-striped table-bordered table-hover" 
-                           style="width:100%;text-align: center;">
-                        <thead>
-                            <tr>
-                                <th>글번호</th>
-                                <th>제목</th>
-                                <th>작성자</th>
-                                <th>작성일</th>
-                                <th>조회수</th>
-                            </tr>
-                        </thead>
+                    <table class="table table-striped table-bordered table-hover">
+					    <thead>
+					        <tr style="background-color: #f2f2f2;">
+					            <th style="color: #5a5a5a;">번호</th>
+					            <th style="color: #5a5a5a;">제목</th>
+					            <th style="color: #5a5a5a;">작성자</th>
+					            <th style="color: #5a5a5a;">작성일</th>
+					            <th style="color: #5a5a5a;">조회수</th>
+					        </tr>
+					    </thead>
                         <tbody>
 
 <c:choose>
@@ -136,6 +170,38 @@
 
                         </tbody>
                     </table><%-- /.table-responsive --%>
+                    
+<form class="form-inline" id="frmSendValue" name="frmSendValue" action="${contextPath }/freeBoard/list" method="get" style="center" >
+	<div class="form-group">
+		<label class="sr-only">frmSendValues</label>
+		
+		<select class="form-control" id="selectScope" name="scope">
+ 			<option value="TC" ${(pagingCreator.freeboardPaging.scope == "TC" ) ? "selected" : "" }>제목+내용</option>
+			<option value="T" ${(pagingCreator.freeboardPaging.scope == "T" ) ? "selected" : "" }>제목</option>
+			<option value="C" ${(pagingCreator.freeboardPaging.scope == "C" ) ? "selected" : "" }>내용</option>
+			<option value="W" ${(pagingCreator.freeboardPaging.scope == "W" ) ? "selected" : "" }>작성자</option>
+		</select>
+		
+		
+		<div class="input-group"><!-- 검색어 입력 -->
+			<input class="form-control" id="keyword" name="keyword" type="text" 
+			       placeholder="검색어를 입력하세요"
+				   value='<c:out value="${pagingCreator.freeboardPaging.keyword}" />' />
+			<span class="input-group-btn"><!-- 전송버튼 -->
+				<button class="btn btn-primary btn-sm" type="button" id="btnSearchGo"
+						><i class="fa fa-search"></i>
+				</button>
+			</span>
+		</div>
+	</div>
+	
+	<input type="hidden" id="pageNum" name="pageNum" value="${pagingCreator.freeboardPaging.pageNum }" ><%-- 
+	<input type="hidden" id="rowAmountPerPage" name="rowAmountPerPage" value="${pagingCreator.freeboardPaging.rowAmountPerPage }" > --%>
+	<input type="hidden" id="lastPageNum" name="lastPageNum" value="${pagingCreator.lastPageNum }" >
+	
+</form>       
+                    
+                    
 <div style="text-align: center;">
 	<ul class="pagination pagination-sm" >
 		<c:if test="${pagingCreator.prev }">
@@ -302,6 +368,19 @@ $("#selectScope").on("change", function(){
 
 });
 
+<%-- 기간검색 숨기기 --%>
+document.addEventListener('DOMContentLoaded', function() {
+    var btnCalendar = document.getElementById('btnCalendar');
+    var dateSearch = document.getElementById('dateSearch');
+
+    btnCalendar.addEventListener('click', function() {
+        // 기간 검색 필드 표시
+        dateSearch.style.display = 'block';
+
+        // 달력 버튼 숨기기
+        btnCalendar.style.display = 'none';
+    });
+});
 
 <%--기간 검색버튼 클릭 이벤트 처리 --%>
 $("#btnIntervalSearch").on("click", function(){

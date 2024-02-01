@@ -225,7 +225,7 @@
                         <table class="table table-striped">
                             <thead>
                             <tr>
-                                <th colspan="3">${principal.username}님의 ${member.member_goal}를 응원합니다.</th>
+                                <th colspan="3">${principal.username}님의 ${member.member_goal}운동을 응원합니다.</th>
                             </tr>
                             <c:choose>
 	                            <c:when test="${member.member_goal eq '어깨'}">
@@ -252,7 +252,7 @@
 					                        src="https://www.youtube.com/embed/${fn:substringAfter('https://youtu.be/wuyvlTWb3Jo?si=UQ6k8Q9OMM4sUKd5', 'be/')}"
 					                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"></iframe></td>
 	                            </c:when>
-	                            <c:when test="${member.member_goal eq '체력증진'}">
+	                            <c:when test="${member.member_goal eq '체력개선'}">
 	                                <td class="moveDetail" data-workout_code="${workout.workout_code}" style="text-align:left;">
 	                                <iframe width="560" height="315"
 					                        src="https://www.youtube.com/embed/${fn:substringAfter('https://youtu.be/O3GU4hMK75w?si=2Mr57cbX9AapUfEB', 'be/')}"

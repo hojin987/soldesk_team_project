@@ -12,15 +12,16 @@
  th {text-align: center;}
 </style>  
 
-    <div class="row" style="display: flex; justify-content: center;">
-        <div class="col-lg-8">
-        
+    <div class="row" style="display: flex; justify-content: center; ">
+        <div class="col-lg-6" style="min-width:600px;">
             <div class="panel panel-default">
                 <div class="panel-heading">
 					<div class="row">
 						<div class="col-md-6" style="font-size:20px; height: 45px; padding-top:10px;">정기권 목록</div>
 						<div class="col-md-6" style="padding-top:8px;">
-							<button type="button" id="btnToRegister" class="btn btn-primary btn-sm pull-right">정기권 등록</button>
+							<sec:authorize access="hasAnyAuthority('TRAINER', 'ADMIN')">
+								<button type="button" id="btnToRegister" class="btn btn-primary btn-sm pull-right">정기권 등록</button>
+							</sec:authorize>
 						</div>
 					</div>
 				</div><%-- /.panel-heading --%>
@@ -32,20 +33,18 @@
 	       style="width:100%;text-align: center;">
 	    <thead>
 	        <tr>
-	            <th>상품번호</th>
 	            <th>상품내용</th>
-	            <th>피티횟수</th>
 	            <th>가격</th>
 	        </tr>
 	    </thead>
 	    <tbody>
 			<c:forEach items="${ticketList}" var="ticket">
-				<tr class="moveDetail" data-ticket_number="${ticket.ticket_number}">
-					<td><c:out value="${ticket.ticket_number}" /></td>
-					<td style="text-align:left;" ><c:out value="${ticket.ticket_content}"/></td>
-					<td><c:out value="${ticket.pt_count}" /></td>
-					<td><c:out value="${ticket.ticket_price}"/></td>
-				</tr>
+				<c:if test="${ticket.ticket_number ne 'none'}">
+					<tr class="moveDetail" data-ticket_number="${ticket.ticket_number}">
+						<td style="text-align:left;" ><c:out value="${ticket.ticket_content}"/></td>
+						<td><c:out value="${ticket.ticket_price}"/></td>
+					</tr>
+				</c:if>
 			</c:forEach>              
 
                     </tbody>
@@ -74,8 +73,6 @@
         </div><%-- /.modal-content --%>
     </div><%-- /.modal-dialog --%>
 </div><%-- /.modal --%>
-
-
 
 <script>
 

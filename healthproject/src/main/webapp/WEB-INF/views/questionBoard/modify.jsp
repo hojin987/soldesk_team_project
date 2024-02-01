@@ -37,7 +37,7 @@
 					</div>
 					<div class="form-group">
 						<label>글내용</label>
-						<textarea class="form-control" rows="3" name="qcontent"
+						<textarea class="form-control" rows="5" name="qcontent"
 								><c:out value="${questionBoard.qcontent}"/></textarea>
 					</div>
 					<div class="form-group">
@@ -50,8 +50,8 @@
 					<sec:authorize access="isAuthenticated()" >
 						<sec:authentication property="principal" var="principal"/>
 						<c:if test="${principal.username eq questionBoard.qwriter}">
-							<button type="button" class="btn btn-default btn-frmModify" id="btnModify" data-oper="modify">수정</button>
-		 					<button type="button" class="btn btn-danger btn-frmModify" id="btnRemove" data-oper="remove">삭제</button>
+							<button type="button" class="btn btn-default btn-sm btn-frmModify" id="btnModify" data-oper="modify">수정</button>
+		 					<button type="button" class="btn btn-danger btn-sm btn-frmModify" id="btnRemove" data-oper="remove">삭제</button>
 		 				</c:if>
 					</sec:authorize>	
  					
@@ -99,7 +99,11 @@ $(".btn-frmModify").on("click", function(e){
 
 	var operation = $(this).data("oper"); //각 버튼의 data-xxx 속성에 설정된 값을 저장
 	var qwriter_value = '<c:out value="${questionBoard.qwriter}"/>';
- 	alert("operation: "+ operation + ", qwriter_value: " + qwriter_value);
+	if (operation == "modify" && !confirm("수정하시겠습니까?")) {
+	    return;
+	} else if (operation == "remove" && !confirm("정말로 삭제하시겠습니까?")) {
+	    return;
+	}
  
  	if(operation == "list"){//게시물 목록 화면 요청
  		//기존 페이징 데이터 input 요소 복사

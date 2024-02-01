@@ -1,12 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 
-<!-- 
-https://getbootstrap.kr/
-https://getbootstrap.com/
-https://startbootstrap.com/
--->
-
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 
@@ -16,7 +10,58 @@ https://startbootstrap.com/
 
 <style>
  th {text-align: center;}
- strong {color:#000;}
+ body {
+    background-color: #f0f0f0;
+}
+ strong {color: #000}
+     .table {
+        border-collapse: separate;
+        border-spacing: 0;
+        border: 2px solid #ddd;
+    }
+.table {
+    table-layout: fixed;
+    width: 100%;
+    overflow: auto;
+}
+
+.table th:nth-child(1),
+.table td:nth-child(1) {
+    width: 5%;
+    text-align: center;
+}
+
+.table th:nth-child(2),
+.table td:nth-child(2) {
+    width: 60%;
+}
+
+.table th:nth-child(3),
+.table td:nth-child(3){
+    width: 8%;
+    text-align: center;
+}
+.table th:nth-child(4),
+.table td:nth-child(4){
+    width: 15%;
+    text-align: center;
+}
+.table th:nth-child(5),
+.table td:nth-child(5) {
+    width: 9%;
+    text-align: center;
+}
+
+.table th, .table td {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.table-bordered th, .table-bordered td {
+    border: none !important;
+}
+
+
 </style>  
 
 <div class="row" style="display: flex; justify-content: center;">
@@ -26,7 +71,9 @@ https://startbootstrap.com/
 				<div class="row">
 					<div class="col-md-6" style="font-size:20px; height: 45px; padding-top:10px;">1:1 문의</div>
 					<div class="col-md-6" style="padding-top:8px;">
-						<button type="button" id="btnToRegister" class="btn btn-primary btn-sm pull-right">새글 등록</button>
+						<sec:authorize access="hasAnyAuthority('ROLE_USER', 'ADMIN','TRAINER')">
+							<button type="button" id="btnToRegister" class="btn btn-primary btn-sm pull-right">글쓰기</button>
+						</sec:authorize>
 					</div>
 				</div>
 			</div><%-- /.panel-heading --%>
@@ -44,11 +91,92 @@ https://startbootstrap.com/
 			<option value="50" ${(pagingCreator.questionboardPaging.rowAmountPerPage == 50) ? "selected" : "" }>50개</option>
 			<option value="100" ${(pagingCreator.questionboardPaging.rowAmountPerPage == 100) ? "selected" : "" }>100개</option>
 		</select>
+		<!-- 달력버튼 -->
+<button id="btnCalendar" class="btn btn-primary btn-sm" type="button">
+    <span class="glyphicon glyphicon-calendar"></span>
+</button>
+
+<!-- 기간 검색 필드 -->
+<div class="form-group pull-right" id="dateSearch" style="display: none;">
+    <input class="form-control" id="beginDate" name="beginDate" type="date"
+           value="${pagingCreator.questionboardPaging.beginDate}" />
+    <input class="form-control" id="endDate" name="endDate" type="date"
+           value="${pagingCreator.questionboardPaging.endDate}" />
+    <button type="button" class="btn btn-primary mybtns btn-sm" 
+            id="btnIntervalSearch">기간검색</button>
+</div>	
+	</div>
+
+	
+	<input type="hidden" id="pageNum" name="pageNum" value="${pagingCreator.questionboardPaging.pageNum }" >
+	<input type="hidden" id="lastPageNum" name="lastPageNum" value="${pagingCreator.lastPageNum }" >
+	
+</form>                
+<hr>     
+               
+                    <table class="table table-striped table-bordered table-hover">
+					    <thead>
+					        <tr style="background-color: #f2f2f2;">
+					            <th style="color: #5a5a5a;">번호</th>
+					            <th style="color: #5a5a5a;">제목</th>
+					            <th style="color: #5a5a5a;">작성자</th>
+					            <th style="color: #5a5a5a;">작성일</th>
+					            <th style="color: #5a5a5a;">조회수</th>
+					        </tr>
+					    </thead>
+                        <tbody>
+
+<c:choose>
+<c:when test="${not empty pagingCreator.questionboardList }">
+	<c:forEach var="questionboard" items="${pagingCreator.questionboardList}">
+		<c:choose>
+			<c:when test="${questionboard.qdelete_flag == 'Y' }">
+				<tr style="background-color: Moccasin; text-align: center">
+				    <td>${questionboard.qpost_number }</td>
+				    <td colspan="3"><em>작성자에 의해서 삭제된 게시글입니다.</em></td>
+				</tr>
+			</c:when>
+    <c:otherwise>
+        <tr class="moveDetail" data-qpost_number="${questionboard.qpost_number }">
+            <td><c:out value="${questionboard.qpost_number }"/></td>
+            <td style="text-align: left">
+                <c:choose>
+                    <c:when test="${principal.username eq questionboard.qwriter}">
+                        <c:out value="${questionboard.qtitle }"/>
+                        <small>[댓글수: <strong><c:out value="${questionboard.qreply_count}"/></strong>]</small>
+                    </c:when>
+                    <c:otherwise>
+                        비밀글입니다.
+                    </c:otherwise>
+                </c:choose>
+            </td>
+            <td>${questionboard.qwriter }</td>
+            <td class="center"><fmt:formatDate value="${questionboard.qregister_date }" pattern="yyyy/MM/dd HH:mm:ss"/></td>
+            <td class="center"><c:out value="${questionboard.qview_count }"/></td>
+         </tr>
+    </c:otherwise>
+</c:choose>
+	</c:forEach>
+</c:when>
+<c:otherwise>
+		<tr class="odd gradeX">
+			<td colspan="6">등록된 게시물이 없습니다.</td>
+		 </tr>
+</c:otherwise>
+</c:choose>                        
+
+                        </tbody>
+                    </table><%-- /.table-responsive --%>
+                    
+<form class="form-inline" id="frmSendValue" name="frmSendValue" action="${contextPath }/applyBoard/list" method="get" style="center" >
+	<div class="form-group">
+		<label class="sr-only">frmSendValues</label>
 		
 		<select class="form-control" id="selectScope" name="scope">
-			<option value="" ${(pagingCreator.questionboardPaging.scope == null ) ? "selected" : "" }>범위선택</option>
+ 			<option value="TC" ${(pagingCreator.questionboardPaging.scope == "TC" ) ? "selected" : "" }>제목+내용</option>
+			<option value="T" ${(pagingCreator.questionboardPaging.scope == "T" ) ? "selected" : "" }>제목</option>
+			<option value="C" ${(pagingCreator.questionboardPaging.scope == "C" ) ? "selected" : "" }>내용</option>
 			<option value="W" ${(pagingCreator.questionboardPaging.scope == "W" ) ? "selected" : "" }>작성자</option>
-			<option value="TC" ${(pagingCreator.questionboardPaging.scope == "TC" ) ? "selected" : "" }>제목+내용</option>
 		</select>
 		
 		
@@ -62,79 +190,13 @@ https://startbootstrap.com/
 				</button>
 			</span>
 		</div>
-		
-		<div class="input-group"><!-- 검색 초기화 버튼 -->
-			<button id="btnReset" class="btn btn-primary btn-sm" type="button">
-				<span class="glyphicon glyphicon-remove"></span>
-			</button>
-		</div>
 	</div>
-
-	<div class="form-group pull-right">
-		<input class="form-control" id="beginDate" name="beginDate" type="date"
-			   value="${pagingCreator.questionboardPaging.beginDate}" 
-			   />
-		<input class="form-control" id="endDate" name="endDate" type="date"
-			   value="${pagingCreator.questionboardPaging.endDate}" 
-			   />
-
-		<button type="button" class="btn btn-primary btn-sm mybtns" 
-				id="btnIntervalSearch" >기간검색</button>
-	</div> 
 	
-	<input type="hidden" id="pageNum" name="pageNum" value="${pagingCreator.questionboardPaging.pageNum }" >
+	<input type="hidden" id="pageNum" name="pageNum" value="${pagingCreator.questionboardPaging.pageNum }" ><%-- 
+	<input type="hidden" id="rowAmountPerPage" name="rowAmountPerPage" value="${pagingCreator.applyboardPaging.rowAmountPerPage }" > --%>
 	<input type="hidden" id="lastPageNum" name="lastPageNum" value="${pagingCreator.lastPageNum }" >
 	
-</form>                
-<hr>     
-               
-                    <table class="table table-bordered table-hover" 
-                           style="width:100%;text-align: center;">
-                        <thead>
-                            <tr>
-                                <th>글번호</th>
-                                <th>제목</th>
-                                <th>작성자</th>
-                                <th>작성일</th>
-                                <th>조회수</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-
-<c:choose>
-<c:when test="${not empty pagingCreator.questionboardList }">
-	<c:forEach var="questionboard" items="${pagingCreator.questionboardList}">
-		<c:choose>
-			<c:when test="${questionboard.qdelete_flag == 'Y' }">
-				<tr style="background-color: Moccasin; text-align: center">
-				    <td>${questionboard.qpost_number }</td>
-				    <td colspan="6"><em>작성자에 의해서 삭제된 게시글입니다.</em></td>
-				</tr>
-			</c:when>
-			<c:otherwise>
-				<tr class="moveDetail" data-qpost_number="${questionboard.qpost_number }">
-					<td><c:out value="${questionboard.qpost_number }"/></td>
-					<td style="text-align: left">
-						<c:out value="${questionboard.qtitle }"/>
-						<small>[댓글수: <strong><c:out value="${questionboard.qreply_count}"/></strong>]</small>
-					</td>
-					<td>${questionboard.qwriter }</td>
-					<td class="center"><fmt:formatDate value="${questionboard.qregister_date }" pattern="yyyy/MM/dd HH:mm:ss"/></td>
-					<td class="center"><c:out value="${questionboard.qview_count }"/></td>
-				 </tr>
-			</c:otherwise>
-		</c:choose>
-	</c:forEach>
-</c:when>
-<c:otherwise>
-		<tr class="odd gradeX">
-			<td colspan="6">등록된 게시물이 없습니다.</td>
-		 </tr>
-</c:otherwise>
-</c:choose>                        
-
-                        </tbody>
-                    </table><%-- /.table-responsive --%>
+</form>   
 <div style="text-align: center;">
 	<ul class="pagination pagination-sm" >
 		<c:if test="${pagingCreator.prev }">
@@ -204,6 +266,9 @@ https://startbootstrap.com/
     </div><%-- /.modal-dialog --%>
 </div><%-- /.modal --%>
 
+<sec:authorize access="isAuthenticated()">
+    <sec:authentication property="principal.authorities" var="authorities"/>
+</sec:authorize>
 
 <script>
 
@@ -218,14 +283,26 @@ $("#btnToRegister").on("click",function(){
 });
 
 //상세페이지 이동
-$(".moveDetail").on("click", function(){
-	var qpost_number = $(this).data("qpost_number") ;
-	
-	frmSendValue.append("<input type='hidden' name='qpost_number' value='" + qpost_number + "'/>")
-	frmSendValue.attr("action", "${contextPath}/questionBoard/detail").attr("method", "get") ;
-	frmSendValue.submit() ;
-	frmSendValue.find('input[name="qpost_number"]').remove() ;  
-										
+$(".moveDetail").on("click", function(e){
+    var loginUser = '<sec:authentication property="principal.username"/>';
+    var qwriter = $(this).find('td:eq(2)').text().trim();
+
+    // 사용자의 권한을 가져옵니다.
+    var userAuthorities = '${authorities}';
+
+    // 사용자가 작성자가 아니고, admin 권한도 없는 경우에만 접근을 제한합니다.
+    if(loginUser != qwriter && !userAuthorities.includes('ADMIN')){
+        e.preventDefault();
+        alert('작성자와 관리자만 볼 수 있는 게시글입니다.');
+        return;
+    }
+    
+    var qpost_number = $(this).data("qpost_number") ;
+    
+    frmSendValue.append("<input type='hidden' name='qpost_number' value='" + qpost_number + "'/>")
+    frmSendValue.attr("action", "${contextPath}/questionBoard/detail").attr("method", "get") ;
+    frmSendValue.submit() ;
+    frmSendValue.find('input[name="qpost_number"]').remove() ;  
 });
 
 //모달 호출 함수
@@ -252,7 +329,7 @@ function runModal(result) {
 }
 
 
-<%-- 페이지징 처리: 검색 목록 페이지 이동 --%>
+<%-- 페이징 처리: 검색 목록 페이지 이동 --%>
 $("li.pagination-button a").on("click", function(e){
 	e.preventDefault() ;
 	frmSendValue.find("input[name='pageNum']").val($(this).attr("href")) ;
@@ -305,6 +382,19 @@ $("#selectScope").on("change", function(){
 });
 
 
+<%-- 기간검색 숨기기 --%>
+document.addEventListener('DOMContentLoaded', function() {
+    var btnCalendar = document.getElementById('btnCalendar');
+    var dateSearch = document.getElementById('dateSearch');
+
+    btnCalendar.addEventListener('click', function() {
+        // 기간 검색 필드 표시
+        dateSearch.style.display = 'block';
+
+        // 달력 버튼 숨기기
+        btnCalendar.style.display = 'none';
+    });
+});
 <%--기간 검색버튼 클릭 이벤트 처리 --%>
 $("#btnIntervalSearch").on("click", function(){
 	
@@ -321,7 +411,6 @@ $("#btnIntervalSearch").on("click", function(){
 	
 });
 
-
 <%--검색초기화 버튼 이벤트처리, 버튼 초기화 시, 1페이지에 목록 정보 다시 표시 --%>
 $("#btnReset").on("click", function(){
 	$("#selectAmount").val(10) ;
@@ -334,8 +423,6 @@ $("#btnReset").on("click", function(){
 	frmSendValue.submit() ;
 
 });
-
-
 
 
 $(document).ready(function(){
@@ -351,7 +438,6 @@ $(document).ready(function(){
 });
 
 
-
 </script>
 
-<%@include file="../myinclude/myfooter.jsp" %>    
+<%@include file="../myinclude/myfooter.jsp" %>

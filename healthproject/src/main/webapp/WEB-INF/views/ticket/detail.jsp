@@ -31,9 +31,9 @@
 							<input class="form-control" name="pt_count" value='<c:out value="${ticket.pt_count}"/>'
 								   readonly="readonly"/>
 					</div>
-						
-					<button type="button" class="btn btn-primary btn-sm" id="BtnMoveModify">수정하기</button>
-					<button type="button" class="btn btn-primary btn-sm" id="BtnMoveBuy">구매하기</button>
+					<sec:authorize access="hasAnyAuthority('TRAINER', 'ADMIN')">	
+						<button type="button" class="btn btn-primary btn-sm" id="BtnMoveModify">수정하기</button>
+					</sec:authorize>
 					<button type="button" class="btn btn-warning btn-sm" id="BtnMoveList">목록</button>
 
           </div><%-- /.panel-body --%>
@@ -65,11 +65,6 @@
 $("#BtnMoveModify").on("click", function(){
 	location.href='${contextPath}/ticket/modify?ticket_number=<c:out value="${ticket.ticket_number}"/>';
 })
-
-//구매페이지 이동
-$("#BtnMoveBuy").on("click", function(){
-	location.href='${contextPath}/ticket/buy?ticket_number=<c:out value="${ticket.ticket_number}"/>';
-});
 
 //상품 목록 페이지로 이동
 $("#BtnMoveList").on("click", function(){

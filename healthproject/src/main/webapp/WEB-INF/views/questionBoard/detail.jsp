@@ -15,9 +15,20 @@
  strong {color:#000;}
 </style>  
 
+
 <style>
+body {
+    background-color: #f0f0f0; /* 원하는 색상으로 변경하세요. */
+}
 .txtBoxCmt, .txtBoxComment {
 	overflow: hidden; resize: vertical; min-height: 100px; color: black;
+}
+textarea[readonly] {
+    background-color: white !important;
+}
+#qcontent {
+    overflow: hidden; !important;
+    font-size: 17px;
 }
 </style>
 
@@ -52,13 +63,13 @@
 				<sec:authentication property="principal" var="principal"/>
 					<c:if test="${principal.username eq questionBoard.qwriter}">
 							<button type="button" id="btnToModify" data-oper="modify"
-									class="btn btn-primary btn-sm"><span>수정페이지로 이동</span></button>
+									class="btn btn-primary btn-sm"><span>수정</span></button>
 					</c:if>
 			</sec:authorize>
 
 									
 							<button type="button" id="btnToList" data-oper="list"
-									class="btn btn-primary btn-sm"><span>목록페이지로 이동</span></button>
+									class="btn btn-primary btn-sm"><span>목록</span></button>
 							</div>
 						</div>
 					</div>
@@ -67,16 +78,18 @@
                 <div class="panel-body">
 
 	
-	<div class="form-group">
-	    <label>글제목</label>
-	    <input class="form-control" name="qtitle" id="qtitle" 
-	    	   value="${questionBoard.qtitle }" readonly="readonly">
-	</div>
-	<div class="form-group">
-	    <label>글내용</label>
-	    <textarea class="form-control" rows="3" name="qcontent" id="qcontent"
-	    		  readonly="readonly">${questionBoard.qcontent}</textarea>
-	</div>
+<div class="panel-body">
+    <div class="form-group">
+        <h1 id="atitle">${questionBoard.qtitle}</h1>
+        <hr>
+        </div>
+        <div class="form-group">
+            <div class="content-field">
+               <textarea class="form-control" rows="5" name="qcontent" id="qcontent"
+                          readonly="readonly">${questionBoard.qcontent}</textarea>
+            </div>
+            </div>
+            </div>
 	
 <form role="form" id="frmSendValue">
 	<input type="hidden" name="pageNum" value="${boardPaging.pageNum }" >
@@ -192,6 +205,11 @@
 
 
 <script>
+window.onload = function() {
+    var textArea = document.querySelector('#qcontent');
+    textArea.style.height = 'auto';
+    textArea.style.height = textArea.scrollHeight + 'px';
+}
 
 var frmSendValue = $("#frmSendValue") ;
 

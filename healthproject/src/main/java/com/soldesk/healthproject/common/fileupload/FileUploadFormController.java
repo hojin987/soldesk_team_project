@@ -21,7 +21,6 @@ public class FileUploadFormController {
 	//파일 업로드 요청 JSP 페이지 호출
 	@GetMapping("/fileUploadForm")
 	public String callFileUploadForm() {
-		log.info("upload Form =====================");
 		return "sample/fileUploadForm";
 	}
 	
@@ -29,11 +28,7 @@ public class FileUploadFormController {
 	//Model이용, 업로드 파일 저장
 	@PostMapping("/fileUploadFormAction")
 	public String fileUploadActionPost(MultipartFile[] uploadFiles, Model model ) {
-		log.info("====FileUpload With Form ========");
 		for(MultipartFile multipartUploadFile : uploadFiles) {
-			log.info("=================================");
-			log.info("Upload File Name: "+ multipartUploadFile.getOriginalFilename());
-			log.info("Upload File Size: "+ multipartUploadFile.getSize());
 			
 			//업로드 파일의 리소스(저장폴더와 파일이름)가 설정된 File 객체 생성
 			String strUploadFileName = multipartUploadFile.getOriginalFilename();
@@ -41,7 +36,6 @@ public class FileUploadFormController {
 			//[Edge, IE 오류 해결] multipartUploadFile.getOriginalFilename()에서 업로드 파일이름만 추출
 			//파일이름만 있는 경우, 파일이름만 추출됨
 			strUploadFileName = strUploadFileName.substring(strUploadFileName.lastIndexOf("\\")+1);
-			log.info("수정된 파일이름(strUploadFileName): " + strUploadFileName);
 			
 			//업로드 정보(저장폴더와 파일이름 문자열)의 파일객체 생성
 			File saveUploadFile = new File(uploadFileRepoDir, strUploadFileName);
@@ -50,7 +44,6 @@ public class FileUploadFormController {
 				//서버에 파일객체를 이용하여 업로드 파일 저장
 				multipartUploadFile.transferTo(saveUploadFile);
 			} catch (Exception e) {
-				log.error(e.getMessage());
 			}
 		} // End-for
 		return "sample/fileUploadFormResult";

@@ -10,7 +10,59 @@
 
 <style>
  th {text-align: center;}
-</style>  
+ body {
+    background-color: #f0f0f0;
+}
+ strong {color: #000}
+     .table {
+        border-collapse: separate;
+        border-spacing: 0;
+        border: 2px solid #ddd;
+    }
+.table {
+    table-layout: fixed;
+    width: 100%;
+    overflow: auto;
+}
+
+.table th:nth-child(1),
+.table td:nth-child(1) {
+    width: 20%;
+    text-align: center;
+}
+
+.table th:nth-child(2),
+.table td:nth-child(2) {
+    width: 10%;
+}
+
+.table th:nth-child(3),
+.table td:nth-child(3){
+    width: 30%;
+    text-align: center;
+}
+.table th:nth-child(4),
+.table td:nth-child(4){
+    width: 25%;
+    text-align: center;
+}
+.table th:nth-child(5),
+.table td:nth-child(5) {
+    width: 15%;
+    text-align: center;
+}
+
+.table th, .table td {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.table-bordered th, .table-bordered td {
+    border: none !important;
+}
+
+
+</style> 
 
     <div class="row" style="display: flex; justify-content: center;">
         <div class="col-lg-8">
@@ -80,18 +132,16 @@
 	<sec:csrfInput/>
 </form>                
 <hr>     
-               
-<table class="table table-bordered table-hover" 
-      style="width:100%;text-align: center;">
+<table class="table table-striped table-bordered table-hover">
 	<thead>
-	    <tr>
-	        <th>회원 아이디</th>
-	        <th>회원 이름</th>
-	        <th>회원 이메일</th>
-	        <th>회원 등록일</th>
-	        <th>구매 회원권</th>
+	    <tr style="background-color: #f2f2f2;">
+	        <th style="color: #5a5a5a;">회원 아이디</th>
+	        <th style="color: #5a5a5a;">회원 이름</th>
+	        <th style="color: #5a5a5a;">회원 이메일</th>
+	        <th style="color: #5a5a5a;">회원 등록일</th>
+	        <th style="color: #5a5a5a;">구매 이용권</th>
 	    </tr>
-	</thead>
+	</thead>               
 	<tbody>
 	<c:choose>
 	<c:when test="${not empty pagingCreator.memberList }">

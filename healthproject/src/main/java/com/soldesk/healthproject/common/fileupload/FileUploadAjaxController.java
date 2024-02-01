@@ -39,7 +39,6 @@ public class FileUploadAjaxController {
 	//파일 업로드 요청 JSP 페이지 호출
 	@GetMapping("/fileUploadAjax")
 	public String callFileUploadAjax() {
-		log.info("upload Ajax =====================");
 		return "sample/fileUploadAjax" ;
 	}
 	
@@ -60,7 +59,6 @@ public class FileUploadAjaxController {
 	private boolean checkIsImageForUploadFile(File uploadFile) { // 메서드 추가
 		try {
 			String strContentType = Files.probeContentType(uploadFile.toPath());
-			log.info("업로드파일의 ContentType: " + strContentType);
 			
 			return strContentType.startsWith("image");
 			
@@ -75,8 +73,6 @@ public class FileUploadAjaxController {
 	@PostMapping(value = "/fileUploadAjaxAction", produces = {"application/json; charset=UTF-8"}) 
 	@ResponseBody
 	public ResponseEntity<List<AttachFileDTO>> fileUploadActionPost(MultipartFile[] uploadFiles) {//Ajax사용 시 Model 필요없슴
-		log.info("====FileUpload With Ajax ========");
-		
 		//업로드 파일 각각에 대한 피드백정보(AttachInfoDTO)를 담을 리스트 객체
 		List<AttachFileDTO> listAttachInfo = new ArrayList<AttachFileDTO>(); 
 		
@@ -85,7 +81,6 @@ public class FileUploadAjaxController {
 		
 		//전체 업로드 경로 파일객체 생성
 		File fileUploadPath = new File(uploadFileRepoDir, strDatefmtPathName); 
-		log.info("upload path: " + fileUploadPath);
 		
 		//경로가 존재하지 않으면 전체 폴더 구조 생성, 기존 폴더 구조중 일부가 있으면 없는 부분을 포함하여 전체를 생성
 		if (fileUploadPath.exists() == false) { 
@@ -93,46 +88,35 @@ public class FileUploadAjaxController {
 		}
 		
 		for(MultipartFile multipartUploadFile : uploadFiles) {		
-			log.info("=================================");
-			log.info("Upload File Name: "+ multipartUploadFile.getOriginalFilename());
-			log.info("Upload File Size: "+ multipartUploadFile.getSize());
-			
 			//업로드파일 각각에 대한 피드백 정보가 저장될 AttachInfoDTO 객체 생성
 			AttachFileDTO attachInfo = new AttachFileDTO();
 			
 			//attachInfoDTO에 repository 경로 저장
 			attachInfo.setRepoPath(uploadFileRepoDir.toString());
-			log.info("attachInfoDTO.repoPath: "+ attachInfo.getRepoPath());
 			
 			//attachInfoDTO에 날짜형식 경로 저장
 			attachInfo.setUploadPath(strDatefmtPathName.toString());
-			log.info("attachInfoDTO.uploadPath: "+ attachInfo.getUploadPath());
 			
 			//업로드파일이름 원본문자열
 			String strUploadFileName = multipartUploadFile.getOriginalFilename();
 			
 			//[Edge, IE 오류 해결] 파일이름만 있는 경우, 파일이름만 추출됨
 			strUploadFileName = strUploadFileName.substring(strUploadFileName.lastIndexOf("/")+1);
-			log.info("수정된 파일이름(strUploadFileName): " + strUploadFileName);
 			
 			//attachInfoDTO에 원본업로드파일이름 저장
 			attachInfo.setFileName(strUploadFileName);
-			log.info("attachInfoDTO.fileName: " + attachInfo.getFileName());
 			
 			//UUID를 이용한 고유한 파일이름 적용
 			UUID uuid = UUID.randomUUID(); 	
 			
 			//attachInfoDTO에 UUID 문자열 저장
 			attachInfo.setUuid(uuid.toString()); 
-			log.info("attachInfoDTO.uuid: " + attachInfo.getUuid());
 			
 			//파일이름에 UUID 문자열 추가(파일 확장자 때문에 UUID를 앞에다 추가해야 함
 			strUploadFileName = uuid.toString() + "_" + strUploadFileName ; 
-			log.info("UUID처리된파일이름: "+strUploadFileName); 
 			
 			//최종 저장 정보를 가진 파일 객체(서버레포경로 + 날짜형식 폴더 + UUID적용 파일이름)
 			File saveUploadFile = new File(fileUploadPath, strUploadFileName); 
-			log.info("저장시 사용되는 파일이름(saveUploadFile, 경로포함): " + saveUploadFile); 
 			
 			try {
 				//서버에 파일객체를 이용하여 업로드 파일 저장
@@ -145,7 +129,6 @@ public class FileUploadAjaxController {
 					
 					//attachInfoDTO.fileType에 "I" 저장
 					attachInfo.setFileType("I"); 
-					log.info("attachInfoDTO.fileType: "+ attachInfo.getFileType()); 
 					
 					//썸네일 생성경로와 파일이름이 설정된 파일객체를 전송 보내는 FileOutputStream 객체 생성
 					FileOutputStream outputStreamForThumbnail =
@@ -159,7 +142,6 @@ public class FileUploadAjaxController {
 				} else {//이미지파일 아님 --> if 문 처리 없음.
 					//attachInfoDTO.fileType 에 "F" 저장
 					attachInfo.setFileType("F"); 
-					log.info("attachInfoDTO.fileType: " + attachInfo.getFileType());
 				}
 			} catch (Exception e) {
 				log.error(e.getMessage());
@@ -178,7 +160,6 @@ public class FileUploadAjaxController {
 	public ResponseEntity<byte[]> sendThumbNailFile(String fileName) {
 		
 		File file = new File(fileName);
-		log.info("썸네일파일이름(경로포함): " + file);
 		
 		ResponseEntity<byte[]> result = null;
 		
@@ -202,8 +183,6 @@ public class FileUploadAjaxController {
 	@PostMapping("/deleteUploadedFile")
 	@ResponseBody
 	public ResponseEntity<String> deleteFile(String fileName, String fileType) {
-		log.info("deleteFileName: " + fileName);
-		log.info("deleteFileType: " + fileType);
 		
 		//File 객체 생성
 		File delFile = null ;
@@ -211,7 +190,6 @@ public class FileUploadAjaxController {
 		try {
 			//전체 경로명이 포함된 파일이름을 UTF-8로 디코딩하여 파일 객체를 생성
 			delFile = new File(URLDecoder.decode(fileName, "UTF-8"));
-			log.info("decoded deleting fileName: " + delFile);
 			
 			//파일객체의 delete()메서드로 파일(썸네일파일과 일반파일)을 삭제
 			delFile.delete();
@@ -220,7 +198,7 @@ public class FileUploadAjaxController {
 			if (fileType.equals("I")) {
 				//삭제된 파일의 파일객체에서 s_가 삭제된 파일이름을 얻음
 				String originalImageFileName = delFile.getAbsolutePath().replace("s_", "");
-				log.info("largeFileName: " + originalImageFileName);
+
 				
 				//이미지파일 이름의 객체를 얻어서
 				delFile = new File(originalImageFileName);

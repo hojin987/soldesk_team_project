@@ -22,7 +22,7 @@
 							<label>제목</label> <input class="form-control" name="qtitle">
 						</div>
 						<div class="form-group">
-							<label>내용</label> <textarea class="form-control" rows="3" name="qcontent"></textarea>
+							<label>내용</label> <textarea class="form-control" rows="15" name="qcontent"></textarea>
 						</div>
 						<div class="form-group">
 							<label>작성자</label> 

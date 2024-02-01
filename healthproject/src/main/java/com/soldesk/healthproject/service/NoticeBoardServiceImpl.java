@@ -12,6 +12,7 @@ import com.soldesk.healthproject.common.paging.domain.BoardPagingDTO;
 import com.soldesk.healthproject.common.paging.domain.NoticeBoardPagingCreatorDTO;
 import com.soldesk.healthproject.domain.NoticeBoardVO;
 import com.soldesk.healthproject.mapper.NoticeBoardMapper;
+import com.soldesk.healthproject.mapper.NoticeCommentMapper;
 
 import lombok.extern.log4j.Log4j;
 
@@ -20,13 +21,16 @@ import lombok.extern.log4j.Log4j;
 public class NoticeBoardServiceImpl implements NoticeBoardService {
 	
 	private NoticeBoardMapper noticeBoardMapper;
+	private NoticeCommentMapper noticeCommentMapper;
 	
 	public NoticeBoardServiceImpl() {
 	}
 	
 	@Autowired
-	public void setNoticeBoardMapper(NoticeBoardMapper noticeBoardMapper) {
+	public void setNoticeBoardMapper(NoticeBoardMapper noticeBoardMapper,
+									 NoticeCommentMapper noticeCommentMapper) {
 		this.noticeBoardMapper = noticeBoardMapper;
+		this.noticeCommentMapper = noticeCommentMapper;
 	}
 	
 	
@@ -99,6 +103,7 @@ public class NoticeBoardServiceImpl implements NoticeBoardService {
 
 	@Override
 	public boolean removeNoticeBoard(long npost_number) {
+		noticeCommentMapper.deleteAllNoticeComment(npost_number);
 		return noticeBoardMapper.deleteNoticeBoard(npost_number) == 1;
 	}
 	

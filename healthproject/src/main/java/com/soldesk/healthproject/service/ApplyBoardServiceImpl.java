@@ -136,14 +136,12 @@ public class ApplyBoardServiceImpl implements ApplyBoardService {
 	@Override
 	public boolean removeApplyBoard(long apost_number) {
 		applyAttachFileMapper.deleteAttachFiles(apost_number);
-		
 		return applyBoardMapper.deleteApplyBoard(apost_number) == 1;
 	}
 	
 	//게시물의 첨부파일 조회
 	@Override
 	public List<ApplyAttachFileVO> getAttachFileList(long apost_number){
-		System.out.println("ApplyBoardService.getAttachFileList()에 전달된 apost_number:" + apost_number);
 		return applyAttachFileMapper.selectAttachFiles(apost_number);
 	}
 }

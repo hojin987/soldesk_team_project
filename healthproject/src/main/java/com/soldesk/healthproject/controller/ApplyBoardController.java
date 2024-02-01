@@ -21,6 +21,7 @@ import com.soldesk.healthproject.common.paging.domain.ApplyBoardPagingCreatorDTO
 import com.soldesk.healthproject.common.paging.domain.BoardPagingDTO;
 import com.soldesk.healthproject.domain.ApplyAttachFileVO;
 import com.soldesk.healthproject.domain.ApplyBoardVO;
+import com.soldesk.healthproject.domain.FreeBoardVO;
 import com.soldesk.healthproject.service.ApplyBoardService;
 
 @Controller
@@ -37,9 +38,7 @@ public class ApplyBoardController {
 	@GetMapping("/list")
 	public String showBoardList(BoardPagingDTO applyboardPaging,  
 							    Model model) {
-		System.out.println("applyboardPaging: " + applyboardPaging);
 		ApplyBoardPagingCreatorDTO pagingCreator =  applyBoardService.getBoardList(applyboardPaging) ;
-		System.out.println("컨트롤러에 전달된 applyboardPagingCreator: \n" + pagingCreator);
 		
 		model.addAttribute("pagingCreator", pagingCreator) ;
 		
@@ -51,15 +50,12 @@ public class ApplyBoardController {
 	@PreAuthorize("isAuthenticated()")
 	@GetMapping("/register")
 	public void showApplyBoardRegisterPage() {
-		System.out.println("컨트롤러 - 게시물 등록 페이지 호출");
 	}
 	
 	//등록 처리 POST /applyBoard/register
 	@PreAuthorize("isAuthenticated()")
 	@PostMapping("/register")
 	public String registerNewApplyBoard(ApplyBoardVO applyBoard, RedirectAttributes redirectAttr) {
-		
-		System.out.println("컨트롤러 - 게시물등록(전달된 VO): " + applyBoard.toString());
 		
 		List<ApplyAttachFileVO> attachFileList = applyBoard.getAttachFileList() ;
 		
@@ -134,7 +130,6 @@ public class ApplyBoardController {
 	@GetMapping(value = "/getFiles", produces = {"application/json;charset=UTF-8"})
 	@ResponseBody
 	public ResponseEntity<List<ApplyAttachFileVO>> showAttachFiles(long apost_number){
-		System.out.println("컨트롤러: 조회할 첨부파일의 게시물번호(apost_number): " + apost_number);
 		
 		return new ResponseEntity<List<ApplyAttachFileVO>>(applyBoardService.getAttachFileList(apost_number), HttpStatus.OK);
 	}
@@ -145,9 +140,6 @@ public class ApplyBoardController {
 		if(attachFileList == null || attachFileList.size() == 0) {
 			return;
 		}
-		
-		System.out.println("첨부파일 삭제 시작...................");
-		System.out.println("삭제되는 첨부파일 목록: "+ attachFileList.toString());
 		
 		attachFileList
 		.forEach(attachFile -> {
@@ -166,9 +158,19 @@ public class ApplyBoardController {
 					Files.delete(thumbNail);
 				}
 			} catch(Exception e) {
-				System.out.println("파일삭제 오류 발생" + e.getMessage());
+				
 				}//end catch
 		});//end forEach
 	}//end Method
+	
+	//게시물 실제삭제
+	@PreAuthorize("isAuthenticated() && hasAuthority('ADMIN') ")
+	@PostMapping("/erase")
+	public String eraseBoard(@RequestParam("apost_number") Long apost_number, ApplyBoardVO applyBoard) {
+		
+		applyBoardService.removeApplyBoard(apost_number);
+		
+		return "redirect:/applyBoard/list";
+	}
 	
 }

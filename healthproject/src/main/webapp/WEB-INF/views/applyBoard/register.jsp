@@ -22,7 +22,7 @@
 							<label>제목</label> <input class="form-control" name="atitle">
 						</div>
 						<div class="form-group">
-							<label>내용</label> <textarea class="form-control" rows="3" name="acontent"></textarea>
+							<label>내용</label> <textarea class="form-control" rows="15" name="acontent"></textarea>
 						</div>
 						<div class="form-group">
 							<label>작성자</label> 

@@ -30,7 +30,7 @@
 					</div>
 					<div class="form-group">
 						<label>글내용</label>
-						<textarea class="form-control" rows="3" name="ncontent"
+						<textarea class="form-control" rows="5" name="ncontent"
 								><c:out value="${noticeBoard.ncontent}"/></textarea>
 					</div>
 					<div class="form-group">
@@ -43,8 +43,8 @@
 					<sec:authorize access="isAuthenticated()" >
 						<sec:authentication property="principal" var="principal"/>
 						<c:if test="${principal.username eq noticeBoard.nwriter}">
-							<button type="button" class="btn btn-primary btn-frmModify btn-sm" id="btnModify" data-oper="modify">수정</button>
-		 					<button type="button" class="btn btn-primary btn-frmModify btn-sm" id="btnRemove" data-oper="remove">삭제</button>
+							<button type="button" class="btn btn-primary btn-frmModify btn-sm" id="btnModify " data-oper="modify" >수정</button>
+		 					<button type="button" class="btn btn-danger btn-frmModify btn-sm" id="btnRemove" data-oper="remove">삭제</button>
 		 				</c:if>
 					</sec:authorize>
 						
@@ -89,7 +89,11 @@ $(".btn-frmModify").on("click", function(e){
 
 	var operation = $(this).data("oper"); //각 버튼의 data-xxx 속성에 설정된 값을 저장
 	var nwriter_value = '<c:out value="${noticeBoard.nwriter}"/>';
- 	alert("operation: "+ operation + ", nwriter_value: " + nwriter_value);
+	if (operation == "modify" && !confirm("수정하시겠습니까?")) {
+	    return;
+	} else if (operation == "remove" && !confirm("정말로 삭제하시겠습니까?")) {
+	    return;
+	}
  
  	if(operation == "list"){//게시물 목록 화면 요청
  		//기존 페이징 데이터 input 요소 복사

@@ -14,6 +14,23 @@
  th {text-align: center;}
 </style>  
 
+
+<style>
+body {
+    background-color: #f0f0f0; /* 원하는 색상으로 변경하세요. */
+}
+.txtBoxCmt, .txtBoxComment {
+	overflow: hidden; resize: vertical; min-height: 100px; color: black;
+}
+textarea[readonly] {
+    background-color: white !important;
+}
+#acontent {
+    overflow: hidden; !important;
+    font-size: 17px;
+}
+</style>
+
     <div class="row" style="display: flex; justify-content: center;">
         <div class="col-lg-8">
         
@@ -44,28 +61,29 @@
 				<sec:authentication property="principal" var="principal"/>
 					<c:if test="${principal.username eq applyBoard.awriter}">
 							<button type="button" id="btnToModify" data-oper="modify"
-									class="btn btn-primary btn-sm"><span>수정페이지로 이동</span></button>
+									class="btn btn-primary btn-sm"><span>수정</span></button>
 					</c:if>
 			</sec:authorize>
 									
 							<button type="button" id="btnToList" data-oper="list"
-									class="btn btn-primary btn-sm"><span>목록페이지로 이동</span></button>
+									class="btn btn-primary btn-sm"><span>목록</span></button>
 							</div>
 						</div>
 					</div>
                 </div><!-- /.panel-heading --><%-- /.panel-heading --%>
                 
-                <div class="panel-body">
-					<div class="form-group">
-					    <label>글제목</label>
-					    <input class="form-control" name="atitle" id="atitle" 
-					    	   value="${applyBoard.atitle }" readonly="readonly">
-					</div>
-					<div class="form-group">
-					    <label>글내용</label>
-					    <textarea class="form-control" rows="3" name="acontent" id="acontent"
-					    		  readonly="readonly">${applyBoard.acontent}</textarea>
-					</div>
+<div class="panel-body">
+    <div class="form-group">
+        <h1 id="atitle">${applyBoard.atitle}</h1>
+        <hr>
+        </div>
+        <div class="form-group">
+            <div class="content-field">
+               <textarea class="form-control" rows="5" name="acontent" id="acontent"
+                          readonly="readonly">${applyBoard.acontent}</textarea>
+            </div>
+            </div>
+             </div>
 					
 						
                 </div><%-- /.panel-body --%>
@@ -110,6 +128,15 @@
 </form>
 
 <script>
+window.onload = function() {
+    var textArea = document.querySelector('#acontent');
+    textArea.style.height = 'auto';
+    textArea.style.height = textArea.scrollHeight + 'px';
+}
+
+var frmModify = $("#frmModify");
+var frmSendValue = $("#frmSendValue") ;
+
 
 var frmSendValue = $("#frmSendValue") ;
 

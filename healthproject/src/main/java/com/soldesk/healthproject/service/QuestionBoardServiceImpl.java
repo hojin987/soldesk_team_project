@@ -12,6 +12,7 @@ import com.soldesk.healthproject.common.paging.domain.QuestionBoardPagingCreator
 import com.soldesk.healthproject.common.paging.domain.BoardPagingDTO;
 import com.soldesk.healthproject.domain.QuestionBoardVO;
 import com.soldesk.healthproject.mapper.QuestionBoardMapper;
+import com.soldesk.healthproject.mapper.QuestionCommentMapper;
 
 import lombok.extern.log4j.Log4j;
 
@@ -20,13 +21,16 @@ import lombok.extern.log4j.Log4j;
 public class QuestionBoardServiceImpl implements QuestionBoardService {
 	
 	private QuestionBoardMapper questionBoardMapper;
+	private QuestionCommentMapper questionCommentMapper;
 	
 	public QuestionBoardServiceImpl() {
 	}
 	
 	@Autowired
-	public void setQuestionBoardMapper(QuestionBoardMapper questionBoardMapper) {
+	public void setQuestionBoardMapper(QuestionBoardMapper questionBoardMapper,
+									   QuestionCommentMapper questionCommentMapper) {
 		this.questionBoardMapper = questionBoardMapper;
+		this.questionCommentMapper = questionCommentMapper;
 	}
 	
 
@@ -95,9 +99,11 @@ public class QuestionBoardServiceImpl implements QuestionBoardService {
 	public boolean setQuestionBoardDeleted(long qpost_number) {
 		return questionBoardMapper.updateQdeleteFlag(qpost_number) == 1;
 	}
-
+	
+	//게시물 실제 삭제
 	@Override
 	public boolean removeQuestionBoard(long qpost_number) {
+		questionCommentMapper.deleteAllQuestionComment(qpost_number);
 		return questionBoardMapper.deleteQuestionBoard(qpost_number) == 1;
 	}
 	

@@ -22,7 +22,11 @@
 							<label>제목</label> <input class="form-control" name="ftitle">
 						</div>
 						<div class="form-group">
-							<label>내용</label> <textarea class="form-control" rows="3" name="fcontent"></textarea>
+						    <label>이미지/영상 URL</label>
+						    <input class="form-control" name="free_media_url" placeholder="예시: https://youtube.com/watch?v=[비디오ID] or https://youtube.com/shorts/[비디오ID]"/>
+						</div>
+						<div class="form-group">
+							<label>내용</label> <textarea class="form-control" rows="15" name="fcontent" placeholder="상업성 광고, 저작권 침해, 명예훼손, 정치적 종교적 글, 그 외 기타 공익을 저해하거나 운영 취지에 맞지 않는 게시글은 통보없이 삭제될 수 있습니다."></textarea>
 						</div>
 						<div class="form-group">
 							<label>작성자</label> 

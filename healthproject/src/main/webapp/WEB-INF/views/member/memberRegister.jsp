@@ -22,13 +22,15 @@
 						<!-- 아이디 체크: 영문 대소문자로 시작하는 영문, 숫자 조합의 6~20자 -->
 						<div class="form-group">
 							<label>아이디</label> <input class="form-control" id="member_id" name="member_id"
+								pattern="^[a-zA-Z][a-zA-Z0-9]{5,19}$"
 								placeholder="영문 대소문자로 시작하는 영문, 숫자 조합의 6~20자">
 							<li id="idCheckResult" style="list-style-type:none; color: red;"></li>
 						</div>
 
 						<!-- 비밀번호 체크: 8 ~ 20자 영문 대소문자, 숫자, 특수문자 조합(영문, 숫자 최소 한가지씩 조합) -->
 						<div class="form-group">
-							<label>비밀번호</label> <input class="form-control" id="member_pw" name="member_pw"
+							<label>비밀번호</label> <input type="password" class="form-control" id="member_pw" name="member_pw"
+								pattern="^(?=.*[a-zA-Z])(?=.*\d)(?=.*[~`!@#$%\^&*()-]).{8,20}$"
 								placeholder="8~20자의 영문 대소문자, 숫자, 특수문자 조합">
 							<li id="passwordCheck" style="display:none; color: red;"></li>
 						</div>
@@ -36,6 +38,7 @@
 						<!--  이메일 체크 -->
 						<div class="form-group">
 							<label for="member_email">이메일</label> <input class="form-control" type="email" 
+								pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$"
 								id="member_email" name="member_email"
 								placeholder="ex: example@example.com">
 							<li id="emailCheck" style="display:none; color: red;"></li>
@@ -43,57 +46,51 @@
 						
 						<!-- 이름 한글만 -->
 						<div class="form-group">
-							<label>이름</label> <input class="form-control" name="member_name" id="member_name"
-								pattern="^[가-힣]*$" placeholder="한글만 입력해주세요.">
+							<label>이름</label> <input class="form-control" name="member_name" id="member_name" 
+								patter="^[가-힣]*$" placeholder="한글만 입력해주세요.">
 							<li id="nameCheck" style="display:none; color: red;"></li>
 						</div>
 
 						<!-- 핸드폰 번호 체크 -->
 						<div class="form-group">
 							<label>연락처</label><input class="form-control" id="member_phonenumber" name="member_phonenumber"
+								pattern="^01(?:0|1|[6-9])-(?:\d{3}|\d{4})-\d{4}$"
 								placeholder="ex: 000-0000-0000">
 							<li id="phoneNumCheck" style="display:none; color: red;"></li>
 						</div>
 
 						<!-- 생일은 YYYY-MM-DD 형식 -->
 						<div class="form-group">
-							<label>생년월일</label> <input class="form-control" id="member_birth"
-								name="member_birth"
+							<label>생년월일</label> <input class="form-control" id="member_birth" name="member_birth"
+								pattern="^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])$"
 								placeholder="YYYY-MM-DD 형식으로 입력해주세요.">
 							<li id="birthCheck" style="display:none; color: red;"></li>
 						</div>
 
 						<!-- 키, 몸무게, 골격근량, 체지방률은 숫자만 -->
 						<div class="form-group">
-							<label>키</label> <input class="form-control" name="member_height" id="member_height" placeholder="숫자만 입력해주세요.">
+							<label>키</label> <input class="form-control" name="member_height" id="member_height" 
+								patter="^[0-9]*$" placeholder="숫자만 입력해주세요.">
 							<li id="heightCheck" style="display:none; color: red;"></li>
 						</div>
 						<div class="form-group">
-							<label>몸무게</label> <input class="form-control" id="member_weight"
-								name="member_weight" placeholder="숫자만 입력해주세요.">
+							<label>몸무게</label> <input class="form-control" id="member_weight" name="member_weight"
+								patter="^[0-9]*$" placeholder="숫자만 입력해주세요.">
 							<li id="weightCheck" style="display:none; color: red;"></li>
 						</div>
 						<div class="form-group">
-							<label>골격근량</label> <input class="form-control" id="member_muscle_percent"
-								name="member_muscle_percent" placeholder="숫자만 입력해주세요.">
+							<label>골격근량</label> <input class="form-control" id="member_muscle_percent" name="member_muscle_percent"
+								patter="^[0-9]*$" placeholder="숫자만 입력해주세요.">
 							<li id="muscleCheck" style="display:none; color: red;"></li>
 						</div>
 							<div class="form-group">
-							<label>체지방률</label> <input class="form-control" id="member_fat_percent"
-								name="member_fat_percent" placeholder="숫자만 입력해주세요.">
+							<label>체지방률</label> <input class="form-control" id="member_fat_percent" name="member_fat_percent" 
+								patter="^[0-9]*$" placeholder="숫자만 입력해주세요.">
 							<li id="fatCheck" style="display:none; color: red;"></li>
 						</div>
 						
-						<div class="form-group">
-							<label>가입한 회원권</label> <select class="form-control"
-								name="ticket_number">
-								<option value="Ticket1" selected>헬스 플랜 3개월</option>
-								<option value="Ticket2">헬스 플랜 6개월</option>
-								<option value="Ticket3">헬스 플랜 12개월</option>
-								<option value="Ticket4">pt 10회권</option>
-								<option value="Ticket5">pt 20회권</option>
-								<option value="Ticket6">pt 30회권</option>
-							</select>
+						<div class="form-group" style="display:none">
+							<input name="ticket_number" value="none">
 						</div>
 
 						<div class="form-group">

@@ -3,13 +3,19 @@
     
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+<%@ page import="java.util.Date" %>
+
+<%
+   Date now = new Date();
+   pageContext.setAttribute("now", now);
+%>
 
 <c:set var="contextPath" value="${pageContext.request.contextPath }"/>
 
 <%@include file="../myinclude/myheader.jsp" %>  
     
     <div class="row" style="display: flex; justify-content: center;">
-        <div class="col-lg-6">
+        <div class="col-lg-6" style="min-width:600px">
             <div class="panel panel-default">
                 <div class="panel-heading">
                 	<h4>내 프로필</h4>
@@ -80,8 +86,28 @@
 					</div>
 					<div class="form-group">
 						<label>구매 회원권</label>
-							<input class="form-control" name="ticket_number" value='<c:out value="${member.ticket_number}"/>'
-								   readonly="readonly"/>
+						<c:set var="today" value="${now}" />
+						<c:choose>
+							<c:when test="${member.ticket_number eq 'none'}"><input class="form-control" name="ticket_number" 
+									value='<c:out value="구매하신 이용권이 없습니다"/>' readonly="readonly"/></c:when>
+							<c:when test="${member.ticket_end_date lt today}"><input class="form-control" 
+									value='이용권이 만료되었습니다.' readonly="readonly"/></c:when>
+							<c:when test="${member.ticket_number eq 'Ticket1'}"><input class="form-control" name="ticket_number" 
+									value='<c:out value="이용권 3개월"/>' readonly="readonly"/></c:when>
+							<c:when test="${member.ticket_number eq 'Ticket2'}"><input class="form-control" name="ticket_number" 
+									value='<c:out value="이용권 6개월"/>' readonly="readonly"/></c:when>		
+							<c:when test="${member.ticket_number eq 'Ticket3'}"><input class="form-control" name="ticket_number" 
+									value='<c:out value="이용권 12개월"/>' readonly="readonly"/></c:when>
+							<c:when test="${member.ticket_number eq 'Ticket4'}"><input class="form-control" name="ticket_number" 
+									value='<c:out value="pt 10회권"/>' readonly="readonly"/></c:when>
+							<c:when test="${member.ticket_number eq 'Ticket5'}"><input class="form-control" name="ticket_number" 
+									value='<c:out value="pt 20회권"/>' readonly="readonly"/></c:when>
+							<c:when test="${member.ticket_number eq 'Ticket6'}"><input class="form-control" name="ticket_number" 
+									value='<c:out value="pt 30회권"/>' readonly="readonly"/></c:when>
+							<c:when test="${member.ticket_number eq 'Ticket7'}"><input class="form-control" name="ticket_number" 
+									value='<c:out value="이용권 3개월 + pt 10회권"/>' readonly="readonly"/></c:when>
+						</c:choose>
+						<li><c:out value="회원권 종료일: ${member.ticket_end_date}"/></li>
 					</div>
 					<sec:authorize access="isAuthenticated()" >
  					<sec:authentication property="principal" var="principal"/> 

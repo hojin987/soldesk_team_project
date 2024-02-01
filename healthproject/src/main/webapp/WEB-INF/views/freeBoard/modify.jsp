@@ -13,7 +13,7 @@
         <div class="col-lg-8">
             <div class="panel panel-default">
                 <div class="panel-heading">
-                	<h4>게시글 수정 - 삭제 </h4>
+                	<h4>게시글 수정</h4>
 				</div><%-- /.panel-heading --%>
                 <div class="panel-body">
                 
@@ -29,6 +29,10 @@
 							<input class="form-control" name="ftitle" value='<c:out value="${freeBoard.ftitle}"/>'/>
 					</div>
 					<div class="form-group">
+						    <label>이미지/영상 URL</label>
+						    <input class="form-control" name="free_media_url" value='<c:out value="${freeBoard.free_media_url}"/>'placeholder="예시: https://youtube.com/watch?v=[비디오ID] or https://youtube.com/shorts/[비디오ID]"/>
+						</div>
+					<div class="form-group">
 						<label>글내용</label>
 						<textarea class="form-control" rows="3" name="fcontent"
 								><c:out value="${freeBoard.fcontent}"/></textarea>
@@ -43,8 +47,7 @@
 					<sec:authorize access="isAuthenticated()" >
 						<sec:authentication property="principal" var="principal"/>
 						<c:if test="${principal.username eq freeBoard.fwriter}">
-							<button type="button" class="btn btn-primary btn-sm btn-frmModify" id="btnModify" data-oper="modify">수정</button>
-		 					<button type="button" class="btn btn-primary btn-sm btn-frmModify" id="btnRemove" data-oper="remove">삭제</button>
+							<button type="button" class="btn btn-primary btn-sm btn-frmModify" id="btnModify" data-oper="modify">수정</button>	 					
 		 				</c:if>
 					</sec:authorize>	
  					
@@ -88,10 +91,13 @@ var loginUser = "";
 
 $(".btn-frmModify").on("click", function(e){ 
 
-	var operation = $(this).data("oper"); //각 버튼의 data-xxx 속성에 설정된 값을 저장
-	var fwriter_value = '<c:out value="${freeBoard.fwriter}"/>';
- 	alert("operation: "+ operation + ", fwriter_value: " + fwriter_value);
- 
+    var operation = $(this).data("oper");
+    var fwriter_value = '<c:out value="${freeBoard.fwriter}"/>';
+
+    // 사용자가 취소를 누르면 이벤트 처리를 중단합니다.
+    if (operation == "modify" && !confirm("수정하시겠습니까?")) {
+        return;
+    } 
  	if(operation == "list"){//게시물 목록 화면 요청
  		//기존 페이징 데이터 input 요소 복사
  		var pageNumInput = $("input[name='pageNum']").clone(); //추가
@@ -110,22 +116,20 @@ $(".btn-frmModify").on("click", function(e){
  	} else {
  		<%--로그인 안한 경우--%>
  		if(!loginUser){
- 			alert("로그인 후, 수정/삭제가 가능합니다.");
+ 			alert("로그인 후, 수정이 가능합니다.");
  			return ;
  		}
  
  		<%--로그인 계정과 작성자가 다른 경우--%>
  		if(fwriter_value != loginUser){
- 			alert("작성자만 수정/삭제가 가능합니다");
+ 			alert("작성자만 수정이 가능합니다");
  			return ;
  
  		}
  	}
 if(operation == "modify"){ //게시물 수정 요청
 frmModify.attr("action", "${contextPath}/freeBoard/modify");
-} else if(operation == "remove"){ //게시물 삭제 요청
-frmModify.attr("action", "${contextPath}/freeBoard/remove");
-} else if(operation == "list"){ //게시물 목록 화면 요청
+}  else if(operation == "list"){ //게시물 목록 화면 요청
 frmModify.attr("action","${contextPath}/freeBoard/list").attr("method","get");
 frmModify.empty();
 }

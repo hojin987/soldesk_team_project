@@ -15,9 +15,20 @@
  strong {color:#000000;}
 </style>  
 
+
 <style>
+body {
+    background-color: #f0f0f0; /* 원하는 색상으로 변경하세요. */
+}
 .txtBoxCmt, .txtBoxComment {
 	overflow: hidden; resize: vertical; min-height: 100px; color: black;
+}
+textarea[readonly] {
+    background-color: white !important;
+}
+#ncontent {
+    overflow: hidden; !important;
+    font-size: 17px;
 }
 </style>
 
@@ -51,11 +62,11 @@
 					<sec:authentication property="principal" var="principal"/>
 						<c:if test="${principal.username eq noticeBoard.nwriter}">
 							<button type="button" id="btnToModify" data-oper="modify"
-									class="btn btn-primary btn-sm"><span>수정페이지로 이동</span></button>
+									class="btn btn-primary btn-sm"><span>수정</span></button>
 						</c:if>
 					</sec:authorize>		
 							<button type="button" id="btnToList" data-oper="list"
-									class="btn btn-primary btn-sm"><span>목록페이지로 이동</span></button>
+									class="btn btn-primary btn-sm"><span>목록</span></button>
 							</div>
 						</div>
 					</div>
@@ -64,16 +75,18 @@
                 <div class="panel-body">
 
 	
-	<div class="form-group">
-	    <label>글제목</label>
-	    <input class="form-control" name="ntitle" id="ntitle" 
-	    	   value="${noticeBoard.ntitle }" readonly="readonly">
-	</div>
-	<div class="form-group">
-	    <label>글내용</label>
-	    <textarea class="form-control" rows="3" name="ncontent" id="ncontent"
-	    		  readonly="readonly">${noticeBoard.ncontent}</textarea>
-	</div>
+<div class="panel-body">
+    <div class="form-group">
+        <h1 id="ntitle">${noticeBoard.ntitle}</h1>
+        <hr>
+        </div>
+        <div class="form-group">
+            <div class="content-field">
+               <textarea class="form-control" rows="5" name="ncontent" id="ncontent"
+                          readonly="readonly">${noticeBoard.ncontent}</textarea>
+            </div>
+            </div>
+             </div>
 	
 <form role="form" id="frmSendValue">
 	<input type="hidden" name="pageNum" value="${boardPaging.pageNum }" >
@@ -190,6 +203,11 @@
 
 
 <script>
+window.onload = function() {
+    var textArea = document.querySelector('#ncontent');
+    textArea.style.height = 'auto';
+    textArea.style.height = textArea.scrollHeight + 'px';
+}
 
 var frmSendValue = $("#frmSendValue") ;
 
@@ -278,6 +296,62 @@ $(document).ajaxSend(function(e, xhr, options){
 var npost_number_value = '<c:out value="${noticeBoard.npost_number}"/>'; 
 var commentUL = $(".chat");
 var frmCmtPagingValue = $("#frmCmtPagingValue");
+
+//댓글 목록 데이터 요청 받기 테스트
+/*  ncommentClsr.getCmtList(
+	{npost_number:npost_number_value, pageNum:1},
+	function(noticeCommentPagingCreator){
+		for(var i =0,len=noticeCommentPagingCreator.ncommentList.length || 0; i < len; i++){
+			console.log(noticeCommentPagingCreator.ncommentList[i]);
+		}	
+	}		
+);  */ 
+
+/* //댓글등록 테스트
+ncommentClsr.registerCmt(
+		{npost_number:npost_number_value, ncomment:"js-클로저-댓글입력 테스트", ncomment_writer: "user5"},
+		function(result){
+			alert("ncommentClsr.registerCmt()처리결과 " + result);
+		}
+);  */
+
+/* //답글등록 테스트
+ncommentClsr.registerReply(
+		{npost_number:npost_number_value, nreply_number: 1, ncomment:"js-클로저-답글입력 테스트", ncomment_writer: "user6"},
+		function(result){
+			alert("ncommentClsr.registerReply()처리결과 " + result);
+		}
+); */ 
+
+/*  //댓글-답글 조회 테스트
+ncommentClsr.getCmtReply(
+		{npost_number:npost_number_value, ncomment_number:274},
+		function(data){
+			console.log(data);
+		}
+);  
+
+//댓글-답글 수정 테스트
+ncommentClsr.modifyCmtReply(
+		{npost_number:npost_number_value, ncomment_number:274, ncomment:"js클로저에 의한 댓글 수정 테스트"},
+		function(modifyResult){
+			console.log(modifyResult);
+		}
+);  */
+
+//댓글 삭제 테스트
+/* ncommentClsr.removeCmtReply(
+		{npost_number: npost_number_value, ncomment_number: 273, ncomment_writer:"user10"},
+		function(deleteResult){
+			console.log(deleteResult);
+			if(deleteResult === "댓글 삭제 성공") {
+				alert(deleteResult + ": 댓글/답글이 삭제되었습니다.");
+			}
+		},
+		function(err) {
+			alert("오류로 댓글/답글 삭제 작업 취소..");
+		}
+); */ 
 
 <%--댓글목록 표시 함수: 서버로부터 전달된 데이터를 이용해서 댓글 목록을 표시하는 JS 함수--%>
 function showCmtList(pageNum){

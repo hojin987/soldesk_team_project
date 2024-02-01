@@ -11,6 +11,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.soldesk.healthproject.common.paging.domain.QuestionBoardPagingCreatorDTO;
 import com.soldesk.healthproject.common.paging.domain.BoardPagingDTO;
+import com.soldesk.healthproject.domain.FreeBoardVO;
 import com.soldesk.healthproject.domain.QuestionBoardVO;
 import com.soldesk.healthproject.service.QuestionBoardService;
 
@@ -26,12 +27,11 @@ public class QuestionBoardController {
 	}
 	
     //게시물 조회(페이징 고려)
+	@PreAuthorize("isAuthenticated()")
 	@GetMapping("/list")
 	public String showBoardList(BoardPagingDTO questionboardPaging,  
 							    Model model) {
-		System.out.println("questionboardPaging: " + questionboardPaging);
 		QuestionBoardPagingCreatorDTO pagingCreator =  questionBoardService.getBoardList(questionboardPaging) ;
-		System.out.println("컨트롤러에 전달된 questionboardPagingCreator: \n" + pagingCreator);
 		
 		model.addAttribute("pagingCreator", pagingCreator) ;
 		
@@ -99,6 +99,16 @@ public class QuestionBoardController {
 		if(questionBoardService.setQuestionBoardDeleted(qpost_number)) {
 			redirectAttr.addFlashAttribute("result", "succesRemove");
 		}
+		
+		return "redirect:/questionBoard/list";
+	}
+	
+	//게시물 실제삭제
+	@PreAuthorize("isAuthenticated() && hasAuthority('ADMIN') ")
+	@PostMapping("/erase")
+	public String eraseBoard(@RequestParam("qpost_number") Long qpost_number, QuestionBoardVO qusetionBoard) {
+		
+		questionBoardService.removeQuestionBoard(qpost_number);
 		
 		return "redirect:/questionBoard/list";
 	}

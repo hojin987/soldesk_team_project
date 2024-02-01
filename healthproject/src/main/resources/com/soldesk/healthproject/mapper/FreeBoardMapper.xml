@@ -16,7 +16,7 @@
 	<select id="selectFreeBoardList" resultType="com.soldesk.healthproject.domain.FreeBoardVO"
 	        parameterType="com.soldesk.healthproject.common.paging.domain.BoardPagingDTO">
 		<![CDATA[
-			SELECT fpost_number, ftitle, fcontent, fwriter, fregister_date, fview_count, freply_count, fdelete_flag
+			SELECT fpost_number, ftitle, fcontent, fwriter, fregister_date, fview_count, freply_count, fdelete_flag, free_media_url
 			FROM ( SELECT /*+ INDEX_DESC (a pk_free_board) */ROWNUM rn, a.*
 			       FROM project_health.free_board a
 			       WHERE 
@@ -79,12 +79,12 @@
 			SELECT project_health.seq_free_board.nextval FROM dual
 		</selectKey>
 		INSERT INTO project_health.free_board
-		VALUES(#{fpost_number}, #{ftitle}, #{fcontent}, #{fwriter}, DEFAULT, DEFAULT, DEFAULT, 'N')
+		VALUES(#{fpost_number}, #{ftitle}, #{fcontent}, #{fwriter}, DEFAULT, DEFAULT, DEFAULT, 'N', #{free_media_url})
 	</insert>
 	
 <!-- 특정 게시물 조회 -->
 	<select id="selectFreeBoard">
-		SELECT fpost_number, ftitle, fcontent, fwriter, fregister_date, fview_count, freply_count, fdelete_flag
+		SELECT fpost_number, ftitle, fcontent, fwriter, fregister_date, fview_count, freply_count, fdelete_flag, free_media_url
 		FROM project_health.free_board
 		WHERE fpost_number = #{fpost_number}
 	</select>
@@ -102,11 +102,14 @@
 		WHERE fpost_number = #{fpost_number}
 	</delete>
 
+<!-- 게시물 삭제(관리자) -->
+
 <!-- 특정 게시물 수정 -->
 	<update id="updateFreeBoard" parameterType="com.soldesk.healthproject.domain.FreeBoardVO">
 		UPDATE project_health.free_board
 		SET ftitle = #{ftitle},
-			fcontent = #{fcontent}
+			fcontent = #{fcontent},
+			free_media_url = #{free_media_url}
 		WHERE fpost_number = #{fpost_number}
 	</update>
 

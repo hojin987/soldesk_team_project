@@ -45,18 +45,26 @@
 					<div class="form-group">
 						<label>목표</label> <select class="form-control" name="member_goal">
 							<option value="체력개선" selected>체력개선</option>
-							<option value="체형교정">체형교정</option>
 							<option value="가슴">가슴</option>
 							<option value="등">등</option>
 							<option value="어깨">어깨</option>
 							<option value="하체">하체</option>
 						</select>
 					</div>
-					<div class="form-group">
-						<label>구매 회원권</label>
-							<input class="form-control" name="ticket_number" value='<c:out value="${member.ticket_number}"/>'
-								   readonly="readonly"/>
-					</div>
+					<sec:authorize access="hasAnyAuthority('TRAINER', 'ADMIN')">
+						<div class="form-group">
+							<label>가입한 회원권</label> <select class="form-control" name="ticket_number">
+								<option value="none" selected>등록하실 회원권을 선택하세요.</option>
+								<option value="Ticket1">이용권 3개월</option>
+								<option value="Ticket2">이용권 6개월</option>
+								<option value="Ticket3">이용권 12개월</option>
+								<option value="Ticket4">pt 10회권</option>
+								<option value="Ticket5">pt 20회권</option>
+								<option value="Ticket6">pt 30회권</option>
+								<option value="Ticket7">이용권 3개월 + pt 10회</option>
+							</select>
+						</div>
+					</sec:authorize>
 					
 					<sec:csrfInput/>
 					
@@ -66,7 +74,7 @@
                     </c:if>
                     <button type="button" class="btn btn-waring btn-sm" id="btnList" data-oper="list">취소</button>
 
-                    <!-- ADMIN buttons (float-right) -->
+                    <!-- ADMIN buttons -->
                     <sec:authorize access="hasAuthority('ADMIN')">
                         <button type="button" class="btn btn-danger btn-sm pull-right" id="btnRmove" data-oper="remove">회원삭제</button>
                         <button type="button" class="btn btn-warning btn-sm pull-right" id="btnCancel" data-oper="cancel">탈퇴요청취소</button>

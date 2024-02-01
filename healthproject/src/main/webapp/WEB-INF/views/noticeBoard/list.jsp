@@ -16,7 +16,60 @@ https://startbootstrap.com/
 
 <style>
  th {text-align: center;}
-</style>  
+ body {
+    background-color: #f0f0f0;
+}
+ strong {color: #000}
+     .table {
+        border-collapse: separate;
+        border-spacing: 0;
+        border: 2px solid #ddd;
+    }
+.table {
+    table-layout: fixed;
+    width: 100%;
+    overflow: auto;
+}
+
+.table th:nth-child(1),
+.table td:nth-child(1) {
+    width: 5%;
+    text-align: center;
+}
+
+.table th:nth-child(2),
+.table td:nth-child(2) {
+    width: 60%;
+}
+
+.table th:nth-child(3),
+.table td:nth-child(3){
+    width: 8%;
+    text-align: center;
+}
+.table th:nth-child(4),
+.table td:nth-child(4){
+    width: 15%;
+    text-align: center;
+}
+.table th:nth-child(5),
+.table td:nth-child(5) {
+    width: 9%;
+    text-align: center;
+}
+
+.table th, .table td {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.table-bordered th, .table-bordered td {
+    border: none !important;
+}
+
+
+</style> 
+
     <div class="row" style="display: flex; justify-content: center;">
         <div class="col-lg-8">
             <div class="panel panel-default">
@@ -25,7 +78,7 @@ https://startbootstrap.com/
 						<div class="col-md-6" style="font-size:20px; height: 45px; padding-top:10px;">공지사항</div>
 						<div class="col-md-6" style="padding-top:8px;">
 							<sec:authorize access="hasAnyAuthority('ADMIN','TRAINER')">
-								<button type="button" id="btnToRegister" class="btn btn-primary btn-sm pull-right">새글 등록</button>
+								<button type="button" id="btnToRegister" class="btn btn-primary btn-sm pull-right">글쓰기</button>
 							</sec:authorize>
 						</div>
 					</div>
@@ -44,43 +97,23 @@ https://startbootstrap.com/
 			<option value="50" ${(pagingCreator.noticeboardPaging.rowAmountPerPage == 50) ? "selected" : "" }>50개</option>
 			<option value="100" ${(pagingCreator.noticeboardPaging.rowAmountPerPage == 100) ? "selected" : "" }>100개</option>
 		</select>
-		
-		<select class="form-control" id="selectScope" name="scope">
-			<option value="" ${(pagingCreator.noticeboardPaging.scope == null ) ? "selected" : "" }>범위선택</option>
-			<option value="W" ${(pagingCreator.noticeboardPaging.scope == "W" ) ? "selected" : "" }>작성자</option>
-			<option value="TC" ${(pagingCreator.noticeboardPaging.scope == "TC" ) ? "selected" : "" }>제목+내용</option>
-		</select>
-		
-		
-		<div class="input-group"><!-- 검색어 입력 -->
-			<input class="form-control" id="keyword" name="keyword" type="text" 
-			       placeholder="검색어를 입력하세요"
-				   value='<c:out value="${pagingCreator.noticeboardPaging.keyword}" />' />
-			<span class="input-group-btn"><!-- 전송버튼 -->
-				<button class="btn btn-primary btn-sm" type="button" id="btnSearchGo"
-						><i class="fa fa-search"></i>
-				</button>
-			</span>
-		</div>
-		
-		<div class="input-group"><!-- 검색 초기화 버튼 -->
-			<button id="btnReset" class="btn btn-primary btn-sm" type="button">
-				<span class="glyphicon glyphicon-remove"></span>
-			</button>
-		</div>
+		<!-- 달력버튼 -->
+<button id="btnCalendar" class="btn btn-primary btn-sm" type="button">
+    <span class="glyphicon glyphicon-calendar"></span>
+</button>
+
+<!-- 기간 검색 필드 -->
+<div class="form-group pull-right" id="dateSearch" style="display: none;">
+    <input class="form-control" id="beginDate" name="beginDate" type="date"
+           value="${pagingCreator.noticeboardPaging.beginDate}" />
+    <input class="form-control" id="endDate" name="endDate" type="date"
+           value="${pagingCreator.noticeboardPaging.endDate}" />
+    <button type="button" class="btn btn-primary mybtns btn-sm" 
+            id="btnIntervalSearch">기간검색</button>
+</div>	
+
 	</div>
 
-	<div class="form-group pull-right">
-		<input class="form-control" id="beginDate" name="beginDate" type="date"
-			   value="${pagingCreator.noticeboardPaging.beginDate}" 
-			   />
-		<input class="form-control" id="endDate" name="endDate" type="date"
-			   value="${pagingCreator.noticeboardPaging.endDate}" 
-			   />
-
-		<button type="button" class="btn btn-primary mybtns btn-sm" 
-				id="btnIntervalSearch" >기간검색</button>
-	</div> 
 	
 	<input type="hidden" id="pageNum" name="pageNum" value="${pagingCreator.noticeboardPaging.pageNum }" >
 	<input type="hidden" id="lastPageNum" name="lastPageNum" value="${pagingCreator.lastPageNum }" >
@@ -88,17 +121,16 @@ https://startbootstrap.com/
 </form>                
 <hr>     
                
-                    <table class="table table-striped table-bordered table-hover" 
-                           style="width:100%;text-align: center;">
-                        <thead>
-                            <tr>
-                                <th>글번호</th>
-                                <th>제목</th>
-                                <th>작성자</th>
-                                <th>작성일</th>
-                                <th>조회수</th>
-                            </tr>
-                        </thead>
+                    <table class="table table-striped table-bordered table-hover">
+					    <thead>
+					        <tr style="background-color: #f2f2f2;">
+					            <th style="color: #5a5a5a;">번호</th>
+					            <th style="color: #5a5a5a;">제목</th>
+					            <th style="color: #5a5a5a;">작성자</th>
+					            <th style="color: #5a5a5a;">작성일</th>
+					            <th style="color: #5a5a5a;">조회수</th>
+					        </tr>
+					    </thead>
                         <tbody>
 
 <c:choose>
@@ -108,7 +140,12 @@ https://startbootstrap.com/
 			<c:when test="${noticeboard.ndelete_flag == 'Y' }">
 				<tr style="background-color: Moccasin; text-align: center">
 				    <td>${noticeboard.npost_number }</td>
-				    <td colspan="6"><em>작성자에 의해서 삭제된 게시글입니다.</em></td>
+				    <td colspan="3"><em>작성자에 의해서 삭제된 게시글입니다.</em></td>
+				    <td>
+				    <sec:authorize access="hasAuthority('ADMIN')">
+				    	<button type="button" class="btn btn-primary btn-xs" onclick="deletePost(${noticeboard.npost_number})">삭제</button>
+					</sec:authorize>
+					</td>
 				</tr>
 			</c:when>
 			<c:otherwise>
@@ -129,13 +166,42 @@ https://startbootstrap.com/
 </c:when>
 <c:otherwise>
 		<tr class="odd gradeX">
-			<td colspan="6">등록된 게시물이 없습니다.</td>
+			<td colspan="5">등록된 게시물이 없습니다.</td>
 		 </tr>
 </c:otherwise>
 </c:choose>                        
 
                         </tbody>
                     </table><%-- /.table-responsive --%>
+                    
+<form class="form-inline" id="frmSendValue" name="frmSendValue" action="${contextPath }/noticeBoard/list" method="get" style="center" >
+	<div class="form-group">
+		<label class="sr-only">frmSendValues</label>
+		
+		<select class="form-control" id="selectScope" name="scope">
+ 			<option value="TC" ${(pagingCreator.noticeboardPaging.scope == "TC" ) ? "selected" : "" }>제목+내용</option>
+			<option value="T" ${(pagingCreator.noticeboardPaging.scope == "T" ) ? "selected" : "" }>제목</option>
+			<option value="C" ${(pagingCreator.noticeboardPaging.scope == "C" ) ? "selected" : "" }>내용</option>
+			<option value="W" ${(pagingCreator.noticeboardPaging.scope == "W" ) ? "selected" : "" }>작성자</option>
+		</select>
+		
+		
+		<div class="input-group"><!-- 검색어 입력 -->
+			<input class="form-control" id="keyword" name="keyword" type="text" 
+			       placeholder="검색어를 입력하세요"
+				   value='<c:out value="${pagingCreator.noticeboardPaging.keyword}" />' />
+			<span class="input-group-btn"><!-- 전송버튼 -->
+				<button class="btn btn-primary btn-sm" type="button" id="btnSearchGo"
+						><i class="fa fa-search"></i>
+				</button>
+			</span>
+		</div>
+		</div>
+		<input type="hidden" id="pageNum" name="pageNum" value="${pagingCreator.noticeboardPaging.pageNum }" ><%-- 
+	<input type="hidden" id="rowAmountPerPage" name="rowAmountPerPage" value="${pagingCreator.noticeboardPaging.rowAmountPerPage }" > --%>
+	<input type="hidden" id="lastPageNum" name="lastPageNum" value="${pagingCreator.lastPageNum }" >
+	
+</form>   
 <div style="text-align: center;">
 	<ul class="pagination pagination-sm" >
 		<c:if test="${pagingCreator.prev }">
@@ -304,8 +370,19 @@ $("#selectScope").on("change", function(){
 	}
 
 });
+<%-- 기간검색 숨기기 --%>
+document.addEventListener('DOMContentLoaded', function() {
+    var btnCalendar = document.getElementById('btnCalendar');
+    var dateSearch = document.getElementById('dateSearch');
 
+    btnCalendar.addEventListener('click', function() {
+        // 기간 검색 필드 표시
+        dateSearch.style.display = 'block';
 
+        // 달력 버튼 숨기기
+        btnCalendar.style.display = 'none';
+    });
+});
 <%--기간 검색버튼 클릭 이벤트 처리 --%>
 $("#btnIntervalSearch").on("click", function(){
 	
@@ -322,7 +399,6 @@ $("#btnIntervalSearch").on("click", function(){
 	
 });
 
-
 <%--검색초기화 버튼 이벤트처리, 버튼 초기화 시, 1페이지에 목록 정보 다시 표시 --%>
 $("#btnReset").on("click", function(){
 	$("#selectAmount").val(10) ;
@@ -336,9 +412,6 @@ $("#btnReset").on("click", function(){
 
 });
 
-
-
-
 $(document).ready(function(){
 	runModal(result) ;
 	
@@ -351,7 +424,25 @@ $(document).ready(function(){
 	
 });
 
-
+function deletePost(npost_number) {
+	var csrfHeader = "${_csrf.headerName}"
+	var csrfToken = "${_csrf.token}"
+	
+    $.ajax({
+        url: '${contextPath}/noticeBoard/erase',
+        type: 'POST',
+        data: {npost_number: npost_number},
+        beforeSend: function(xhr) {
+        	xhr.setRequestHeader(csrfHeader, csrfToken);
+        },
+        success: function(response) {
+        	location.reload()
+        },
+        error: function(error) {
+            console.error('Error:', error);
+        }
+    });
+}
 
 </script>
 

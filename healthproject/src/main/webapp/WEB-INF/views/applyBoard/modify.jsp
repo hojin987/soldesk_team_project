@@ -32,7 +32,7 @@
 					<div class="form-group">
 						<label>글내용</label>
 						<%-- <textarea>와 </textarea>는 사이에 공백이 없어야 데이터베이스 저장 시에 필요 없는 공백이 포함되지 않음 --%>
-						<textarea class="form-control" rows="3" name="acontent"
+						<textarea class="form-control" rows="5" name="acontent"
 								><c:out value="${applyBoard.acontent}"/></textarea>
 					</div>
 					<div class="form-group">
@@ -44,8 +44,8 @@
 					<sec:authorize access="isAuthenticated()" >
 						<sec:authentication property="principal" var="principal"/>
 						<c:if test="${principal.username eq applyBoard.awriter}">
-							<button type="button" class="btn btn-primary btn-frmModify btn-sm" id="btnModify" data-oper="modify">수정</button>
-		 					<button type="button" class="btn btn-primary btn-frmModify btn-sm" id="btnRemove" data-oper="remove">삭제</button>
+							<button type="button" class="btn btn-primary btn-sm btn-frmModify btn-sm" id="btnModify" data-oper="modify">수정</button>
+		 					<button type="button" class="btn btn-danger btn-sm btn-frmModify btn-sm" id="btnRemove" data-oper="remove">삭제</button>
 		 				</c:if>
 					</sec:authorize>	
  					
@@ -110,7 +110,12 @@ $('.btn-frmModify').on("click", function(e){
 
 	var operation = $(this).data("oper"); //각 버튼의 data-xxx 속성에 설정된 값을 저장
 	var awriter_value = '<c:out value="${applyBoard.awriter}"/>';
-	alert("operation: "+ operation + ", awriter_value: " + awriter_value);
+	if (operation == "modify" && !confirm("수정하시겠습니까?")) {
+	    return;
+	} else if (operation == "remove" && !confirm("정말로 삭제하시겠습니까?")) {
+	    return;
+	}
+ 
 	
 	if(operation == "list"){//게시물 목록 화면 요청
 		

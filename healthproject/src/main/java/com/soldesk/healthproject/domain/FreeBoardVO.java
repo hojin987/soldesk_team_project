@@ -22,4 +22,5 @@ public class FreeBoardVO {
 	private long fview_count ;
 	private long freply_count ; 
 	private String fdelete_flag ;
+	private String free_media_url;
 }

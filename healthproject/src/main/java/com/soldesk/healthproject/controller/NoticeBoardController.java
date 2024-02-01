@@ -11,6 +11,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.soldesk.healthproject.common.paging.domain.BoardPagingDTO;
 import com.soldesk.healthproject.common.paging.domain.NoticeBoardPagingCreatorDTO;
+import com.soldesk.healthproject.domain.FreeBoardVO;
 import com.soldesk.healthproject.domain.NoticeBoardVO;
 import com.soldesk.healthproject.service.NoticeBoardService;
 
@@ -27,9 +28,7 @@ public class NoticeBoardController {
 	@GetMapping("/list")
 	public String showBoardList(BoardPagingDTO noticeboardPaging,  
 							    Model model) {
-		System.out.println("noticeboardPaging: " + noticeboardPaging);
 		NoticeBoardPagingCreatorDTO pagingCreator =  noticeBoardService.getBoardList(noticeboardPaging) ;
-		System.out.println("컨트롤러에 전달된 noticeboardPagingCreator: \n" + pagingCreator);
 		
 		model.addAttribute("pagingCreator", pagingCreator) ;
 		
@@ -88,10 +87,11 @@ public class NoticeBoardController {
 	}
 	
 	//특정 게시물 삭제 POST /myboard/remove
-	@PreAuthorize("isAuthenticated() && principal.username == #noticeBoard.nwriter")
+	@PreAuthorize("isAuthenticated() && (principal.username == #noticeBoard.nwriter || hasAuthority('ADMIN'))")
 	@PostMapping("/remove")
-	public String removeBoard(@RequestParam("npost_number") Long npost_number, 
-							   RedirectAttributes redirectAttr) {
+	public String removeBoard(@RequestParam("npost_number") Long npost_number,
+							  NoticeBoardVO noticeBoard,
+							  RedirectAttributes redirectAttr) {
 		
 		if(noticeBoardService.setNoticeBoardDeleted(npost_number)) {
 			redirectAttr.addFlashAttribute("result", "succesRemove");
@@ -100,5 +100,14 @@ public class NoticeBoardController {
 		return "redirect:/noticeBoard/list";
 	}
 	
+	//게시물 실제삭제
+	@PreAuthorize("isAuthenticated() && hasAuthority('ADMIN') ")
+	@PostMapping("/erase")
+	public String eraseBoard(@RequestParam("npost_number") Long npost_number, NoticeBoardVO NoticeBoard) {
+		
+		noticeBoardService.removeNoticeBoard(npost_number);
+		
+		return "redirect:/noticeBoard/list";
+	}
 	
 }

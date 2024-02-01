@@ -45,4 +45,7 @@ public interface MemberService {
 	//회원 아이디 중복검사
 	public boolean checkDupMemberId(String member_id);
 	
+	//회원 비밀번호 일치검사
+	public boolean checkPassword(String member_id, String current_pw);
+	
 }

@@ -41,7 +41,6 @@ public class FreeBoardController {
 	@PreAuthorize("isAuthenticated()")
 	@GetMapping("/register")
 	public void showFreeBoardRegisterPage() {
-		System.out.println("컨트롤러 - 게시물 등록 페이지 호출");
 	}
 	
 	//등록 처리 POST /freeBoard/register 
@@ -98,6 +97,7 @@ public class FreeBoardController {
 		return "redirect:/freeBoard/list";
 	}
 	
+	//게시물 실제삭제
 	@PreAuthorize("isAuthenticated() && hasAuthority('ADMIN') ")
 	@PostMapping("/erase")
 	public String eraseBoard(@RequestParam("fpost_number") Long fpost_number, FreeBoardVO freeBoard) {
