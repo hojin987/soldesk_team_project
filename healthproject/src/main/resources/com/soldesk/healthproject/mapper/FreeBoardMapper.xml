@@ -126,6 +126,13 @@
 		SET freply_count = freply_count + #{amount}
 		WHERE fpost_number = #{fpost_number}
 	</update>
+	
+	<!-- 상위 3개의 인기 게시물 조회 -->
+<select id="selectTop3Posts" resultType="com.soldesk.healthproject.domain.FreeBoardVO">
+    SELECT * FROM project_health.free_board
+    ORDER BY fview_count DESC
+    FETCH FIRST 3 ROWS ONLY
+</select>
 
 
 </mapper>

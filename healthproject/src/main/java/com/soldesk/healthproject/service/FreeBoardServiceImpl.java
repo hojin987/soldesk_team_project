@@ -4,6 +4,8 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -108,6 +110,11 @@ public class FreeBoardServiceImpl implements FreeBoardService {
 		return freeBoardMapper.deleteFreeBoard(fpost_number) == 1;
 	}
 	
+	//인기글
+	@Override
+	public List<FreeBoardVO> getTop3Posts() {
+	    return freeBoardMapper.selectTop3Posts();
+	}
 
 	
 }

@@ -38,4 +38,8 @@ public interface FreeBoardMapper {
 	
 	//특정 게시물 댓글/답글 수 변경
 	public void updateFreplyCount(@Param("fpost_number") long fpost_number, @Param("amount") int amount);
+
+    //인기글
+	public List<FreeBoardVO> selectTop3Posts();
+
 }

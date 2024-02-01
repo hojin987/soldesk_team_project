@@ -1,5 +1,7 @@
 package com.soldesk.healthproject.controller;
 
+import java.util.List;
+
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -26,16 +28,21 @@ public class FreeBoardController {
 		this.freeBoardService = freeBoardService ;
 	}
 	
-    //게시물 조회(페이징 고려)
+	//게시물 조회(페이징 고려)
 	@GetMapping("/list")
 	public String showBoardList(BoardPagingDTO freeboardPaging,  
-							    Model model) {
-		FreeBoardPagingCreatorDTO pagingCreator =  freeBoardService.getBoardList(freeboardPaging) ;
-		
-		model.addAttribute("pagingCreator", pagingCreator) ;
-		
-		return "/freeBoard/list" ;
+	                            Model model) {
+	    FreeBoardPagingCreatorDTO pagingCreator =  freeBoardService.getBoardList(freeboardPaging) ;
+	    
+	    // 인기 게시물 조회
+	    List<FreeBoardVO> top3Posts = freeBoardService.getTop3Posts();
+	    
+	    model.addAttribute("pagingCreator", pagingCreator) ;
+	    model.addAttribute("top3Posts", top3Posts);  // 모델에 인기 게시물 추가
+
+	    return "/freeBoard/list" ;
 	}
+
 
 	//등록 페이지 호출 GET /freeBoard/register
 	@PreAuthorize("isAuthenticated()")
@@ -88,6 +95,7 @@ public class FreeBoardController {
 	}
 	
 	//특정 게시물 삭제 POST /freeBoard/remove
+	@PreAuthorize("isAuthenticated() && principal.username == #freeBoard.fwriter")
 	@PostMapping("/remove")
 	public String removeBoard(@RequestParam("fpost_number") Long fpost_number, FreeBoardVO freeBoard) {
 		

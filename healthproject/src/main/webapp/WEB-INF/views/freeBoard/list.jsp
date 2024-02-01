@@ -38,7 +38,7 @@
 
 .table th:nth-child(3),
 .table td:nth-child(3){
-    width: 10%;
+    width: 8%;
     text-align: center;
 }
 .table th:nth-child(4),
@@ -48,7 +48,7 @@
 }
 .table th:nth-child(5),
 .table td:nth-child(5) {
-    width: 10%;
+    width: 9%;
     text-align: center;
 }
 
@@ -117,18 +117,31 @@
 	
 </form>                
 <hr>     
-               
-                    <table class="table table-striped table-bordered table-hover">
-					    <thead>
-					        <tr style="background-color: #f2f2f2;">
-					            <th style="color: #5a5a5a;">번호</th>
-					            <th style="color: #5a5a5a;">제목</th>
-					            <th style="color: #5a5a5a;">작성자</th>
-					            <th style="color: #5a5a5a;">작성일</th>
-					            <th style="color: #5a5a5a;">조회수</th>
-					        </tr>
-					    </thead>
-                        <tbody>
+<table class="table table-striped table-bordered table-hover">
+    <thead>
+        <tr style="background-color: #f2f2f2;">
+            <th style="color: #5a5a5a;">번호</th>
+            <th style="color: #5a5a5a;">제목</th>
+            <th style="color: #5a5a5a;">작성자</th>
+            <th style="color: #5a5a5a;">작성일</th>
+            <th style="color: #5a5a5a;">조회수</th>
+        </tr>
+    </thead>
+    <tbody>
+        <c:forEach var="post" items="${top3Posts}">
+            <tr class="moveDetail" data-fpost_number="${post.fpost_number }" style="background-color: #FFFFE0;"> 
+                <td><c:out value="${post.fpost_number }"/></td>
+                <td style="text-align: left">
+                    <c:out value="${post.ftitle }"/>
+                    <small>[댓글수: <strong><c:out value="${post.freply_count}"/></strong>]</small>
+                </td>
+                <td>${post.fwriter }</td>
+                <td class="center"><fmt:formatDate value="${post.fregister_date }" pattern="yyyy/MM/dd HH:mm:ss"/></td>
+                <td class="center"><c:out value="${post.fview_count }"/></td>
+            </tr>
+        </c:forEach>
+    </tbody>        
+                      <tbody>
 
 <c:choose>
 <c:when test="${not empty pagingCreator.freeboardList }">
@@ -140,7 +153,7 @@
 				    <td colspan="3"><em>블라인드처리 된 게시글입니다.</em></td>
 				    <td>
 				    <sec:authorize access="hasAuthority('ADMIN')">
-				    	<button type="button" class="btn btn-primary btn-xs" onclick="erasePost(${freeboard.fpost_number})">삭제</button>
+				    	<button type="button" class="btn btn-primary btn-xs" onclick="deletePost(${freeboard.fpost_number})">삭제</button>
 					</sec:authorize>
 					</td>
 				</tr>
@@ -154,7 +167,7 @@
 						<small>[댓글수: <strong><c:out value="${freeboard.freply_count}"/></strong>]</small>
 					</td>
 					<td>${freeboard.fwriter }</td>
-					<td class="center"><fmt:formatDate value="${freeboard.fregister_date }" pattern="yyyy/MM/dd"/></td>
+					<td class="center"><fmt:formatDate value="${freeboard.fregister_date }" pattern="yyyy/MM/dd HH:mm:ss"/></td>
 					<td class="center"><c:out value="${freeboard.fview_count }"/></td>
 				 </tr>
 			</c:otherwise>
@@ -316,7 +329,7 @@ function runModal(result) {
 	myMsg = "" ;
 }
 
-<%-- 페이지징 처리: 검색 목록 페이지 이동 --%>
+<%-- 페이징 처리: 검색 목록 페이지 이동 --%>
 $("li.pagination-button a").on("click", function(e){
 	e.preventDefault() ;
 	frmSendValue.find("input[name='pageNum']").val($(this).attr("href")) ;
@@ -424,7 +437,7 @@ $(document).ready(function(){
 	
 });
 
-function erasePost(fpost_number) {
+function deletePost(fpost_number) {
 	var csrfHeader = "${_csrf.headerName}"
 	var csrfToken = "${_csrf.token}"
 	

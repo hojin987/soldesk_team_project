@@ -1,5 +1,7 @@
 package com.soldesk.healthproject.service;
 
+import java.util.List;
+
 import com.soldesk.healthproject.common.paging.domain.BoardPagingDTO;
 import com.soldesk.healthproject.common.paging.domain.FreeBoardPagingCreatorDTO;
 import com.soldesk.healthproject.domain.FreeBoardVO;
@@ -25,4 +27,8 @@ public interface FreeBoardService {
 	public boolean removeFreeBoard(long fpost_number);
 	
 	//게시물 삭제(관리자)
+	
+	//인기글
+	//인기글(조회수가 가장 많은 상위 3개의 게시물을 가져오는 메소드)
+		public List<FreeBoardVO> getTop3Posts();
 }
