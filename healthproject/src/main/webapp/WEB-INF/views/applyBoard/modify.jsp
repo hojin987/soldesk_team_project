@@ -11,7 +11,7 @@
 
 
     <div class="row" style="display: flex; justify-content: center;">
-        <div class="col-lg-8">
+        <div class="col-lg-8" style="min-width:1000px">
             <div class="panel panel-default">
                 <div class="panel-heading">
                 	<h4>게시글 수정 - 삭제 </h4>
@@ -44,12 +44,12 @@
 					<sec:authorize access="isAuthenticated()" >
 						<sec:authentication property="principal" var="principal"/>
 						<c:if test="${principal.username eq applyBoard.awriter}">
-							<button type="button" class="btn btn-default btn-sm btn-frmModify" id="btnModify" data-oper="modify">수정</button>
-		 					<button type="button" class="btn btn-danger btn-sm btn-frmModify" id="btnRemove" data-oper="remove">삭제</button>
+							<button type="button" class="btn btn-primary btn-sm btn-frmModify" id="btnModify" data-oper="modify">수정</button>
+		 					<button type="button" class="btn btn-primary btn-sm btn-frmModify" id="btnRemove" data-oper="remove">삭제</button>
 		 				</c:if>
 					</sec:authorize>	
  					
- 							<button type="button" class="btn btn-info btn-sm btn-frmModify" id="btnList" data-oper="list">취소</button>
+ 							<button type="button" class="btn btn-warning btn-sm btn-frmModify" id="btnList" data-oper="list">취소</button>
  				<sec:csrfInput/>
 		  </form>
           </div><%-- /.panel-body --%>
@@ -60,7 +60,7 @@
   
 <%-- 첨부파일 표시 --%>
 <div class="row" style="display: flex; justify-content: center;">
-	<div class="col-lg-8">
+	<div class="col-lg-8" style="min-width:1000px">
 		<div class="panel panel-default">
 			<div class="panel-heading">파일첨부</div>
 			<div class="panel-body" >
@@ -214,7 +214,7 @@ function showUploadedFiles(uploadResult) {
 			str +=" <li data-repopath='" + obj.repoPath + "' data-uploadpath='" + obj.uploadPath + "'"
 				+ " 	data-uuid='" + obj.uuid + "' data-filename='" + obj.fileName + "'"
 				+ " 	data-filetype='F' style='height: 50px;'>" 
-				+ " 	<img src='${contextPath}/resources/img/icon-attach.png' alt='No Icon' "
+				+ " 	<img src='${contextPath}/resources/img/text.jpg' alt='No Icon' "
 				+ " 		style='height: 50px; width: 50px;'>&nbsp;&nbsp;" 
 				+ 		obj.fileName
 				+ " 	&nbsp;<button type='button' class='btn btn-danger btn-xs' "

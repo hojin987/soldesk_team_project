@@ -17,6 +17,7 @@
 </style>  
 
 <style>
+
 body {
     background-color: #f0f0f0; /* 원하는 색상으로 변경하세요. */
 }
@@ -33,7 +34,7 @@ textarea[readonly] {
 </style>
 
     <div class="row" style="display: flex; justify-content: center;">
-        <div class="col-lg-8" style="min-width:600px">
+        <div class="col-lg-8" style="min-width:1000px">
         
             <div class="panel panel-default">
                 <div class="panel-heading">
@@ -138,7 +139,7 @@ textarea[readonly] {
 
 <%-- 댓글 화면 표시 시작 --%>
 <div class="row" style="display: flex; justify-content: center;">
-	<div class="col-lg-8" style="min-width:600px">
+	<div class="col-lg-8" style="min-width:1000px">
 		<div class="panel panel-default" >
 			<div class="panel-heading">
 				<p style="margin-bottom: 0px; font-size: 16px;">

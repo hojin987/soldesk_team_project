@@ -10,7 +10,7 @@
 <%@include file="../myinclude/myheader.jsp" %>  
     
     <div class="row" style="display: flex; justify-content: center;">
-        <div class="col-lg-8">
+        <div class="col-lg-8" style="min-width:1000px">
             <div class="panel panel-default">
                 <div class="panel-heading">
                 	<h4>게시글 수정 - 삭제 </h4>
@@ -43,12 +43,12 @@
 					<sec:authorize access="isAuthenticated()" >
 						<sec:authentication property="principal" var="principal"/>
 						<c:if test="${principal.username eq noticeBoard.nwriter}">
-							<button type="button" class="btn btn-default btn-sm btn-frmModify" id="btnModify" data-oper="modify">수정</button>
-		 					<button type="button" class="btn btn-danger btn-sm btn-frmModify" id="btnRemove" data-oper="remove">삭제</button>
+							<button type="button" class="btn btn-primary btn-sm btn-frmModify" id="btnModify" data-oper="modify">수정</button>
+		 					<button type="button" class="btn btn-primary btn-sm btn-frmModify" id="btnRemove" data-oper="remove">삭제</button>
 		 				</c:if>
 					</sec:authorize>	
  					
- 							<button type="button" class="btn btn-info btn-sm btn-frmModify" id="btnList" data-oper="list">취소</button>
+ 							<button type="button" class="btn btn-warning btn-sm btn-frmModify" id="btnList" data-oper="list">취소</button>
  				<sec:csrfInput/>				  
 		  </form>
           </div><%-- /.panel-body --%>

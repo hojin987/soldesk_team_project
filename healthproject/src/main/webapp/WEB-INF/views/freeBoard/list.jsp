@@ -167,7 +167,7 @@
 						<small>[댓글수: <strong><c:out value="${freeboard.freply_count}"/></strong>]</small>
 					</td>
 					<td>${freeboard.fwriter }</td>
-					<td class="center"><fmt:formatDate value="${freeboard.fregister_date }" pattern="yyyy/MM/dd HH:mm:ss"/></td>
+					<td class="center"><fmt:formatDate value="${freeboard.fregister_date }" pattern="yyyy/MM/dd"/></td>
 					<td class="center"><c:out value="${freeboard.fview_count }"/></td>
 				 </tr>
 			</c:otherwise>

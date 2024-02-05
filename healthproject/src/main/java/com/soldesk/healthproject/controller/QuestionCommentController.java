@@ -123,7 +123,6 @@ public class QuestionCommentController {
 	@DeleteMapping(value = "/{qpost_number}/{qcomment_number}" ,
 				   consumes = "application/json; charset=utf-8",
 				   produces = "text/plain;charset=utf-8")
-	@PreAuthorize("isAuthenticated() && principal.username == #questionComment.qcomment_writer")
 	public ResponseEntity<String> removeQuestionComment(@PathVariable("qpost_number") Long qpost_number, 
 											  		@PathVariable("qcomment_number") Long qcomment_number,
 											  		@RequestBody QuestionCommentVO qcomment) {

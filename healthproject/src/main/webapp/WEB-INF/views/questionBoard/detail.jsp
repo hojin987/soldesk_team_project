@@ -34,7 +34,7 @@ textarea[readonly] {
 
 
     <div class="row" style="display: flex; justify-content: center;">
-        <div class="col-lg-8" style="min-width:600px">
+        <div class="col-lg-8" style="min-width:1000px">
         
             <div class="panel panel-default">
                 <div class="panel-heading">
@@ -111,7 +111,7 @@ textarea[readonly] {
 
 <%-- 댓글 화면 표시 시작 --%>
 <div class="row" style="display: flex; justify-content: center;">
-	<div class="col-lg-8" style="min-width:600px">
+	<div class="col-lg-8" style="min-width:1000px">
 		<div class="panel panel-default" >
 			<div class="panel-heading">
 				<p style="margin-bottom: 0px; font-size: 16px;">
@@ -706,7 +706,7 @@ $(".chat").on("click",".commentLi .btnDelCmt", function(){
 	
 	var comment ={qpost_number: qpost_number_value, qcomment_number: qcomment_value, qcomment_writer: qcomment_writer_value} ;
 	
-	/* qcommentClsr.init(csrfTokenValue, csrfHeaderName) */
+	qcommentClsr.init(csrfTokenValue, csrfHeaderName) 
 	
 	qcommentClsr.removeCmtReply(
 			comment,

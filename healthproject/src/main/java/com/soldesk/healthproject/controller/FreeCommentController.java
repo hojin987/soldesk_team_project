@@ -123,7 +123,6 @@ public class FreeCommentController {
 	@DeleteMapping(value = "/{fpost_number}/{fcomment_number}" ,
 				   consumes = "application/json; charset=utf-8",
 				   produces = "text/plain;charset=utf-8")
-	@PreAuthorize("isAuthenticated() && principal.username == #freeComment.fcomment_writer")
 	public ResponseEntity<String> removeFreeComment(@PathVariable("fpost_number") Long fpost_number, 
 											  		@PathVariable("fcomment_number") Long fcomment_number,
 											  		@RequestBody FreeCommentVO fcomment) {

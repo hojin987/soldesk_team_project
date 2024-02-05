@@ -60,7 +60,7 @@ public class HomeController {
 		if(principal !=null && principal.getName() != null) {
 			model.addAttribute("member", memberService.getMember(principal.getName()));
 		}
-		List<String> images = Arrays.asList("img1.jpg", "img2.jpg", "img3.jpg");
+		List<String> images = Arrays.asList("body1.jpg", "body2.jpg", "body3.jpg", "body4.jpg");
         Random rand = new Random();
         String randomImage = images.get(rand.nextInt(images.size()));
         model.addAttribute("randomImage", randomImage);

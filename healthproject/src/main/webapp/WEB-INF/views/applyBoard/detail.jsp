@@ -32,7 +32,7 @@ textarea[readonly] {
 </style>
 
     <div class="row" style="display: flex; justify-content: center;">
-        <div class="col-lg-8">
+        <div class="col-lg-8" style="min-width:1000px">
         
             <div class="panel panel-default">
                 <div class="panel-heading">
@@ -95,7 +95,7 @@ textarea[readonly] {
 
 <%-- 첨부파일 표시 --%>
 <div class="row" style="display: flex; justify-content: center;">
-	<div class="col-lg-8">
+	<div class="col-lg-8" style="min-width:1000px">
 		<div class="panel panel-default">
 			<div class="panel-heading">첨부파일</div>
 			<div class="panel-body">
@@ -202,8 +202,8 @@ function showUploadedFiles(uploadResult) {
 					+ " data-uuid='" + obj.uuid + "'"
 					+ " data-filename='" + obj.fileName + "'"
 					+ " data-filetype='" + obj.fileType + "' >"
-					+ " 	<img src='${contextPath}/resources/img/icon-attach.png' alt='No Icon' "
-					+ " 		style='height: 50px; width: 50px;'>"
+					+ " 	<img src='${contextPath}/resources/img/text.jpg' alt='No Icon' "
+					+ " 		style='height: 30px; width: 30px;'>"
 					+ 		  obj.fileName
 					+ "</li>";
 		} else if (obj.fileType=="I") {//이미지파일인 경우 썸네일 및 원본 파일이름 표시

@@ -154,7 +154,6 @@ https://startbootstrap.com/
 						<c:choose>
 		                    <c:when test="${principal.username eq applyboard.awriter}">
 		                        <c:out value="${applyboard.atitle }"/>
-		                        <small>[댓글수: <strong><c:out value="${applyboard.areply_count}"/></strong>]</small>
 		                    </c:when>
 		                    <c:otherwise>
 		                        비밀글입니다.

@@ -122,7 +122,6 @@ public class NoticeCommentController {
 	@DeleteMapping(value = "/{npost_number}/{ncomment_number}" ,
 				   consumes = "application/json; charset=utf-8",
 				   produces = "text/plain;charset=utf-8")
-	@PreAuthorize("isAuthenticated() && principal.username == #noticeComment.ncomment_writer")
 	public ResponseEntity<String> removeNoticeComment(@PathVariable("npost_number") Long npost_number, 
 											  		@PathVariable("ncomment_number") Long ncomment_number,
 											  		@RequestBody NoticeCommentVO ncomment) {

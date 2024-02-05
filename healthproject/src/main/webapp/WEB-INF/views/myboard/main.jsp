@@ -86,7 +86,7 @@
             </div>
             <!-- /.row -->
             <div class="row" style="display: flex; justify-content: center;">
-                <div class="col-lg-5">
+                <div class="col-lg-5" style="min-width:500px">
                     <div class="panel panel-default">
                         <div class="panel-heading">
                             공지사항
@@ -125,7 +125,8 @@
                     <!-- /.panel -->
                 </div>
                 <!-- /.col-lg-6 -->
-                <div class="col-lg-5">
+                
+                <div class="col-lg-5" style="min-width:500px;" >
                     <div class="panel panel-default">
                         <div class="panel-heading">
                             자유게시판
@@ -134,11 +135,14 @@
                         <!-- /.panel-heading -->
                         <div class="panel-body">
                             <div class="table-responsive">
-                                <table class="table">
+                                <table class="table" style=" table-layout: fixed;
+    overflow: auto;">
                                     <thead>
                                         <tr>
-                                            <th>#</th>
-                                            <th>제목</th>
+                                            <th style="width:5%">#</th>
+                                            <th style="overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;">제목</th>
                                             <th>작성자</th>
                                             <th>작성일</th>
                                             <th>조회수</th>
@@ -148,7 +152,9 @@
                                     <c:forEach var="freeBoard" items="${freeBoard.freeboardList}" begin="0" end="4">
                                         <tr class="moveFreeBoardDetail" data-fpost_number="${freeBoard.fpost_number}">
                                             <td>${freeBoard.fpost_number }</td>
-                                            <td>${freeBoard.ftitle }</td>
+                                            <td style="overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;">${freeBoard.ftitle }</td>
                                             <td>${freeBoard.fwriter }</td>
                                             <td>${freeBoard.fregister_date }</td>
                                             <td>${freeBoard.fview_count }</td>
@@ -167,7 +173,7 @@
             </div><!-- /.row -->
 
             <div class="row" style="display: flex; justify-content: center;">
-                <div class="col-lg-5">
+                <div class="col-lg-5" style="min-width:500px">
                     <div class="panel panel-default">
                         <div class="panel-heading">
                             회원권
@@ -201,7 +207,7 @@
                 </div>
                 <!-- /.col-lg-5 -->
                 
-                <div class="col-lg-5">
+                <div class="col-lg-5" style="min-width:500px">
     <div class="panel panel-default">
         <!-- /.panel-heading -->
         <c:choose>

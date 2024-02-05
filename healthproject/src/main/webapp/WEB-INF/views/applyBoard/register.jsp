@@ -9,7 +9,7 @@
 <%@include file="../myinclude/myheader.jsp" %>  
 
     <div class="row" style="display: flex; justify-content: center;">
-        <div class="col-lg-8" >
+        <div class="col-lg-8" style="min-width:1000px">
         
             <div class="panel panel-default">
                 <div class="panel-heading">
@@ -43,7 +43,7 @@
   
 <%-- 첨부파일 결과 표시 --%>
 <div class="row" style="display: flex; justify-content: center;">
-	<div class="col-lg-8">
+	<div class="col-lg-8" style="min-width:1000px">
 		<div class="panel panel-default">
 			<div class="panel-heading">파일첨부</div>
 			<div class="panel-body">
@@ -127,7 +127,7 @@ function showUploadedFiles(uploadResult) {
 				+ "		data-uuid='" + obj.uuid + "'"
 				+ "		data-filename='" + obj.fileName + "'"
 				+ "		data-filetype='F' >"
-				+ " 	<img src='${contextPath}/resources/img/icon-attach.png'"
+				+ " 	<img src='${contextPath}/resources/img/text.jpg'"
 				+ " 		 alt='No Icon' style='height: 18px; width: 18px;'>"
 				+ 		obj.fileName
 				+ " 	<span data-filename='" + calledPathFileName + "' data-filetype='F'>[삭제]</span>"
@@ -231,11 +231,11 @@ $(".fileUploadResult").on("click","span", function(e){
 });
 
 //게시물 등록: 첨부파일 포함
-$("#btnRegister").on("click", function(){
+$("#btnRegister").on("click", function(e){
 	
  	if (!checkBoardValues()){
 		alert("글제목/글내용/작성자를 모두 입력해야 합니다.");
-		return ;
+		e.preventDefault(); // 폼 제출을 막음
 	} 
 	
  	var formObj = $("form[role='form']");
